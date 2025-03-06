@@ -1,0 +1,33 @@
+query getNFTOnSalesAndOwner($id: ID!) {
+  account(id: $id) {
+    id
+    onSaleCount
+    holdingCount
+  }
+}
+
+
+query CheckOnSales($address: String) {
+  marketEvent1155S(where: {from: $address, event: AskNew}) {
+    id
+    address
+    nftId {
+      id
+      tokenId
+      contract {
+        id
+      }
+    }
+  }
+  marketEvent721S(where: {from: $address, event: AskNew}) {
+    id
+    address
+    nftId {
+      id
+      tokenId
+      contract {
+        id
+      }
+    }
+  }
+}

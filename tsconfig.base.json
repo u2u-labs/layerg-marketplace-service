@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@layerg-mkp-workspace/shared": ["shared/src/index.ts"],
+      "@layerg-mkp-workspace/shared/services": [
+        "shared/src/lib/services/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

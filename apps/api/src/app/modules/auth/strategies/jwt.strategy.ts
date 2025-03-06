@@ -1,0 +1,28 @@
+import { UserService } from '@/apps/api/src/app/modules/user/user.service';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { User } from '@prisma/client';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(
+    @Inject(ConfigService) config: ConfigService,
+    private usersService: UserService,
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: process.env.JWT_SECRET,
+    });
+  }
+
+  async validate(payload: any) {
+    const user: User = await this.usersService.findOne(payload.sub);
+    if (!user) {
+      throw new UnauthorizedException('alo');
+    }
+    return user;
+  }
+}

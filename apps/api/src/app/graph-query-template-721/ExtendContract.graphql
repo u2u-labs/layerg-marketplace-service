@@ -1,0 +1,25 @@
+query getBalances721($tokenId: BigInt!) {
+  items(where: { tokenID: $tokenId }) {
+    tokenURI
+    tokenID
+    id
+    owner {
+      id
+    }
+  }
+}
+
+
+query getOwner721($tokenId: BigInt!, $address: String!) {
+  items(where: {
+    and: [
+      {tokenID : $tokenId},
+      {owner: $address}
+    ]
+  }) {
+    id
+    owner {
+      id
+    }
+  }
+}

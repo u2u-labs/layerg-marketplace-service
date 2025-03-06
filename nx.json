@@ -36,7 +36,16 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/layerg-marketplace-service-e2e/**/*"]
+      "exclude": [
+        "apps/layerg-marketplace-service-e2e/**/*",
+        "api-e2e/**/*",
+        "apps/api-e2e/**/*",
+        "shared-e2e/**/*",
+        "apps/worker-e2e/**/*",
+        "apps/worker-e2e/**/*",
+        "analysis-worker-e2e/**/*",
+        "apps/analysis-worker-e2e/**/*"
+      ]
     }
   ]
 }
