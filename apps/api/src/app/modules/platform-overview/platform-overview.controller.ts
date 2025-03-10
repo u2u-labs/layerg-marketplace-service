@@ -9,6 +9,8 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
+
 import { PlatformOverviewService } from './platform-overview.service';
 import {
   CreatePlatformOverviewDto,
@@ -17,7 +19,6 @@ import {
 import { UpdatePlatformOverviewDto } from './dto/update-platform-overview.dto';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
-import { User } from '@prisma/client';
 
 @Controller('platform-overview')
 export class PlatformOverviewController {

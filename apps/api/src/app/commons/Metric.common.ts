@@ -1,5 +1,6 @@
 import { CONTRACT_TYPE } from '@prisma/client';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
 import * as METRIC_JSON from '../../../config/metric.json';
 import {
   MetricCategory,
@@ -324,7 +325,7 @@ class MetricCommon {
     let totalNftExternal = 0;
     let totalOwnerExternal = 0;
 
-    if (!!flagExtend) {
+    if (flagExtend) {
       const resultExternal =
         await this.collectionData.getAllCollectionExternal(collectionAddress);
       totalNftExternal = resultExternal.totalNftExternal;
@@ -341,10 +342,10 @@ class MetricCommon {
       return {
         // volumn: statusCollection.erc721Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc721Contract?.count || 0,
       };
@@ -352,10 +353,10 @@ class MetricCommon {
       return {
         // volumn: statusCollection.erc1155Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc1155Contract?.count || 0,
       };

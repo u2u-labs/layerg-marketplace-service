@@ -1,12 +1,14 @@
 import { InputType } from '@nestjs/graphql';
 import {
-  IsString,
-  IsOptional,
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
+  IsString,
 } from 'class-validator';
+
 import { SignInDto } from './sign-in.dto';
+
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 
 @InputType()

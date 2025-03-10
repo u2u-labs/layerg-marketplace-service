@@ -1,12 +1,17 @@
-import { QUEUE_NAME_QUOTE_TOKEN_ACCEPT } from '../../constants/Job.constant';
 import { GraphQLClient } from 'graphql-request';
-import { OrderDirection, getSdk } from '@/apps/worker/src/app/generated/graphql';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { Processor } from '@nestjs/bull';
 import { OnModuleInit } from '@nestjs/common';
-import { logger } from '@/apps/worker/src/app/commons';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { CONTRACT_TYPE, SELL_STATUS, Prisma } from '@prisma/client';
+
+import { QUEUE_NAME_QUOTE_TOKEN_ACCEPT } from '../../constants/Job.constant';
+
+import { logger } from '@/apps/worker/src/app/commons';
+import {
+  OrderDirection,
+  getSdk,
+} from '@/apps/worker/src/app/generated/graphql';
 
 @Processor(QUEUE_NAME_QUOTE_TOKEN_ACCEPT)
 export class QuoteTokenAcceptProcessor implements OnModuleInit {

@@ -6,15 +6,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { User } from '@prisma/client';
+
 import {
   CreatePlatformOverviewDto,
   PlatformOverviewFilter,
 } from './dto/create-platform-overview.dto';
 import { UpdatePlatformOverviewDto } from './dto/update-platform-overview.dto';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { logger } from '../../commons';
-import { User } from '@prisma/client';
 import PaginationCommon from '../../commons/HasNext.common';
+
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 
 const MESSAGE_OK = 'ok';
@@ -35,7 +37,7 @@ export class PlatformOverviewService {
           ),
         },
       });
-      if (!!existPlatform) {
+      if (existPlatform) {
         throw new BadRequestException('Slug name already exists');
       }
 

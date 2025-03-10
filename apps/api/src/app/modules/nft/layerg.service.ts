@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { ORDERSTATUS, ORDERTYPE, Prisma } from '@prisma/client';
-import { NftDto } from './dto/nft.dto';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
-import { NFTHepler } from './helper/nft-helper.service';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 
+import { NftDto } from './dto/nft.dto';
+import { NFTHepler } from './helper/nft-helper.service';
+
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import {
   CollectionSelect,
   creatorSelect,
   orderNFTSelect,
   orderSelect,
 } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 
 @Injectable()
@@ -155,8 +156,7 @@ export class LayerService {
         },
       };
     } else {
-      const orderByProperties: Prisma.NFTOrderByWithRelationInput[] =
-        [];
+      const orderByProperties: Prisma.NFTOrderByWithRelationInput[] = [];
       if (orderBy == 'time') {
         orderByProperties.push({ createdAt: order });
       } else {

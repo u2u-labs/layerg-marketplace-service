@@ -1,31 +1,50 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql';
 import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  BigDecimal: { input: any; output: any; }
-  BigInt: { input: any; output: any; }
-  Bytes: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  BigDecimal: { input: any; output: any };
+  BigInt: { input: any; output: any };
+  Bytes: { input: any; output: any };
   /**
    * 8 bytes signed integer
    *
    */
-  Int8: { input: any; output: any; }
+  Int8: { input: any; output: any };
 };
 
 export type Account = {
@@ -46,7 +65,6 @@ export type Account = {
   onSaleCount: Scalars['BigInt']['output'];
 };
 
-
 export type AccountErc721tokensArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc721Token_OrderBy>;
@@ -54,7 +72,6 @@ export type AccountErc721tokensArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc721Token_Filter>;
 };
-
 
 export type AccountErc721transferFromEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -64,7 +81,6 @@ export type AccountErc721transferFromEventArgs = {
   where?: InputMaybe<Erc721Transfer_Filter>;
 };
 
-
 export type AccountErc721transferToEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc721Transfer_OrderBy>;
@@ -72,7 +88,6 @@ export type AccountErc721transferToEventArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc721Transfer_Filter>;
 };
-
 
 export type AccountErc1155balancesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -82,7 +97,6 @@ export type AccountErc1155balancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
-
 export type AccountErc1155transferFromEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Transfer_OrderBy>;
@@ -90,7 +104,6 @@ export type AccountErc1155transferFromEventArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc1155Transfer_Filter>;
 };
-
 
 export type AccountErc1155transferToEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -100,7 +113,6 @@ export type AccountErc1155transferToEventArgs = {
   where?: InputMaybe<Erc1155Transfer_Filter>;
 };
 
-
 export type AccountOnSaleStatus1155Args = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<OnSaleStatus1155_OrderBy>;
@@ -109,7 +121,6 @@ export type AccountOnSaleStatus1155Args = {
   where?: InputMaybe<OnSaleStatus1155_Filter>;
 };
 
-
 export type AccountOwnedTokensArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<OwnedTokenCount_OrderBy>;
@@ -117,7 +128,6 @@ export type AccountOwnedTokensArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<OwnedTokenCount_Filter>;
 };
-
 
 export type AccountEventsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -202,7 +212,7 @@ export enum AccountCollectionOwnership_OrderBy {
   AccountOnSaleCount = 'account__onSaleCount',
   Contract = 'contract',
   Id = 'id',
-  OwnsTokens = 'ownsTokens'
+  OwnsTokens = 'ownsTokens',
 }
 
 export type Account_Filter = {
@@ -332,12 +342,12 @@ export enum Account_OrderBy {
   Events = 'events',
   HoldingCount = 'holdingCount',
   Id = 'id',
-  OnSaleCount = 'onSaleCount'
+  OnSaleCount = 'onSaleCount',
 }
 
 export enum ActionState {
   Executed = 'EXECUTED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type Block = {
@@ -515,7 +525,7 @@ export enum Block_OrderBy {
   QuoteToken = 'quoteToken',
   Timestampt = 'timestampt',
   To = 'to',
-  TokenId = 'tokenId'
+  TokenId = 'tokenId',
 }
 
 export type Bundle = {
@@ -549,7 +559,7 @@ export type Bundle_Filter = {
 
 export enum Bundle_OrderBy {
   EthPriceUsd = 'ethPriceUSD',
-  Id = 'id'
+  Id = 'id',
 }
 
 export type Burn = {
@@ -838,7 +848,7 @@ export enum Burn_OrderBy {
   TransactionGasPrice = 'transaction__gasPrice',
   TransactionGasUsed = 'transaction__gasUsed',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type Collect = {
@@ -1025,7 +1035,7 @@ export enum Collect_OrderBy {
   TransactionGasPrice = 'transaction__gasPrice',
   TransactionGasUsed = 'transaction__gasUsed',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type Contract = {
@@ -1042,7 +1052,7 @@ export enum ContractType {
   Erc1155Proxy = 'ERC1155Proxy',
   ExchangeV2 = 'ExchangeV2',
   NftTransferProxies = 'NFTTransferProxies',
-  Royalties = 'Royalties'
+  Royalties = 'Royalties',
 }
 
 export type Contract_Filter = {
@@ -1091,7 +1101,7 @@ export type Contract_Filter = {
 export enum Contract_OrderBy {
   Contract = 'contract',
   Count = 'count',
-  Id = 'id'
+  Id = 'id',
 }
 
 export type Creator = {
@@ -1101,7 +1111,6 @@ export type Creator = {
   token1155?: Maybe<Array<Erc1155Creator>>;
 };
 
-
 export type CreatorToken721Args = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc721Creator_OrderBy>;
@@ -1109,7 +1118,6 @@ export type CreatorToken721Args = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc721Creator_Filter>;
 };
-
 
 export type CreatorToken1155Args = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1139,12 +1147,12 @@ export type Creator_Filter = {
 export enum Creator_OrderBy {
   Id = 'id',
   Token721 = 'token721',
-  Token1155 = 'token1155'
+  Token1155 = 'token1155',
 }
 
 export enum DealType {
   Bid = 'Bid',
-  Order = 'Order'
+  Order = 'Order',
 }
 
 export type Delegation = {
@@ -1289,7 +1297,7 @@ export enum Delegation_OrderBy {
   WrWithdrawHash = 'wr__withdrawHash',
   WrWithdrawTime = 'wr__withdrawTime',
   WrWithdrawalAmount = 'wr__withdrawalAmount',
-  WrWrId = 'wr__wrID'
+  WrWrId = 'wr__wrID',
 }
 
 export type Delegator = {
@@ -1302,7 +1310,6 @@ export type Delegator = {
   totalLockStake: Scalars['BigInt']['output'];
   validations: Array<Validation>;
 };
-
 
 export type DelegatorValidationsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1373,7 +1380,9 @@ export type Delegator_Filter = {
   validations_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
   validations_not?: InputMaybe<Array<Scalars['String']['input']>>;
   validations_not_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  validations_not_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
+  validations_not_contains_nocase?: InputMaybe<
+    Array<Scalars['String']['input']>
+  >;
 };
 
 export enum Delegator_OrderBy {
@@ -1383,7 +1392,7 @@ export enum Delegator_OrderBy {
   StakedAmount = 'stakedAmount',
   TotalClaimedRewards = 'totalClaimedRewards',
   TotalLockStake = 'totalLockStake',
-  Validations = 'validations'
+  Validations = 'validations',
 }
 
 export type Erc721Contract = {
@@ -1403,7 +1412,6 @@ export type Erc721Contract = {
   volume: Scalars['BigInt']['output'];
 };
 
-
 export type Erc721ContractTokensArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc721Token_OrderBy>;
@@ -1411,7 +1419,6 @@ export type Erc721ContractTokensArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc721Token_Filter>;
 };
-
 
 export type Erc721ContractTransfersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1591,7 +1598,7 @@ export enum Erc721Contract_OrderBy {
   TransactionCount = 'transactionCount',
   Transfers = 'transfers',
   TxCreation = 'txCreation',
-  Volume = 'volume'
+  Volume = 'volume',
 }
 
 export type Erc721Creator = {
@@ -1678,7 +1685,7 @@ export enum Erc721Creator_OrderBy {
   Creator = 'creator',
   CreatorId = 'creator__id',
   Id = 'id',
-  Share = 'share'
+  Share = 'share',
 }
 
 export type Erc721Token = {
@@ -1696,7 +1703,6 @@ export type Erc721Token = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 export type Erc721TokenCreatorsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc721Creator_OrderBy>;
@@ -1704,7 +1710,6 @@ export type Erc721TokenCreatorsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc721Creator_Filter>;
 };
-
 
 export type Erc721TokenTransfersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1897,7 +1902,7 @@ export enum Erc721Token_OrderBy {
   TokenId = 'tokenId',
   Transfers = 'transfers',
   TxCreation = 'txCreation',
-  Uri = 'uri'
+  Uri = 'uri',
 }
 
 export type Erc721Transfer = Event & {
@@ -2097,7 +2102,7 @@ export enum Erc721Transfer_OrderBy {
   Transaction = 'transaction',
   TransactionBlockNumber = 'transaction__blockNumber',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type Erc1155Balance = {
@@ -2112,7 +2117,6 @@ export type Erc1155Balance = {
   valueExact: Scalars['BigInt']['output'];
 };
 
-
 export type Erc1155BalanceTransferFromEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Transfer_OrderBy>;
@@ -2120,7 +2124,6 @@ export type Erc1155BalanceTransferFromEventArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc1155Transfer_Filter>;
 };
-
 
 export type Erc1155BalanceTransferToEventArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -2252,7 +2255,7 @@ export enum Erc1155Balance_OrderBy {
   TransferFromEvent = 'transferFromEvent',
   TransferToEvent = 'transferToEvent',
   Value = 'value',
-  ValueExact = 'valueExact'
+  ValueExact = 'valueExact',
 }
 
 export type Erc1155Contract = {
@@ -2272,7 +2275,6 @@ export type Erc1155Contract = {
   volume: Scalars['BigInt']['output'];
 };
 
-
 export type Erc1155ContractBalancesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Balance_OrderBy>;
@@ -2281,7 +2283,6 @@ export type Erc1155ContractBalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
-
 export type Erc1155ContractTokensArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Token_OrderBy>;
@@ -2289,7 +2290,6 @@ export type Erc1155ContractTokensArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc1155Token_Filter>;
 };
-
 
 export type Erc1155ContractTransfersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -2466,7 +2466,7 @@ export enum Erc1155Contract_OrderBy {
   TransactionCount = 'transactionCount',
   Transfers = 'transfers',
   TxCreation = 'txCreation',
-  Volume = 'volume'
+  Volume = 'volume',
 }
 
 export type Erc1155Creator = {
@@ -2553,7 +2553,7 @@ export enum Erc1155Creator_OrderBy {
   Creator = 'creator',
   CreatorId = 'creator__id',
   Id = 'id',
-  Share = 'share'
+  Share = 'share',
 }
 
 export type Erc1155Token = {
@@ -2571,7 +2571,6 @@ export type Erc1155Token = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 export type Erc1155TokenBalancesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Balance_OrderBy>;
@@ -2580,7 +2579,6 @@ export type Erc1155TokenBalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
-
 export type Erc1155TokenCreatorsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Erc1155Creator_OrderBy>;
@@ -2588,7 +2586,6 @@ export type Erc1155TokenCreatorsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Erc1155Creator_Filter>;
 };
-
 
 export type Erc1155TokenTransfersArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -2757,7 +2754,7 @@ export enum Erc1155Token_OrderBy {
   TotalSupplyValueExact = 'totalSupply__valueExact',
   Transfers = 'transfers',
   TxCreation = 'txCreation',
-  Uri = 'uri'
+  Uri = 'uri',
 }
 
 export type Erc1155Transfer = Event & {
@@ -3028,7 +3025,7 @@ export enum Erc1155Transfer_OrderBy {
   TransactionId = 'transaction__id',
   TransactionTimestamp = 'transaction__timestamp',
   Value = 'value',
-  ValueExact = 'valueExact'
+  ValueExact = 'valueExact',
 }
 
 export type Epoch = {
@@ -3072,7 +3069,7 @@ export type Epoch_Filter = {
 export enum Epoch_OrderBy {
   Block = 'block',
   Epoch = 'epoch',
-  Id = 'id'
+  Id = 'id',
 }
 
 export type Event = {
@@ -3090,7 +3087,7 @@ export enum EventType {
   CancelBid = 'CancelBid',
   Mint = 'Mint',
   Trade = 'Trade',
-  Transfer = 'Transfer'
+  Transfer = 'Transfer',
 }
 
 export type Event_Filter = {
@@ -3168,7 +3165,7 @@ export enum Event_OrderBy {
   Transaction = 'transaction',
   TransactionBlockNumber = 'transaction__blockNumber',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type Factory = {
@@ -3242,7 +3239,9 @@ export type Factory_Filter = {
   totalProtocolFeesETH_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesETH_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesETH_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalProtocolFeesETH_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalProtocolFeesETH_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalProtocolFeesUSD?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -3250,39 +3249,53 @@ export type Factory_Filter = {
   totalProtocolFeesUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalProtocolFeesUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalProtocolFeesUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalProtocolFeesUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedETH?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETHUntracked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETHUntracked_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedETHUntracked_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETHUntracked_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETHUntracked_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedETH_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
   totalValueLockedETH_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETH_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETH_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSD?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSDUntracked_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
   totalValueLockedUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalVolumeETH?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalVolumeETH_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalVolumeETH_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -3332,7 +3345,7 @@ export enum Factory_OrderBy {
   TotalVolumeEth = 'totalVolumeETH',
   TotalVolumeUsd = 'totalVolumeUSD',
   TxCount = 'txCount',
-  UntrackedVolumeUsd = 'untrackedVolumeUSD'
+  UntrackedVolumeUsd = 'untrackedVolumeUSD',
 }
 
 export type Flash = {
@@ -3531,7 +3544,7 @@ export enum Flash_OrderBy {
   TransactionGasPrice = 'transaction__gasPrice',
   TransactionGasUsed = 'transaction__gasUsed',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type LockedUp = {
@@ -3674,7 +3687,7 @@ export enum LockedUp_OrderBy {
   ValidatorTotalDelegator = 'validator__totalDelegator',
   ValidatorTotalLockStake = 'validator__totalLockStake',
   ValidatorTotalStakedAmount = 'validator__totalStakedAmount',
-  ValidatorValidatorId = 'validator__validatorId'
+  ValidatorValidatorId = 'validator__validatorId',
 }
 
 export type MarketEvent721 = {
@@ -3967,7 +3980,7 @@ export enum MarketEvent721_OrderBy {
   Timestamp = 'timestamp',
   To = 'to',
   TokenId = 'tokenId',
-  TxHash = 'txHash'
+  TxHash = 'txHash',
 }
 
 export type MarketEvent1155 = {
@@ -4264,7 +4277,7 @@ export enum MarketEvent1155_OrderBy {
   Timestamp = 'timestamp',
   To = 'to',
   TokenId = 'tokenId',
-  TxHash = 'txHash'
+  TxHash = 'txHash',
 }
 
 export type MarketFee = {
@@ -4332,7 +4345,7 @@ export type MarketFee_Filter = {
 export enum MarketFee_OrderBy {
   Id = 'id',
   TotalFee = 'totalFee',
-  Type = 'type'
+  Type = 'type',
 }
 
 export type MarketVolume = {
@@ -4400,7 +4413,7 @@ export type MarketVolume_Filter = {
 export enum MarketVolume_OrderBy {
   Id = 'id',
   TotalVolume = 'totalVolume',
-  Type = 'type'
+  Type = 'type',
 }
 
 export type Mint = {
@@ -4701,7 +4714,7 @@ export enum Mint_OrderBy {
   TransactionGasPrice = 'transaction__gasPrice',
   TransactionGasUsed = 'transaction__gasUsed',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type OnSaleStatus1155 = {
@@ -4789,12 +4802,12 @@ export enum OnSaleStatus1155_OrderBy {
   OwnerHoldingCount = 'owner__holdingCount',
   OwnerId = 'owner__id',
   OwnerOnSaleCount = 'owner__onSaleCount',
-  TokenId = 'tokenId'
+  TokenId = 'tokenId',
 }
 
 export enum Operation {
   Ask = 'Ask',
-  Offer = 'Offer'
+  Offer = 'Offer',
 }
 
 export type Order = {
@@ -4815,19 +4828,19 @@ export type Order = {
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export enum OrderStatus {
   Canceled = 'CANCELED',
   Filled = 'FILLED',
   Transfer = 'TRANSFER',
-  Transferfilled = 'TRANSFERFILLED'
+  Transferfilled = 'TRANSFERFILLED',
 }
 
 export enum OrderStatusTransfer {
   Transfer = 'TRANSFER',
-  Transferfilled = 'TRANSFERFILLED'
+  Transferfilled = 'TRANSFERFILLED',
 }
 
 export type OrderTransfer = {
@@ -4983,7 +4996,7 @@ export enum OrderTransfer_OrderBy {
   TakerId = 'taker__id',
   TakerOnSaleCount = 'taker__onSaleCount',
   Timestamp = 'timestamp',
-  TokenId = 'tokenId'
+  TokenId = 'tokenId',
 }
 
 export type Order_Filter = {
@@ -5132,7 +5145,7 @@ export enum Order_OrderBy {
   TakerHoldingCount = 'taker__holdingCount',
   TakerId = 'taker__id',
   TakerOnSaleCount = 'taker__onSaleCount',
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type OwnedTokenCount = {
@@ -5224,7 +5237,7 @@ export enum OwnedTokenCount_OrderBy {
   OwnerHoldingCount = 'owner__holdingCount',
   OwnerId = 'owner__id',
   OwnerOnSaleCount = 'owner__onSaleCount',
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type OwnerContract = {
@@ -5312,7 +5325,7 @@ export enum OwnerContract_OrderBy {
   Count = 'count',
   Id = 'id',
   Timestamp = 'timestamp',
-  User = 'user'
+  User = 'user',
 }
 
 export type PancakeDayData = {
@@ -5416,7 +5429,7 @@ export enum PancakeDayData_OrderBy {
   TxCount = 'txCount',
   VolumeEth = 'volumeETH',
   VolumeUsd = 'volumeUSD',
-  VolumeUsdUntracked = 'volumeUSDUntracked'
+  VolumeUsdUntracked = 'volumeUSDUntracked',
 }
 
 export type Pool = {
@@ -5470,7 +5483,6 @@ export type Pool = {
   volumeUSD: Scalars['BigDecimal']['output'];
 };
 
-
 export type PoolBurnsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Burn_OrderBy>;
@@ -5478,7 +5490,6 @@ export type PoolBurnsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Burn_Filter>;
 };
-
 
 export type PoolCollectsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5488,7 +5499,6 @@ export type PoolCollectsArgs = {
   where?: InputMaybe<Collect_Filter>;
 };
 
-
 export type PoolMintsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Mint_OrderBy>;
@@ -5496,7 +5506,6 @@ export type PoolMintsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Mint_Filter>;
 };
-
 
 export type PoolPool5MinuteCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5506,7 +5515,6 @@ export type PoolPool5MinuteCandleDataArgs = {
   where?: InputMaybe<Pool5MinuteCandleData_Filter>;
 };
 
-
 export type PoolPool15MinuteCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Pool15MinuteCandleData_OrderBy>;
@@ -5514,7 +5522,6 @@ export type PoolPool15MinuteCandleDataArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Pool15MinuteCandleData_Filter>;
 };
-
 
 export type PoolPool30MinuteCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5524,7 +5531,6 @@ export type PoolPool30MinuteCandleDataArgs = {
   where?: InputMaybe<Pool30MinuteCandleData_Filter>;
 };
 
-
 export type PoolPoolDayCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<PoolDayCandleData_OrderBy>;
@@ -5532,7 +5538,6 @@ export type PoolPoolDayCandleDataArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<PoolDayCandleData_Filter>;
 };
-
 
 export type PoolPoolDayDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5542,7 +5547,6 @@ export type PoolPoolDayDataArgs = {
   where?: InputMaybe<PoolDayData_Filter>;
 };
 
-
 export type PoolPoolHourCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<PoolHourCandleData_OrderBy>;
@@ -5550,7 +5554,6 @@ export type PoolPoolHourCandleDataArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<PoolHourCandleData_Filter>;
 };
-
 
 export type PoolPoolHourDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5560,7 +5563,6 @@ export type PoolPoolHourDataArgs = {
   where?: InputMaybe<PoolHourData_Filter>;
 };
 
-
 export type PoolPoolMinuteCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<PoolMinuteCandleData_OrderBy>;
@@ -5568,7 +5570,6 @@ export type PoolPoolMinuteCandleDataArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<PoolMinuteCandleData_Filter>;
 };
-
 
 export type PoolPoolMonthCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5578,7 +5579,6 @@ export type PoolPoolMonthCandleDataArgs = {
   where?: InputMaybe<PoolMonthCandleData_Filter>;
 };
 
-
 export type PoolPoolWeekCandleDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<PoolWeekCandleData_OrderBy>;
@@ -5587,7 +5587,6 @@ export type PoolPoolWeekCandleDataArgs = {
   where?: InputMaybe<PoolWeekCandleData_Filter>;
 };
 
-
 export type PoolSwapsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Swap_OrderBy>;
@@ -5595,7 +5594,6 @@ export type PoolSwapsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Swap_Filter>;
 };
-
 
 export type PoolTicksArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5909,7 +5907,7 @@ export enum Pool5MinuteCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Pool15MinuteCandleData = {
@@ -6216,7 +6214,7 @@ export enum Pool15MinuteCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Pool30MinuteCandleData = {
@@ -6523,7 +6521,7 @@ export enum Pool30MinuteCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolDayCandleData = {
@@ -6830,7 +6828,7 @@ export enum PoolDayCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolDayData = {
@@ -7097,7 +7095,7 @@ export enum PoolDayData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolHourCandleData = {
@@ -7404,7 +7402,7 @@ export enum PoolHourCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolHourData = {
@@ -7671,7 +7669,7 @@ export enum PoolHourData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolMinuteCandleData = {
@@ -7978,7 +7976,7 @@ export enum PoolMinuteCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolMonthCandleData = {
@@ -8285,7 +8283,7 @@ export enum PoolMonthCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type PoolWeekCandleData = {
@@ -8592,7 +8590,7 @@ export enum PoolWeekCandleData_OrderBy {
   TxCount = 'txCount',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Pool_Filter = {
@@ -8607,7 +8605,9 @@ export type Pool_Filter = {
   collectedFeesToken0_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken0_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken0_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesToken1?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -8615,7 +8615,9 @@ export type Pool_Filter = {
   collectedFeesToken1_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken1_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken1_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesUSD?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -8813,18 +8815,24 @@ export type Pool_Filter = {
   totalValueLockedETHUntracked?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETHUntracked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETHUntracked_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedETHUntracked_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETHUntracked_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETHUntracked_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETHUntracked_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedETH_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
   totalValueLockedETH_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedETH_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedETH_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedETH_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedToken0?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken0_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken0_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -8832,7 +8840,9 @@ export type Pool_Filter = {
   totalValueLockedToken0_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken0_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken0_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedToken0_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedToken0_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedToken1?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken1_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken1_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -8840,23 +8850,31 @@ export type Pool_Filter = {
   totalValueLockedToken1_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken1_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedToken1_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedToken1_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedToken1_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSD?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSDUntracked_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
   totalValueLockedUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   txCount?: InputMaybe<Scalars['BigInt']['input']>;
   txCount_gt?: InputMaybe<Scalars['BigInt']['input']>;
   txCount_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -8980,7 +8998,7 @@ export enum Pool_OrderBy {
   UntrackedVolumeUsd = 'untrackedVolumeUSD',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Position = {
@@ -9043,7 +9061,9 @@ export type PositionSnapshot_Filter = {
   collectedFeesToken0_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken0_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken0_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesToken1?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -9051,7 +9071,9 @@ export type PositionSnapshot_Filter = {
   collectedFeesToken1_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken1_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken1_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   depositedToken0?: InputMaybe<Scalars['BigDecimal']['input']>;
   depositedToken0_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   depositedToken0_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -9075,7 +9097,9 @@ export type PositionSnapshot_Filter = {
   feeGrowthInside0LastX128_lt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside0LastX128_lte?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside0LastX128_not?: InputMaybe<Scalars['BigInt']['input']>;
-  feeGrowthInside0LastX128_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  feeGrowthInside0LastX128_not_in?: InputMaybe<
+    Array<Scalars['BigInt']['input']>
+  >;
   feeGrowthInside1LastX128?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_gt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -9083,7 +9107,9 @@ export type PositionSnapshot_Filter = {
   feeGrowthInside1LastX128_lt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_lte?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_not?: InputMaybe<Scalars['BigInt']['input']>;
-  feeGrowthInside1LastX128_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  feeGrowthInside1LastX128_not_in?: InputMaybe<
+    Array<Scalars['BigInt']['input']>
+  >;
   id?: InputMaybe<Scalars['ID']['input']>;
   id_gt?: InputMaybe<Scalars['ID']['input']>;
   id_gte?: InputMaybe<Scalars['ID']['input']>;
@@ -9262,7 +9288,7 @@ export enum PositionSnapshot_OrderBy {
   TransactionId = 'transaction__id',
   TransactionTimestamp = 'transaction__timestamp',
   WithdrawnToken0 = 'withdrawnToken0',
-  WithdrawnToken1 = 'withdrawnToken1'
+  WithdrawnToken1 = 'withdrawnToken1',
 }
 
 export type Position_Filter = {
@@ -9276,7 +9302,9 @@ export type Position_Filter = {
   collectedFeesToken0_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken0_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken0_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesToken1?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -9284,7 +9312,9 @@ export type Position_Filter = {
   collectedFeesToken1_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken1_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken1_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   depositedToken0?: InputMaybe<Scalars['BigDecimal']['input']>;
   depositedToken0_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   depositedToken0_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -9308,7 +9338,9 @@ export type Position_Filter = {
   feeGrowthInside0LastX128_lt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside0LastX128_lte?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside0LastX128_not?: InputMaybe<Scalars['BigInt']['input']>;
-  feeGrowthInside0LastX128_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  feeGrowthInside0LastX128_not_in?: InputMaybe<
+    Array<Scalars['BigInt']['input']>
+  >;
   feeGrowthInside1LastX128?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_gt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -9316,7 +9348,9 @@ export type Position_Filter = {
   feeGrowthInside1LastX128_lt?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_lte?: InputMaybe<Scalars['BigInt']['input']>;
   feeGrowthInside1LastX128_not?: InputMaybe<Scalars['BigInt']['input']>;
-  feeGrowthInside1LastX128_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  feeGrowthInside1LastX128_not_in?: InputMaybe<
+    Array<Scalars['BigInt']['input']>
+  >;
   id?: InputMaybe<Scalars['ID']['input']>;
   id_gt?: InputMaybe<Scalars['ID']['input']>;
   id_gte?: InputMaybe<Scalars['ID']['input']>;
@@ -9614,7 +9648,7 @@ export enum Position_OrderBy {
   TransactionId = 'transaction__id',
   TransactionTimestamp = 'transaction__timestamp',
   WithdrawnToken0 = 'withdrawnToken0',
-  WithdrawnToken1 = 'withdrawnToken1'
+  WithdrawnToken1 = 'withdrawnToken1',
 }
 
 export type Query = {
@@ -9749,11 +9783,9 @@ export type Query = {
   withdrawalRequests: Array<WithdrawalRequest>;
 };
 
-
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
-
 
 export type QueryAccountArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9761,13 +9793,11 @@ export type QueryAccountArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryAccountCollectionOwnershipArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryAccountCollectionOwnershipsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9779,7 +9809,6 @@ export type QueryAccountCollectionOwnershipsArgs = {
   where?: InputMaybe<AccountCollectionOwnership_Filter>;
 };
 
-
 export type QueryAccountsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -9790,13 +9819,11 @@ export type QueryAccountsArgs = {
   where?: InputMaybe<Account_Filter>;
 };
 
-
 export type QueryBlockArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryBlocksArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9808,13 +9835,11 @@ export type QueryBlocksArgs = {
   where?: InputMaybe<Block_Filter>;
 };
 
-
 export type QueryBundleArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryBundlesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9826,13 +9851,11 @@ export type QueryBundlesArgs = {
   where?: InputMaybe<Bundle_Filter>;
 };
 
-
 export type QueryBurnArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryBurnsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9844,13 +9867,11 @@ export type QueryBurnsArgs = {
   where?: InputMaybe<Burn_Filter>;
 };
 
-
 export type QueryCollectArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryCollectsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9862,13 +9883,11 @@ export type QueryCollectsArgs = {
   where?: InputMaybe<Collect_Filter>;
 };
 
-
 export type QueryContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9880,13 +9899,11 @@ export type QueryContractsArgs = {
   where?: InputMaybe<Contract_Filter>;
 };
 
-
 export type QueryCreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryCreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9898,13 +9915,11 @@ export type QueryCreatorsArgs = {
   where?: InputMaybe<Creator_Filter>;
 };
 
-
 export type QueryDelegationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryDelegationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9916,13 +9931,11 @@ export type QueryDelegationsArgs = {
   where?: InputMaybe<Delegation_Filter>;
 };
 
-
 export type QueryDelegatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryDelegatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9934,13 +9947,11 @@ export type QueryDelegatorsArgs = {
   where?: InputMaybe<Delegator_Filter>;
 };
 
-
 export type QueryEpochArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryEpochesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9952,13 +9963,11 @@ export type QueryEpochesArgs = {
   where?: InputMaybe<Epoch_Filter>;
 };
 
-
 export type QueryErc721ContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc721ContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9970,13 +9979,11 @@ export type QueryErc721ContractsArgs = {
   where?: InputMaybe<Erc721Contract_Filter>;
 };
 
-
 export type QueryErc721CreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc721CreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -9988,13 +9995,11 @@ export type QueryErc721CreatorsArgs = {
   where?: InputMaybe<Erc721Creator_Filter>;
 };
 
-
 export type QueryErc721TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc721TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10006,13 +10011,11 @@ export type QueryErc721TokensArgs = {
   where?: InputMaybe<Erc721Token_Filter>;
 };
 
-
 export type QueryErc721TransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc721TransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10024,13 +10027,11 @@ export type QueryErc721TransfersArgs = {
   where?: InputMaybe<Erc721Transfer_Filter>;
 };
 
-
 export type QueryErc1155BalanceArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc1155BalancesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10042,13 +10043,11 @@ export type QueryErc1155BalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
-
 export type QueryErc1155ContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc1155ContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10060,13 +10059,11 @@ export type QueryErc1155ContractsArgs = {
   where?: InputMaybe<Erc1155Contract_Filter>;
 };
 
-
 export type QueryErc1155CreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc1155CreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10078,13 +10075,11 @@ export type QueryErc1155CreatorsArgs = {
   where?: InputMaybe<Erc1155Creator_Filter>;
 };
 
-
 export type QueryErc1155TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc1155TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10096,13 +10091,11 @@ export type QueryErc1155TokensArgs = {
   where?: InputMaybe<Erc1155Token_Filter>;
 };
 
-
 export type QueryErc1155TransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryErc1155TransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10114,13 +10107,11 @@ export type QueryErc1155TransfersArgs = {
   where?: InputMaybe<Erc1155Transfer_Filter>;
 };
 
-
 export type QueryEventArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryEventsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10132,7 +10123,6 @@ export type QueryEventsArgs = {
   where?: InputMaybe<Event_Filter>;
 };
 
-
 export type QueryFactoriesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10143,20 +10133,17 @@ export type QueryFactoriesArgs = {
   where?: InputMaybe<Factory_Filter>;
 };
 
-
 export type QueryFactoryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryFlashArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryFlashesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10168,13 +10155,11 @@ export type QueryFlashesArgs = {
   where?: InputMaybe<Flash_Filter>;
 };
 
-
 export type QueryLockedUpArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryLockedUpsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10186,13 +10171,11 @@ export type QueryLockedUpsArgs = {
   where?: InputMaybe<LockedUp_Filter>;
 };
 
-
 export type QueryMarketEvent721Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMarketEvent721SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10204,13 +10187,11 @@ export type QueryMarketEvent721SArgs = {
   where?: InputMaybe<MarketEvent721_Filter>;
 };
 
-
 export type QueryMarketEvent1155Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMarketEvent1155SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10222,13 +10203,11 @@ export type QueryMarketEvent1155SArgs = {
   where?: InputMaybe<MarketEvent1155_Filter>;
 };
 
-
 export type QueryMarketFeeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMarketFeesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10240,13 +10219,11 @@ export type QueryMarketFeesArgs = {
   where?: InputMaybe<MarketFee_Filter>;
 };
 
-
 export type QueryMarketVolumeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMarketVolumesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10258,13 +10235,11 @@ export type QueryMarketVolumesArgs = {
   where?: InputMaybe<MarketVolume_Filter>;
 };
 
-
 export type QueryMintArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMintsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10276,13 +10251,11 @@ export type QueryMintsArgs = {
   where?: InputMaybe<Mint_Filter>;
 };
 
-
 export type QueryOnSaleStatus1155Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryOnSaleStatus1155SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10294,20 +10267,17 @@ export type QueryOnSaleStatus1155SArgs = {
   where?: InputMaybe<OnSaleStatus1155_Filter>;
 };
 
-
 export type QueryOrderArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryOrderTransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryOrderTransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10319,7 +10289,6 @@ export type QueryOrderTransfersArgs = {
   where?: InputMaybe<OrderTransfer_Filter>;
 };
 
-
 export type QueryOrdersArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10330,13 +10299,11 @@ export type QueryOrdersArgs = {
   where?: InputMaybe<Order_Filter>;
 };
 
-
 export type QueryOwnedTokenCountArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryOwnedTokenCountsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10348,13 +10315,11 @@ export type QueryOwnedTokenCountsArgs = {
   where?: InputMaybe<OwnedTokenCount_Filter>;
 };
 
-
 export type QueryOwnerContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryOwnerContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10366,13 +10331,11 @@ export type QueryOwnerContractsArgs = {
   where?: InputMaybe<OwnerContract_Filter>;
 };
 
-
 export type QueryPancakeDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPancakeDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10384,20 +10347,17 @@ export type QueryPancakeDayDatasArgs = {
   where?: InputMaybe<PancakeDayData_Filter>;
 };
 
-
 export type QueryPoolArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryPool5MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPool5MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10409,13 +10369,11 @@ export type QueryPool5MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool5MinuteCandleData_Filter>;
 };
 
-
 export type QueryPool15MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPool15MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10427,13 +10385,11 @@ export type QueryPool15MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool15MinuteCandleData_Filter>;
 };
 
-
 export type QueryPool30MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPool30MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10445,13 +10401,11 @@ export type QueryPool30MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool30MinuteCandleData_Filter>;
 };
 
-
 export type QueryPoolDayCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolDayCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10463,13 +10417,11 @@ export type QueryPoolDayCandleDatasArgs = {
   where?: InputMaybe<PoolDayCandleData_Filter>;
 };
 
-
 export type QueryPoolDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10481,13 +10433,11 @@ export type QueryPoolDayDatasArgs = {
   where?: InputMaybe<PoolDayData_Filter>;
 };
 
-
 export type QueryPoolHourCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolHourCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10499,13 +10449,11 @@ export type QueryPoolHourCandleDatasArgs = {
   where?: InputMaybe<PoolHourCandleData_Filter>;
 };
 
-
 export type QueryPoolHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10517,13 +10465,11 @@ export type QueryPoolHourDatasArgs = {
   where?: InputMaybe<PoolHourData_Filter>;
 };
 
-
 export type QueryPoolMinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolMinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10535,13 +10481,11 @@ export type QueryPoolMinuteCandleDatasArgs = {
   where?: InputMaybe<PoolMinuteCandleData_Filter>;
 };
 
-
 export type QueryPoolMonthCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolMonthCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10553,13 +10497,11 @@ export type QueryPoolMonthCandleDatasArgs = {
   where?: InputMaybe<PoolMonthCandleData_Filter>;
 };
 
-
 export type QueryPoolWeekCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPoolWeekCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10571,7 +10513,6 @@ export type QueryPoolWeekCandleDatasArgs = {
   where?: InputMaybe<PoolWeekCandleData_Filter>;
 };
 
-
 export type QueryPoolsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10582,20 +10523,17 @@ export type QueryPoolsArgs = {
   where?: InputMaybe<Pool_Filter>;
 };
 
-
 export type QueryPositionArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryPositionSnapshotArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryPositionSnapshotsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10607,7 +10545,6 @@ export type QueryPositionSnapshotsArgs = {
   where?: InputMaybe<PositionSnapshot_Filter>;
 };
 
-
 export type QueryPositionsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10617,7 +10554,6 @@ export type QueryPositionsArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Position_Filter>;
 };
-
 
 export type QueryRoyaltiesRegistriesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10629,20 +10565,17 @@ export type QueryRoyaltiesRegistriesArgs = {
   where?: InputMaybe<RoyaltiesRegistry_Filter>;
 };
 
-
 export type QueryRoyaltiesRegistryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryStakingArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryStakingsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10654,13 +10587,11 @@ export type QueryStakingsArgs = {
   where?: InputMaybe<Staking_Filter>;
 };
 
-
 export type QuerySwapArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QuerySwapsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10672,20 +10603,17 @@ export type QuerySwapsArgs = {
   where?: InputMaybe<Swap_Filter>;
 };
 
-
 export type QueryTickArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryTickDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTickDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10697,13 +10625,11 @@ export type QueryTickDayDatasArgs = {
   where?: InputMaybe<TickDayData_Filter>;
 };
 
-
 export type QueryTickHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTickHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10715,7 +10641,6 @@ export type QueryTickHourDatasArgs = {
   where?: InputMaybe<TickHourData_Filter>;
 };
 
-
 export type QueryTicksArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10726,20 +10651,17 @@ export type QueryTicksArgs = {
   where?: InputMaybe<Tick_Filter>;
 };
 
-
 export type QueryTokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryTokenDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTokenDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10751,13 +10673,11 @@ export type QueryTokenDayDatasArgs = {
   where?: InputMaybe<TokenDayData_Filter>;
 };
 
-
 export type QueryTokenHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTokenHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10769,7 +10689,6 @@ export type QueryTokenHourDatasArgs = {
   where?: InputMaybe<TokenHourData_Filter>;
 };
 
-
 export type QueryTokensArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10780,20 +10699,17 @@ export type QueryTokensArgs = {
   where?: InputMaybe<Token_Filter>;
 };
 
-
 export type QueryTransactionArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryTransactionCountArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTransactionCountsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10805,7 +10721,6 @@ export type QueryTransactionCountsArgs = {
   where?: InputMaybe<TransactionCount_Filter>;
 };
 
-
 export type QueryTransactionsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10816,13 +10731,11 @@ export type QueryTransactionsArgs = {
   where?: InputMaybe<Transaction_Filter>;
 };
 
-
 export type QueryTransationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryTransationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10834,13 +10747,11 @@ export type QueryTransationsArgs = {
   where?: InputMaybe<Transation_Filter>;
 };
 
-
 export type QueryValidationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryValidationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10852,13 +10763,11 @@ export type QueryValidationsArgs = {
   where?: InputMaybe<Validation_Filter>;
 };
 
-
 export type QueryValidatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryValidatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10870,13 +10779,11 @@ export type QueryValidatorsArgs = {
   where?: InputMaybe<Validator_Filter>;
 };
 
-
 export type QueryWithdrawalRequestArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryWithdrawalRequestsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -10985,7 +10892,7 @@ export enum RoyaltiesRegistry_OrderBy {
   CollectionId = 'collectionId',
   Id = 'id',
   TokenId = 'tokenId',
-  Value = 'value'
+  Value = 'value',
 }
 
 export enum SellStatus {
@@ -10994,7 +10901,7 @@ export enum SellStatus {
   AskNew = 'AskNew',
   Bid = 'Bid',
   CancelBid = 'CancelBid',
-  Trade = 'Trade'
+  Trade = 'Trade',
 }
 
 export type Staking = {
@@ -11088,7 +10995,7 @@ export enum Staking_OrderBy {
   TotalLockStake = 'totalLockStake',
   TotalSelfStaked = 'totalSelfStaked',
   TotalStaked = 'totalStaked',
-  TotalValidator = 'totalValidator'
+  TotalValidator = 'totalValidator',
 }
 
 export type Subscription = {
@@ -11223,11 +11130,9 @@ export type Subscription = {
   withdrawalRequests: Array<WithdrawalRequest>;
 };
 
-
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
-
 
 export type SubscriptionAccountArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11235,13 +11140,11 @@ export type SubscriptionAccountArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionAccountCollectionOwnershipArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionAccountCollectionOwnershipsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11253,7 +11156,6 @@ export type SubscriptionAccountCollectionOwnershipsArgs = {
   where?: InputMaybe<AccountCollectionOwnership_Filter>;
 };
 
-
 export type SubscriptionAccountsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -11264,13 +11166,11 @@ export type SubscriptionAccountsArgs = {
   where?: InputMaybe<Account_Filter>;
 };
 
-
 export type SubscriptionBlockArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionBlocksArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11282,13 +11182,11 @@ export type SubscriptionBlocksArgs = {
   where?: InputMaybe<Block_Filter>;
 };
 
-
 export type SubscriptionBundleArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionBundlesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11300,13 +11198,11 @@ export type SubscriptionBundlesArgs = {
   where?: InputMaybe<Bundle_Filter>;
 };
 
-
 export type SubscriptionBurnArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionBurnsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11318,13 +11214,11 @@ export type SubscriptionBurnsArgs = {
   where?: InputMaybe<Burn_Filter>;
 };
 
-
 export type SubscriptionCollectArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionCollectsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11336,13 +11230,11 @@ export type SubscriptionCollectsArgs = {
   where?: InputMaybe<Collect_Filter>;
 };
 
-
 export type SubscriptionContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11354,13 +11246,11 @@ export type SubscriptionContractsArgs = {
   where?: InputMaybe<Contract_Filter>;
 };
 
-
 export type SubscriptionCreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionCreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11372,13 +11262,11 @@ export type SubscriptionCreatorsArgs = {
   where?: InputMaybe<Creator_Filter>;
 };
 
-
 export type SubscriptionDelegationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionDelegationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11390,13 +11278,11 @@ export type SubscriptionDelegationsArgs = {
   where?: InputMaybe<Delegation_Filter>;
 };
 
-
 export type SubscriptionDelegatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionDelegatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11408,13 +11294,11 @@ export type SubscriptionDelegatorsArgs = {
   where?: InputMaybe<Delegator_Filter>;
 };
 
-
 export type SubscriptionEpochArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionEpochesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11426,13 +11310,11 @@ export type SubscriptionEpochesArgs = {
   where?: InputMaybe<Epoch_Filter>;
 };
 
-
 export type SubscriptionErc721ContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc721ContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11444,13 +11326,11 @@ export type SubscriptionErc721ContractsArgs = {
   where?: InputMaybe<Erc721Contract_Filter>;
 };
 
-
 export type SubscriptionErc721CreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc721CreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11462,13 +11342,11 @@ export type SubscriptionErc721CreatorsArgs = {
   where?: InputMaybe<Erc721Creator_Filter>;
 };
 
-
 export type SubscriptionErc721TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc721TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11480,13 +11358,11 @@ export type SubscriptionErc721TokensArgs = {
   where?: InputMaybe<Erc721Token_Filter>;
 };
 
-
 export type SubscriptionErc721TransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc721TransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11498,13 +11374,11 @@ export type SubscriptionErc721TransfersArgs = {
   where?: InputMaybe<Erc721Transfer_Filter>;
 };
 
-
 export type SubscriptionErc1155BalanceArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc1155BalancesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11516,13 +11390,11 @@ export type SubscriptionErc1155BalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
-
 export type SubscriptionErc1155ContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc1155ContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11534,13 +11406,11 @@ export type SubscriptionErc1155ContractsArgs = {
   where?: InputMaybe<Erc1155Contract_Filter>;
 };
 
-
 export type SubscriptionErc1155CreatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc1155CreatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11552,13 +11422,11 @@ export type SubscriptionErc1155CreatorsArgs = {
   where?: InputMaybe<Erc1155Creator_Filter>;
 };
 
-
 export type SubscriptionErc1155TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc1155TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11570,13 +11438,11 @@ export type SubscriptionErc1155TokensArgs = {
   where?: InputMaybe<Erc1155Token_Filter>;
 };
 
-
 export type SubscriptionErc1155TransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionErc1155TransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11588,13 +11454,11 @@ export type SubscriptionErc1155TransfersArgs = {
   where?: InputMaybe<Erc1155Transfer_Filter>;
 };
 
-
 export type SubscriptionEventArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionEventsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11606,7 +11470,6 @@ export type SubscriptionEventsArgs = {
   where?: InputMaybe<Event_Filter>;
 };
 
-
 export type SubscriptionFactoriesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -11617,20 +11480,17 @@ export type SubscriptionFactoriesArgs = {
   where?: InputMaybe<Factory_Filter>;
 };
 
-
 export type SubscriptionFactoryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionFlashArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionFlashesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11642,13 +11502,11 @@ export type SubscriptionFlashesArgs = {
   where?: InputMaybe<Flash_Filter>;
 };
 
-
 export type SubscriptionLockedUpArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionLockedUpsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11660,13 +11518,11 @@ export type SubscriptionLockedUpsArgs = {
   where?: InputMaybe<LockedUp_Filter>;
 };
 
-
 export type SubscriptionMarketEvent721Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMarketEvent721SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11678,13 +11534,11 @@ export type SubscriptionMarketEvent721SArgs = {
   where?: InputMaybe<MarketEvent721_Filter>;
 };
 
-
 export type SubscriptionMarketEvent1155Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMarketEvent1155SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11696,13 +11550,11 @@ export type SubscriptionMarketEvent1155SArgs = {
   where?: InputMaybe<MarketEvent1155_Filter>;
 };
 
-
 export type SubscriptionMarketFeeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMarketFeesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11714,13 +11566,11 @@ export type SubscriptionMarketFeesArgs = {
   where?: InputMaybe<MarketFee_Filter>;
 };
 
-
 export type SubscriptionMarketVolumeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMarketVolumesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11732,13 +11582,11 @@ export type SubscriptionMarketVolumesArgs = {
   where?: InputMaybe<MarketVolume_Filter>;
 };
 
-
 export type SubscriptionMintArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMintsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11750,13 +11598,11 @@ export type SubscriptionMintsArgs = {
   where?: InputMaybe<Mint_Filter>;
 };
 
-
 export type SubscriptionOnSaleStatus1155Args = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionOnSaleStatus1155SArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11768,20 +11614,17 @@ export type SubscriptionOnSaleStatus1155SArgs = {
   where?: InputMaybe<OnSaleStatus1155_Filter>;
 };
 
-
 export type SubscriptionOrderArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionOrderTransferArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionOrderTransfersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11793,7 +11636,6 @@ export type SubscriptionOrderTransfersArgs = {
   where?: InputMaybe<OrderTransfer_Filter>;
 };
 
-
 export type SubscriptionOrdersArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -11804,13 +11646,11 @@ export type SubscriptionOrdersArgs = {
   where?: InputMaybe<Order_Filter>;
 };
 
-
 export type SubscriptionOwnedTokenCountArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionOwnedTokenCountsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11822,13 +11662,11 @@ export type SubscriptionOwnedTokenCountsArgs = {
   where?: InputMaybe<OwnedTokenCount_Filter>;
 };
 
-
 export type SubscriptionOwnerContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionOwnerContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11840,13 +11678,11 @@ export type SubscriptionOwnerContractsArgs = {
   where?: InputMaybe<OwnerContract_Filter>;
 };
 
-
 export type SubscriptionPancakeDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPancakeDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11858,20 +11694,17 @@ export type SubscriptionPancakeDayDatasArgs = {
   where?: InputMaybe<PancakeDayData_Filter>;
 };
 
-
 export type SubscriptionPoolArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionPool5MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPool5MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11883,13 +11716,11 @@ export type SubscriptionPool5MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool5MinuteCandleData_Filter>;
 };
 
-
 export type SubscriptionPool15MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPool15MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11901,13 +11732,11 @@ export type SubscriptionPool15MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool15MinuteCandleData_Filter>;
 };
 
-
 export type SubscriptionPool30MinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPool30MinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11919,13 +11748,11 @@ export type SubscriptionPool30MinuteCandleDatasArgs = {
   where?: InputMaybe<Pool30MinuteCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolDayCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolDayCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11937,13 +11764,11 @@ export type SubscriptionPoolDayCandleDatasArgs = {
   where?: InputMaybe<PoolDayCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11955,13 +11780,11 @@ export type SubscriptionPoolDayDatasArgs = {
   where?: InputMaybe<PoolDayData_Filter>;
 };
 
-
 export type SubscriptionPoolHourCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolHourCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11973,13 +11796,11 @@ export type SubscriptionPoolHourCandleDatasArgs = {
   where?: InputMaybe<PoolHourCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -11991,13 +11812,11 @@ export type SubscriptionPoolHourDatasArgs = {
   where?: InputMaybe<PoolHourData_Filter>;
 };
 
-
 export type SubscriptionPoolMinuteCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolMinuteCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12009,13 +11828,11 @@ export type SubscriptionPoolMinuteCandleDatasArgs = {
   where?: InputMaybe<PoolMinuteCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolMonthCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolMonthCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12027,13 +11844,11 @@ export type SubscriptionPoolMonthCandleDatasArgs = {
   where?: InputMaybe<PoolMonthCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolWeekCandleDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPoolWeekCandleDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12045,7 +11860,6 @@ export type SubscriptionPoolWeekCandleDatasArgs = {
   where?: InputMaybe<PoolWeekCandleData_Filter>;
 };
 
-
 export type SubscriptionPoolsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -12056,20 +11870,17 @@ export type SubscriptionPoolsArgs = {
   where?: InputMaybe<Pool_Filter>;
 };
 
-
 export type SubscriptionPositionArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionPositionSnapshotArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionPositionSnapshotsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12081,7 +11892,6 @@ export type SubscriptionPositionSnapshotsArgs = {
   where?: InputMaybe<PositionSnapshot_Filter>;
 };
 
-
 export type SubscriptionPositionsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -12091,7 +11901,6 @@ export type SubscriptionPositionsArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Position_Filter>;
 };
-
 
 export type SubscriptionRoyaltiesRegistriesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12103,20 +11912,17 @@ export type SubscriptionRoyaltiesRegistriesArgs = {
   where?: InputMaybe<RoyaltiesRegistry_Filter>;
 };
 
-
 export type SubscriptionRoyaltiesRegistryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionStakingArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionStakingsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12128,13 +11934,11 @@ export type SubscriptionStakingsArgs = {
   where?: InputMaybe<Staking_Filter>;
 };
 
-
 export type SubscriptionSwapArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionSwapsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12146,20 +11950,17 @@ export type SubscriptionSwapsArgs = {
   where?: InputMaybe<Swap_Filter>;
 };
 
-
 export type SubscriptionTickArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionTickDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTickDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12171,13 +11972,11 @@ export type SubscriptionTickDayDatasArgs = {
   where?: InputMaybe<TickDayData_Filter>;
 };
 
-
 export type SubscriptionTickHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTickHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12189,7 +11988,6 @@ export type SubscriptionTickHourDatasArgs = {
   where?: InputMaybe<TickHourData_Filter>;
 };
 
-
 export type SubscriptionTicksArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -12200,20 +11998,17 @@ export type SubscriptionTicksArgs = {
   where?: InputMaybe<Tick_Filter>;
 };
 
-
 export type SubscriptionTokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionTokenDayDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTokenDayDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12225,13 +12020,11 @@ export type SubscriptionTokenDayDatasArgs = {
   where?: InputMaybe<TokenDayData_Filter>;
 };
 
-
 export type SubscriptionTokenHourDataArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTokenHourDatasArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12243,7 +12036,6 @@ export type SubscriptionTokenHourDatasArgs = {
   where?: InputMaybe<TokenHourData_Filter>;
 };
 
-
 export type SubscriptionTokensArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -12254,20 +12046,17 @@ export type SubscriptionTokensArgs = {
   where?: InputMaybe<Token_Filter>;
 };
 
-
 export type SubscriptionTransactionArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionTransactionCountArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTransactionCountsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12279,7 +12068,6 @@ export type SubscriptionTransactionCountsArgs = {
   where?: InputMaybe<TransactionCount_Filter>;
 };
 
-
 export type SubscriptionTransactionsArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -12290,13 +12078,11 @@ export type SubscriptionTransactionsArgs = {
   where?: InputMaybe<Transaction_Filter>;
 };
 
-
 export type SubscriptionTransationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionTransationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12308,13 +12094,11 @@ export type SubscriptionTransationsArgs = {
   where?: InputMaybe<Transation_Filter>;
 };
 
-
 export type SubscriptionValidationArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionValidationsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12326,13 +12110,11 @@ export type SubscriptionValidationsArgs = {
   where?: InputMaybe<Validation_Filter>;
 };
 
-
 export type SubscriptionValidatorArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionValidatorsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12344,13 +12126,11 @@ export type SubscriptionValidatorsArgs = {
   where?: InputMaybe<Validator_Filter>;
 };
 
-
 export type SubscriptionWithdrawalRequestArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionWithdrawalRequestsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -12660,7 +12440,7 @@ export enum Swap_OrderBy {
   TransactionGasPrice = 'transaction__gasPrice',
   TransactionGasUsed = 'transaction__gasUsed',
   TransactionId = 'transaction__id',
-  TransactionTimestamp = 'transaction__timestamp'
+  TransactionTimestamp = 'transaction__timestamp',
 }
 
 export type Tick = {
@@ -12895,7 +12675,7 @@ export enum TickDayData_OrderBy {
   TickVolumeUsd = 'tick__volumeUSD',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type TickHourData = {
@@ -13085,7 +12865,7 @@ export enum TickHourData_OrderBy {
   TickVolumeUsd = 'tick__volumeUSD',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Tick_Filter = {
@@ -13099,7 +12879,9 @@ export type Tick_Filter = {
   collectedFeesToken0_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken0_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken0_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken0_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesToken1?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -13107,7 +12889,9 @@ export type Tick_Filter = {
   collectedFeesToken1_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesToken1_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  collectedFeesToken1_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  collectedFeesToken1_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   collectedFeesUSD?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   collectedFeesUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
@@ -13339,7 +13123,7 @@ export enum Tick_OrderBy {
   UntrackedVolumeUsd = 'untrackedVolumeUSD',
   VolumeToken0 = 'volumeToken0',
   VolumeToken1 = 'volumeToken1',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Token = {
@@ -13366,7 +13150,6 @@ export type Token = {
   whitelistPools: Array<Pool>;
 };
 
-
 export type TokenTokenDayDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<TokenDayData_OrderBy>;
@@ -13375,7 +13158,6 @@ export type TokenTokenDayDataArgs = {
   where?: InputMaybe<TokenDayData_Filter>;
 };
 
-
 export type TokenTokenHourDataArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<TokenHourData_OrderBy>;
@@ -13383,7 +13165,6 @@ export type TokenTokenHourDataArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<TokenHourData_Filter>;
 };
-
 
 export type TokenWhitelistPoolsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -13518,7 +13299,9 @@ export type TokenDayData_Filter = {
   totalValueLockedUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLocked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
@@ -13584,7 +13367,7 @@ export enum TokenDayData_OrderBy {
   TotalValueLockedUsd = 'totalValueLockedUSD',
   UntrackedVolumeUsd = 'untrackedVolumeUSD',
   Volume = 'volume',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type TokenHourData = {
@@ -13712,7 +13495,9 @@ export type TokenHourData_Filter = {
   totalValueLockedUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLocked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
@@ -13778,7 +13563,7 @@ export enum TokenHourData_OrderBy {
   TotalValueLockedUsd = 'totalValueLockedUSD',
   UntrackedVolumeUsd = 'untrackedVolumeUSD',
   Volume = 'volume',
-  VolumeUsd = 'volumeUSD'
+  VolumeUsd = 'volumeUSD',
 }
 
 export type Token_Filter = {
@@ -13897,18 +13682,24 @@ export type Token_Filter = {
   totalValueLockedUSDUntracked?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSDUntracked_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSDUntracked_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSDUntracked_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSDUntracked_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLockedUSD_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
   totalValueLockedUSD_lt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_lte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLockedUSD_not?: InputMaybe<Scalars['BigDecimal']['input']>;
-  totalValueLockedUSD_not_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
+  totalValueLockedUSD_not_in?: InputMaybe<
+    Array<Scalars['BigDecimal']['input']>
+  >;
   totalValueLocked_gt?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_gte?: InputMaybe<Scalars['BigDecimal']['input']>;
   totalValueLocked_in?: InputMaybe<Array<Scalars['BigDecimal']['input']>>;
@@ -13951,10 +13742,14 @@ export type Token_Filter = {
   whitelistPools?: InputMaybe<Array<Scalars['String']['input']>>;
   whitelistPools_?: InputMaybe<Pool_Filter>;
   whitelistPools_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  whitelistPools_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
+  whitelistPools_contains_nocase?: InputMaybe<
+    Array<Scalars['String']['input']>
+  >;
   whitelistPools_not?: InputMaybe<Array<Scalars['String']['input']>>;
   whitelistPools_not_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  whitelistPools_not_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
+  whitelistPools_not_contains_nocase?: InputMaybe<
+    Array<Scalars['String']['input']>
+  >;
 };
 
 export enum Token_OrderBy {
@@ -13977,7 +13772,7 @@ export enum Token_OrderBy {
   UntrackedVolumeUsd = 'untrackedVolumeUSD',
   Volume = 'volume',
   VolumeUsd = 'volumeUSD',
-  WhitelistPools = 'whitelistPools'
+  WhitelistPools = 'whitelistPools',
 }
 
 export type Transaction = {
@@ -13995,7 +13790,6 @@ export type Transaction = {
   timestamp: Scalars['BigInt']['output'];
 };
 
-
 export type TransactionBurnsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Burn_OrderBy>;
@@ -14003,7 +13797,6 @@ export type TransactionBurnsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Burn_Filter>;
 };
-
 
 export type TransactionCollectsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -14013,7 +13806,6 @@ export type TransactionCollectsArgs = {
   where?: InputMaybe<Collect_Filter>;
 };
 
-
 export type TransactionEventsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Event_OrderBy>;
@@ -14021,7 +13813,6 @@ export type TransactionEventsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Event_Filter>;
 };
-
 
 export type TransactionFlashedArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -14031,7 +13822,6 @@ export type TransactionFlashedArgs = {
   where?: InputMaybe<Flash_Filter>;
 };
 
-
 export type TransactionMintsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Mint_OrderBy>;
@@ -14039,7 +13829,6 @@ export type TransactionMintsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Mint_Filter>;
 };
-
 
 export type TransactionSwapsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -14080,7 +13869,7 @@ export type TransactionCount_Filter = {
 
 export enum TransactionCount_OrderBy {
   Count = 'count',
-  Id = 'id'
+  Id = 'id',
 }
 
 export type Transaction_Filter = {
@@ -14147,7 +13936,7 @@ export enum Transaction_OrderBy {
   Id = 'id',
   Mints = 'mints',
   Swaps = 'swaps',
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type Transation = {
@@ -14349,7 +14138,7 @@ export enum Transation_OrderBy {
   UnlockedAmount = 'unlockedAmount',
   ValidatorId = 'validatorId',
   WithdrawalAmount = 'withdrawalAmount',
-  WrId = 'wrID'
+  WrId = 'wrID',
 }
 
 export type Validation = {
@@ -14443,7 +14232,7 @@ export enum Validation_OrderBy {
   ValidatorTotalDelegator = 'validator__totalDelegator',
   ValidatorTotalLockStake = 'validator__totalLockStake',
   ValidatorTotalStakedAmount = 'validator__totalStakedAmount',
-  ValidatorValidatorId = 'validator__validatorId'
+  ValidatorValidatorId = 'validator__validatorId',
 }
 
 export type Validator = {
@@ -14467,7 +14256,6 @@ export type Validator = {
   totalStakedAmount: Scalars['BigInt']['output'];
   validatorId: Scalars['BigInt']['output'];
 };
-
 
 export type ValidatorDelegationsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -14529,7 +14317,9 @@ export type Validator_Filter = {
   delegations_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
   delegations_not?: InputMaybe<Array<Scalars['String']['input']>>;
   delegations_not_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  delegations_not_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
+  delegations_not_contains_nocase?: InputMaybe<
+    Array<Scalars['String']['input']>
+  >;
   downTime?: InputMaybe<Scalars['BigInt']['input']>;
   downTime_gt?: InputMaybe<Scalars['BigInt']['input']>;
   downTime_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -14649,7 +14439,7 @@ export enum Validator_OrderBy {
   TotalDelegator = 'totalDelegator',
   TotalLockStake = 'totalLockStake',
   TotalStakedAmount = 'totalStakedAmount',
-  ValidatorId = 'validatorId'
+  ValidatorId = 'validatorId',
 }
 
 export type WithdrawalRequest = {
@@ -14769,7 +14559,7 @@ export enum WithdrawalRequest_OrderBy {
   WithdrawHash = 'withdrawHash',
   WithdrawTime = 'withdrawTime',
   WithdrawalAmount = 'withdrawalAmount',
-  WrId = 'wrID'
+  WrId = 'wrID',
 }
 
 export type _Block_ = {
@@ -14803,43 +14593,58 @@ export enum _SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny'
+  Deny = 'deny',
 }
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >;
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -14847,42 +14652,127 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-
 /** Mapping of interface types */
-export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  Event: ( Omit<Erc721Transfer, 'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'> & { contract: _RefType['ERC721Contract'], emitter: _RefType['Account'], from: _RefType['Account'], to: _RefType['Account'], token: _RefType['ERC721Token'], transaction: _RefType['Transaction'] } ) | ( Omit<Erc1155Transfer, 'contract' | 'emitter' | 'from' | 'fromBalance' | 'to' | 'toBalance' | 'token' | 'transaction'> & { contract: _RefType['ERC1155Contract'], emitter: _RefType['Account'], from?: Maybe<_RefType['Account']>, fromBalance?: Maybe<_RefType['ERC1155Balance']>, to?: Maybe<_RefType['Account']>, toBalance?: Maybe<_RefType['ERC1155Balance']>, token: _RefType['ERC1155Token'], transaction: _RefType['Transaction'] } );
-};
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> =
+  {
+    Event:
+      | (Omit<
+          Erc721Transfer,
+          'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'
+        > & {
+          contract: _RefType['ERC721Contract'];
+          emitter: _RefType['Account'];
+          from: _RefType['Account'];
+          to: _RefType['Account'];
+          token: _RefType['ERC721Token'];
+          transaction: _RefType['Transaction'];
+        })
+      | (Omit<
+          Erc1155Transfer,
+          | 'contract'
+          | 'emitter'
+          | 'from'
+          | 'fromBalance'
+          | 'to'
+          | 'toBalance'
+          | 'token'
+          | 'transaction'
+        > & {
+          contract: _RefType['ERC1155Contract'];
+          emitter: _RefType['Account'];
+          from?: Maybe<_RefType['Account']>;
+          fromBalance?: Maybe<_RefType['ERC1155Balance']>;
+          to?: Maybe<_RefType['Account']>;
+          toBalance?: Maybe<_RefType['ERC1155Balance']>;
+          token: _RefType['ERC1155Token'];
+          transaction: _RefType['Transaction'];
+        });
+  };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Account: ResolverTypeWrapper<Omit<Account, 'ERC721tokens' | 'ERC721transferFromEvent' | 'ERC721transferToEvent' | 'ERC1155balances' | 'ERC1155transferFromEvent' | 'ERC1155transferToEvent' | 'OnSaleStatus1155' | 'OwnedTokens' | 'asERC721' | 'asERC1155' | 'events'> & { ERC721tokens: Array<ResolversTypes['ERC721Token']>, ERC721transferFromEvent: Array<ResolversTypes['ERC721Transfer']>, ERC721transferToEvent: Array<ResolversTypes['ERC721Transfer']>, ERC1155balances: Array<ResolversTypes['ERC1155Balance']>, ERC1155transferFromEvent: Array<ResolversTypes['ERC1155Transfer']>, ERC1155transferToEvent: Array<ResolversTypes['ERC1155Transfer']>, OnSaleStatus1155?: Maybe<Array<ResolversTypes['OnSaleStatus1155']>>, OwnedTokens?: Maybe<Array<ResolversTypes['OwnedTokenCount']>>, asERC721?: Maybe<ResolversTypes['ERC721Contract']>, asERC1155?: Maybe<ResolversTypes['ERC1155Contract']>, events: Array<ResolversTypes['Event']> }>;
-  AccountCollectionOwnership: ResolverTypeWrapper<Omit<AccountCollectionOwnership, 'account'> & { account: ResolversTypes['Account'] }>;
+  Account: ResolverTypeWrapper<
+    Omit<
+      Account,
+      | 'ERC721tokens'
+      | 'ERC721transferFromEvent'
+      | 'ERC721transferToEvent'
+      | 'ERC1155balances'
+      | 'ERC1155transferFromEvent'
+      | 'ERC1155transferToEvent'
+      | 'OnSaleStatus1155'
+      | 'OwnedTokens'
+      | 'asERC721'
+      | 'asERC1155'
+      | 'events'
+    > & {
+      ERC721tokens: Array<ResolversTypes['ERC721Token']>;
+      ERC721transferFromEvent: Array<ResolversTypes['ERC721Transfer']>;
+      ERC721transferToEvent: Array<ResolversTypes['ERC721Transfer']>;
+      ERC1155balances: Array<ResolversTypes['ERC1155Balance']>;
+      ERC1155transferFromEvent: Array<ResolversTypes['ERC1155Transfer']>;
+      ERC1155transferToEvent: Array<ResolversTypes['ERC1155Transfer']>;
+      OnSaleStatus1155?: Maybe<Array<ResolversTypes['OnSaleStatus1155']>>;
+      OwnedTokens?: Maybe<Array<ResolversTypes['OwnedTokenCount']>>;
+      asERC721?: Maybe<ResolversTypes['ERC721Contract']>;
+      asERC1155?: Maybe<ResolversTypes['ERC1155Contract']>;
+      events: Array<ResolversTypes['Event']>;
+    }
+  >;
+  AccountCollectionOwnership: ResolverTypeWrapper<
+    Omit<AccountCollectionOwnership, 'account'> & {
+      account: ResolversTypes['Account'];
+    }
+  >;
   AccountCollectionOwnership_filter: AccountCollectionOwnership_Filter;
   AccountCollectionOwnership_orderBy: AccountCollectionOwnership_OrderBy;
   Account_filter: Account_Filter;
@@ -14899,18 +14789,29 @@ export type ResolversTypes = {
   Bundle: ResolverTypeWrapper<Bundle>;
   Bundle_filter: Bundle_Filter;
   Bundle_orderBy: Bundle_OrderBy;
-  Burn: ResolverTypeWrapper<Omit<Burn, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
+  Burn: ResolverTypeWrapper<
+    Omit<Burn, 'transaction'> & { transaction: ResolversTypes['Transaction'] }
+  >;
   Burn_filter: Burn_Filter;
   Burn_orderBy: Burn_OrderBy;
   Bytes: ResolverTypeWrapper<Scalars['Bytes']['output']>;
-  Collect: ResolverTypeWrapper<Omit<Collect, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
+  Collect: ResolverTypeWrapper<
+    Omit<Collect, 'transaction'> & {
+      transaction: ResolversTypes['Transaction'];
+    }
+  >;
   Collect_filter: Collect_Filter;
   Collect_orderBy: Collect_OrderBy;
   Contract: ResolverTypeWrapper<Contract>;
   ContractType: ContractType;
   Contract_filter: Contract_Filter;
   Contract_orderBy: Contract_OrderBy;
-  Creator: ResolverTypeWrapper<Omit<Creator, 'token721' | 'token1155'> & { token721?: Maybe<Array<ResolversTypes['ERC721Creator']>>, token1155?: Maybe<Array<ResolversTypes['ERC1155Creator']>> }>;
+  Creator: ResolverTypeWrapper<
+    Omit<Creator, 'token721' | 'token1155'> & {
+      token721?: Maybe<Array<ResolversTypes['ERC721Creator']>>;
+      token1155?: Maybe<Array<ResolversTypes['ERC1155Creator']>>;
+    }
+  >;
   Creator_filter: Creator_Filter;
   Creator_orderBy: Creator_OrderBy;
   DealType: DealType;
@@ -14920,31 +14821,120 @@ export type ResolversTypes = {
   Delegator: ResolverTypeWrapper<Delegator>;
   Delegator_filter: Delegator_Filter;
   Delegator_orderBy: Delegator_OrderBy;
-  ERC721Contract: ResolverTypeWrapper<Omit<Erc721Contract, 'asAccount' | 'tokens' | 'transfers'> & { asAccount: ResolversTypes['Account'], tokens: Array<ResolversTypes['ERC721Token']>, transfers: Array<ResolversTypes['ERC721Transfer']> }>;
+  ERC721Contract: ResolverTypeWrapper<
+    Omit<Erc721Contract, 'asAccount' | 'tokens' | 'transfers'> & {
+      asAccount: ResolversTypes['Account'];
+      tokens: Array<ResolversTypes['ERC721Token']>;
+      transfers: Array<ResolversTypes['ERC721Transfer']>;
+    }
+  >;
   ERC721Contract_filter: Erc721Contract_Filter;
   ERC721Contract_orderBy: Erc721Contract_OrderBy;
-  ERC721Creator: ResolverTypeWrapper<Omit<Erc721Creator, 'collection' | 'creator'> & { collection: ResolversTypes['ERC721Token'], creator: ResolversTypes['Creator'] }>;
+  ERC721Creator: ResolverTypeWrapper<
+    Omit<Erc721Creator, 'collection' | 'creator'> & {
+      collection: ResolversTypes['ERC721Token'];
+      creator: ResolversTypes['Creator'];
+    }
+  >;
   ERC721Creator_filter: Erc721Creator_Filter;
   ERC721Creator_orderBy: Erc721Creator_OrderBy;
-  ERC721Token: ResolverTypeWrapper<Omit<Erc721Token, 'approval' | 'contract' | 'creators' | 'owner' | 'transfers'> & { approval: ResolversTypes['Account'], contract: ResolversTypes['ERC721Contract'], creators: Array<ResolversTypes['ERC721Creator']>, owner: ResolversTypes['Account'], transfers: Array<ResolversTypes['ERC721Transfer']> }>;
+  ERC721Token: ResolverTypeWrapper<
+    Omit<
+      Erc721Token,
+      'approval' | 'contract' | 'creators' | 'owner' | 'transfers'
+    > & {
+      approval: ResolversTypes['Account'];
+      contract: ResolversTypes['ERC721Contract'];
+      creators: Array<ResolversTypes['ERC721Creator']>;
+      owner: ResolversTypes['Account'];
+      transfers: Array<ResolversTypes['ERC721Transfer']>;
+    }
+  >;
   ERC721Token_filter: Erc721Token_Filter;
   ERC721Token_orderBy: Erc721Token_OrderBy;
-  ERC721Transfer: ResolverTypeWrapper<Omit<Erc721Transfer, 'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'> & { contract: ResolversTypes['ERC721Contract'], emitter: ResolversTypes['Account'], from: ResolversTypes['Account'], to: ResolversTypes['Account'], token: ResolversTypes['ERC721Token'], transaction: ResolversTypes['Transaction'] }>;
+  ERC721Transfer: ResolverTypeWrapper<
+    Omit<
+      Erc721Transfer,
+      'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'
+    > & {
+      contract: ResolversTypes['ERC721Contract'];
+      emitter: ResolversTypes['Account'];
+      from: ResolversTypes['Account'];
+      to: ResolversTypes['Account'];
+      token: ResolversTypes['ERC721Token'];
+      transaction: ResolversTypes['Transaction'];
+    }
+  >;
   ERC721Transfer_filter: Erc721Transfer_Filter;
   ERC721Transfer_orderBy: Erc721Transfer_OrderBy;
-  ERC1155Balance: ResolverTypeWrapper<Omit<Erc1155Balance, 'account' | 'contract' | 'token' | 'transferFromEvent' | 'transferToEvent'> & { account?: Maybe<ResolversTypes['Account']>, contract?: Maybe<ResolversTypes['ERC1155Contract']>, token: ResolversTypes['ERC1155Token'], transferFromEvent: Array<ResolversTypes['ERC1155Transfer']>, transferToEvent: Array<ResolversTypes['ERC1155Transfer']> }>;
+  ERC1155Balance: ResolverTypeWrapper<
+    Omit<
+      Erc1155Balance,
+      'account' | 'contract' | 'token' | 'transferFromEvent' | 'transferToEvent'
+    > & {
+      account?: Maybe<ResolversTypes['Account']>;
+      contract?: Maybe<ResolversTypes['ERC1155Contract']>;
+      token: ResolversTypes['ERC1155Token'];
+      transferFromEvent: Array<ResolversTypes['ERC1155Transfer']>;
+      transferToEvent: Array<ResolversTypes['ERC1155Transfer']>;
+    }
+  >;
   ERC1155Balance_filter: Erc1155Balance_Filter;
   ERC1155Balance_orderBy: Erc1155Balance_OrderBy;
-  ERC1155Contract: ResolverTypeWrapper<Omit<Erc1155Contract, 'asAccount' | 'balances' | 'tokens' | 'transfers'> & { asAccount: ResolversTypes['Account'], balances: Array<ResolversTypes['ERC1155Balance']>, tokens: Array<ResolversTypes['ERC1155Token']>, transfers: Array<ResolversTypes['ERC1155Transfer']> }>;
+  ERC1155Contract: ResolverTypeWrapper<
+    Omit<Erc1155Contract, 'asAccount' | 'balances' | 'tokens' | 'transfers'> & {
+      asAccount: ResolversTypes['Account'];
+      balances: Array<ResolversTypes['ERC1155Balance']>;
+      tokens: Array<ResolversTypes['ERC1155Token']>;
+      transfers: Array<ResolversTypes['ERC1155Transfer']>;
+    }
+  >;
   ERC1155Contract_filter: Erc1155Contract_Filter;
   ERC1155Contract_orderBy: Erc1155Contract_OrderBy;
-  ERC1155Creator: ResolverTypeWrapper<Omit<Erc1155Creator, 'collection' | 'creator'> & { collection: ResolversTypes['ERC1155Token'], creator: ResolversTypes['Creator'] }>;
+  ERC1155Creator: ResolverTypeWrapper<
+    Omit<Erc1155Creator, 'collection' | 'creator'> & {
+      collection: ResolversTypes['ERC1155Token'];
+      creator: ResolversTypes['Creator'];
+    }
+  >;
   ERC1155Creator_filter: Erc1155Creator_Filter;
   ERC1155Creator_orderBy: Erc1155Creator_OrderBy;
-  ERC1155Token: ResolverTypeWrapper<Omit<Erc1155Token, 'balances' | 'contract' | 'creators' | 'totalSupply' | 'transfers'> & { balances: Array<ResolversTypes['ERC1155Balance']>, contract: ResolversTypes['ERC1155Contract'], creators: Array<ResolversTypes['ERC1155Creator']>, totalSupply: ResolversTypes['ERC1155Balance'], transfers: Array<ResolversTypes['ERC1155Transfer']> }>;
+  ERC1155Token: ResolverTypeWrapper<
+    Omit<
+      Erc1155Token,
+      'balances' | 'contract' | 'creators' | 'totalSupply' | 'transfers'
+    > & {
+      balances: Array<ResolversTypes['ERC1155Balance']>;
+      contract: ResolversTypes['ERC1155Contract'];
+      creators: Array<ResolversTypes['ERC1155Creator']>;
+      totalSupply: ResolversTypes['ERC1155Balance'];
+      transfers: Array<ResolversTypes['ERC1155Transfer']>;
+    }
+  >;
   ERC1155Token_filter: Erc1155Token_Filter;
   ERC1155Token_orderBy: Erc1155Token_OrderBy;
-  ERC1155Transfer: ResolverTypeWrapper<Omit<Erc1155Transfer, 'contract' | 'emitter' | 'from' | 'fromBalance' | 'to' | 'toBalance' | 'token' | 'transaction'> & { contract: ResolversTypes['ERC1155Contract'], emitter: ResolversTypes['Account'], from?: Maybe<ResolversTypes['Account']>, fromBalance?: Maybe<ResolversTypes['ERC1155Balance']>, to?: Maybe<ResolversTypes['Account']>, toBalance?: Maybe<ResolversTypes['ERC1155Balance']>, token: ResolversTypes['ERC1155Token'], transaction: ResolversTypes['Transaction'] }>;
+  ERC1155Transfer: ResolverTypeWrapper<
+    Omit<
+      Erc1155Transfer,
+      | 'contract'
+      | 'emitter'
+      | 'from'
+      | 'fromBalance'
+      | 'to'
+      | 'toBalance'
+      | 'token'
+      | 'transaction'
+    > & {
+      contract: ResolversTypes['ERC1155Contract'];
+      emitter: ResolversTypes['Account'];
+      from?: Maybe<ResolversTypes['Account']>;
+      fromBalance?: Maybe<ResolversTypes['ERC1155Balance']>;
+      to?: Maybe<ResolversTypes['Account']>;
+      toBalance?: Maybe<ResolversTypes['ERC1155Balance']>;
+      token: ResolversTypes['ERC1155Token'];
+      transaction: ResolversTypes['Transaction'];
+    }
+  >;
   ERC1155Transfer_filter: Erc1155Transfer_Filter;
   ERC1155Transfer_orderBy: Erc1155Transfer_OrderBy;
   Epoch: ResolverTypeWrapper<Epoch>;
@@ -14957,7 +14947,9 @@ export type ResolversTypes = {
   Factory: ResolverTypeWrapper<Factory>;
   Factory_filter: Factory_Filter;
   Factory_orderBy: Factory_OrderBy;
-  Flash: ResolverTypeWrapper<Omit<Flash, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
+  Flash: ResolverTypeWrapper<
+    Omit<Flash, 'transaction'> & { transaction: ResolversTypes['Transaction'] }
+  >;
   Flash_filter: Flash_Filter;
   Flash_orderBy: Flash_OrderBy;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -14966,10 +14958,18 @@ export type ResolversTypes = {
   LockedUp: ResolverTypeWrapper<LockedUp>;
   LockedUp_filter: LockedUp_Filter;
   LockedUp_orderBy: LockedUp_OrderBy;
-  MarketEvent721: ResolverTypeWrapper<Omit<MarketEvent721, 'nftId'> & { nftId?: Maybe<ResolversTypes['ERC721Token']> }>;
+  MarketEvent721: ResolverTypeWrapper<
+    Omit<MarketEvent721, 'nftId'> & {
+      nftId?: Maybe<ResolversTypes['ERC721Token']>;
+    }
+  >;
   MarketEvent721_filter: MarketEvent721_Filter;
   MarketEvent721_orderBy: MarketEvent721_OrderBy;
-  MarketEvent1155: ResolverTypeWrapper<Omit<MarketEvent1155, 'nftId'> & { nftId?: Maybe<ResolversTypes['ERC1155Token']> }>;
+  MarketEvent1155: ResolverTypeWrapper<
+    Omit<MarketEvent1155, 'nftId'> & {
+      nftId?: Maybe<ResolversTypes['ERC1155Token']>;
+    }
+  >;
   MarketEvent1155_filter: MarketEvent1155_Filter;
   MarketEvent1155_orderBy: MarketEvent1155_OrderBy;
   MarketFee: ResolverTypeWrapper<MarketFee>;
@@ -14978,23 +14978,39 @@ export type ResolversTypes = {
   MarketVolume: ResolverTypeWrapper<MarketVolume>;
   MarketVolume_filter: MarketVolume_Filter;
   MarketVolume_orderBy: MarketVolume_OrderBy;
-  Mint: ResolverTypeWrapper<Omit<Mint, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
+  Mint: ResolverTypeWrapper<
+    Omit<Mint, 'transaction'> & { transaction: ResolversTypes['Transaction'] }
+  >;
   Mint_filter: Mint_Filter;
   Mint_orderBy: Mint_OrderBy;
-  OnSaleStatus1155: ResolverTypeWrapper<Omit<OnSaleStatus1155, 'owner'> & { owner: ResolversTypes['Account'] }>;
+  OnSaleStatus1155: ResolverTypeWrapper<
+    Omit<OnSaleStatus1155, 'owner'> & { owner: ResolversTypes['Account'] }
+  >;
   OnSaleStatus1155_filter: OnSaleStatus1155_Filter;
   OnSaleStatus1155_orderBy: OnSaleStatus1155_OrderBy;
   Operation: Operation;
-  Order: ResolverTypeWrapper<Omit<Order, 'maker' | 'taker'> & { maker: ResolversTypes['Account'], taker?: Maybe<ResolversTypes['Account']> }>;
+  Order: ResolverTypeWrapper<
+    Omit<Order, 'maker' | 'taker'> & {
+      maker: ResolversTypes['Account'];
+      taker?: Maybe<ResolversTypes['Account']>;
+    }
+  >;
   OrderDirection: OrderDirection;
   OrderStatus: OrderStatus;
   OrderStatusTransfer: OrderStatusTransfer;
-  OrderTransfer: ResolverTypeWrapper<Omit<OrderTransfer, 'maker' | 'taker'> & { maker: ResolversTypes['Account'], taker?: Maybe<ResolversTypes['Account']> }>;
+  OrderTransfer: ResolverTypeWrapper<
+    Omit<OrderTransfer, 'maker' | 'taker'> & {
+      maker: ResolversTypes['Account'];
+      taker?: Maybe<ResolversTypes['Account']>;
+    }
+  >;
   OrderTransfer_filter: OrderTransfer_Filter;
   OrderTransfer_orderBy: OrderTransfer_OrderBy;
   Order_filter: Order_Filter;
   Order_orderBy: Order_OrderBy;
-  OwnedTokenCount: ResolverTypeWrapper<Omit<OwnedTokenCount, 'owner'> & { owner: ResolversTypes['Account'] }>;
+  OwnedTokenCount: ResolverTypeWrapper<
+    Omit<OwnedTokenCount, 'owner'> & { owner: ResolversTypes['Account'] }
+  >;
   OwnedTokenCount_filter: OwnedTokenCount_Filter;
   OwnedTokenCount_orderBy: OwnedTokenCount_OrderBy;
   OwnerContract: ResolverTypeWrapper<OwnerContract>;
@@ -15036,8 +15052,17 @@ export type ResolversTypes = {
   PoolWeekCandleData_orderBy: PoolWeekCandleData_OrderBy;
   Pool_filter: Pool_Filter;
   Pool_orderBy: Pool_OrderBy;
-  Position: ResolverTypeWrapper<Omit<Position, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
-  PositionSnapshot: ResolverTypeWrapper<Omit<PositionSnapshot, 'position' | 'transaction'> & { position: ResolversTypes['Position'], transaction: ResolversTypes['Transaction'] }>;
+  Position: ResolverTypeWrapper<
+    Omit<Position, 'transaction'> & {
+      transaction: ResolversTypes['Transaction'];
+    }
+  >;
+  PositionSnapshot: ResolverTypeWrapper<
+    Omit<PositionSnapshot, 'position' | 'transaction'> & {
+      position: ResolversTypes['Position'];
+      transaction: ResolversTypes['Transaction'];
+    }
+  >;
   PositionSnapshot_filter: PositionSnapshot_Filter;
   PositionSnapshot_orderBy: PositionSnapshot_OrderBy;
   Position_filter: Position_Filter;
@@ -15052,7 +15077,9 @@ export type ResolversTypes = {
   Staking_orderBy: Staking_OrderBy;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subscription: ResolverTypeWrapper<{}>;
-  Swap: ResolverTypeWrapper<Omit<Swap, 'transaction'> & { transaction: ResolversTypes['Transaction'] }>;
+  Swap: ResolverTypeWrapper<
+    Omit<Swap, 'transaction'> & { transaction: ResolversTypes['Transaction'] }
+  >;
   Swap_filter: Swap_Filter;
   Swap_orderBy: Swap_OrderBy;
   Tick: ResolverTypeWrapper<Tick>;
@@ -15073,7 +15100,12 @@ export type ResolversTypes = {
   TokenHourData_orderBy: TokenHourData_OrderBy;
   Token_filter: Token_Filter;
   Token_orderBy: Token_OrderBy;
-  Transaction: ResolverTypeWrapper<Omit<Transaction, 'events' | 'flashed'> & { events: Array<ResolversTypes['Event']>, flashed: Array<Maybe<ResolversTypes['Flash']>> }>;
+  Transaction: ResolverTypeWrapper<
+    Omit<Transaction, 'events' | 'flashed'> & {
+      events: Array<ResolversTypes['Event']>;
+      flashed: Array<Maybe<ResolversTypes['Flash']>>;
+    }
+  >;
   TransactionCount: ResolverTypeWrapper<TransactionCount>;
   TransactionCount_filter: TransactionCount_Filter;
   TransactionCount_orderBy: TransactionCount_OrderBy;
@@ -15098,8 +15130,35 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Account: Omit<Account, 'ERC721tokens' | 'ERC721transferFromEvent' | 'ERC721transferToEvent' | 'ERC1155balances' | 'ERC1155transferFromEvent' | 'ERC1155transferToEvent' | 'OnSaleStatus1155' | 'OwnedTokens' | 'asERC721' | 'asERC1155' | 'events'> & { ERC721tokens: Array<ResolversParentTypes['ERC721Token']>, ERC721transferFromEvent: Array<ResolversParentTypes['ERC721Transfer']>, ERC721transferToEvent: Array<ResolversParentTypes['ERC721Transfer']>, ERC1155balances: Array<ResolversParentTypes['ERC1155Balance']>, ERC1155transferFromEvent: Array<ResolversParentTypes['ERC1155Transfer']>, ERC1155transferToEvent: Array<ResolversParentTypes['ERC1155Transfer']>, OnSaleStatus1155?: Maybe<Array<ResolversParentTypes['OnSaleStatus1155']>>, OwnedTokens?: Maybe<Array<ResolversParentTypes['OwnedTokenCount']>>, asERC721?: Maybe<ResolversParentTypes['ERC721Contract']>, asERC1155?: Maybe<ResolversParentTypes['ERC1155Contract']>, events: Array<ResolversParentTypes['Event']> };
-  AccountCollectionOwnership: Omit<AccountCollectionOwnership, 'account'> & { account: ResolversParentTypes['Account'] };
+  Account: Omit<
+    Account,
+    | 'ERC721tokens'
+    | 'ERC721transferFromEvent'
+    | 'ERC721transferToEvent'
+    | 'ERC1155balances'
+    | 'ERC1155transferFromEvent'
+    | 'ERC1155transferToEvent'
+    | 'OnSaleStatus1155'
+    | 'OwnedTokens'
+    | 'asERC721'
+    | 'asERC1155'
+    | 'events'
+  > & {
+    ERC721tokens: Array<ResolversParentTypes['ERC721Token']>;
+    ERC721transferFromEvent: Array<ResolversParentTypes['ERC721Transfer']>;
+    ERC721transferToEvent: Array<ResolversParentTypes['ERC721Transfer']>;
+    ERC1155balances: Array<ResolversParentTypes['ERC1155Balance']>;
+    ERC1155transferFromEvent: Array<ResolversParentTypes['ERC1155Transfer']>;
+    ERC1155transferToEvent: Array<ResolversParentTypes['ERC1155Transfer']>;
+    OnSaleStatus1155?: Maybe<Array<ResolversParentTypes['OnSaleStatus1155']>>;
+    OwnedTokens?: Maybe<Array<ResolversParentTypes['OwnedTokenCount']>>;
+    asERC721?: Maybe<ResolversParentTypes['ERC721Contract']>;
+    asERC1155?: Maybe<ResolversParentTypes['ERC1155Contract']>;
+    events: Array<ResolversParentTypes['Event']>;
+  };
+  AccountCollectionOwnership: Omit<AccountCollectionOwnership, 'account'> & {
+    account: ResolversParentTypes['Account'];
+  };
   AccountCollectionOwnership_filter: AccountCollectionOwnership_Filter;
   Account_filter: Account_Filter;
   BigDecimal: Scalars['BigDecimal']['output'];
@@ -15111,36 +15170,117 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Bundle: Bundle;
   Bundle_filter: Bundle_Filter;
-  Burn: Omit<Burn, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
+  Burn: Omit<Burn, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
   Burn_filter: Burn_Filter;
   Bytes: Scalars['Bytes']['output'];
-  Collect: Omit<Collect, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
+  Collect: Omit<Collect, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
   Collect_filter: Collect_Filter;
   Contract: Contract;
   Contract_filter: Contract_Filter;
-  Creator: Omit<Creator, 'token721' | 'token1155'> & { token721?: Maybe<Array<ResolversParentTypes['ERC721Creator']>>, token1155?: Maybe<Array<ResolversParentTypes['ERC1155Creator']>> };
+  Creator: Omit<Creator, 'token721' | 'token1155'> & {
+    token721?: Maybe<Array<ResolversParentTypes['ERC721Creator']>>;
+    token1155?: Maybe<Array<ResolversParentTypes['ERC1155Creator']>>;
+  };
   Creator_filter: Creator_Filter;
   Delegation: Delegation;
   Delegation_filter: Delegation_Filter;
   Delegator: Delegator;
   Delegator_filter: Delegator_Filter;
-  ERC721Contract: Omit<Erc721Contract, 'asAccount' | 'tokens' | 'transfers'> & { asAccount: ResolversParentTypes['Account'], tokens: Array<ResolversParentTypes['ERC721Token']>, transfers: Array<ResolversParentTypes['ERC721Transfer']> };
+  ERC721Contract: Omit<Erc721Contract, 'asAccount' | 'tokens' | 'transfers'> & {
+    asAccount: ResolversParentTypes['Account'];
+    tokens: Array<ResolversParentTypes['ERC721Token']>;
+    transfers: Array<ResolversParentTypes['ERC721Transfer']>;
+  };
   ERC721Contract_filter: Erc721Contract_Filter;
-  ERC721Creator: Omit<Erc721Creator, 'collection' | 'creator'> & { collection: ResolversParentTypes['ERC721Token'], creator: ResolversParentTypes['Creator'] };
+  ERC721Creator: Omit<Erc721Creator, 'collection' | 'creator'> & {
+    collection: ResolversParentTypes['ERC721Token'];
+    creator: ResolversParentTypes['Creator'];
+  };
   ERC721Creator_filter: Erc721Creator_Filter;
-  ERC721Token: Omit<Erc721Token, 'approval' | 'contract' | 'creators' | 'owner' | 'transfers'> & { approval: ResolversParentTypes['Account'], contract: ResolversParentTypes['ERC721Contract'], creators: Array<ResolversParentTypes['ERC721Creator']>, owner: ResolversParentTypes['Account'], transfers: Array<ResolversParentTypes['ERC721Transfer']> };
+  ERC721Token: Omit<
+    Erc721Token,
+    'approval' | 'contract' | 'creators' | 'owner' | 'transfers'
+  > & {
+    approval: ResolversParentTypes['Account'];
+    contract: ResolversParentTypes['ERC721Contract'];
+    creators: Array<ResolversParentTypes['ERC721Creator']>;
+    owner: ResolversParentTypes['Account'];
+    transfers: Array<ResolversParentTypes['ERC721Transfer']>;
+  };
   ERC721Token_filter: Erc721Token_Filter;
-  ERC721Transfer: Omit<Erc721Transfer, 'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'> & { contract: ResolversParentTypes['ERC721Contract'], emitter: ResolversParentTypes['Account'], from: ResolversParentTypes['Account'], to: ResolversParentTypes['Account'], token: ResolversParentTypes['ERC721Token'], transaction: ResolversParentTypes['Transaction'] };
+  ERC721Transfer: Omit<
+    Erc721Transfer,
+    'contract' | 'emitter' | 'from' | 'to' | 'token' | 'transaction'
+  > & {
+    contract: ResolversParentTypes['ERC721Contract'];
+    emitter: ResolversParentTypes['Account'];
+    from: ResolversParentTypes['Account'];
+    to: ResolversParentTypes['Account'];
+    token: ResolversParentTypes['ERC721Token'];
+    transaction: ResolversParentTypes['Transaction'];
+  };
   ERC721Transfer_filter: Erc721Transfer_Filter;
-  ERC1155Balance: Omit<Erc1155Balance, 'account' | 'contract' | 'token' | 'transferFromEvent' | 'transferToEvent'> & { account?: Maybe<ResolversParentTypes['Account']>, contract?: Maybe<ResolversParentTypes['ERC1155Contract']>, token: ResolversParentTypes['ERC1155Token'], transferFromEvent: Array<ResolversParentTypes['ERC1155Transfer']>, transferToEvent: Array<ResolversParentTypes['ERC1155Transfer']> };
+  ERC1155Balance: Omit<
+    Erc1155Balance,
+    'account' | 'contract' | 'token' | 'transferFromEvent' | 'transferToEvent'
+  > & {
+    account?: Maybe<ResolversParentTypes['Account']>;
+    contract?: Maybe<ResolversParentTypes['ERC1155Contract']>;
+    token: ResolversParentTypes['ERC1155Token'];
+    transferFromEvent: Array<ResolversParentTypes['ERC1155Transfer']>;
+    transferToEvent: Array<ResolversParentTypes['ERC1155Transfer']>;
+  };
   ERC1155Balance_filter: Erc1155Balance_Filter;
-  ERC1155Contract: Omit<Erc1155Contract, 'asAccount' | 'balances' | 'tokens' | 'transfers'> & { asAccount: ResolversParentTypes['Account'], balances: Array<ResolversParentTypes['ERC1155Balance']>, tokens: Array<ResolversParentTypes['ERC1155Token']>, transfers: Array<ResolversParentTypes['ERC1155Transfer']> };
+  ERC1155Contract: Omit<
+    Erc1155Contract,
+    'asAccount' | 'balances' | 'tokens' | 'transfers'
+  > & {
+    asAccount: ResolversParentTypes['Account'];
+    balances: Array<ResolversParentTypes['ERC1155Balance']>;
+    tokens: Array<ResolversParentTypes['ERC1155Token']>;
+    transfers: Array<ResolversParentTypes['ERC1155Transfer']>;
+  };
   ERC1155Contract_filter: Erc1155Contract_Filter;
-  ERC1155Creator: Omit<Erc1155Creator, 'collection' | 'creator'> & { collection: ResolversParentTypes['ERC1155Token'], creator: ResolversParentTypes['Creator'] };
+  ERC1155Creator: Omit<Erc1155Creator, 'collection' | 'creator'> & {
+    collection: ResolversParentTypes['ERC1155Token'];
+    creator: ResolversParentTypes['Creator'];
+  };
   ERC1155Creator_filter: Erc1155Creator_Filter;
-  ERC1155Token: Omit<Erc1155Token, 'balances' | 'contract' | 'creators' | 'totalSupply' | 'transfers'> & { balances: Array<ResolversParentTypes['ERC1155Balance']>, contract: ResolversParentTypes['ERC1155Contract'], creators: Array<ResolversParentTypes['ERC1155Creator']>, totalSupply: ResolversParentTypes['ERC1155Balance'], transfers: Array<ResolversParentTypes['ERC1155Transfer']> };
+  ERC1155Token: Omit<
+    Erc1155Token,
+    'balances' | 'contract' | 'creators' | 'totalSupply' | 'transfers'
+  > & {
+    balances: Array<ResolversParentTypes['ERC1155Balance']>;
+    contract: ResolversParentTypes['ERC1155Contract'];
+    creators: Array<ResolversParentTypes['ERC1155Creator']>;
+    totalSupply: ResolversParentTypes['ERC1155Balance'];
+    transfers: Array<ResolversParentTypes['ERC1155Transfer']>;
+  };
   ERC1155Token_filter: Erc1155Token_Filter;
-  ERC1155Transfer: Omit<Erc1155Transfer, 'contract' | 'emitter' | 'from' | 'fromBalance' | 'to' | 'toBalance' | 'token' | 'transaction'> & { contract: ResolversParentTypes['ERC1155Contract'], emitter: ResolversParentTypes['Account'], from?: Maybe<ResolversParentTypes['Account']>, fromBalance?: Maybe<ResolversParentTypes['ERC1155Balance']>, to?: Maybe<ResolversParentTypes['Account']>, toBalance?: Maybe<ResolversParentTypes['ERC1155Balance']>, token: ResolversParentTypes['ERC1155Token'], transaction: ResolversParentTypes['Transaction'] };
+  ERC1155Transfer: Omit<
+    Erc1155Transfer,
+    | 'contract'
+    | 'emitter'
+    | 'from'
+    | 'fromBalance'
+    | 'to'
+    | 'toBalance'
+    | 'token'
+    | 'transaction'
+  > & {
+    contract: ResolversParentTypes['ERC1155Contract'];
+    emitter: ResolversParentTypes['Account'];
+    from?: Maybe<ResolversParentTypes['Account']>;
+    fromBalance?: Maybe<ResolversParentTypes['ERC1155Balance']>;
+    to?: Maybe<ResolversParentTypes['Account']>;
+    toBalance?: Maybe<ResolversParentTypes['ERC1155Balance']>;
+    token: ResolversParentTypes['ERC1155Token'];
+    transaction: ResolversParentTypes['Transaction'];
+  };
   ERC1155Transfer_filter: Erc1155Transfer_Filter;
   Epoch: Epoch;
   Epoch_filter: Epoch_Filter;
@@ -15148,30 +15288,48 @@ export type ResolversParentTypes = {
   Event_filter: Event_Filter;
   Factory: Factory;
   Factory_filter: Factory_Filter;
-  Flash: Omit<Flash, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
+  Flash: Omit<Flash, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
   Flash_filter: Flash_Filter;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Int8: Scalars['Int8']['output'];
   LockedUp: LockedUp;
   LockedUp_filter: LockedUp_Filter;
-  MarketEvent721: Omit<MarketEvent721, 'nftId'> & { nftId?: Maybe<ResolversParentTypes['ERC721Token']> };
+  MarketEvent721: Omit<MarketEvent721, 'nftId'> & {
+    nftId?: Maybe<ResolversParentTypes['ERC721Token']>;
+  };
   MarketEvent721_filter: MarketEvent721_Filter;
-  MarketEvent1155: Omit<MarketEvent1155, 'nftId'> & { nftId?: Maybe<ResolversParentTypes['ERC1155Token']> };
+  MarketEvent1155: Omit<MarketEvent1155, 'nftId'> & {
+    nftId?: Maybe<ResolversParentTypes['ERC1155Token']>;
+  };
   MarketEvent1155_filter: MarketEvent1155_Filter;
   MarketFee: MarketFee;
   MarketFee_filter: MarketFee_Filter;
   MarketVolume: MarketVolume;
   MarketVolume_filter: MarketVolume_Filter;
-  Mint: Omit<Mint, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
+  Mint: Omit<Mint, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
   Mint_filter: Mint_Filter;
-  OnSaleStatus1155: Omit<OnSaleStatus1155, 'owner'> & { owner: ResolversParentTypes['Account'] };
+  OnSaleStatus1155: Omit<OnSaleStatus1155, 'owner'> & {
+    owner: ResolversParentTypes['Account'];
+  };
   OnSaleStatus1155_filter: OnSaleStatus1155_Filter;
-  Order: Omit<Order, 'maker' | 'taker'> & { maker: ResolversParentTypes['Account'], taker?: Maybe<ResolversParentTypes['Account']> };
-  OrderTransfer: Omit<OrderTransfer, 'maker' | 'taker'> & { maker: ResolversParentTypes['Account'], taker?: Maybe<ResolversParentTypes['Account']> };
+  Order: Omit<Order, 'maker' | 'taker'> & {
+    maker: ResolversParentTypes['Account'];
+    taker?: Maybe<ResolversParentTypes['Account']>;
+  };
+  OrderTransfer: Omit<OrderTransfer, 'maker' | 'taker'> & {
+    maker: ResolversParentTypes['Account'];
+    taker?: Maybe<ResolversParentTypes['Account']>;
+  };
   OrderTransfer_filter: OrderTransfer_Filter;
   Order_filter: Order_Filter;
-  OwnedTokenCount: Omit<OwnedTokenCount, 'owner'> & { owner: ResolversParentTypes['Account'] };
+  OwnedTokenCount: Omit<OwnedTokenCount, 'owner'> & {
+    owner: ResolversParentTypes['Account'];
+  };
   OwnedTokenCount_filter: OwnedTokenCount_Filter;
   OwnerContract: OwnerContract;
   OwnerContract_filter: OwnerContract_Filter;
@@ -15199,8 +15357,13 @@ export type ResolversParentTypes = {
   PoolWeekCandleData: PoolWeekCandleData;
   PoolWeekCandleData_filter: PoolWeekCandleData_Filter;
   Pool_filter: Pool_Filter;
-  Position: Omit<Position, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
-  PositionSnapshot: Omit<PositionSnapshot, 'position' | 'transaction'> & { position: ResolversParentTypes['Position'], transaction: ResolversParentTypes['Transaction'] };
+  Position: Omit<Position, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
+  PositionSnapshot: Omit<PositionSnapshot, 'position' | 'transaction'> & {
+    position: ResolversParentTypes['Position'];
+    transaction: ResolversParentTypes['Transaction'];
+  };
   PositionSnapshot_filter: PositionSnapshot_Filter;
   Position_filter: Position_Filter;
   Query: {};
@@ -15210,7 +15373,9 @@ export type ResolversParentTypes = {
   Staking_filter: Staking_Filter;
   String: Scalars['String']['output'];
   Subscription: {};
-  Swap: Omit<Swap, 'transaction'> & { transaction: ResolversParentTypes['Transaction'] };
+  Swap: Omit<Swap, 'transaction'> & {
+    transaction: ResolversParentTypes['Transaction'];
+  };
   Swap_filter: Swap_Filter;
   Tick: Tick;
   TickDayData: TickDayData;
@@ -15224,7 +15389,10 @@ export type ResolversParentTypes = {
   TokenHourData: TokenHourData;
   TokenHourData_filter: TokenHourData_Filter;
   Token_filter: Token_Filter;
-  Transaction: Omit<Transaction, 'events' | 'flashed'> & { events: Array<ResolversParentTypes['Event']>, flashed: Array<Maybe<ResolversParentTypes['Flash']>> };
+  Transaction: Omit<Transaction, 'events' | 'flashed'> & {
+    events: Array<ResolversParentTypes['Event']>;
+    flashed: Array<Maybe<ResolversParentTypes['Flash']>>;
+  };
   TransactionCount: TransactionCount;
   TransactionCount_filter: TransactionCount_Filter;
   Transaction_filter: Transaction_Filter;
@@ -15244,37 +15412,113 @@ export type DerivedFromDirectiveArgs = {
   field: Scalars['String']['input'];
 };
 
-export type DerivedFromDirectiveResolver<Result, Parent, ContextType = any, Args = DerivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DerivedFromDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = DerivedFromDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type EntityDirectiveArgs = { };
+export type EntityDirectiveArgs = {};
 
-export type EntityDirectiveResolver<Result, Parent, ContextType = any, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EntityDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = EntityDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type SubgraphIdDirectiveArgs = {
   id: Scalars['String']['input'];
 };
 
-export type SubgraphIdDirectiveResolver<Result, Parent, ContextType = any, Args = SubgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type SubgraphIdDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = SubgraphIdDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
-  ERC721tokens?: Resolver<Array<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<AccountErc721tokensArgs, 'first' | 'skip'>>;
-  ERC721transferFromEvent?: Resolver<Array<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<AccountErc721transferFromEventArgs, 'first' | 'skip'>>;
-  ERC721transferToEvent?: Resolver<Array<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<AccountErc721transferToEventArgs, 'first' | 'skip'>>;
-  ERC1155balances?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<AccountErc1155balancesArgs, 'first' | 'skip'>>;
-  ERC1155transferFromEvent?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<AccountErc1155transferFromEventArgs, 'first' | 'skip'>>;
-  ERC1155transferToEvent?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<AccountErc1155transferToEventArgs, 'first' | 'skip'>>;
-  OnSaleStatus1155?: Resolver<Maybe<Array<ResolversTypes['OnSaleStatus1155']>>, ParentType, ContextType, RequireFields<AccountOnSaleStatus1155Args, 'first' | 'skip'>>;
-  OwnedTokens?: Resolver<Maybe<Array<ResolversTypes['OwnedTokenCount']>>, ParentType, ContextType, RequireFields<AccountOwnedTokensArgs, 'first' | 'skip'>>;
-  asERC721?: Resolver<Maybe<ResolversTypes['ERC721Contract']>, ParentType, ContextType>;
-  asERC1155?: Resolver<Maybe<ResolversTypes['ERC1155Contract']>, ParentType, ContextType>;
-  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<AccountEventsArgs, 'first' | 'skip'>>;
+export type AccountResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Account'] = ResolversParentTypes['Account'],
+> = {
+  ERC721tokens?: Resolver<
+    Array<ResolversTypes['ERC721Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc721tokensArgs, 'first' | 'skip'>
+  >;
+  ERC721transferFromEvent?: Resolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc721transferFromEventArgs, 'first' | 'skip'>
+  >;
+  ERC721transferToEvent?: Resolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc721transferToEventArgs, 'first' | 'skip'>
+  >;
+  ERC1155balances?: Resolver<
+    Array<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc1155balancesArgs, 'first' | 'skip'>
+  >;
+  ERC1155transferFromEvent?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc1155transferFromEventArgs, 'first' | 'skip'>
+  >;
+  ERC1155transferToEvent?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountErc1155transferToEventArgs, 'first' | 'skip'>
+  >;
+  OnSaleStatus1155?: Resolver<
+    Maybe<Array<ResolversTypes['OnSaleStatus1155']>>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountOnSaleStatus1155Args, 'first' | 'skip'>
+  >;
+  OwnedTokens?: Resolver<
+    Maybe<Array<ResolversTypes['OwnedTokenCount']>>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountOwnedTokensArgs, 'first' | 'skip'>
+  >;
+  asERC721?: Resolver<
+    Maybe<ResolversTypes['ERC721Contract']>,
+    ParentType,
+    ContextType
+  >;
+  asERC1155?: Resolver<
+    Maybe<ResolversTypes['ERC1155Contract']>,
+    ParentType,
+    ContextType
+  >;
+  events?: Resolver<
+    Array<ResolversTypes['Event']>,
+    ParentType,
+    ContextType,
+    RequireFields<AccountEventsArgs, 'first' | 'skip'>
+  >;
   holdingCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   onSaleCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AccountCollectionOwnershipResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountCollectionOwnership'] = ResolversParentTypes['AccountCollectionOwnership']> = {
+export type AccountCollectionOwnershipResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['AccountCollectionOwnership'] = ResolversParentTypes['AccountCollectionOwnership'],
+> = {
   account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15282,15 +15526,21 @@ export type AccountCollectionOwnershipResolvers<ContextType = any, ParentType ex
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface BigDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
+export interface BigDecimalScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
   name: 'BigDecimal';
 }
 
-export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
+export interface BigIntScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
 
-export type BlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['Block'] = ResolversParentTypes['Block']> = {
+export type BlockResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Block'] = ResolversParentTypes['Block'],
+> = {
   address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   blockNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   event?: Resolver<ResolversTypes['EventType'], ParentType, ContextType>;
@@ -15298,24 +15548,40 @@ export type BlockResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   quantity?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  quoteToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  quoteToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   timestampt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   to?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type BundleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle']> = {
+export type BundleResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle'],
+> = {
   ethPriceUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type BurnResolvers<ContextType = any, ParentType extends ResolversParentTypes['Burn'] = ResolversParentTypes['Burn']> = {
+export type BurnResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Burn'] = ResolversParentTypes['Burn'],
+> = {
   amount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   amount0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  amountUSD?: Resolver<Maybe<ResolversTypes['BigDecimal']>, ParentType, ContextType>;
+  amountUSD?: Resolver<
+    Maybe<ResolversTypes['BigDecimal']>,
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   logIndex?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   origin?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
@@ -15326,18 +15592,31 @@ export type BurnResolvers<ContextType = any, ParentType extends ResolversParentT
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   token0?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token1?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
+export interface BytesScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
   name: 'Bytes';
 }
 
-export type CollectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Collect'] = ResolversParentTypes['Collect']> = {
+export type CollectResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Collect'] = ResolversParentTypes['Collect'],
+> = {
   amount0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  amountUSD?: Resolver<Maybe<ResolversTypes['BigDecimal']>, ParentType, ContextType>;
+  amountUSD?: Resolver<
+    Maybe<ResolversTypes['BigDecimal']>,
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   logIndex?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
@@ -15345,64 +15624,133 @@ export type CollectResolvers<ContextType = any, ParentType extends ResolversPare
   tickLower?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tickUpper?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['Contract'] = ResolversParentTypes['Contract']> = {
+export type ContractResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Contract'] = ResolversParentTypes['Contract'],
+> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreatorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Creator'] = ResolversParentTypes['Creator']> = {
+export type CreatorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Creator'] = ResolversParentTypes['Creator'],
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  token721?: Resolver<Maybe<Array<ResolversTypes['ERC721Creator']>>, ParentType, ContextType, RequireFields<CreatorToken721Args, 'first' | 'skip'>>;
-  token1155?: Resolver<Maybe<Array<ResolversTypes['ERC1155Creator']>>, ParentType, ContextType, RequireFields<CreatorToken1155Args, 'first' | 'skip'>>;
+  token721?: Resolver<
+    Maybe<Array<ResolversTypes['ERC721Creator']>>,
+    ParentType,
+    ContextType,
+    RequireFields<CreatorToken721Args, 'first' | 'skip'>
+  >;
+  token1155?: Resolver<
+    Maybe<Array<ResolversTypes['ERC1155Creator']>>,
+    ParentType,
+    ContextType,
+    RequireFields<CreatorToken1155Args, 'first' | 'skip'>
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DelegationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Delegation'] = ResolversParentTypes['Delegation']> = {
+export type DelegationResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Delegation'] = ResolversParentTypes['Delegation'],
+> = {
   delegator?: Resolver<ResolversTypes['Delegator'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lockedUp?: Resolver<ResolversTypes['LockedUp'], ParentType, ContextType>;
   stakedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalClaimedRewards?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  totalClaimedRewards?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   validatorId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   wr?: Resolver<ResolversTypes['WithdrawalRequest'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DelegatorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Delegator'] = ResolversParentTypes['Delegator']> = {
+export type DelegatorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Delegator'] = ResolversParentTypes['Delegator'],
+> = {
   address?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   createdOn?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   stakedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalClaimedRewards?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  totalClaimedRewards?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   totalLockStake?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  validations?: Resolver<Array<ResolversTypes['Validation']>, ParentType, ContextType, RequireFields<DelegatorValidationsArgs, 'first' | 'skip'>>;
+  validations?: Resolver<
+    Array<ResolversTypes['Validation']>,
+    ParentType,
+    ContextType,
+    RequireFields<DelegatorValidationsArgs, 'first' | 'skip'>
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc721ContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC721Contract'] = ResolversParentTypes['ERC721Contract']> = {
+export type Erc721ContractResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC721Contract'] = ResolversParentTypes['ERC721Contract'],
+> = {
   asAccount?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   createAt?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   holderCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  supportsMetadata?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  supportsMetadata?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
   symbol?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  tokens?: Resolver<Array<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<Erc721ContractTokensArgs, 'first' | 'skip'>>;
-  transactionCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transfers?: Resolver<Array<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<Erc721ContractTransfersArgs, 'first' | 'skip'>>;
+  tokens?: Resolver<
+    Array<ResolversTypes['ERC721Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc721ContractTokensArgs, 'first' | 'skip'>
+  >;
+  transactionCount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  transfers?: Resolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc721ContractTransfersArgs, 'first' | 'skip'>
+  >;
   txCreation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   volume?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc721CreatorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC721Creator'] = ResolversParentTypes['ERC721Creator']> = {
+export type Erc721CreatorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC721Creator'] = ResolversParentTypes['ERC721Creator'],
+> = {
   collection?: Resolver<ResolversTypes['ERC721Token'], ParentType, ContextType>;
   creator?: Resolver<ResolversTypes['Creator'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15410,136 +15758,330 @@ export type Erc721CreatorResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc721TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC721Token'] = ResolversParentTypes['ERC721Token']> = {
+export type Erc721TokenResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC721Token'] = ResolversParentTypes['ERC721Token'],
+> = {
   approval?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
-  contract?: Resolver<ResolversTypes['ERC721Contract'], ParentType, ContextType>;
+  contract?: Resolver<
+    ResolversTypes['ERC721Contract'],
+    ParentType,
+    ContextType
+  >;
   createAt?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  creators?: Resolver<Array<ResolversTypes['ERC721Creator']>, ParentType, ContextType, RequireFields<Erc721TokenCreatorsArgs, 'first' | 'skip'>>;
+  creators?: Resolver<
+    Array<ResolversTypes['ERC721Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc721TokenCreatorsArgs, 'first' | 'skip'>
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   identifier?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  transfers?: Resolver<Array<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<Erc721TokenTransfersArgs, 'first' | 'skip'>>;
+  transfers?: Resolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc721TokenTransfersArgs, 'first' | 'skip'>
+  >;
   txCreation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uri?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc721TransferResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC721Transfer'] = ResolversParentTypes['ERC721Transfer']> = {
-  contract?: Resolver<ResolversTypes['ERC721Contract'], ParentType, ContextType>;
+export type Erc721TransferResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC721Transfer'] = ResolversParentTypes['ERC721Transfer'],
+> = {
+  contract?: Resolver<
+    ResolversTypes['ERC721Contract'],
+    ParentType,
+    ContextType
+  >;
   emitter?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   from?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   to?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['ERC721Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155BalanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Balance'] = ResolversParentTypes['ERC1155Balance']> = {
+export type Erc1155BalanceResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC1155Balance'] = ResolversParentTypes['ERC1155Balance'],
+> = {
   account?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
-  contract?: Resolver<Maybe<ResolversTypes['ERC1155Contract']>, ParentType, ContextType>;
+  contract?: Resolver<
+    Maybe<ResolversTypes['ERC1155Contract']>,
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['ERC1155Token'], ParentType, ContextType>;
-  transferFromEvent?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<Erc1155BalanceTransferFromEventArgs, 'first' | 'skip'>>;
-  transferToEvent?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<Erc1155BalanceTransferToEventArgs, 'first' | 'skip'>>;
+  transferFromEvent?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155BalanceTransferFromEventArgs, 'first' | 'skip'>
+  >;
+  transferToEvent?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155BalanceTransferToEventArgs, 'first' | 'skip'>
+  >;
   value?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   valueExact?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155ContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Contract'] = ResolversParentTypes['ERC1155Contract']> = {
+export type Erc1155ContractResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC1155Contract'] = ResolversParentTypes['ERC1155Contract'],
+> = {
   asAccount?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
-  balances?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<Erc1155ContractBalancesArgs, 'first' | 'skip'>>;
+  balances?: Resolver<
+    Array<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155ContractBalancesArgs, 'first' | 'skip'>
+  >;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   createAt?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   holderCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   symbol?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  tokens?: Resolver<Array<ResolversTypes['ERC1155Token']>, ParentType, ContextType, RequireFields<Erc1155ContractTokensArgs, 'first' | 'skip'>>;
-  transactionCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transfers?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<Erc1155ContractTransfersArgs, 'first' | 'skip'>>;
+  tokens?: Resolver<
+    Array<ResolversTypes['ERC1155Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155ContractTokensArgs, 'first' | 'skip'>
+  >;
+  transactionCount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  transfers?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155ContractTransfersArgs, 'first' | 'skip'>
+  >;
   txCreation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   volume?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155CreatorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Creator'] = ResolversParentTypes['ERC1155Creator']> = {
-  collection?: Resolver<ResolversTypes['ERC1155Token'], ParentType, ContextType>;
+export type Erc1155CreatorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC1155Creator'] = ResolversParentTypes['ERC1155Creator'],
+> = {
+  collection?: Resolver<
+    ResolversTypes['ERC1155Token'],
+    ParentType,
+    ContextType
+  >;
   creator?: Resolver<ResolversTypes['Creator'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   share?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Token'] = ResolversParentTypes['ERC1155Token']> = {
-  balances?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<Erc1155TokenBalancesArgs, 'first' | 'skip'>>;
-  contract?: Resolver<ResolversTypes['ERC1155Contract'], ParentType, ContextType>;
+export type Erc1155TokenResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC1155Token'] = ResolversParentTypes['ERC1155Token'],
+> = {
+  balances?: Resolver<
+    Array<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155TokenBalancesArgs, 'first' | 'skip'>
+  >;
+  contract?: Resolver<
+    ResolversTypes['ERC1155Contract'],
+    ParentType,
+    ContextType
+  >;
   createAt?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  creators?: Resolver<Array<ResolversTypes['ERC1155Creator']>, ParentType, ContextType, RequireFields<Erc1155TokenCreatorsArgs, 'first' | 'skip'>>;
+  creators?: Resolver<
+    Array<ResolversTypes['ERC1155Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155TokenCreatorsArgs, 'first' | 'skip'>
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   identifier?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  totalSupply?: Resolver<ResolversTypes['ERC1155Balance'], ParentType, ContextType>;
-  transfers?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<Erc1155TokenTransfersArgs, 'first' | 'skip'>>;
+  totalSupply?: Resolver<
+    ResolversTypes['ERC1155Balance'],
+    ParentType,
+    ContextType
+  >;
+  transfers?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<Erc1155TokenTransfersArgs, 'first' | 'skip'>
+  >;
   txCreation?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   uri?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155TransferResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Transfer'] = ResolversParentTypes['ERC1155Transfer']> = {
-  contract?: Resolver<ResolversTypes['ERC1155Contract'], ParentType, ContextType>;
+export type Erc1155TransferResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ERC1155Transfer'] = ResolversParentTypes['ERC1155Transfer'],
+> = {
+  contract?: Resolver<
+    ResolversTypes['ERC1155Contract'],
+    ParentType,
+    ContextType
+  >;
   emitter?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   from?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
-  fromBalance?: Resolver<Maybe<ResolversTypes['ERC1155Balance']>, ParentType, ContextType>;
+  fromBalance?: Resolver<
+    Maybe<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   to?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
-  toBalance?: Resolver<Maybe<ResolversTypes['ERC1155Balance']>, ParentType, ContextType>;
+  toBalance?: Resolver<
+    Maybe<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType
+  >;
   token?: Resolver<ResolversTypes['ERC1155Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   value?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   valueExact?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EpochResolvers<ContextType = any, ParentType extends ResolversParentTypes['Epoch'] = ResolversParentTypes['Epoch']> = {
+export type EpochResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Epoch'] = ResolversParentTypes['Epoch'],
+> = {
   block?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   epoch?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EventResolvers<ContextType = any, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
-  __resolveType: TypeResolveFn<'ERC721Transfer' | 'ERC1155Transfer', ParentType, ContextType>;
+export type EventResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Event'] = ResolversParentTypes['Event'],
+> = {
+  __resolveType: TypeResolveFn<
+    'ERC721Transfer' | 'ERC1155Transfer',
+    ParentType,
+    ContextType
+  >;
   emitter?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
 };
 
-export type FactoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Factory'] = ResolversParentTypes['Factory']> = {
+export type FactoryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Factory'] = ResolversParentTypes['Factory'],
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   poolCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalFeesETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalProtocolFeesETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalProtocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedETHUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSDUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalVolumeETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  totalFeesETH?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalProtocolFeesETH?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalProtocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedETH?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedETHUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSDUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalVolumeETH?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FlashResolvers<ContextType = any, ParentType extends ResolversParentTypes['Flash'] = ResolversParentTypes['Flash']> = {
+export type FlashResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Flash'] = ResolversParentTypes['Flash'],
+> = {
   amount0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount0Paid?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15551,15 +16093,24 @@ export type FlashResolvers<ContextType = any, ParentType extends ResolversParent
   recipient?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
+export interface Int8ScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
   name: 'Int8';
 }
 
-export type LockedUpResolvers<ContextType = any, ParentType extends ResolversParentTypes['LockedUp'] = ResolversParentTypes['LockedUp']> = {
+export type LockedUpResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['LockedUp'] = ResolversParentTypes['LockedUp'],
+> = {
   delegator?: Resolver<ResolversTypes['Delegator'], ParentType, ContextType>;
   duration?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   endTime?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -15571,19 +16122,43 @@ export type LockedUpResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MarketEvent721Resolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketEvent721'] = ResolversParentTypes['MarketEvent721']> = {
+export type MarketEvent721Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MarketEvent721'] = ResolversParentTypes['MarketEvent721'],
+> = {
   address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  addressExtend?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  addressExtend?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   event?: Resolver<ResolversTypes['SellStatus'], ParentType, ContextType>;
-  flagExtend?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  flagExtend?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
   from?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   metadata?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   netPrice?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  nftId?: Resolver<Maybe<ResolversTypes['ERC721Token']>, ParentType, ContextType>;
-  nftIdExtend?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nftId?: Resolver<
+    Maybe<ResolversTypes['ERC721Token']>,
+    ParentType,
+    ContextType
+  >;
+  nftIdExtend?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   price?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  quoteToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  quoteToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   to?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tokenId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -15591,21 +16166,49 @@ export type MarketEvent721Resolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MarketEvent1155Resolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketEvent1155'] = ResolversParentTypes['MarketEvent1155']> = {
+export type MarketEvent1155Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MarketEvent1155'] = ResolversParentTypes['MarketEvent1155'],
+> = {
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  addressExtend?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  addressExtend?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   event?: Resolver<ResolversTypes['SellStatus'], ParentType, ContextType>;
-  flagExtend?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  flagExtend?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
   from?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   netPrice?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  nftId?: Resolver<Maybe<ResolversTypes['ERC1155Token']>, ParentType, ContextType>;
-  nftIdExtend?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nftId?: Resolver<
+    Maybe<ResolversTypes['ERC1155Token']>,
+    ParentType,
+    ContextType
+  >;
+  nftIdExtend?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   operation?: Resolver<ResolversTypes['Operation'], ParentType, ContextType>;
-  operationId?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  operationId?: Resolver<
+    Maybe<ResolversTypes['BigInt']>,
+    ParentType,
+    ContextType
+  >;
   price?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  quoteToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  quoteToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   to?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tokenId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -15613,25 +16216,41 @@ export type MarketEvent1155Resolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MarketFeeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketFee'] = ResolversParentTypes['MarketFee']> = {
+export type MarketFeeResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MarketFee'] = ResolversParentTypes['MarketFee'],
+> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   totalFee?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MarketVolumeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketVolume'] = ResolversParentTypes['MarketVolume']> = {
+export type MarketVolumeResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MarketVolume'] = ResolversParentTypes['MarketVolume'],
+> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   totalVolume?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MintResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mint'] = ResolversParentTypes['Mint']> = {
+export type MintResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Mint'] = ResolversParentTypes['Mint'],
+> = {
   amount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   amount0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  amountUSD?: Resolver<Maybe<ResolversTypes['BigDecimal']>, ParentType, ContextType>;
+  amountUSD?: Resolver<
+    Maybe<ResolversTypes['BigDecimal']>,
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   logIndex?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   origin?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
@@ -15643,11 +16262,19 @@ export type MintResolvers<ContextType = any, ParentType extends ResolversParentT
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   token0?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token1?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OnSaleStatus1155Resolvers<ContextType = any, ParentType extends ResolversParentTypes['OnSaleStatus1155'] = ResolversParentTypes['OnSaleStatus1155']> = {
+export type OnSaleStatus1155Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['OnSaleStatus1155'] = ResolversParentTypes['OnSaleStatus1155'],
+> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isOnSale?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -15656,13 +16283,21 @@ export type OnSaleStatus1155Resolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OrderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']> = {
+export type OrderResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Order'] = ResolversParentTypes['Order'],
+> = {
   filledQty?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   index?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   maker?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  remaining?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  remaining?: Resolver<
+    Maybe<ResolversTypes['BigInt']>,
+    ParentType,
+    ContextType
+  >;
   sig?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>;
   takeQty?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -15671,12 +16306,24 @@ export type OrderResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OrderTransferResolvers<ContextType = any, ParentType extends ResolversParentTypes['OrderTransfer'] = ResolversParentTypes['OrderTransfer']> = {
+export type OrderTransferResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['OrderTransfer'] = ResolversParentTypes['OrderTransfer'],
+> = {
   collection?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   maker?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
-  remainQty?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['OrderStatusTransfer'], ParentType, ContextType>;
+  remainQty?: Resolver<
+    Maybe<ResolversTypes['BigInt']>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<
+    ResolversTypes['OrderStatusTransfer'],
+    ParentType,
+    ContextType
+  >;
   takeQty?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   taker?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -15684,7 +16331,11 @@ export type OrderTransferResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OwnedTokenCountResolvers<ContextType = any, ParentType extends ResolversParentTypes['OwnedTokenCount'] = ResolversParentTypes['OwnedTokenCount']> = {
+export type OwnedTokenCountResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['OwnedTokenCount'] = ResolversParentTypes['OwnedTokenCount'],
+> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15693,7 +16344,11 @@ export type OwnedTokenCountResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OwnerContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['OwnerContract'] = ResolversParentTypes['OwnerContract']> = {
+export type OwnerContractResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['OwnerContract'] = ResolversParentTypes['OwnerContract'],
+> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15702,75 +16357,254 @@ export type OwnerContractResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PancakeDayDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PancakeDayData'] = ResolversParentTypes['PancakeDayData']> = {
+export type PancakeDayDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PancakeDayData'] = ResolversParentTypes['PancakeDayData'],
+> = {
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   volumeETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeUSDUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeUSDUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pool'] = ResolversParentTypes['Pool']> = {
-  burns?: Resolver<Array<ResolversTypes['Burn']>, ParentType, ContextType, RequireFields<PoolBurnsArgs, 'first' | 'skip'>>;
-  collectedFeesToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collects?: Resolver<Array<ResolversTypes['Collect']>, ParentType, ContextType, RequireFields<PoolCollectsArgs, 'first' | 'skip'>>;
-  createdAtBlockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  createdAtTimestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+export type PoolResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Pool'] = ResolversParentTypes['Pool'],
+> = {
+  burns?: Resolver<
+    Array<ResolversTypes['Burn']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolBurnsArgs, 'first' | 'skip'>
+  >;
+  collectedFeesToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collects?: Resolver<
+    Array<ResolversTypes['Collect']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolCollectsArgs, 'first' | 'skip'>
+  >;
+  createdAtBlockNumber?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  createdAtTimestamp?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feeProtocol?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   feeTier?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  liquidityProviderCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  mints?: Resolver<Array<ResolversTypes['Mint']>, ParentType, ContextType, RequireFields<PoolMintsArgs, 'first' | 'skip'>>;
-  observationIndex?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  pool5MinuteCandleData?: Resolver<Array<ResolversTypes['Pool5MinuteCandleData']>, ParentType, ContextType, RequireFields<PoolPool5MinuteCandleDataArgs, 'first' | 'skip'>>;
-  pool15MinuteCandleData?: Resolver<Array<ResolversTypes['Pool15MinuteCandleData']>, ParentType, ContextType, RequireFields<PoolPool15MinuteCandleDataArgs, 'first' | 'skip'>>;
-  pool30MinuteCandleData?: Resolver<Array<ResolversTypes['Pool30MinuteCandleData']>, ParentType, ContextType, RequireFields<PoolPool30MinuteCandleDataArgs, 'first' | 'skip'>>;
-  poolDayCandleData?: Resolver<Array<ResolversTypes['PoolDayCandleData']>, ParentType, ContextType, RequireFields<PoolPoolDayCandleDataArgs, 'first' | 'skip'>>;
-  poolDayData?: Resolver<Array<ResolversTypes['PoolDayData']>, ParentType, ContextType, RequireFields<PoolPoolDayDataArgs, 'first' | 'skip'>>;
-  poolHourCandleData?: Resolver<Array<ResolversTypes['PoolHourCandleData']>, ParentType, ContextType, RequireFields<PoolPoolHourCandleDataArgs, 'first' | 'skip'>>;
-  poolHourData?: Resolver<Array<ResolversTypes['PoolHourData']>, ParentType, ContextType, RequireFields<PoolPoolHourDataArgs, 'first' | 'skip'>>;
-  poolMinuteCandleData?: Resolver<Array<ResolversTypes['PoolMinuteCandleData']>, ParentType, ContextType, RequireFields<PoolPoolMinuteCandleDataArgs, 'first' | 'skip'>>;
-  poolMonthCandleData?: Resolver<Array<ResolversTypes['PoolMonthCandleData']>, ParentType, ContextType, RequireFields<PoolPoolMonthCandleDataArgs, 'first' | 'skip'>>;
-  poolWeekCandleData?: Resolver<Array<ResolversTypes['PoolWeekCandleData']>, ParentType, ContextType, RequireFields<PoolPoolWeekCandleDataArgs, 'first' | 'skip'>>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  liquidityProviderCount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  mints?: Resolver<
+    Array<ResolversTypes['Mint']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolMintsArgs, 'first' | 'skip'>
+  >;
+  observationIndex?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  pool5MinuteCandleData?: Resolver<
+    Array<ResolversTypes['Pool5MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPool5MinuteCandleDataArgs, 'first' | 'skip'>
+  >;
+  pool15MinuteCandleData?: Resolver<
+    Array<ResolversTypes['Pool15MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPool15MinuteCandleDataArgs, 'first' | 'skip'>
+  >;
+  pool30MinuteCandleData?: Resolver<
+    Array<ResolversTypes['Pool30MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPool30MinuteCandleDataArgs, 'first' | 'skip'>
+  >;
+  poolDayCandleData?: Resolver<
+    Array<ResolversTypes['PoolDayCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolDayCandleDataArgs, 'first' | 'skip'>
+  >;
+  poolDayData?: Resolver<
+    Array<ResolversTypes['PoolDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolDayDataArgs, 'first' | 'skip'>
+  >;
+  poolHourCandleData?: Resolver<
+    Array<ResolversTypes['PoolHourCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolHourCandleDataArgs, 'first' | 'skip'>
+  >;
+  poolHourData?: Resolver<
+    Array<ResolversTypes['PoolHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolHourDataArgs, 'first' | 'skip'>
+  >;
+  poolMinuteCandleData?: Resolver<
+    Array<ResolversTypes['PoolMinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolMinuteCandleDataArgs, 'first' | 'skip'>
+  >;
+  poolMonthCandleData?: Resolver<
+    Array<ResolversTypes['PoolMonthCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolMonthCandleDataArgs, 'first' | 'skip'>
+  >;
+  poolWeekCandleData?: Resolver<
+    Array<ResolversTypes['PoolWeekCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolPoolWeekCandleDataArgs, 'first' | 'skip'>
+  >;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  swaps?: Resolver<Array<ResolversTypes['Swap']>, ParentType, ContextType, RequireFields<PoolSwapsArgs, 'first' | 'skip'>>;
+  swaps?: Resolver<
+    Array<ResolversTypes['Swap']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolSwapsArgs, 'first' | 'skip'>
+  >;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  ticks?: Resolver<Array<ResolversTypes['Tick']>, ParentType, ContextType, RequireFields<PoolTicksArgs, 'first' | 'skip'>>;
+  ticks?: Resolver<
+    Array<ResolversTypes['Tick']>,
+    ParentType,
+    ContextType,
+    RequireFields<PoolTicksArgs, 'first' | 'skip'>
+  >;
   token0?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedETHUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSDUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  totalValueLockedETH?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedETHUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSDUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Pool5MinuteCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pool5MinuteCandleData'] = ResolversParentTypes['Pool5MinuteCandleData']> = {
+export type Pool5MinuteCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Pool5MinuteCandleData'] = ResolversParentTypes['Pool5MinuteCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15782,24 +16616,48 @@ export type Pool5MinuteCandleDataResolvers<ContextType = any, ParentType extends
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Pool15MinuteCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pool15MinuteCandleData'] = ResolversParentTypes['Pool15MinuteCandleData']> = {
+export type Pool15MinuteCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Pool15MinuteCandleData'] = ResolversParentTypes['Pool15MinuteCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15811,24 +16669,48 @@ export type Pool15MinuteCandleDataResolvers<ContextType = any, ParentType extend
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Pool30MinuteCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pool30MinuteCandleData'] = ResolversParentTypes['Pool30MinuteCandleData']> = {
+export type Pool30MinuteCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Pool30MinuteCandleData'] = ResolversParentTypes['Pool30MinuteCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15840,25 +16722,49 @@ export type Pool30MinuteCandleDataResolvers<ContextType = any, ParentType extend
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolDayCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolDayCandleData'] = ResolversParentTypes['PoolDayCandleData']> = {
+export type PoolDayCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolDayCandleData'] = ResolversParentTypes['PoolDayCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15869,24 +16775,48 @@ export type PoolDayCandleDataResolvers<ContextType = any, ParentType extends Res
   open0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolDayDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolDayData'] = ResolversParentTypes['PoolDayData']> = {
+export type PoolDayDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolDayData'] = ResolversParentTypes['PoolDayData'],
+> = {
   close?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15894,24 +16824,48 @@ export type PoolDayDataResolvers<ContextType = any, ParentType extends Resolvers
   low?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   open?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolHourCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolHourCandleData'] = ResolversParentTypes['PoolHourCandleData']> = {
+export type PoolHourCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolHourCandleData'] = ResolversParentTypes['PoolHourCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15923,23 +16877,47 @@ export type PoolHourCandleDataResolvers<ContextType = any, ParentType extends Re
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolHourDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolHourData'] = ResolversParentTypes['PoolHourData']> = {
+export type PoolHourDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolHourData'] = ResolversParentTypes['PoolHourData'],
+> = {
   close?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -15948,24 +16926,48 @@ export type PoolHourDataResolvers<ContextType = any, ParentType extends Resolver
   open?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolMinuteCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolMinuteCandleData'] = ResolversParentTypes['PoolMinuteCandleData']> = {
+export type PoolMinuteCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolMinuteCandleData'] = ResolversParentTypes['PoolMinuteCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -15977,25 +16979,49 @@ export type PoolMinuteCandleDataResolvers<ContextType = any, ParentType extends 
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolMonthCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolMonthCandleData'] = ResolversParentTypes['PoolMonthCandleData']> = {
+export type PoolMonthCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolMonthCandleData'] = ResolversParentTypes['PoolMonthCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -16006,25 +17032,49 @@ export type PoolMonthCandleDataResolvers<ContextType = any, ParentType extends R
   open0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PoolWeekCandleDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoolWeekCandleData'] = ResolversParentTypes['PoolWeekCandleData']> = {
+export type PoolWeekCandleDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PoolWeekCandleData'] = ResolversParentTypes['PoolWeekCandleData'],
+> = {
   close0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   close1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  feeGrowthGlobal0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthGlobal1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthGlobal0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthGlobal1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -16035,26 +17085,66 @@ export type PoolWeekCandleDataResolvers<ContextType = any, ParentType extends Re
   open0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   open1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   sqrtPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tick?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   token0Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   token1Price?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tvlUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PositionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Position'] = ResolversParentTypes['Position']> = {
-  collectedFeesToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  depositedToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  depositedToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthInside0LastX128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthInside1LastX128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+export type PositionResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Position'] = ResolversParentTypes['Position'],
+> = {
+  collectedFeesToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  depositedToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  depositedToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthInside0LastX128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthInside1LastX128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
@@ -16063,163 +17153,900 @@ export type PositionResolvers<ContextType = any, ParentType extends ResolversPar
   tickUpper?: Resolver<ResolversTypes['Tick'], ParentType, ContextType>;
   token0?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token1?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
-  withdrawnToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  withdrawnToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
+  withdrawnToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  withdrawnToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PositionSnapshotResolvers<ContextType = any, ParentType extends ResolversParentTypes['PositionSnapshot'] = ResolversParentTypes['PositionSnapshot']> = {
+export type PositionSnapshotResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PositionSnapshot'] = ResolversParentTypes['PositionSnapshot'],
+> = {
   blockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  collectedFeesToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  depositedToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  depositedToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  feeGrowthInside0LastX128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthInside1LastX128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  collectedFeesToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  depositedToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  depositedToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthInside0LastX128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthInside1LastX128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
   position?: Resolver<ResolversTypes['Position'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
-  withdrawnToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  withdrawnToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
+  withdrawnToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  withdrawnToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_MetaArgs>>;
-  account?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<QueryAccountArgs, 'id' | 'subgraphError'>>;
-  accountCollectionOwnership?: Resolver<Maybe<ResolversTypes['AccountCollectionOwnership']>, ParentType, ContextType, RequireFields<QueryAccountCollectionOwnershipArgs, 'id' | 'subgraphError'>>;
-  accountCollectionOwnerships?: Resolver<Array<ResolversTypes['AccountCollectionOwnership']>, ParentType, ContextType, RequireFields<QueryAccountCollectionOwnershipsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  accounts?: Resolver<Array<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<QueryAccountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  block?: Resolver<Maybe<ResolversTypes['Block']>, ParentType, ContextType, RequireFields<QueryBlockArgs, 'id' | 'subgraphError'>>;
-  blocks?: Resolver<Array<ResolversTypes['Block']>, ParentType, ContextType, RequireFields<QueryBlocksArgs, 'first' | 'skip' | 'subgraphError'>>;
-  bundle?: Resolver<Maybe<ResolversTypes['Bundle']>, ParentType, ContextType, RequireFields<QueryBundleArgs, 'id' | 'subgraphError'>>;
-  bundles?: Resolver<Array<ResolversTypes['Bundle']>, ParentType, ContextType, RequireFields<QueryBundlesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  burn?: Resolver<Maybe<ResolversTypes['Burn']>, ParentType, ContextType, RequireFields<QueryBurnArgs, 'id' | 'subgraphError'>>;
-  burns?: Resolver<Array<ResolversTypes['Burn']>, ParentType, ContextType, RequireFields<QueryBurnsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  collect?: Resolver<Maybe<ResolversTypes['Collect']>, ParentType, ContextType, RequireFields<QueryCollectArgs, 'id' | 'subgraphError'>>;
-  collects?: Resolver<Array<ResolversTypes['Collect']>, ParentType, ContextType, RequireFields<QueryCollectsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  contract?: Resolver<Maybe<ResolversTypes['Contract']>, ParentType, ContextType, RequireFields<QueryContractArgs, 'id' | 'subgraphError'>>;
-  contracts?: Resolver<Array<ResolversTypes['Contract']>, ParentType, ContextType, RequireFields<QueryContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  creator?: Resolver<Maybe<ResolversTypes['Creator']>, ParentType, ContextType, RequireFields<QueryCreatorArgs, 'id' | 'subgraphError'>>;
-  creators?: Resolver<Array<ResolversTypes['Creator']>, ParentType, ContextType, RequireFields<QueryCreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  delegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationArgs, 'id' | 'subgraphError'>>;
-  delegations?: Resolver<Array<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  delegator?: Resolver<Maybe<ResolversTypes['Delegator']>, ParentType, ContextType, RequireFields<QueryDelegatorArgs, 'id' | 'subgraphError'>>;
-  delegators?: Resolver<Array<ResolversTypes['Delegator']>, ParentType, ContextType, RequireFields<QueryDelegatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  epoch?: Resolver<Maybe<ResolversTypes['Epoch']>, ParentType, ContextType, RequireFields<QueryEpochArgs, 'id' | 'subgraphError'>>;
-  epoches?: Resolver<Array<ResolversTypes['Epoch']>, ParentType, ContextType, RequireFields<QueryEpochesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Contract?: Resolver<Maybe<ResolversTypes['ERC721Contract']>, ParentType, ContextType, RequireFields<QueryErc721ContractArgs, 'id' | 'subgraphError'>>;
-  erc721Contracts?: Resolver<Array<ResolversTypes['ERC721Contract']>, ParentType, ContextType, RequireFields<QueryErc721ContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Creator?: Resolver<Maybe<ResolversTypes['ERC721Creator']>, ParentType, ContextType, RequireFields<QueryErc721CreatorArgs, 'id' | 'subgraphError'>>;
-  erc721Creators?: Resolver<Array<ResolversTypes['ERC721Creator']>, ParentType, ContextType, RequireFields<QueryErc721CreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Token?: Resolver<Maybe<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<QueryErc721TokenArgs, 'id' | 'subgraphError'>>;
-  erc721Tokens?: Resolver<Array<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<QueryErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Transfer?: Resolver<Maybe<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<QueryErc721TransferArgs, 'id' | 'subgraphError'>>;
-  erc721Transfers?: Resolver<Array<ResolversTypes['ERC721Transfer']>, ParentType, ContextType, RequireFields<QueryErc721TransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Balance?: Resolver<Maybe<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<QueryErc1155BalanceArgs, 'id' | 'subgraphError'>>;
-  erc1155Balances?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<QueryErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Contract?: Resolver<Maybe<ResolversTypes['ERC1155Contract']>, ParentType, ContextType, RequireFields<QueryErc1155ContractArgs, 'id' | 'subgraphError'>>;
-  erc1155Contracts?: Resolver<Array<ResolversTypes['ERC1155Contract']>, ParentType, ContextType, RequireFields<QueryErc1155ContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Creator?: Resolver<Maybe<ResolversTypes['ERC1155Creator']>, ParentType, ContextType, RequireFields<QueryErc1155CreatorArgs, 'id' | 'subgraphError'>>;
-  erc1155Creators?: Resolver<Array<ResolversTypes['ERC1155Creator']>, ParentType, ContextType, RequireFields<QueryErc1155CreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Token?: Resolver<Maybe<ResolversTypes['ERC1155Token']>, ParentType, ContextType, RequireFields<QueryErc1155TokenArgs, 'id' | 'subgraphError'>>;
-  erc1155Tokens?: Resolver<Array<ResolversTypes['ERC1155Token']>, ParentType, ContextType, RequireFields<QueryErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Transfer?: Resolver<Maybe<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<QueryErc1155TransferArgs, 'id' | 'subgraphError'>>;
-  erc1155Transfers?: Resolver<Array<ResolversTypes['ERC1155Transfer']>, ParentType, ContextType, RequireFields<QueryErc1155TransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  event?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventArgs, 'id' | 'subgraphError'>>;
-  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  factories?: Resolver<Array<ResolversTypes['Factory']>, ParentType, ContextType, RequireFields<QueryFactoriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  factory?: Resolver<Maybe<ResolversTypes['Factory']>, ParentType, ContextType, RequireFields<QueryFactoryArgs, 'id' | 'subgraphError'>>;
-  flash?: Resolver<Maybe<ResolversTypes['Flash']>, ParentType, ContextType, RequireFields<QueryFlashArgs, 'id' | 'subgraphError'>>;
-  flashes?: Resolver<Array<ResolversTypes['Flash']>, ParentType, ContextType, RequireFields<QueryFlashesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  lockedUp?: Resolver<Maybe<ResolversTypes['LockedUp']>, ParentType, ContextType, RequireFields<QueryLockedUpArgs, 'id' | 'subgraphError'>>;
-  lockedUps?: Resolver<Array<ResolversTypes['LockedUp']>, ParentType, ContextType, RequireFields<QueryLockedUpsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketEvent721?: Resolver<Maybe<ResolversTypes['MarketEvent721']>, ParentType, ContextType, RequireFields<QueryMarketEvent721Args, 'id' | 'subgraphError'>>;
-  marketEvent721S?: Resolver<Array<ResolversTypes['MarketEvent721']>, ParentType, ContextType, RequireFields<QueryMarketEvent721SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketEvent1155?: Resolver<Maybe<ResolversTypes['MarketEvent1155']>, ParentType, ContextType, RequireFields<QueryMarketEvent1155Args, 'id' | 'subgraphError'>>;
-  marketEvent1155S?: Resolver<Array<ResolversTypes['MarketEvent1155']>, ParentType, ContextType, RequireFields<QueryMarketEvent1155SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketFee?: Resolver<Maybe<ResolversTypes['MarketFee']>, ParentType, ContextType, RequireFields<QueryMarketFeeArgs, 'id' | 'subgraphError'>>;
-  marketFees?: Resolver<Array<ResolversTypes['MarketFee']>, ParentType, ContextType, RequireFields<QueryMarketFeesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketVolume?: Resolver<Maybe<ResolversTypes['MarketVolume']>, ParentType, ContextType, RequireFields<QueryMarketVolumeArgs, 'id' | 'subgraphError'>>;
-  marketVolumes?: Resolver<Array<ResolversTypes['MarketVolume']>, ParentType, ContextType, RequireFields<QueryMarketVolumesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  mint?: Resolver<Maybe<ResolversTypes['Mint']>, ParentType, ContextType, RequireFields<QueryMintArgs, 'id' | 'subgraphError'>>;
-  mints?: Resolver<Array<ResolversTypes['Mint']>, ParentType, ContextType, RequireFields<QueryMintsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  onSaleStatus1155?: Resolver<Maybe<ResolversTypes['OnSaleStatus1155']>, ParentType, ContextType, RequireFields<QueryOnSaleStatus1155Args, 'id' | 'subgraphError'>>;
-  onSaleStatus1155S?: Resolver<Array<ResolversTypes['OnSaleStatus1155']>, ParentType, ContextType, RequireFields<QueryOnSaleStatus1155SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  order?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryOrderArgs, 'id' | 'subgraphError'>>;
-  orderTransfer?: Resolver<Maybe<ResolversTypes['OrderTransfer']>, ParentType, ContextType, RequireFields<QueryOrderTransferArgs, 'id' | 'subgraphError'>>;
-  orderTransfers?: Resolver<Array<ResolversTypes['OrderTransfer']>, ParentType, ContextType, RequireFields<QueryOrderTransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  orders?: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryOrdersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ownedTokenCount?: Resolver<Maybe<ResolversTypes['OwnedTokenCount']>, ParentType, ContextType, RequireFields<QueryOwnedTokenCountArgs, 'id' | 'subgraphError'>>;
-  ownedTokenCounts?: Resolver<Array<ResolversTypes['OwnedTokenCount']>, ParentType, ContextType, RequireFields<QueryOwnedTokenCountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ownerContract?: Resolver<Maybe<ResolversTypes['OwnerContract']>, ParentType, ContextType, RequireFields<QueryOwnerContractArgs, 'id' | 'subgraphError'>>;
-  ownerContracts?: Resolver<Array<ResolversTypes['OwnerContract']>, ParentType, ContextType, RequireFields<QueryOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pancakeDayData?: Resolver<Maybe<ResolversTypes['PancakeDayData']>, ParentType, ContextType, RequireFields<QueryPancakeDayDataArgs, 'id' | 'subgraphError'>>;
-  pancakeDayDatas?: Resolver<Array<ResolversTypes['PancakeDayData']>, ParentType, ContextType, RequireFields<QueryPancakeDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool?: Resolver<Maybe<ResolversTypes['Pool']>, ParentType, ContextType, RequireFields<QueryPoolArgs, 'id' | 'subgraphError'>>;
-  pool5MinuteCandleData?: Resolver<Maybe<ResolversTypes['Pool5MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool5MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool5MinuteCandleDatas?: Resolver<Array<ResolversTypes['Pool5MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool5MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool15MinuteCandleData?: Resolver<Maybe<ResolversTypes['Pool15MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool15MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool15MinuteCandleDatas?: Resolver<Array<ResolversTypes['Pool15MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool15MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool30MinuteCandleData?: Resolver<Maybe<ResolversTypes['Pool30MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool30MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool30MinuteCandleDatas?: Resolver<Array<ResolversTypes['Pool30MinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPool30MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolDayCandleData?: Resolver<Maybe<ResolversTypes['PoolDayCandleData']>, ParentType, ContextType, RequireFields<QueryPoolDayCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolDayCandleDatas?: Resolver<Array<ResolversTypes['PoolDayCandleData']>, ParentType, ContextType, RequireFields<QueryPoolDayCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolDayData?: Resolver<Maybe<ResolversTypes['PoolDayData']>, ParentType, ContextType, RequireFields<QueryPoolDayDataArgs, 'id' | 'subgraphError'>>;
-  poolDayDatas?: Resolver<Array<ResolversTypes['PoolDayData']>, ParentType, ContextType, RequireFields<QueryPoolDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolHourCandleData?: Resolver<Maybe<ResolversTypes['PoolHourCandleData']>, ParentType, ContextType, RequireFields<QueryPoolHourCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolHourCandleDatas?: Resolver<Array<ResolversTypes['PoolHourCandleData']>, ParentType, ContextType, RequireFields<QueryPoolHourCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolHourData?: Resolver<Maybe<ResolversTypes['PoolHourData']>, ParentType, ContextType, RequireFields<QueryPoolHourDataArgs, 'id' | 'subgraphError'>>;
-  poolHourDatas?: Resolver<Array<ResolversTypes['PoolHourData']>, ParentType, ContextType, RequireFields<QueryPoolHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolMinuteCandleData?: Resolver<Maybe<ResolversTypes['PoolMinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPoolMinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolMinuteCandleDatas?: Resolver<Array<ResolversTypes['PoolMinuteCandleData']>, ParentType, ContextType, RequireFields<QueryPoolMinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolMonthCandleData?: Resolver<Maybe<ResolversTypes['PoolMonthCandleData']>, ParentType, ContextType, RequireFields<QueryPoolMonthCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolMonthCandleDatas?: Resolver<Array<ResolversTypes['PoolMonthCandleData']>, ParentType, ContextType, RequireFields<QueryPoolMonthCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolWeekCandleData?: Resolver<Maybe<ResolversTypes['PoolWeekCandleData']>, ParentType, ContextType, RequireFields<QueryPoolWeekCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolWeekCandleDatas?: Resolver<Array<ResolversTypes['PoolWeekCandleData']>, ParentType, ContextType, RequireFields<QueryPoolWeekCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pools?: Resolver<Array<ResolversTypes['Pool']>, ParentType, ContextType, RequireFields<QueryPoolsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  position?: Resolver<Maybe<ResolversTypes['Position']>, ParentType, ContextType, RequireFields<QueryPositionArgs, 'id' | 'subgraphError'>>;
-  positionSnapshot?: Resolver<Maybe<ResolversTypes['PositionSnapshot']>, ParentType, ContextType, RequireFields<QueryPositionSnapshotArgs, 'id' | 'subgraphError'>>;
-  positionSnapshots?: Resolver<Array<ResolversTypes['PositionSnapshot']>, ParentType, ContextType, RequireFields<QueryPositionSnapshotsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  positions?: Resolver<Array<ResolversTypes['Position']>, ParentType, ContextType, RequireFields<QueryPositionsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  royaltiesRegistries?: Resolver<Array<ResolversTypes['RoyaltiesRegistry']>, ParentType, ContextType, RequireFields<QueryRoyaltiesRegistriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  royaltiesRegistry?: Resolver<Maybe<ResolversTypes['RoyaltiesRegistry']>, ParentType, ContextType, RequireFields<QueryRoyaltiesRegistryArgs, 'id' | 'subgraphError'>>;
-  staking?: Resolver<Maybe<ResolversTypes['Staking']>, ParentType, ContextType, RequireFields<QueryStakingArgs, 'id' | 'subgraphError'>>;
-  stakings?: Resolver<Array<ResolversTypes['Staking']>, ParentType, ContextType, RequireFields<QueryStakingsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  swap?: Resolver<Maybe<ResolversTypes['Swap']>, ParentType, ContextType, RequireFields<QuerySwapArgs, 'id' | 'subgraphError'>>;
-  swaps?: Resolver<Array<ResolversTypes['Swap']>, ParentType, ContextType, RequireFields<QuerySwapsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tick?: Resolver<Maybe<ResolversTypes['Tick']>, ParentType, ContextType, RequireFields<QueryTickArgs, 'id' | 'subgraphError'>>;
-  tickDayData?: Resolver<Maybe<ResolversTypes['TickDayData']>, ParentType, ContextType, RequireFields<QueryTickDayDataArgs, 'id' | 'subgraphError'>>;
-  tickDayDatas?: Resolver<Array<ResolversTypes['TickDayData']>, ParentType, ContextType, RequireFields<QueryTickDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tickHourData?: Resolver<Maybe<ResolversTypes['TickHourData']>, ParentType, ContextType, RequireFields<QueryTickHourDataArgs, 'id' | 'subgraphError'>>;
-  tickHourDatas?: Resolver<Array<ResolversTypes['TickHourData']>, ParentType, ContextType, RequireFields<QueryTickHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ticks?: Resolver<Array<ResolversTypes['Tick']>, ParentType, ContextType, RequireFields<QueryTicksArgs, 'first' | 'skip' | 'subgraphError'>>;
-  token?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<QueryTokenArgs, 'id' | 'subgraphError'>>;
-  tokenDayData?: Resolver<Maybe<ResolversTypes['TokenDayData']>, ParentType, ContextType, RequireFields<QueryTokenDayDataArgs, 'id' | 'subgraphError'>>;
-  tokenDayDatas?: Resolver<Array<ResolversTypes['TokenDayData']>, ParentType, ContextType, RequireFields<QueryTokenDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tokenHourData?: Resolver<Maybe<ResolversTypes['TokenHourData']>, ParentType, ContextType, RequireFields<QueryTokenHourDataArgs, 'id' | 'subgraphError'>>;
-  tokenHourDatas?: Resolver<Array<ResolversTypes['TokenHourData']>, ParentType, ContextType, RequireFields<QueryTokenHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tokens?: Resolver<Array<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<QueryTokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transaction?: Resolver<Maybe<ResolversTypes['Transaction']>, ParentType, ContextType, RequireFields<QueryTransactionArgs, 'id' | 'subgraphError'>>;
-  transactionCount?: Resolver<Maybe<ResolversTypes['TransactionCount']>, ParentType, ContextType, RequireFields<QueryTransactionCountArgs, 'id' | 'subgraphError'>>;
-  transactionCounts?: Resolver<Array<ResolversTypes['TransactionCount']>, ParentType, ContextType, RequireFields<QueryTransactionCountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transactions?: Resolver<Array<ResolversTypes['Transaction']>, ParentType, ContextType, RequireFields<QueryTransactionsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transation?: Resolver<Maybe<ResolversTypes['Transation']>, ParentType, ContextType, RequireFields<QueryTransationArgs, 'id' | 'subgraphError'>>;
-  transations?: Resolver<Array<ResolversTypes['Transation']>, ParentType, ContextType, RequireFields<QueryTransationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  validation?: Resolver<Maybe<ResolversTypes['Validation']>, ParentType, ContextType, RequireFields<QueryValidationArgs, 'id' | 'subgraphError'>>;
-  validations?: Resolver<Array<ResolversTypes['Validation']>, ParentType, ContextType, RequireFields<QueryValidationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  validator?: Resolver<Maybe<ResolversTypes['Validator']>, ParentType, ContextType, RequireFields<QueryValidatorArgs, 'id' | 'subgraphError'>>;
-  validators?: Resolver<Array<ResolversTypes['Validator']>, ParentType, ContextType, RequireFields<QueryValidatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  withdrawalRequest?: Resolver<Maybe<ResolversTypes['WithdrawalRequest']>, ParentType, ContextType, RequireFields<QueryWithdrawalRequestArgs, 'id' | 'subgraphError'>>;
-  withdrawalRequests?: Resolver<Array<ResolversTypes['WithdrawalRequest']>, ParentType, ContextType, RequireFields<QueryWithdrawalRequestsArgs, 'first' | 'skip' | 'subgraphError'>>;
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
+> = {
+  _meta?: Resolver<
+    Maybe<ResolversTypes['_Meta_']>,
+    ParentType,
+    ContextType,
+    Partial<Query_MetaArgs>
+  >;
+  account?: Resolver<
+    Maybe<ResolversTypes['Account']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryAccountArgs, 'id' | 'subgraphError'>
+  >;
+  accountCollectionOwnership?: Resolver<
+    Maybe<ResolversTypes['AccountCollectionOwnership']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryAccountCollectionOwnershipArgs, 'id' | 'subgraphError'>
+  >;
+  accountCollectionOwnerships?: Resolver<
+    Array<ResolversTypes['AccountCollectionOwnership']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryAccountCollectionOwnershipsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  accounts?: Resolver<
+    Array<ResolversTypes['Account']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryAccountsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  block?: Resolver<
+    Maybe<ResolversTypes['Block']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBlockArgs, 'id' | 'subgraphError'>
+  >;
+  blocks?: Resolver<
+    Array<ResolversTypes['Block']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBlocksArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  bundle?: Resolver<
+    Maybe<ResolversTypes['Bundle']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBundleArgs, 'id' | 'subgraphError'>
+  >;
+  bundles?: Resolver<
+    Array<ResolversTypes['Bundle']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBundlesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  burn?: Resolver<
+    Maybe<ResolversTypes['Burn']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBurnArgs, 'id' | 'subgraphError'>
+  >;
+  burns?: Resolver<
+    Array<ResolversTypes['Burn']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBurnsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  collect?: Resolver<
+    Maybe<ResolversTypes['Collect']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCollectArgs, 'id' | 'subgraphError'>
+  >;
+  collects?: Resolver<
+    Array<ResolversTypes['Collect']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCollectsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  contract?: Resolver<
+    Maybe<ResolversTypes['Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryContractArgs, 'id' | 'subgraphError'>
+  >;
+  contracts?: Resolver<
+    Array<ResolversTypes['Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryContractsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  creator?: Resolver<
+    Maybe<ResolversTypes['Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCreatorArgs, 'id' | 'subgraphError'>
+  >;
+  creators?: Resolver<
+    Array<ResolversTypes['Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCreatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  delegation?: Resolver<
+    Maybe<ResolversTypes['Delegation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDelegationArgs, 'id' | 'subgraphError'>
+  >;
+  delegations?: Resolver<
+    Array<ResolversTypes['Delegation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDelegationsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  delegator?: Resolver<
+    Maybe<ResolversTypes['Delegator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDelegatorArgs, 'id' | 'subgraphError'>
+  >;
+  delegators?: Resolver<
+    Array<ResolversTypes['Delegator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDelegatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  epoch?: Resolver<
+    Maybe<ResolversTypes['Epoch']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryEpochArgs, 'id' | 'subgraphError'>
+  >;
+  epoches?: Resolver<
+    Array<ResolversTypes['Epoch']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryEpochesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc721Contract?: Resolver<
+    Maybe<ResolversTypes['ERC721Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721ContractArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Contracts?: Resolver<
+    Array<ResolversTypes['ERC721Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721ContractsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc721Creator?: Resolver<
+    Maybe<ResolversTypes['ERC721Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721CreatorArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Creators?: Resolver<
+    Array<ResolversTypes['ERC721Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721CreatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc721Token?: Resolver<
+    Maybe<ResolversTypes['ERC721Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721TokenArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Tokens?: Resolver<
+    Array<ResolversTypes['ERC721Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc721Transfer?: Resolver<
+    Maybe<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721TransferArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Transfers?: Resolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc721TransfersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc1155Balance?: Resolver<
+    Maybe<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155BalanceArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Balances?: Resolver<
+    Array<ResolversTypes['ERC1155Balance']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc1155Contract?: Resolver<
+    Maybe<ResolversTypes['ERC1155Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155ContractArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Contracts?: Resolver<
+    Array<ResolversTypes['ERC1155Contract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155ContractsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc1155Creator?: Resolver<
+    Maybe<ResolversTypes['ERC1155Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155CreatorArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Creators?: Resolver<
+    Array<ResolversTypes['ERC1155Creator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155CreatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc1155Token?: Resolver<
+    Maybe<ResolversTypes['ERC1155Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155TokenArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Tokens?: Resolver<
+    Array<ResolversTypes['ERC1155Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc1155Transfer?: Resolver<
+    Maybe<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155TransferArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Transfers?: Resolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryErc1155TransfersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  event?: Resolver<
+    Maybe<ResolversTypes['Event']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryEventArgs, 'id' | 'subgraphError'>
+  >;
+  events?: Resolver<
+    Array<ResolversTypes['Event']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryEventsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  factories?: Resolver<
+    Array<ResolversTypes['Factory']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFactoriesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  factory?: Resolver<
+    Maybe<ResolversTypes['Factory']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFactoryArgs, 'id' | 'subgraphError'>
+  >;
+  flash?: Resolver<
+    Maybe<ResolversTypes['Flash']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFlashArgs, 'id' | 'subgraphError'>
+  >;
+  flashes?: Resolver<
+    Array<ResolversTypes['Flash']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFlashesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  lockedUp?: Resolver<
+    Maybe<ResolversTypes['LockedUp']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryLockedUpArgs, 'id' | 'subgraphError'>
+  >;
+  lockedUps?: Resolver<
+    Array<ResolversTypes['LockedUp']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryLockedUpsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  marketEvent721?: Resolver<
+    Maybe<ResolversTypes['MarketEvent721']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketEvent721Args, 'id' | 'subgraphError'>
+  >;
+  marketEvent721S?: Resolver<
+    Array<ResolversTypes['MarketEvent721']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketEvent721SArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  marketEvent1155?: Resolver<
+    Maybe<ResolversTypes['MarketEvent1155']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketEvent1155Args, 'id' | 'subgraphError'>
+  >;
+  marketEvent1155S?: Resolver<
+    Array<ResolversTypes['MarketEvent1155']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketEvent1155SArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  marketFee?: Resolver<
+    Maybe<ResolversTypes['MarketFee']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketFeeArgs, 'id' | 'subgraphError'>
+  >;
+  marketFees?: Resolver<
+    Array<ResolversTypes['MarketFee']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketFeesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  marketVolume?: Resolver<
+    Maybe<ResolversTypes['MarketVolume']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketVolumeArgs, 'id' | 'subgraphError'>
+  >;
+  marketVolumes?: Resolver<
+    Array<ResolversTypes['MarketVolume']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMarketVolumesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  mint?: Resolver<
+    Maybe<ResolversTypes['Mint']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMintArgs, 'id' | 'subgraphError'>
+  >;
+  mints?: Resolver<
+    Array<ResolversTypes['Mint']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMintsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  onSaleStatus1155?: Resolver<
+    Maybe<ResolversTypes['OnSaleStatus1155']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOnSaleStatus1155Args, 'id' | 'subgraphError'>
+  >;
+  onSaleStatus1155S?: Resolver<
+    Array<ResolversTypes['OnSaleStatus1155']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryOnSaleStatus1155SArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  order?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderArgs, 'id' | 'subgraphError'>
+  >;
+  orderTransfer?: Resolver<
+    Maybe<ResolversTypes['OrderTransfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderTransferArgs, 'id' | 'subgraphError'>
+  >;
+  orderTransfers?: Resolver<
+    Array<ResolversTypes['OrderTransfer']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderTransfersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  orders?: Resolver<
+    Array<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrdersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  ownedTokenCount?: Resolver<
+    Maybe<ResolversTypes['OwnedTokenCount']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOwnedTokenCountArgs, 'id' | 'subgraphError'>
+  >;
+  ownedTokenCounts?: Resolver<
+    Array<ResolversTypes['OwnedTokenCount']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOwnedTokenCountsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  ownerContract?: Resolver<
+    Maybe<ResolversTypes['OwnerContract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOwnerContractArgs, 'id' | 'subgraphError'>
+  >;
+  ownerContracts?: Resolver<
+    Array<ResolversTypes['OwnerContract']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  pancakeDayData?: Resolver<
+    Maybe<ResolversTypes['PancakeDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPancakeDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  pancakeDayDatas?: Resolver<
+    Array<ResolversTypes['PancakeDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPancakeDayDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  pool?: Resolver<
+    Maybe<ResolversTypes['Pool']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolArgs, 'id' | 'subgraphError'>
+  >;
+  pool5MinuteCandleData?: Resolver<
+    Maybe<ResolversTypes['Pool5MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPool5MinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  pool5MinuteCandleDatas?: Resolver<
+    Array<ResolversTypes['Pool5MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPool5MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pool15MinuteCandleData?: Resolver<
+    Maybe<ResolversTypes['Pool15MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPool15MinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  pool15MinuteCandleDatas?: Resolver<
+    Array<ResolversTypes['Pool15MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPool15MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pool30MinuteCandleData?: Resolver<
+    Maybe<ResolversTypes['Pool30MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPool30MinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  pool30MinuteCandleDatas?: Resolver<
+    Array<ResolversTypes['Pool30MinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPool30MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolDayCandleData?: Resolver<
+    Maybe<ResolversTypes['PoolDayCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolDayCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolDayCandleDatas?: Resolver<
+    Array<ResolversTypes['PoolDayCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPoolDayCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolDayData?: Resolver<
+    Maybe<ResolversTypes['PoolDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolDayDatas?: Resolver<
+    Array<ResolversTypes['PoolDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolDayDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  poolHourCandleData?: Resolver<
+    Maybe<ResolversTypes['PoolHourCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolHourCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolHourCandleDatas?: Resolver<
+    Array<ResolversTypes['PoolHourCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPoolHourCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolHourData?: Resolver<
+    Maybe<ResolversTypes['PoolHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolHourDatas?: Resolver<
+    Array<ResolversTypes['PoolHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolHourDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  poolMinuteCandleData?: Resolver<
+    Maybe<ResolversTypes['PoolMinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolMinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolMinuteCandleDatas?: Resolver<
+    Array<ResolversTypes['PoolMinuteCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPoolMinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolMonthCandleData?: Resolver<
+    Maybe<ResolversTypes['PoolMonthCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolMonthCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolMonthCandleDatas?: Resolver<
+    Array<ResolversTypes['PoolMonthCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPoolMonthCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolWeekCandleData?: Resolver<
+    Maybe<ResolversTypes['PoolWeekCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolWeekCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolWeekCandleDatas?: Resolver<
+    Array<ResolversTypes['PoolWeekCandleData']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPoolWeekCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pools?: Resolver<
+    Array<ResolversTypes['Pool']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPoolsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  position?: Resolver<
+    Maybe<ResolversTypes['Position']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPositionArgs, 'id' | 'subgraphError'>
+  >;
+  positionSnapshot?: Resolver<
+    Maybe<ResolversTypes['PositionSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPositionSnapshotArgs, 'id' | 'subgraphError'>
+  >;
+  positionSnapshots?: Resolver<
+    Array<ResolversTypes['PositionSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryPositionSnapshotsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  positions?: Resolver<
+    Array<ResolversTypes['Position']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPositionsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  royaltiesRegistries?: Resolver<
+    Array<ResolversTypes['RoyaltiesRegistry']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryRoyaltiesRegistriesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  royaltiesRegistry?: Resolver<
+    Maybe<ResolversTypes['RoyaltiesRegistry']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryRoyaltiesRegistryArgs, 'id' | 'subgraphError'>
+  >;
+  staking?: Resolver<
+    Maybe<ResolversTypes['Staking']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryStakingArgs, 'id' | 'subgraphError'>
+  >;
+  stakings?: Resolver<
+    Array<ResolversTypes['Staking']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryStakingsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  swap?: Resolver<
+    Maybe<ResolversTypes['Swap']>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySwapArgs, 'id' | 'subgraphError'>
+  >;
+  swaps?: Resolver<
+    Array<ResolversTypes['Swap']>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySwapsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  tick?: Resolver<
+    Maybe<ResolversTypes['Tick']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTickArgs, 'id' | 'subgraphError'>
+  >;
+  tickDayData?: Resolver<
+    Maybe<ResolversTypes['TickDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTickDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  tickDayDatas?: Resolver<
+    Array<ResolversTypes['TickDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTickDayDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  tickHourData?: Resolver<
+    Maybe<ResolversTypes['TickHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTickHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  tickHourDatas?: Resolver<
+    Array<ResolversTypes['TickHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTickHourDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  ticks?: Resolver<
+    Array<ResolversTypes['Tick']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTicksArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  token?: Resolver<
+    Maybe<ResolversTypes['Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokenArgs, 'id' | 'subgraphError'>
+  >;
+  tokenDayData?: Resolver<
+    Maybe<ResolversTypes['TokenDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokenDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  tokenDayDatas?: Resolver<
+    Array<ResolversTypes['TokenDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokenDayDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  tokenHourData?: Resolver<
+    Maybe<ResolversTypes['TokenHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokenHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  tokenHourDatas?: Resolver<
+    Array<ResolversTypes['TokenHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokenHourDatasArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  tokens?: Resolver<
+    Array<ResolversTypes['Token']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTokensArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  transaction?: Resolver<
+    Maybe<ResolversTypes['Transaction']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransactionArgs, 'id' | 'subgraphError'>
+  >;
+  transactionCount?: Resolver<
+    Maybe<ResolversTypes['TransactionCount']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransactionCountArgs, 'id' | 'subgraphError'>
+  >;
+  transactionCounts?: Resolver<
+    Array<ResolversTypes['TransactionCount']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryTransactionCountsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transactions?: Resolver<
+    Array<ResolversTypes['Transaction']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransactionsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  transation?: Resolver<
+    Maybe<ResolversTypes['Transation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransationArgs, 'id' | 'subgraphError'>
+  >;
+  transations?: Resolver<
+    Array<ResolversTypes['Transation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransationsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  validation?: Resolver<
+    Maybe<ResolversTypes['Validation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidationArgs, 'id' | 'subgraphError'>
+  >;
+  validations?: Resolver<
+    Array<ResolversTypes['Validation']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidationsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  validator?: Resolver<
+    Maybe<ResolversTypes['Validator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidatorArgs, 'id' | 'subgraphError'>
+  >;
+  validators?: Resolver<
+    Array<ResolversTypes['Validator']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  withdrawalRequest?: Resolver<
+    Maybe<ResolversTypes['WithdrawalRequest']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryWithdrawalRequestArgs, 'id' | 'subgraphError'>
+  >;
+  withdrawalRequests?: Resolver<
+    Array<ResolversTypes['WithdrawalRequest']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryWithdrawalRequestsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
 };
 
-export type RoyaltiesRegistryResolvers<ContextType = any, ParentType extends ResolversParentTypes['RoyaltiesRegistry'] = ResolversParentTypes['RoyaltiesRegistry']> = {
+export type RoyaltiesRegistryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['RoyaltiesRegistry'] = ResolversParentTypes['RoyaltiesRegistry'],
+> = {
   account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   collectionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -16228,9 +18055,17 @@ export type RoyaltiesRegistryResolvers<ContextType = any, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type StakingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Staking'] = ResolversParentTypes['Staking']> = {
+export type StakingResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Staking'] = ResolversParentTypes['Staking'],
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  totalClaimedRewards?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  totalClaimedRewards?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   totalDelegated?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   totalDelegator?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   totalLockStake?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -16240,140 +18075,1052 @@ export type StakingResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_MetaArgs>>;
-  account?: SubscriptionResolver<Maybe<ResolversTypes['Account']>, "account", ParentType, ContextType, RequireFields<SubscriptionAccountArgs, 'id' | 'subgraphError'>>;
-  accountCollectionOwnership?: SubscriptionResolver<Maybe<ResolversTypes['AccountCollectionOwnership']>, "accountCollectionOwnership", ParentType, ContextType, RequireFields<SubscriptionAccountCollectionOwnershipArgs, 'id' | 'subgraphError'>>;
-  accountCollectionOwnerships?: SubscriptionResolver<Array<ResolversTypes['AccountCollectionOwnership']>, "accountCollectionOwnerships", ParentType, ContextType, RequireFields<SubscriptionAccountCollectionOwnershipsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  accounts?: SubscriptionResolver<Array<ResolversTypes['Account']>, "accounts", ParentType, ContextType, RequireFields<SubscriptionAccountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  block?: SubscriptionResolver<Maybe<ResolversTypes['Block']>, "block", ParentType, ContextType, RequireFields<SubscriptionBlockArgs, 'id' | 'subgraphError'>>;
-  blocks?: SubscriptionResolver<Array<ResolversTypes['Block']>, "blocks", ParentType, ContextType, RequireFields<SubscriptionBlocksArgs, 'first' | 'skip' | 'subgraphError'>>;
-  bundle?: SubscriptionResolver<Maybe<ResolversTypes['Bundle']>, "bundle", ParentType, ContextType, RequireFields<SubscriptionBundleArgs, 'id' | 'subgraphError'>>;
-  bundles?: SubscriptionResolver<Array<ResolversTypes['Bundle']>, "bundles", ParentType, ContextType, RequireFields<SubscriptionBundlesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  burn?: SubscriptionResolver<Maybe<ResolversTypes['Burn']>, "burn", ParentType, ContextType, RequireFields<SubscriptionBurnArgs, 'id' | 'subgraphError'>>;
-  burns?: SubscriptionResolver<Array<ResolversTypes['Burn']>, "burns", ParentType, ContextType, RequireFields<SubscriptionBurnsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  collect?: SubscriptionResolver<Maybe<ResolversTypes['Collect']>, "collect", ParentType, ContextType, RequireFields<SubscriptionCollectArgs, 'id' | 'subgraphError'>>;
-  collects?: SubscriptionResolver<Array<ResolversTypes['Collect']>, "collects", ParentType, ContextType, RequireFields<SubscriptionCollectsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  contract?: SubscriptionResolver<Maybe<ResolversTypes['Contract']>, "contract", ParentType, ContextType, RequireFields<SubscriptionContractArgs, 'id' | 'subgraphError'>>;
-  contracts?: SubscriptionResolver<Array<ResolversTypes['Contract']>, "contracts", ParentType, ContextType, RequireFields<SubscriptionContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  creator?: SubscriptionResolver<Maybe<ResolversTypes['Creator']>, "creator", ParentType, ContextType, RequireFields<SubscriptionCreatorArgs, 'id' | 'subgraphError'>>;
-  creators?: SubscriptionResolver<Array<ResolversTypes['Creator']>, "creators", ParentType, ContextType, RequireFields<SubscriptionCreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  delegation?: SubscriptionResolver<Maybe<ResolversTypes['Delegation']>, "delegation", ParentType, ContextType, RequireFields<SubscriptionDelegationArgs, 'id' | 'subgraphError'>>;
-  delegations?: SubscriptionResolver<Array<ResolversTypes['Delegation']>, "delegations", ParentType, ContextType, RequireFields<SubscriptionDelegationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  delegator?: SubscriptionResolver<Maybe<ResolversTypes['Delegator']>, "delegator", ParentType, ContextType, RequireFields<SubscriptionDelegatorArgs, 'id' | 'subgraphError'>>;
-  delegators?: SubscriptionResolver<Array<ResolversTypes['Delegator']>, "delegators", ParentType, ContextType, RequireFields<SubscriptionDelegatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  epoch?: SubscriptionResolver<Maybe<ResolversTypes['Epoch']>, "epoch", ParentType, ContextType, RequireFields<SubscriptionEpochArgs, 'id' | 'subgraphError'>>;
-  epoches?: SubscriptionResolver<Array<ResolversTypes['Epoch']>, "epoches", ParentType, ContextType, RequireFields<SubscriptionEpochesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Contract?: SubscriptionResolver<Maybe<ResolversTypes['ERC721Contract']>, "erc721Contract", ParentType, ContextType, RequireFields<SubscriptionErc721ContractArgs, 'id' | 'subgraphError'>>;
-  erc721Contracts?: SubscriptionResolver<Array<ResolversTypes['ERC721Contract']>, "erc721Contracts", ParentType, ContextType, RequireFields<SubscriptionErc721ContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Creator?: SubscriptionResolver<Maybe<ResolversTypes['ERC721Creator']>, "erc721Creator", ParentType, ContextType, RequireFields<SubscriptionErc721CreatorArgs, 'id' | 'subgraphError'>>;
-  erc721Creators?: SubscriptionResolver<Array<ResolversTypes['ERC721Creator']>, "erc721Creators", ParentType, ContextType, RequireFields<SubscriptionErc721CreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Token?: SubscriptionResolver<Maybe<ResolversTypes['ERC721Token']>, "erc721Token", ParentType, ContextType, RequireFields<SubscriptionErc721TokenArgs, 'id' | 'subgraphError'>>;
-  erc721Tokens?: SubscriptionResolver<Array<ResolversTypes['ERC721Token']>, "erc721Tokens", ParentType, ContextType, RequireFields<SubscriptionErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc721Transfer?: SubscriptionResolver<Maybe<ResolversTypes['ERC721Transfer']>, "erc721Transfer", ParentType, ContextType, RequireFields<SubscriptionErc721TransferArgs, 'id' | 'subgraphError'>>;
-  erc721Transfers?: SubscriptionResolver<Array<ResolversTypes['ERC721Transfer']>, "erc721Transfers", ParentType, ContextType, RequireFields<SubscriptionErc721TransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Balance?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Balance']>, "erc1155Balance", ParentType, ContextType, RequireFields<SubscriptionErc1155BalanceArgs, 'id' | 'subgraphError'>>;
-  erc1155Balances?: SubscriptionResolver<Array<ResolversTypes['ERC1155Balance']>, "erc1155Balances", ParentType, ContextType, RequireFields<SubscriptionErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Contract?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Contract']>, "erc1155Contract", ParentType, ContextType, RequireFields<SubscriptionErc1155ContractArgs, 'id' | 'subgraphError'>>;
-  erc1155Contracts?: SubscriptionResolver<Array<ResolversTypes['ERC1155Contract']>, "erc1155Contracts", ParentType, ContextType, RequireFields<SubscriptionErc1155ContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Creator?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Creator']>, "erc1155Creator", ParentType, ContextType, RequireFields<SubscriptionErc1155CreatorArgs, 'id' | 'subgraphError'>>;
-  erc1155Creators?: SubscriptionResolver<Array<ResolversTypes['ERC1155Creator']>, "erc1155Creators", ParentType, ContextType, RequireFields<SubscriptionErc1155CreatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Token?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Token']>, "erc1155Token", ParentType, ContextType, RequireFields<SubscriptionErc1155TokenArgs, 'id' | 'subgraphError'>>;
-  erc1155Tokens?: SubscriptionResolver<Array<ResolversTypes['ERC1155Token']>, "erc1155Tokens", ParentType, ContextType, RequireFields<SubscriptionErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  erc1155Transfer?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Transfer']>, "erc1155Transfer", ParentType, ContextType, RequireFields<SubscriptionErc1155TransferArgs, 'id' | 'subgraphError'>>;
-  erc1155Transfers?: SubscriptionResolver<Array<ResolversTypes['ERC1155Transfer']>, "erc1155Transfers", ParentType, ContextType, RequireFields<SubscriptionErc1155TransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  event?: SubscriptionResolver<Maybe<ResolversTypes['Event']>, "event", ParentType, ContextType, RequireFields<SubscriptionEventArgs, 'id' | 'subgraphError'>>;
-  events?: SubscriptionResolver<Array<ResolversTypes['Event']>, "events", ParentType, ContextType, RequireFields<SubscriptionEventsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  factories?: SubscriptionResolver<Array<ResolversTypes['Factory']>, "factories", ParentType, ContextType, RequireFields<SubscriptionFactoriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  factory?: SubscriptionResolver<Maybe<ResolversTypes['Factory']>, "factory", ParentType, ContextType, RequireFields<SubscriptionFactoryArgs, 'id' | 'subgraphError'>>;
-  flash?: SubscriptionResolver<Maybe<ResolversTypes['Flash']>, "flash", ParentType, ContextType, RequireFields<SubscriptionFlashArgs, 'id' | 'subgraphError'>>;
-  flashes?: SubscriptionResolver<Array<ResolversTypes['Flash']>, "flashes", ParentType, ContextType, RequireFields<SubscriptionFlashesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  lockedUp?: SubscriptionResolver<Maybe<ResolversTypes['LockedUp']>, "lockedUp", ParentType, ContextType, RequireFields<SubscriptionLockedUpArgs, 'id' | 'subgraphError'>>;
-  lockedUps?: SubscriptionResolver<Array<ResolversTypes['LockedUp']>, "lockedUps", ParentType, ContextType, RequireFields<SubscriptionLockedUpsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketEvent721?: SubscriptionResolver<Maybe<ResolversTypes['MarketEvent721']>, "marketEvent721", ParentType, ContextType, RequireFields<SubscriptionMarketEvent721Args, 'id' | 'subgraphError'>>;
-  marketEvent721S?: SubscriptionResolver<Array<ResolversTypes['MarketEvent721']>, "marketEvent721S", ParentType, ContextType, RequireFields<SubscriptionMarketEvent721SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketEvent1155?: SubscriptionResolver<Maybe<ResolversTypes['MarketEvent1155']>, "marketEvent1155", ParentType, ContextType, RequireFields<SubscriptionMarketEvent1155Args, 'id' | 'subgraphError'>>;
-  marketEvent1155S?: SubscriptionResolver<Array<ResolversTypes['MarketEvent1155']>, "marketEvent1155S", ParentType, ContextType, RequireFields<SubscriptionMarketEvent1155SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketFee?: SubscriptionResolver<Maybe<ResolversTypes['MarketFee']>, "marketFee", ParentType, ContextType, RequireFields<SubscriptionMarketFeeArgs, 'id' | 'subgraphError'>>;
-  marketFees?: SubscriptionResolver<Array<ResolversTypes['MarketFee']>, "marketFees", ParentType, ContextType, RequireFields<SubscriptionMarketFeesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  marketVolume?: SubscriptionResolver<Maybe<ResolversTypes['MarketVolume']>, "marketVolume", ParentType, ContextType, RequireFields<SubscriptionMarketVolumeArgs, 'id' | 'subgraphError'>>;
-  marketVolumes?: SubscriptionResolver<Array<ResolversTypes['MarketVolume']>, "marketVolumes", ParentType, ContextType, RequireFields<SubscriptionMarketVolumesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  mint?: SubscriptionResolver<Maybe<ResolversTypes['Mint']>, "mint", ParentType, ContextType, RequireFields<SubscriptionMintArgs, 'id' | 'subgraphError'>>;
-  mints?: SubscriptionResolver<Array<ResolversTypes['Mint']>, "mints", ParentType, ContextType, RequireFields<SubscriptionMintsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  onSaleStatus1155?: SubscriptionResolver<Maybe<ResolversTypes['OnSaleStatus1155']>, "onSaleStatus1155", ParentType, ContextType, RequireFields<SubscriptionOnSaleStatus1155Args, 'id' | 'subgraphError'>>;
-  onSaleStatus1155S?: SubscriptionResolver<Array<ResolversTypes['OnSaleStatus1155']>, "onSaleStatus1155S", ParentType, ContextType, RequireFields<SubscriptionOnSaleStatus1155SArgs, 'first' | 'skip' | 'subgraphError'>>;
-  order?: SubscriptionResolver<Maybe<ResolversTypes['Order']>, "order", ParentType, ContextType, RequireFields<SubscriptionOrderArgs, 'id' | 'subgraphError'>>;
-  orderTransfer?: SubscriptionResolver<Maybe<ResolversTypes['OrderTransfer']>, "orderTransfer", ParentType, ContextType, RequireFields<SubscriptionOrderTransferArgs, 'id' | 'subgraphError'>>;
-  orderTransfers?: SubscriptionResolver<Array<ResolversTypes['OrderTransfer']>, "orderTransfers", ParentType, ContextType, RequireFields<SubscriptionOrderTransfersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  orders?: SubscriptionResolver<Array<ResolversTypes['Order']>, "orders", ParentType, ContextType, RequireFields<SubscriptionOrdersArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ownedTokenCount?: SubscriptionResolver<Maybe<ResolversTypes['OwnedTokenCount']>, "ownedTokenCount", ParentType, ContextType, RequireFields<SubscriptionOwnedTokenCountArgs, 'id' | 'subgraphError'>>;
-  ownedTokenCounts?: SubscriptionResolver<Array<ResolversTypes['OwnedTokenCount']>, "ownedTokenCounts", ParentType, ContextType, RequireFields<SubscriptionOwnedTokenCountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ownerContract?: SubscriptionResolver<Maybe<ResolversTypes['OwnerContract']>, "ownerContract", ParentType, ContextType, RequireFields<SubscriptionOwnerContractArgs, 'id' | 'subgraphError'>>;
-  ownerContracts?: SubscriptionResolver<Array<ResolversTypes['OwnerContract']>, "ownerContracts", ParentType, ContextType, RequireFields<SubscriptionOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pancakeDayData?: SubscriptionResolver<Maybe<ResolversTypes['PancakeDayData']>, "pancakeDayData", ParentType, ContextType, RequireFields<SubscriptionPancakeDayDataArgs, 'id' | 'subgraphError'>>;
-  pancakeDayDatas?: SubscriptionResolver<Array<ResolversTypes['PancakeDayData']>, "pancakeDayDatas", ParentType, ContextType, RequireFields<SubscriptionPancakeDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool?: SubscriptionResolver<Maybe<ResolversTypes['Pool']>, "pool", ParentType, ContextType, RequireFields<SubscriptionPoolArgs, 'id' | 'subgraphError'>>;
-  pool5MinuteCandleData?: SubscriptionResolver<Maybe<ResolversTypes['Pool5MinuteCandleData']>, "pool5MinuteCandleData", ParentType, ContextType, RequireFields<SubscriptionPool5MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool5MinuteCandleDatas?: SubscriptionResolver<Array<ResolversTypes['Pool5MinuteCandleData']>, "pool5MinuteCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPool5MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool15MinuteCandleData?: SubscriptionResolver<Maybe<ResolversTypes['Pool15MinuteCandleData']>, "pool15MinuteCandleData", ParentType, ContextType, RequireFields<SubscriptionPool15MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool15MinuteCandleDatas?: SubscriptionResolver<Array<ResolversTypes['Pool15MinuteCandleData']>, "pool15MinuteCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPool15MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pool30MinuteCandleData?: SubscriptionResolver<Maybe<ResolversTypes['Pool30MinuteCandleData']>, "pool30MinuteCandleData", ParentType, ContextType, RequireFields<SubscriptionPool30MinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  pool30MinuteCandleDatas?: SubscriptionResolver<Array<ResolversTypes['Pool30MinuteCandleData']>, "pool30MinuteCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPool30MinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolDayCandleData?: SubscriptionResolver<Maybe<ResolversTypes['PoolDayCandleData']>, "poolDayCandleData", ParentType, ContextType, RequireFields<SubscriptionPoolDayCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolDayCandleDatas?: SubscriptionResolver<Array<ResolversTypes['PoolDayCandleData']>, "poolDayCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPoolDayCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolDayData?: SubscriptionResolver<Maybe<ResolversTypes['PoolDayData']>, "poolDayData", ParentType, ContextType, RequireFields<SubscriptionPoolDayDataArgs, 'id' | 'subgraphError'>>;
-  poolDayDatas?: SubscriptionResolver<Array<ResolversTypes['PoolDayData']>, "poolDayDatas", ParentType, ContextType, RequireFields<SubscriptionPoolDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolHourCandleData?: SubscriptionResolver<Maybe<ResolversTypes['PoolHourCandleData']>, "poolHourCandleData", ParentType, ContextType, RequireFields<SubscriptionPoolHourCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolHourCandleDatas?: SubscriptionResolver<Array<ResolversTypes['PoolHourCandleData']>, "poolHourCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPoolHourCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolHourData?: SubscriptionResolver<Maybe<ResolversTypes['PoolHourData']>, "poolHourData", ParentType, ContextType, RequireFields<SubscriptionPoolHourDataArgs, 'id' | 'subgraphError'>>;
-  poolHourDatas?: SubscriptionResolver<Array<ResolversTypes['PoolHourData']>, "poolHourDatas", ParentType, ContextType, RequireFields<SubscriptionPoolHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolMinuteCandleData?: SubscriptionResolver<Maybe<ResolversTypes['PoolMinuteCandleData']>, "poolMinuteCandleData", ParentType, ContextType, RequireFields<SubscriptionPoolMinuteCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolMinuteCandleDatas?: SubscriptionResolver<Array<ResolversTypes['PoolMinuteCandleData']>, "poolMinuteCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPoolMinuteCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolMonthCandleData?: SubscriptionResolver<Maybe<ResolversTypes['PoolMonthCandleData']>, "poolMonthCandleData", ParentType, ContextType, RequireFields<SubscriptionPoolMonthCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolMonthCandleDatas?: SubscriptionResolver<Array<ResolversTypes['PoolMonthCandleData']>, "poolMonthCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPoolMonthCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  poolWeekCandleData?: SubscriptionResolver<Maybe<ResolversTypes['PoolWeekCandleData']>, "poolWeekCandleData", ParentType, ContextType, RequireFields<SubscriptionPoolWeekCandleDataArgs, 'id' | 'subgraphError'>>;
-  poolWeekCandleDatas?: SubscriptionResolver<Array<ResolversTypes['PoolWeekCandleData']>, "poolWeekCandleDatas", ParentType, ContextType, RequireFields<SubscriptionPoolWeekCandleDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  pools?: SubscriptionResolver<Array<ResolversTypes['Pool']>, "pools", ParentType, ContextType, RequireFields<SubscriptionPoolsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  position?: SubscriptionResolver<Maybe<ResolversTypes['Position']>, "position", ParentType, ContextType, RequireFields<SubscriptionPositionArgs, 'id' | 'subgraphError'>>;
-  positionSnapshot?: SubscriptionResolver<Maybe<ResolversTypes['PositionSnapshot']>, "positionSnapshot", ParentType, ContextType, RequireFields<SubscriptionPositionSnapshotArgs, 'id' | 'subgraphError'>>;
-  positionSnapshots?: SubscriptionResolver<Array<ResolversTypes['PositionSnapshot']>, "positionSnapshots", ParentType, ContextType, RequireFields<SubscriptionPositionSnapshotsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  positions?: SubscriptionResolver<Array<ResolversTypes['Position']>, "positions", ParentType, ContextType, RequireFields<SubscriptionPositionsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  royaltiesRegistries?: SubscriptionResolver<Array<ResolversTypes['RoyaltiesRegistry']>, "royaltiesRegistries", ParentType, ContextType, RequireFields<SubscriptionRoyaltiesRegistriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  royaltiesRegistry?: SubscriptionResolver<Maybe<ResolversTypes['RoyaltiesRegistry']>, "royaltiesRegistry", ParentType, ContextType, RequireFields<SubscriptionRoyaltiesRegistryArgs, 'id' | 'subgraphError'>>;
-  staking?: SubscriptionResolver<Maybe<ResolversTypes['Staking']>, "staking", ParentType, ContextType, RequireFields<SubscriptionStakingArgs, 'id' | 'subgraphError'>>;
-  stakings?: SubscriptionResolver<Array<ResolversTypes['Staking']>, "stakings", ParentType, ContextType, RequireFields<SubscriptionStakingsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  swap?: SubscriptionResolver<Maybe<ResolversTypes['Swap']>, "swap", ParentType, ContextType, RequireFields<SubscriptionSwapArgs, 'id' | 'subgraphError'>>;
-  swaps?: SubscriptionResolver<Array<ResolversTypes['Swap']>, "swaps", ParentType, ContextType, RequireFields<SubscriptionSwapsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tick?: SubscriptionResolver<Maybe<ResolversTypes['Tick']>, "tick", ParentType, ContextType, RequireFields<SubscriptionTickArgs, 'id' | 'subgraphError'>>;
-  tickDayData?: SubscriptionResolver<Maybe<ResolversTypes['TickDayData']>, "tickDayData", ParentType, ContextType, RequireFields<SubscriptionTickDayDataArgs, 'id' | 'subgraphError'>>;
-  tickDayDatas?: SubscriptionResolver<Array<ResolversTypes['TickDayData']>, "tickDayDatas", ParentType, ContextType, RequireFields<SubscriptionTickDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tickHourData?: SubscriptionResolver<Maybe<ResolversTypes['TickHourData']>, "tickHourData", ParentType, ContextType, RequireFields<SubscriptionTickHourDataArgs, 'id' | 'subgraphError'>>;
-  tickHourDatas?: SubscriptionResolver<Array<ResolversTypes['TickHourData']>, "tickHourDatas", ParentType, ContextType, RequireFields<SubscriptionTickHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  ticks?: SubscriptionResolver<Array<ResolversTypes['Tick']>, "ticks", ParentType, ContextType, RequireFields<SubscriptionTicksArgs, 'first' | 'skip' | 'subgraphError'>>;
-  token?: SubscriptionResolver<Maybe<ResolversTypes['Token']>, "token", ParentType, ContextType, RequireFields<SubscriptionTokenArgs, 'id' | 'subgraphError'>>;
-  tokenDayData?: SubscriptionResolver<Maybe<ResolversTypes['TokenDayData']>, "tokenDayData", ParentType, ContextType, RequireFields<SubscriptionTokenDayDataArgs, 'id' | 'subgraphError'>>;
-  tokenDayDatas?: SubscriptionResolver<Array<ResolversTypes['TokenDayData']>, "tokenDayDatas", ParentType, ContextType, RequireFields<SubscriptionTokenDayDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tokenHourData?: SubscriptionResolver<Maybe<ResolversTypes['TokenHourData']>, "tokenHourData", ParentType, ContextType, RequireFields<SubscriptionTokenHourDataArgs, 'id' | 'subgraphError'>>;
-  tokenHourDatas?: SubscriptionResolver<Array<ResolversTypes['TokenHourData']>, "tokenHourDatas", ParentType, ContextType, RequireFields<SubscriptionTokenHourDatasArgs, 'first' | 'skip' | 'subgraphError'>>;
-  tokens?: SubscriptionResolver<Array<ResolversTypes['Token']>, "tokens", ParentType, ContextType, RequireFields<SubscriptionTokensArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transaction?: SubscriptionResolver<Maybe<ResolversTypes['Transaction']>, "transaction", ParentType, ContextType, RequireFields<SubscriptionTransactionArgs, 'id' | 'subgraphError'>>;
-  transactionCount?: SubscriptionResolver<Maybe<ResolversTypes['TransactionCount']>, "transactionCount", ParentType, ContextType, RequireFields<SubscriptionTransactionCountArgs, 'id' | 'subgraphError'>>;
-  transactionCounts?: SubscriptionResolver<Array<ResolversTypes['TransactionCount']>, "transactionCounts", ParentType, ContextType, RequireFields<SubscriptionTransactionCountsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transactions?: SubscriptionResolver<Array<ResolversTypes['Transaction']>, "transactions", ParentType, ContextType, RequireFields<SubscriptionTransactionsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transation?: SubscriptionResolver<Maybe<ResolversTypes['Transation']>, "transation", ParentType, ContextType, RequireFields<SubscriptionTransationArgs, 'id' | 'subgraphError'>>;
-  transations?: SubscriptionResolver<Array<ResolversTypes['Transation']>, "transations", ParentType, ContextType, RequireFields<SubscriptionTransationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  validation?: SubscriptionResolver<Maybe<ResolversTypes['Validation']>, "validation", ParentType, ContextType, RequireFields<SubscriptionValidationArgs, 'id' | 'subgraphError'>>;
-  validations?: SubscriptionResolver<Array<ResolversTypes['Validation']>, "validations", ParentType, ContextType, RequireFields<SubscriptionValidationsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  validator?: SubscriptionResolver<Maybe<ResolversTypes['Validator']>, "validator", ParentType, ContextType, RequireFields<SubscriptionValidatorArgs, 'id' | 'subgraphError'>>;
-  validators?: SubscriptionResolver<Array<ResolversTypes['Validator']>, "validators", ParentType, ContextType, RequireFields<SubscriptionValidatorsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  withdrawalRequest?: SubscriptionResolver<Maybe<ResolversTypes['WithdrawalRequest']>, "withdrawalRequest", ParentType, ContextType, RequireFields<SubscriptionWithdrawalRequestArgs, 'id' | 'subgraphError'>>;
-  withdrawalRequests?: SubscriptionResolver<Array<ResolversTypes['WithdrawalRequest']>, "withdrawalRequests", ParentType, ContextType, RequireFields<SubscriptionWithdrawalRequestsArgs, 'first' | 'skip' | 'subgraphError'>>;
+export type SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription'],
+> = {
+  _meta?: SubscriptionResolver<
+    Maybe<ResolversTypes['_Meta_']>,
+    '_meta',
+    ParentType,
+    ContextType,
+    Partial<Subscription_MetaArgs>
+  >;
+  account?: SubscriptionResolver<
+    Maybe<ResolversTypes['Account']>,
+    'account',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionAccountArgs, 'id' | 'subgraphError'>
+  >;
+  accountCollectionOwnership?: SubscriptionResolver<
+    Maybe<ResolversTypes['AccountCollectionOwnership']>,
+    'accountCollectionOwnership',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionAccountCollectionOwnershipArgs,
+      'id' | 'subgraphError'
+    >
+  >;
+  accountCollectionOwnerships?: SubscriptionResolver<
+    Array<ResolversTypes['AccountCollectionOwnership']>,
+    'accountCollectionOwnerships',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionAccountCollectionOwnershipsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  accounts?: SubscriptionResolver<
+    Array<ResolversTypes['Account']>,
+    'accounts',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionAccountsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  block?: SubscriptionResolver<
+    Maybe<ResolversTypes['Block']>,
+    'block',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBlockArgs, 'id' | 'subgraphError'>
+  >;
+  blocks?: SubscriptionResolver<
+    Array<ResolversTypes['Block']>,
+    'blocks',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBlocksArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  bundle?: SubscriptionResolver<
+    Maybe<ResolversTypes['Bundle']>,
+    'bundle',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBundleArgs, 'id' | 'subgraphError'>
+  >;
+  bundles?: SubscriptionResolver<
+    Array<ResolversTypes['Bundle']>,
+    'bundles',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBundlesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  burn?: SubscriptionResolver<
+    Maybe<ResolversTypes['Burn']>,
+    'burn',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBurnArgs, 'id' | 'subgraphError'>
+  >;
+  burns?: SubscriptionResolver<
+    Array<ResolversTypes['Burn']>,
+    'burns',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionBurnsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  collect?: SubscriptionResolver<
+    Maybe<ResolversTypes['Collect']>,
+    'collect',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionCollectArgs, 'id' | 'subgraphError'>
+  >;
+  collects?: SubscriptionResolver<
+    Array<ResolversTypes['Collect']>,
+    'collects',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionCollectsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  contract?: SubscriptionResolver<
+    Maybe<ResolversTypes['Contract']>,
+    'contract',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionContractArgs, 'id' | 'subgraphError'>
+  >;
+  contracts?: SubscriptionResolver<
+    Array<ResolversTypes['Contract']>,
+    'contracts',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionContractsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  creator?: SubscriptionResolver<
+    Maybe<ResolversTypes['Creator']>,
+    'creator',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionCreatorArgs, 'id' | 'subgraphError'>
+  >;
+  creators?: SubscriptionResolver<
+    Array<ResolversTypes['Creator']>,
+    'creators',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionCreatorsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  delegation?: SubscriptionResolver<
+    Maybe<ResolversTypes['Delegation']>,
+    'delegation',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionDelegationArgs, 'id' | 'subgraphError'>
+  >;
+  delegations?: SubscriptionResolver<
+    Array<ResolversTypes['Delegation']>,
+    'delegations',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionDelegationsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  delegator?: SubscriptionResolver<
+    Maybe<ResolversTypes['Delegator']>,
+    'delegator',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionDelegatorArgs, 'id' | 'subgraphError'>
+  >;
+  delegators?: SubscriptionResolver<
+    Array<ResolversTypes['Delegator']>,
+    'delegators',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionDelegatorsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  epoch?: SubscriptionResolver<
+    Maybe<ResolversTypes['Epoch']>,
+    'epoch',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionEpochArgs, 'id' | 'subgraphError'>
+  >;
+  epoches?: SubscriptionResolver<
+    Array<ResolversTypes['Epoch']>,
+    'epoches',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionEpochesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  erc721Contract?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC721Contract']>,
+    'erc721Contract',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc721ContractArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Contracts?: SubscriptionResolver<
+    Array<ResolversTypes['ERC721Contract']>,
+    'erc721Contracts',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc721ContractsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc721Creator?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC721Creator']>,
+    'erc721Creator',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc721CreatorArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Creators?: SubscriptionResolver<
+    Array<ResolversTypes['ERC721Creator']>,
+    'erc721Creators',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc721CreatorsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc721Token?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC721Token']>,
+    'erc721Token',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc721TokenArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Tokens?: SubscriptionResolver<
+    Array<ResolversTypes['ERC721Token']>,
+    'erc721Tokens',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc721TokensArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc721Transfer?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC721Transfer']>,
+    'erc721Transfer',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc721TransferArgs, 'id' | 'subgraphError'>
+  >;
+  erc721Transfers?: SubscriptionResolver<
+    Array<ResolversTypes['ERC721Transfer']>,
+    'erc721Transfers',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc721TransfersArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc1155Balance?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC1155Balance']>,
+    'erc1155Balance',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc1155BalanceArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Balances?: SubscriptionResolver<
+    Array<ResolversTypes['ERC1155Balance']>,
+    'erc1155Balances',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc1155BalancesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc1155Contract?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC1155Contract']>,
+    'erc1155Contract',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc1155ContractArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Contracts?: SubscriptionResolver<
+    Array<ResolversTypes['ERC1155Contract']>,
+    'erc1155Contracts',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc1155ContractsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc1155Creator?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC1155Creator']>,
+    'erc1155Creator',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc1155CreatorArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Creators?: SubscriptionResolver<
+    Array<ResolversTypes['ERC1155Creator']>,
+    'erc1155Creators',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc1155CreatorsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc1155Token?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC1155Token']>,
+    'erc1155Token',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc1155TokenArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Tokens?: SubscriptionResolver<
+    Array<ResolversTypes['ERC1155Token']>,
+    'erc1155Tokens',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc1155TokensArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  erc1155Transfer?: SubscriptionResolver<
+    Maybe<ResolversTypes['ERC1155Transfer']>,
+    'erc1155Transfer',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionErc1155TransferArgs, 'id' | 'subgraphError'>
+  >;
+  erc1155Transfers?: SubscriptionResolver<
+    Array<ResolversTypes['ERC1155Transfer']>,
+    'erc1155Transfers',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionErc1155TransfersArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  event?: SubscriptionResolver<
+    Maybe<ResolversTypes['Event']>,
+    'event',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionEventArgs, 'id' | 'subgraphError'>
+  >;
+  events?: SubscriptionResolver<
+    Array<ResolversTypes['Event']>,
+    'events',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionEventsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  factories?: SubscriptionResolver<
+    Array<ResolversTypes['Factory']>,
+    'factories',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionFactoriesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  factory?: SubscriptionResolver<
+    Maybe<ResolversTypes['Factory']>,
+    'factory',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionFactoryArgs, 'id' | 'subgraphError'>
+  >;
+  flash?: SubscriptionResolver<
+    Maybe<ResolversTypes['Flash']>,
+    'flash',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionFlashArgs, 'id' | 'subgraphError'>
+  >;
+  flashes?: SubscriptionResolver<
+    Array<ResolversTypes['Flash']>,
+    'flashes',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionFlashesArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  lockedUp?: SubscriptionResolver<
+    Maybe<ResolversTypes['LockedUp']>,
+    'lockedUp',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionLockedUpArgs, 'id' | 'subgraphError'>
+  >;
+  lockedUps?: SubscriptionResolver<
+    Array<ResolversTypes['LockedUp']>,
+    'lockedUps',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionLockedUpsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  marketEvent721?: SubscriptionResolver<
+    Maybe<ResolversTypes['MarketEvent721']>,
+    'marketEvent721',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMarketEvent721Args, 'id' | 'subgraphError'>
+  >;
+  marketEvent721S?: SubscriptionResolver<
+    Array<ResolversTypes['MarketEvent721']>,
+    'marketEvent721S',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionMarketEvent721SArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  marketEvent1155?: SubscriptionResolver<
+    Maybe<ResolversTypes['MarketEvent1155']>,
+    'marketEvent1155',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMarketEvent1155Args, 'id' | 'subgraphError'>
+  >;
+  marketEvent1155S?: SubscriptionResolver<
+    Array<ResolversTypes['MarketEvent1155']>,
+    'marketEvent1155S',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionMarketEvent1155SArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  marketFee?: SubscriptionResolver<
+    Maybe<ResolversTypes['MarketFee']>,
+    'marketFee',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMarketFeeArgs, 'id' | 'subgraphError'>
+  >;
+  marketFees?: SubscriptionResolver<
+    Array<ResolversTypes['MarketFee']>,
+    'marketFees',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionMarketFeesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  marketVolume?: SubscriptionResolver<
+    Maybe<ResolversTypes['MarketVolume']>,
+    'marketVolume',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMarketVolumeArgs, 'id' | 'subgraphError'>
+  >;
+  marketVolumes?: SubscriptionResolver<
+    Array<ResolversTypes['MarketVolume']>,
+    'marketVolumes',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionMarketVolumesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  mint?: SubscriptionResolver<
+    Maybe<ResolversTypes['Mint']>,
+    'mint',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMintArgs, 'id' | 'subgraphError'>
+  >;
+  mints?: SubscriptionResolver<
+    Array<ResolversTypes['Mint']>,
+    'mints',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMintsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  onSaleStatus1155?: SubscriptionResolver<
+    Maybe<ResolversTypes['OnSaleStatus1155']>,
+    'onSaleStatus1155',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOnSaleStatus1155Args, 'id' | 'subgraphError'>
+  >;
+  onSaleStatus1155S?: SubscriptionResolver<
+    Array<ResolversTypes['OnSaleStatus1155']>,
+    'onSaleStatus1155S',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionOnSaleStatus1155SArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  order?: SubscriptionResolver<
+    Maybe<ResolversTypes['Order']>,
+    'order',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOrderArgs, 'id' | 'subgraphError'>
+  >;
+  orderTransfer?: SubscriptionResolver<
+    Maybe<ResolversTypes['OrderTransfer']>,
+    'orderTransfer',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOrderTransferArgs, 'id' | 'subgraphError'>
+  >;
+  orderTransfers?: SubscriptionResolver<
+    Array<ResolversTypes['OrderTransfer']>,
+    'orderTransfers',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionOrderTransfersArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  orders?: SubscriptionResolver<
+    Array<ResolversTypes['Order']>,
+    'orders',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOrdersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  ownedTokenCount?: SubscriptionResolver<
+    Maybe<ResolversTypes['OwnedTokenCount']>,
+    'ownedTokenCount',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOwnedTokenCountArgs, 'id' | 'subgraphError'>
+  >;
+  ownedTokenCounts?: SubscriptionResolver<
+    Array<ResolversTypes['OwnedTokenCount']>,
+    'ownedTokenCounts',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionOwnedTokenCountsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  ownerContract?: SubscriptionResolver<
+    Maybe<ResolversTypes['OwnerContract']>,
+    'ownerContract',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionOwnerContractArgs, 'id' | 'subgraphError'>
+  >;
+  ownerContracts?: SubscriptionResolver<
+    Array<ResolversTypes['OwnerContract']>,
+    'ownerContracts',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionOwnerContractsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pancakeDayData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PancakeDayData']>,
+    'pancakeDayData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPancakeDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  pancakeDayDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PancakeDayData']>,
+    'pancakeDayDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPancakeDayDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pool?: SubscriptionResolver<
+    Maybe<ResolversTypes['Pool']>,
+    'pool',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolArgs, 'id' | 'subgraphError'>
+  >;
+  pool5MinuteCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['Pool5MinuteCandleData']>,
+    'pool5MinuteCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPool5MinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  pool5MinuteCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['Pool5MinuteCandleData']>,
+    'pool5MinuteCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPool5MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pool15MinuteCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['Pool15MinuteCandleData']>,
+    'pool15MinuteCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPool15MinuteCandleDataArgs,
+      'id' | 'subgraphError'
+    >
+  >;
+  pool15MinuteCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['Pool15MinuteCandleData']>,
+    'pool15MinuteCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPool15MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pool30MinuteCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['Pool30MinuteCandleData']>,
+    'pool30MinuteCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPool30MinuteCandleDataArgs,
+      'id' | 'subgraphError'
+    >
+  >;
+  pool30MinuteCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['Pool30MinuteCandleData']>,
+    'pool30MinuteCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPool30MinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolDayCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolDayCandleData']>,
+    'poolDayCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolDayCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolDayCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolDayCandleData']>,
+    'poolDayCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolDayCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolDayData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolDayData']>,
+    'poolDayData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolDayDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolDayData']>,
+    'poolDayDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolDayDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolHourCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolHourCandleData']>,
+    'poolHourCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolHourCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolHourCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolHourCandleData']>,
+    'poolHourCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolHourCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolHourData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolHourData']>,
+    'poolHourData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolHourDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolHourData']>,
+    'poolHourDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolHourDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolMinuteCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolMinuteCandleData']>,
+    'poolMinuteCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolMinuteCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolMinuteCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolMinuteCandleData']>,
+    'poolMinuteCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolMinuteCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolMonthCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolMonthCandleData']>,
+    'poolMonthCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolMonthCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolMonthCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolMonthCandleData']>,
+    'poolMonthCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolMonthCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  poolWeekCandleData?: SubscriptionResolver<
+    Maybe<ResolversTypes['PoolWeekCandleData']>,
+    'poolWeekCandleData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolWeekCandleDataArgs, 'id' | 'subgraphError'>
+  >;
+  poolWeekCandleDatas?: SubscriptionResolver<
+    Array<ResolversTypes['PoolWeekCandleData']>,
+    'poolWeekCandleDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPoolWeekCandleDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  pools?: SubscriptionResolver<
+    Array<ResolversTypes['Pool']>,
+    'pools',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPoolsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  position?: SubscriptionResolver<
+    Maybe<ResolversTypes['Position']>,
+    'position',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPositionArgs, 'id' | 'subgraphError'>
+  >;
+  positionSnapshot?: SubscriptionResolver<
+    Maybe<ResolversTypes['PositionSnapshot']>,
+    'positionSnapshot',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPositionSnapshotArgs, 'id' | 'subgraphError'>
+  >;
+  positionSnapshots?: SubscriptionResolver<
+    Array<ResolversTypes['PositionSnapshot']>,
+    'positionSnapshots',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionPositionSnapshotsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  positions?: SubscriptionResolver<
+    Array<ResolversTypes['Position']>,
+    'positions',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionPositionsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  royaltiesRegistries?: SubscriptionResolver<
+    Array<ResolversTypes['RoyaltiesRegistry']>,
+    'royaltiesRegistries',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionRoyaltiesRegistriesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  royaltiesRegistry?: SubscriptionResolver<
+    Maybe<ResolversTypes['RoyaltiesRegistry']>,
+    'royaltiesRegistry',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionRoyaltiesRegistryArgs, 'id' | 'subgraphError'>
+  >;
+  staking?: SubscriptionResolver<
+    Maybe<ResolversTypes['Staking']>,
+    'staking',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionStakingArgs, 'id' | 'subgraphError'>
+  >;
+  stakings?: SubscriptionResolver<
+    Array<ResolversTypes['Staking']>,
+    'stakings',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionStakingsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  swap?: SubscriptionResolver<
+    Maybe<ResolversTypes['Swap']>,
+    'swap',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionSwapArgs, 'id' | 'subgraphError'>
+  >;
+  swaps?: SubscriptionResolver<
+    Array<ResolversTypes['Swap']>,
+    'swaps',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionSwapsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  tick?: SubscriptionResolver<
+    Maybe<ResolversTypes['Tick']>,
+    'tick',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTickArgs, 'id' | 'subgraphError'>
+  >;
+  tickDayData?: SubscriptionResolver<
+    Maybe<ResolversTypes['TickDayData']>,
+    'tickDayData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTickDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  tickDayDatas?: SubscriptionResolver<
+    Array<ResolversTypes['TickDayData']>,
+    'tickDayDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTickDayDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  tickHourData?: SubscriptionResolver<
+    Maybe<ResolversTypes['TickHourData']>,
+    'tickHourData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTickHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  tickHourDatas?: SubscriptionResolver<
+    Array<ResolversTypes['TickHourData']>,
+    'tickHourDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTickHourDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  ticks?: SubscriptionResolver<
+    Array<ResolversTypes['Tick']>,
+    'ticks',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTicksArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  token?: SubscriptionResolver<
+    Maybe<ResolversTypes['Token']>,
+    'token',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTokenArgs, 'id' | 'subgraphError'>
+  >;
+  tokenDayData?: SubscriptionResolver<
+    Maybe<ResolversTypes['TokenDayData']>,
+    'tokenDayData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTokenDayDataArgs, 'id' | 'subgraphError'>
+  >;
+  tokenDayDatas?: SubscriptionResolver<
+    Array<ResolversTypes['TokenDayData']>,
+    'tokenDayDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTokenDayDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  tokenHourData?: SubscriptionResolver<
+    Maybe<ResolversTypes['TokenHourData']>,
+    'tokenHourData',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTokenHourDataArgs, 'id' | 'subgraphError'>
+  >;
+  tokenHourDatas?: SubscriptionResolver<
+    Array<ResolversTypes['TokenHourData']>,
+    'tokenHourDatas',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTokenHourDatasArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  tokens?: SubscriptionResolver<
+    Array<ResolversTypes['Token']>,
+    'tokens',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTokensArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  transaction?: SubscriptionResolver<
+    Maybe<ResolversTypes['Transaction']>,
+    'transaction',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTransactionArgs, 'id' | 'subgraphError'>
+  >;
+  transactionCount?: SubscriptionResolver<
+    Maybe<ResolversTypes['TransactionCount']>,
+    'transactionCount',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTransactionCountArgs, 'id' | 'subgraphError'>
+  >;
+  transactionCounts?: SubscriptionResolver<
+    Array<ResolversTypes['TransactionCount']>,
+    'transactionCounts',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTransactionCountsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transactions?: SubscriptionResolver<
+    Array<ResolversTypes['Transaction']>,
+    'transactions',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTransactionsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transation?: SubscriptionResolver<
+    Maybe<ResolversTypes['Transation']>,
+    'transation',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTransationArgs, 'id' | 'subgraphError'>
+  >;
+  transations?: SubscriptionResolver<
+    Array<ResolversTypes['Transation']>,
+    'transations',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTransationsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  validation?: SubscriptionResolver<
+    Maybe<ResolversTypes['Validation']>,
+    'validation',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionValidationArgs, 'id' | 'subgraphError'>
+  >;
+  validations?: SubscriptionResolver<
+    Array<ResolversTypes['Validation']>,
+    'validations',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionValidationsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  validator?: SubscriptionResolver<
+    Maybe<ResolversTypes['Validator']>,
+    'validator',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionValidatorArgs, 'id' | 'subgraphError'>
+  >;
+  validators?: SubscriptionResolver<
+    Array<ResolversTypes['Validator']>,
+    'validators',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionValidatorsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  withdrawalRequest?: SubscriptionResolver<
+    Maybe<ResolversTypes['WithdrawalRequest']>,
+    'withdrawalRequest',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionWithdrawalRequestArgs, 'id' | 'subgraphError'>
+  >;
+  withdrawalRequests?: SubscriptionResolver<
+    Array<ResolversTypes['WithdrawalRequest']>,
+    'withdrawalRequests',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionWithdrawalRequestsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
 };
 
-export type SwapResolvers<ContextType = any, ParentType extends ResolversParentTypes['Swap'] = ResolversParentTypes['Swap']> = {
+export type SwapResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Swap'] = ResolversParentTypes['Swap'],
+> = {
   amount0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   amount1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  amountFeeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  amountFeeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   amountUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   logIndex?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
@@ -16386,52 +19133,132 @@ export type SwapResolvers<ContextType = any, ParentType extends ResolversParentT
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   token0?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
   token1?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, ContextType>;
+  transaction?: Resolver<
+    ResolversTypes['Transaction'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TickResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tick'] = ResolversParentTypes['Tick']> = {
-  collectedFeesToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  collectedFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  createdAtBlockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  createdAtTimestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthOutside0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthOutside1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+export type TickResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Tick'] = ResolversParentTypes['Tick'],
+> = {
+  collectedFeesToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  collectedFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  createdAtBlockNumber?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  createdAtTimestamp?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthOutside0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthOutside1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidityGross?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   liquidityNet?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  liquidityProviderCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  liquidityProviderCount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
-  poolAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  poolAddress?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   price0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   price1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   tickIdx?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TickDayDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['TickDayData'] = ResolversParentTypes['TickDayData']> = {
+export type TickDayDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TickDayData'] = ResolversParentTypes['TickDayData'],
+> = {
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  feeGrowthOutside0X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  feeGrowthOutside1X128?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  feeGrowthOutside0X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
+  feeGrowthOutside1X128?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidityGross?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   liquidityNet?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
   tick?: Resolver<ResolversTypes['Tick'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TickHourDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['TickHourData'] = ResolversParentTypes['TickHourData']> = {
+export type TickHourDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TickHourData'] = ResolversParentTypes['TickHourData'],
+> = {
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   liquidityGross?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -16439,13 +19266,25 @@ export type TickHourDataResolvers<ContextType = any, ParentType extends Resolver
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   pool?: Resolver<ResolversTypes['Pool'], ParentType, ContextType>;
   tick?: Resolver<ResolversTypes['Tick'], ParentType, ContextType>;
-  volumeToken0?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  volumeToken1?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  volumeToken0?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  volumeToken1?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
+export type TokenResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Token'] = ResolversParentTypes['Token'],
+> = {
   decimals?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   derivedETH?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   derivedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -16453,23 +19292,62 @@ export type TokenResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   poolCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  tokenDayData?: Resolver<Array<ResolversTypes['TokenDayData']>, ParentType, ContextType, RequireFields<TokenTokenDayDataArgs, 'first' | 'skip'>>;
-  tokenHourData?: Resolver<Array<ResolversTypes['TokenHourData']>, ParentType, ContextType, RequireFields<TokenTokenHourDataArgs, 'first' | 'skip'>>;
+  tokenDayData?: Resolver<
+    Array<ResolversTypes['TokenDayData']>,
+    ParentType,
+    ContextType,
+    RequireFields<TokenTokenDayDataArgs, 'first' | 'skip'>
+  >;
+  tokenHourData?: Resolver<
+    Array<ResolversTypes['TokenHourData']>,
+    ParentType,
+    ContextType,
+    RequireFields<TokenTokenHourDataArgs, 'first' | 'skip'>
+  >;
   totalSupply?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalValueLocked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSDUntracked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  totalValueLocked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSDUntracked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   txCount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volume?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  whitelistPools?: Resolver<Array<ResolversTypes['Pool']>, ParentType, ContextType, RequireFields<TokenWhitelistPoolsArgs, 'first' | 'skip'>>;
+  whitelistPools?: Resolver<
+    Array<ResolversTypes['Pool']>,
+    ParentType,
+    ContextType,
+    RequireFields<TokenWhitelistPoolsArgs, 'first' | 'skip'>
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TokenDayDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenDayData'] = ResolversParentTypes['TokenDayData']> = {
+export type TokenDayDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TokenDayData'] = ResolversParentTypes['TokenDayData'],
+> = {
   close?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -16478,17 +19356,37 @@ export type TokenDayDataResolvers<ContextType = any, ParentType extends Resolver
   low?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   open?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   priceUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   token?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  totalValueLocked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  totalValueLocked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volume?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TokenHourDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenHourData'] = ResolversParentTypes['TokenHourData']> = {
+export type TokenHourDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TokenHourData'] = ResolversParentTypes['TokenHourData'],
+> = {
   close?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   feesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   high?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
@@ -16497,38 +19395,96 @@ export type TokenHourDataResolvers<ContextType = any, ParentType extends Resolve
   open?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   periodStartUnix?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   priceUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  protocolFeesUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  protocolFeesUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   token?: Resolver<ResolversTypes['Token'], ParentType, ContextType>;
-  totalValueLocked?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  totalValueLockedUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
-  untrackedVolumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
+  totalValueLocked?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  totalValueLockedUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
+  untrackedVolumeUSD?: Resolver<
+    ResolversTypes['BigDecimal'],
+    ParentType,
+    ContextType
+  >;
   volume?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   volumeUSD?: Resolver<ResolversTypes['BigDecimal'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransactionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Transaction'] = ResolversParentTypes['Transaction']> = {
+export type TransactionResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Transaction'] = ResolversParentTypes['Transaction'],
+> = {
   blockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  burns?: Resolver<Array<Maybe<ResolversTypes['Burn']>>, ParentType, ContextType, RequireFields<TransactionBurnsArgs, 'first' | 'skip'>>;
-  collects?: Resolver<Array<Maybe<ResolversTypes['Collect']>>, ParentType, ContextType, RequireFields<TransactionCollectsArgs, 'first' | 'skip'>>;
-  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<TransactionEventsArgs, 'first' | 'skip'>>;
-  flashed?: Resolver<Array<Maybe<ResolversTypes['Flash']>>, ParentType, ContextType, RequireFields<TransactionFlashedArgs, 'first' | 'skip'>>;
+  burns?: Resolver<
+    Array<Maybe<ResolversTypes['Burn']>>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionBurnsArgs, 'first' | 'skip'>
+  >;
+  collects?: Resolver<
+    Array<Maybe<ResolversTypes['Collect']>>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionCollectsArgs, 'first' | 'skip'>
+  >;
+  events?: Resolver<
+    Array<ResolversTypes['Event']>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionEventsArgs, 'first' | 'skip'>
+  >;
+  flashed?: Resolver<
+    Array<Maybe<ResolversTypes['Flash']>>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionFlashedArgs, 'first' | 'skip'>
+  >;
   gasPrice?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   gasUsed?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  mints?: Resolver<Array<Maybe<ResolversTypes['Mint']>>, ParentType, ContextType, RequireFields<TransactionMintsArgs, 'first' | 'skip'>>;
-  swaps?: Resolver<Array<Maybe<ResolversTypes['Swap']>>, ParentType, ContextType, RequireFields<TransactionSwapsArgs, 'first' | 'skip'>>;
+  mints?: Resolver<
+    Array<Maybe<ResolversTypes['Mint']>>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionMintsArgs, 'first' | 'skip'>
+  >;
+  swaps?: Resolver<
+    Array<Maybe<ResolversTypes['Swap']>>,
+    ParentType,
+    ContextType,
+    RequireFields<TransactionSwapsArgs, 'first' | 'skip'>
+  >;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransactionCountResolvers<ContextType = any, ParentType extends ResolversParentTypes['TransactionCount'] = ResolversParentTypes['TransactionCount']> = {
+export type TransactionCountResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TransactionCount'] = ResolversParentTypes['TransactionCount'],
+> = {
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Transation'] = ResolversParentTypes['Transation']> = {
+export type TransationResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Transation'] = ResolversParentTypes['Transation'],
+> = {
   block?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   claimedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -16542,15 +19498,27 @@ export type TransationResolvers<ContextType = any, ParentType extends ResolversP
   to?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   txHash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  undelegatedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  undelegatedAmount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   unlockedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   validatorId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  withdrawalAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  withdrawalAmount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   wrID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ValidationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Validation'] = ResolversParentTypes['Validation']> = {
+export type ValidationResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Validation'] = ResolversParentTypes['Validation'],
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lockedEndtime?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   stakedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -16559,13 +19527,22 @@ export type ValidationResolvers<ContextType = any, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ValidatorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Validator'] = ResolversParentTypes['Validator']> = {
+export type ValidatorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Validator'] = ResolversParentTypes['Validator'],
+> = {
   active?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   auth?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   createdEpoch?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   createdTime?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   delegatedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  delegations?: Resolver<Array<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<ValidatorDelegationsArgs, 'first' | 'skip'>>;
+  delegations?: Resolver<
+    Array<ResolversTypes['Delegation']>,
+    ParentType,
+    ContextType,
+    RequireFields<ValidatorDelegationsArgs, 'first' | 'skip'>
+  >;
   downTime?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   hash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -16573,15 +19550,27 @@ export type ValidatorResolvers<ContextType = any, ParentType extends ResolversPa
   lockedUntil?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   online?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   selfStaked?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalClaimedRewards?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  totalClaimedRewards?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   totalDelegator?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   totalLockStake?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  totalStakedAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  totalStakedAmount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   validatorId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type WithdrawalRequestResolvers<ContextType = any, ParentType extends ResolversParentTypes['WithdrawalRequest'] = ResolversParentTypes['WithdrawalRequest']> = {
+export type WithdrawalRequestResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['WithdrawalRequest'] = ResolversParentTypes['WithdrawalRequest'],
+> = {
   delegatorAddress?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   hash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -16590,22 +19579,38 @@ export type WithdrawalRequestResolvers<ContextType = any, ParentType extends Res
   validatorId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   withdrawHash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   withdrawTime?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  withdrawalAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  withdrawalAmount?: Resolver<
+    ResolversTypes['BigInt'],
+    ParentType,
+    ContextType
+  >;
   wrID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type _Block_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = {
+export type _Block_Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_'],
+> = {
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type _Meta_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = {
+export type _Meta_Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_'],
+> = {
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasIndexingErrors?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -16689,476 +19694,798 @@ export type DirectiveResolvers<ContextType = any> = {
   subgraphId?: SubgraphIdDirectiveResolver<any, any, ContextType>;
 };
 
-
 export const GetCollectionsDataDocument = gql`
-    query GetCollectionsData($collectionAddress: String) {
-  marketEvent1155S(where: {address: $collectionAddress}) {
-    address
-    netPrice
-    price
-    quoteToken
-    to
-    nftId {
-      contract {
-        id
+  query GetCollectionsData($collectionAddress: String) {
+    marketEvent1155S(where: { address: $collectionAddress }) {
+      address
+      netPrice
+      price
+      quoteToken
+      to
+      nftId {
+        contract {
+          id
+        }
       }
+      event
+      quantity
     }
-    event
-    quantity
-  }
-  marketEvent721S(where: {address: $collectionAddress}) {
-    id
-    nftId {
-      contract {
-        id
+    marketEvent721S(where: { address: $collectionAddress }) {
+      id
+      nftId {
+        contract {
+          id
+        }
       }
+      address
+      price
+      quoteToken
+      event
+      to
     }
-    address
-    price
-    quoteToken
-    event
-    to
   }
-}
-    `;
+`;
 export const GetCollectionHoldersDocument = gql`
-    query GetCollectionHolders($collectionAddress: String) {
-  erc1155Balances(where: {contract_: {id: $collectionAddress}}) {
-    id
-    value
-    contract {
+  query GetCollectionHolders($collectionAddress: String) {
+    erc1155Balances(where: { contract_: { id: $collectionAddress } }) {
       id
-    }
-    account {
-      id
+      value
+      contract {
+        id
+      }
+      account {
+        id
+      }
     }
   }
-}
-    `;
+`;
 export const GetCountCollectionTokensDocument = gql`
-    query GetCountCollectionTokens($collectionAddress: String) {
-  erc1155Tokens(where: {contract_: {id: $collectionAddress}}) {
-    id
-    tokenId
-    balances {
-      value
-      account {
-        id
-      }
-      contract {
-        id
-      }
-    }
-  }
-  erc721Tokens(where: {contract_: {id: $collectionAddress}}) {
-    id
-    tokenId
-    owner {
+  query GetCountCollectionTokens($collectionAddress: String) {
+    erc1155Tokens(where: { contract_: { id: $collectionAddress } }) {
       id
+      tokenId
+      balances {
+        value
+        account {
+          id
+        }
+        contract {
+          id
+        }
+      }
+    }
+    erc721Tokens(where: { contract_: { id: $collectionAddress } }) {
+      id
+      tokenId
+      owner {
+        id
+      }
     }
   }
-}
-    `;
+`;
 export const GetNftOwnersInfo1155Document = gql`
-    query GetNFTOwnersInfo1155($nftId: String, $contractAddress: String) {
-  erc1155Balances(where: {contract: $contractAddress, token_: {tokenId: $nftId}}) {
-    value
-    account {
-      id
-    }
-    token {
-      tokenId
-    }
-    contract {
-      id
-    }
-  }
-}
-    `;
-export const GetNftOwnersInfo721Document = gql`
-    query GetNFTOwnersInfo721($nftId: String, $contractAddress: String) {
-  erc721Tokens(where: {contract: $contractAddress, tokenId: $nftId}) {
-    id
-    txCreation
-    contract {
-      id
-    }
-    owner {
-      id
-    }
-  }
-}
-    `;
-export const ErcContractDocument = gql`
-    query ErcContract($id: ID!) {
-  erc1155Contract(id: $id) {
-    id
-    count
-    holderCount
-    volume
-  }
-  erc721Contract(id: $id) {
-    id
-    count
-    holderCount
-    volume
-  }
-}
-    `;
-export const GetCollections721Document = gql`
-    query GetCollections721($txCreation: String!) {
-  erc721Contracts(where: {txCreation: $txCreation}) {
-    id
-    txCreation
-    name
-    symbol
-  }
-}
-    `;
-export const GetCollections1155Document = gql`
-    query GetCollections1155($txCreation: String!) {
-  erc1155Contracts(where: {txCreation: $txCreation}) {
-    id
-    txCreation
-    name
-    symbol
-  }
-}
-    `;
-export const GetCollectionTokensDocument = gql`
-    query GetCollectionTokens($collectionAddress: String, $first: Int, $skip: Int) {
-  erc1155Tokens(
-    where: {contract_: {id: $collectionAddress}}
-    first: $first
-    skip: $skip
-  ) {
-    id
-    tokenId
-    txCreation
-    balances {
+  query GetNFTOwnersInfo1155($nftId: String, $contractAddress: String) {
+    erc1155Balances(
+      where: { contract: $contractAddress, token_: { tokenId: $nftId } }
+    ) {
       value
       account {
         id
+      }
+      token {
+        tokenId
       }
       contract {
         id
       }
     }
   }
-  erc721Tokens(
-    where: {contract_: {id: $collectionAddress}}
-    first: $first
-    skip: $skip
-  ) {
-    id
-    tokenId
-    txCreation
-    owner {
+`;
+export const GetNftOwnersInfo721Document = gql`
+  query GetNFTOwnersInfo721($nftId: String, $contractAddress: String) {
+    erc721Tokens(where: { contract: $contractAddress, tokenId: $nftId }) {
       id
+      txCreation
+      contract {
+        id
+      }
+      owner {
+        id
+      }
     }
   }
-}
-    `;
+`;
+export const ErcContractDocument = gql`
+  query ErcContract($id: ID!) {
+    erc1155Contract(id: $id) {
+      id
+      count
+      holderCount
+      volume
+    }
+    erc721Contract(id: $id) {
+      id
+      count
+      holderCount
+      volume
+    }
+  }
+`;
+export const GetCollections721Document = gql`
+  query GetCollections721($txCreation: String!) {
+    erc721Contracts(where: { txCreation: $txCreation }) {
+      id
+      txCreation
+      name
+      symbol
+    }
+  }
+`;
+export const GetCollections1155Document = gql`
+  query GetCollections1155($txCreation: String!) {
+    erc1155Contracts(where: { txCreation: $txCreation }) {
+      id
+      txCreation
+      name
+      symbol
+    }
+  }
+`;
+export const GetCollectionTokensDocument = gql`
+  query GetCollectionTokens(
+    $collectionAddress: String
+    $first: Int
+    $skip: Int
+  ) {
+    erc1155Tokens(
+      where: { contract_: { id: $collectionAddress } }
+      first: $first
+      skip: $skip
+    ) {
+      id
+      tokenId
+      txCreation
+      balances {
+        value
+        account {
+          id
+        }
+        contract {
+          id
+        }
+      }
+    }
+    erc721Tokens(
+      where: { contract_: { id: $collectionAddress } }
+      first: $first
+      skip: $skip
+    ) {
+      id
+      tokenId
+      txCreation
+      owner {
+        id
+      }
+    }
+  }
+`;
 export const GetMarketplaceStatus721Document = gql`
-    query GetMarketplaceStatus721($first: Int!, $skip: Int!, $orderDirection: OrderDirection = desc, $timestamp: BigInt = 0) {
-  marketEvent721S(
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: $orderDirection
-    where: {timestamp_gt: $timestamp, event_in: [AskNew, AskCancel, Trade]}
+  query GetMarketplaceStatus721(
+    $first: Int!
+    $skip: Int!
+    $orderDirection: OrderDirection = desc
+    $timestamp: BigInt = 0
   ) {
-    id
-    event
-    price
-    to
-    from
-    netPrice
-    metadata
-    txHash
-    timestamp
-    quoteToken
-    address
-    nftIdExtend
-    tokenId
-    flagExtend
-    addressExtend
-    nftId {
+    marketEvent721S(
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: $orderDirection
+      where: { timestamp_gt: $timestamp, event_in: [AskNew, AskCancel, Trade] }
+    ) {
       id
-      identifier
+      event
+      price
+      to
+      from
+      netPrice
+      metadata
+      txHash
+      timestamp
+      quoteToken
+      address
+      nftIdExtend
       tokenId
-      txCreation
-      uri
-      createAt
+      flagExtend
+      addressExtend
+      nftId {
+        id
+        identifier
+        tokenId
+        txCreation
+        uri
+        createAt
+      }
     }
   }
-}
-    `;
+`;
 export const GetMarketplaceStatus1155Document = gql`
-    query GetMarketplaceStatus1155($first: Int!, $skip: Int!, $orderDirection: OrderDirection = desc, $timestamp: BigInt = 0) {
-  marketEvent1155S(
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: $orderDirection
-    where: {timestamp_gt: $timestamp, event_in: [AskNew, AskCancel, Trade]}
+  query GetMarketplaceStatus1155(
+    $first: Int!
+    $skip: Int!
+    $orderDirection: OrderDirection = desc
+    $timestamp: BigInt = 0
   ) {
-    id
-    event
-    price
-    to
-    from
-    txHash
-    timestamp
-    quoteToken
-    quantity
-    operationId
-    operation
-    netPrice
-    address
-    tokenId
-    nftIdExtend
-    flagExtend
-    addressExtend
-    nftId {
+    marketEvent1155S(
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: $orderDirection
+      where: { timestamp_gt: $timestamp, event_in: [AskNew, AskCancel, Trade] }
+    ) {
       id
-      uri
+      event
+      price
+      to
+      from
+      txHash
+      timestamp
+      quoteToken
+      quantity
+      operationId
+      operation
+      netPrice
+      address
+      tokenId
+      nftIdExtend
+      flagExtend
+      addressExtend
+      nftId {
+        id
+        uri
+        txCreation
+        tokenId
+        identifier
+        createAt
+      }
+    }
+  }
+`;
+export const GetNfTsHistory721Document = gql`
+  query GetNFTsHistory721(
+    $first: Int!
+    $skip: Int!
+    $minPrice: BigInt
+    $maxPrice: BigInt
+  ) {
+    marketEvent721S(
+      where: { price_gte: $minPrice, price_lte: $maxPrice }
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      id
+      event
+      nftId {
+        id
+      }
+      price
+      to
+      from
+    }
+  }
+`;
+export const GetNfTsHistory1155Document = gql`
+  query GetNFTsHistory1155(
+    $first: Int!
+    $skip: Int!
+    $minPrice: BigInt
+    $maxPrice: BigInt
+  ) {
+    marketEvent1155S(
+      where: { price_gte: $minPrice, price_lte: $maxPrice }
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      id
+      event
+      nftId {
+        id
+      }
+      price
+      to
+      from
+    }
+  }
+`;
+export const GetNfTsSelling721Document = gql`
+  query GetNFTsSelling721($first: Int!, $skip: Int!, $collection: String!) {
+    marketEvent721S(
+      where: { event: AskNew, address: $collection }
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      id
+      event
+      nftId {
+        id
+      }
+      price
+      to
+      from
+    }
+  }
+`;
+export const GetNfTsSelling1155Document = gql`
+  query GetNFTsSelling1155($first: Int!, $skip: Int!, $collection: String!) {
+    marketEvent1155S(
+      where: { event: AskNew, address: $collection }
+      first: $first
+      skip: $skip
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      id
+      event
+      nftId {
+        id
+      }
+      price
+      to
+      from
+    }
+  }
+`;
+export const Get721NfTsDocument = gql`
+  query Get721NFTs($txCreation: String!) {
+    erc721Tokens(where: { txCreation: $txCreation }) {
+      id
       txCreation
       tokenId
-      identifier
-      createAt
+      contract {
+        id
+      }
     }
   }
-}
-    `;
-export const GetNfTsHistory721Document = gql`
-    query GetNFTsHistory721($first: Int!, $skip: Int!, $minPrice: BigInt, $maxPrice: BigInt) {
-  marketEvent721S(
-    where: {price_gte: $minPrice, price_lte: $maxPrice}
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: desc
-  ) {
-    id
-    event
-    nftId {
-      id
-    }
-    price
-    to
-    from
-  }
-}
-    `;
-export const GetNfTsHistory1155Document = gql`
-    query GetNFTsHistory1155($first: Int!, $skip: Int!, $minPrice: BigInt, $maxPrice: BigInt) {
-  marketEvent1155S(
-    where: {price_gte: $minPrice, price_lte: $maxPrice}
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: desc
-  ) {
-    id
-    event
-    nftId {
-      id
-    }
-    price
-    to
-    from
-  }
-}
-    `;
-export const GetNfTsSelling721Document = gql`
-    query GetNFTsSelling721($first: Int!, $skip: Int!, $collection: String!) {
-  marketEvent721S(
-    where: {event: AskNew, address: $collection}
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: desc
-  ) {
-    id
-    event
-    nftId {
-      id
-    }
-    price
-    to
-    from
-  }
-}
-    `;
-export const GetNfTsSelling1155Document = gql`
-    query GetNFTsSelling1155($first: Int!, $skip: Int!, $collection: String!) {
-  marketEvent1155S(
-    where: {event: AskNew, address: $collection}
-    first: $first
-    skip: $skip
-    orderBy: timestamp
-    orderDirection: desc
-  ) {
-    id
-    event
-    nftId {
-      id
-    }
-    price
-    to
-    from
-  }
-}
-    `;
-export const Get721NfTsDocument = gql`
-    query Get721NFTs($txCreation: String!) {
-  erc721Tokens(where: {txCreation: $txCreation}) {
-    id
-    txCreation
-    tokenId
-    contract {
-      id
-    }
-  }
-}
-    `;
+`;
 export const Get1155NfTsDocument = gql`
-    query Get1155NFTs($txCreation: String!) {
-  erc1155Tokens(where: {txCreation: $txCreation}) {
-    id
-    txCreation
-    tokenId
-    contract {
+  query Get1155NFTs($txCreation: String!) {
+    erc1155Tokens(where: { txCreation: $txCreation }) {
+      id
+      txCreation
+      tokenId
+      contract {
+        id
+      }
+    }
+  }
+`;
+export const GetQuoteTokenAcceptDocument = gql`
+  query GetQuoteTokenAccept($first: Int! = 1000, $skip: Int! = 0) {
+    tokens(first: $first, skip: $skip) {
+      id
+      symbol
+      name
+      derivedETH
+      derivedUSD
+    }
+  }
+`;
+export const GetStakingDocument = gql`
+  query getStaking($id: ID!) {
+    delegator(id: $id) {
+      totalLockStake
+      totalClaimedRewards
+      stakedAmount
+      id
+      createdOn
+      address
+    }
+  }
+`;
+export const CmsSummaryTransactionDocument = gql`
+  query CMSSummaryTransaction(
+    $first: Int = 1000
+    $skip: Int = 0
+    $event: EventType
+  ) {
+    blocks(first: $first, skip: $skip, where: { event: $event }) {
+      timestampt
+      id
+      event
+    }
+  }
+`;
+export const CmsSummaryVolumeDocument = gql`
+  query CMSSummaryVolume($address: ID!) {
+    marketVolume(id: $address) {
+      type
+      totalVolume
       id
     }
   }
-}
-    `;
-export const GetQuoteTokenAcceptDocument = gql`
-    query GetQuoteTokenAccept($first: Int! = 1000, $skip: Int! = 0) {
-  tokens(first: $first, skip: $skip) {
-    id
-    symbol
-    name
-    derivedETH
-    derivedUSD
-  }
-}
-    `;
-export const GetStakingDocument = gql`
-    query getStaking($id: ID!) {
-  delegator(id: $id) {
-    totalLockStake
-    totalClaimedRewards
-    stakedAmount
-    id
-    createdOn
-    address
-  }
-}
-    `;
-export const CmsSummaryTransactionDocument = gql`
-    query CMSSummaryTransaction($first: Int = 1000, $skip: Int = 0, $event: EventType) {
-  blocks(first: $first, skip: $skip, where: {event: $event}) {
-    timestampt
-    id
-    event
-  }
-}
-    `;
-export const CmsSummaryVolumeDocument = gql`
-    query CMSSummaryVolume($address: ID!) {
-  marketVolume(id: $address) {
-    type
-    totalVolume
-    id
-  }
-}
-    `;
+`;
 export const GetContractDocument = gql`
-    query getContract($address: ID!) {
-  contract(id: $address) {
-    id
-    count
-    contract
-  }
-}
-    `;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    GetCollectionsData(variables?: GetCollectionsDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCollectionsDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionsDataQuery>(GetCollectionsDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCollectionsData', 'query', variables);
-    },
-    GetCollectionHolders(variables?: GetCollectionHoldersQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCollectionHoldersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionHoldersQuery>(GetCollectionHoldersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCollectionHolders', 'query', variables);
-    },
-    GetCountCollectionTokens(variables?: GetCountCollectionTokensQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCountCollectionTokensQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCountCollectionTokensQuery>(GetCountCollectionTokensDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCountCollectionTokens', 'query', variables);
-    },
-    GetNFTOwnersInfo1155(variables?: GetNftOwnersInfo1155QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNftOwnersInfo1155Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNftOwnersInfo1155Query>(GetNftOwnersInfo1155Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTOwnersInfo1155', 'query', variables);
-    },
-    GetNFTOwnersInfo721(variables?: GetNftOwnersInfo721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNftOwnersInfo721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNftOwnersInfo721Query>(GetNftOwnersInfo721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTOwnersInfo721', 'query', variables);
-    },
-    ErcContract(variables: ErcContractQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ErcContractQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ErcContractQuery>(ErcContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ErcContract', 'query', variables);
-    },
-    GetCollections721(variables: GetCollections721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCollections721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollections721Query>(GetCollections721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCollections721', 'query', variables);
-    },
-    GetCollections1155(variables: GetCollections1155QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCollections1155Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollections1155Query>(GetCollections1155Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCollections1155', 'query', variables);
-    },
-    GetCollectionTokens(variables?: GetCollectionTokensQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCollectionTokensQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionTokensQuery>(GetCollectionTokensDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCollectionTokens', 'query', variables);
-    },
-    GetMarketplaceStatus721(variables: GetMarketplaceStatus721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetMarketplaceStatus721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetMarketplaceStatus721Query>(GetMarketplaceStatus721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetMarketplaceStatus721', 'query', variables);
-    },
-    GetMarketplaceStatus1155(variables: GetMarketplaceStatus1155QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetMarketplaceStatus1155Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetMarketplaceStatus1155Query>(GetMarketplaceStatus1155Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetMarketplaceStatus1155', 'query', variables);
-    },
-    GetNFTsHistory721(variables: GetNfTsHistory721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNfTsHistory721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNfTsHistory721Query>(GetNfTsHistory721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTsHistory721', 'query', variables);
-    },
-    GetNFTsHistory1155(variables: GetNfTsHistory1155QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNfTsHistory1155Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNfTsHistory1155Query>(GetNfTsHistory1155Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTsHistory1155', 'query', variables);
-    },
-    GetNFTsSelling721(variables: GetNfTsSelling721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNfTsSelling721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNfTsSelling721Query>(GetNfTsSelling721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTsSelling721', 'query', variables);
-    },
-    GetNFTsSelling1155(variables: GetNfTsSelling1155QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetNfTsSelling1155Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetNfTsSelling1155Query>(GetNfTsSelling1155Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetNFTsSelling1155', 'query', variables);
-    },
-    Get721NFTs(variables: Get721NfTsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Get721NfTsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Get721NfTsQuery>(Get721NfTsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Get721NFTs', 'query', variables);
-    },
-    Get1155NFTs(variables: Get1155NfTsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Get1155NfTsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Get1155NfTsQuery>(Get1155NfTsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Get1155NFTs', 'query', variables);
-    },
-    GetQuoteTokenAccept(variables?: GetQuoteTokenAcceptQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetQuoteTokenAcceptQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetQuoteTokenAcceptQuery>(GetQuoteTokenAcceptDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetQuoteTokenAccept', 'query', variables);
-    },
-    getStaking(variables: GetStakingQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetStakingQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetStakingQuery>(GetStakingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getStaking', 'query', variables);
-    },
-    CMSSummaryTransaction(variables?: CmsSummaryTransactionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CmsSummaryTransactionQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CmsSummaryTransactionQuery>(CmsSummaryTransactionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CMSSummaryTransaction', 'query', variables);
-    },
-    CMSSummaryVolume(variables: CmsSummaryVolumeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CmsSummaryVolumeQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CmsSummaryVolumeQuery>(CmsSummaryVolumeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CMSSummaryVolume', 'query', variables);
-    },
-    getContract(variables: GetContractQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetContractQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetContractQuery>(GetContractDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContract', 'query', variables);
+  query getContract($address: ID!) {
+    contract(id: $address) {
+      id
+      count
+      contract
     }
+  }
+`;
+
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+  operationType?: string,
+  variables?: any,
+) => Promise<T>;
+
+const defaultWrapper: SdkFunctionWrapper = (
+  action,
+  _operationName,
+  _operationType,
+  _variables,
+) => action();
+
+export function getSdk(
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper,
+) {
+  return {
+    GetCollectionsData(
+      variables?: GetCollectionsDataQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCollectionsDataQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCollectionsDataQuery>(
+            GetCollectionsDataDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCollectionsData',
+        'query',
+        variables,
+      );
+    },
+    GetCollectionHolders(
+      variables?: GetCollectionHoldersQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCollectionHoldersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCollectionHoldersQuery>(
+            GetCollectionHoldersDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCollectionHolders',
+        'query',
+        variables,
+      );
+    },
+    GetCountCollectionTokens(
+      variables?: GetCountCollectionTokensQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCountCollectionTokensQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCountCollectionTokensQuery>(
+            GetCountCollectionTokensDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCountCollectionTokens',
+        'query',
+        variables,
+      );
+    },
+    GetNFTOwnersInfo1155(
+      variables?: GetNftOwnersInfo1155QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNftOwnersInfo1155Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNftOwnersInfo1155Query>(
+            GetNftOwnersInfo1155Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTOwnersInfo1155',
+        'query',
+        variables,
+      );
+    },
+    GetNFTOwnersInfo721(
+      variables?: GetNftOwnersInfo721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNftOwnersInfo721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNftOwnersInfo721Query>(
+            GetNftOwnersInfo721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTOwnersInfo721',
+        'query',
+        variables,
+      );
+    },
+    ErcContract(
+      variables: ErcContractQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<ErcContractQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ErcContractQuery>(ErcContractDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'ErcContract',
+        'query',
+        variables,
+      );
+    },
+    GetCollections721(
+      variables: GetCollections721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCollections721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCollections721Query>(
+            GetCollections721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCollections721',
+        'query',
+        variables,
+      );
+    },
+    GetCollections1155(
+      variables: GetCollections1155QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCollections1155Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCollections1155Query>(
+            GetCollections1155Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCollections1155',
+        'query',
+        variables,
+      );
+    },
+    GetCollectionTokens(
+      variables?: GetCollectionTokensQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetCollectionTokensQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCollectionTokensQuery>(
+            GetCollectionTokensDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetCollectionTokens',
+        'query',
+        variables,
+      );
+    },
+    GetMarketplaceStatus721(
+      variables: GetMarketplaceStatus721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetMarketplaceStatus721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMarketplaceStatus721Query>(
+            GetMarketplaceStatus721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetMarketplaceStatus721',
+        'query',
+        variables,
+      );
+    },
+    GetMarketplaceStatus1155(
+      variables: GetMarketplaceStatus1155QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetMarketplaceStatus1155Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMarketplaceStatus1155Query>(
+            GetMarketplaceStatus1155Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetMarketplaceStatus1155',
+        'query',
+        variables,
+      );
+    },
+    GetNFTsHistory721(
+      variables: GetNfTsHistory721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNfTsHistory721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNfTsHistory721Query>(
+            GetNfTsHistory721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTsHistory721',
+        'query',
+        variables,
+      );
+    },
+    GetNFTsHistory1155(
+      variables: GetNfTsHistory1155QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNfTsHistory1155Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNfTsHistory1155Query>(
+            GetNfTsHistory1155Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTsHistory1155',
+        'query',
+        variables,
+      );
+    },
+    GetNFTsSelling721(
+      variables: GetNfTsSelling721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNfTsSelling721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNfTsSelling721Query>(
+            GetNfTsSelling721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTsSelling721',
+        'query',
+        variables,
+      );
+    },
+    GetNFTsSelling1155(
+      variables: GetNfTsSelling1155QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetNfTsSelling1155Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetNfTsSelling1155Query>(
+            GetNfTsSelling1155Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetNFTsSelling1155',
+        'query',
+        variables,
+      );
+    },
+    Get721NFTs(
+      variables: Get721NfTsQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<Get721NfTsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<Get721NfTsQuery>(Get721NfTsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'Get721NFTs',
+        'query',
+        variables,
+      );
+    },
+    Get1155NFTs(
+      variables: Get1155NfTsQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<Get1155NfTsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<Get1155NfTsQuery>(Get1155NfTsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'Get1155NFTs',
+        'query',
+        variables,
+      );
+    },
+    GetQuoteTokenAccept(
+      variables?: GetQuoteTokenAcceptQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetQuoteTokenAcceptQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetQuoteTokenAcceptQuery>(
+            GetQuoteTokenAcceptDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'GetQuoteTokenAccept',
+        'query',
+        variables,
+      );
+    },
+    getStaking(
+      variables: GetStakingQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetStakingQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetStakingQuery>(GetStakingDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getStaking',
+        'query',
+        variables,
+      );
+    },
+    CMSSummaryTransaction(
+      variables?: CmsSummaryTransactionQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<CmsSummaryTransactionQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CmsSummaryTransactionQuery>(
+            CmsSummaryTransactionDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'CMSSummaryTransaction',
+        'query',
+        variables,
+      );
+    },
+    CMSSummaryVolume(
+      variables: CmsSummaryVolumeQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<CmsSummaryVolumeQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CmsSummaryVolumeQuery>(
+            CmsSummaryVolumeDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'CMSSummaryVolume',
+        'query',
+        variables,
+      );
+    },
+    getContract(
+      variables: GetContractQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetContractQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetContractQuery>(GetContractDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getContract',
+        'query',
+        variables,
+      );
+    },
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
@@ -17166,59 +20493,160 @@ export type GetCollectionsDataQueryVariables = Exact<{
   collectionAddress?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type GetCollectionsDataQuery = { __typename?: 'Query', marketEvent1155S: Array<{ __typename?: 'MarketEvent1155', address?: string | null, netPrice?: any | null, price?: any | null, quoteToken?: string | null, to?: string | null, event: SellStatus, quantity: any, nftId?: { __typename?: 'ERC1155Token', contract: { __typename?: 'ERC1155Contract', id: string } } | null }>, marketEvent721S: Array<{ __typename?: 'MarketEvent721', id: string, address: string, price?: any | null, quoteToken?: string | null, event: SellStatus, to?: string | null, nftId?: { __typename?: 'ERC721Token', contract: { __typename?: 'ERC721Contract', id: string } } | null }> };
+export type GetCollectionsDataQuery = {
+  __typename?: 'Query';
+  marketEvent1155S: Array<{
+    __typename?: 'MarketEvent1155';
+    address?: string | null;
+    netPrice?: any | null;
+    price?: any | null;
+    quoteToken?: string | null;
+    to?: string | null;
+    event: SellStatus;
+    quantity: any;
+    nftId?: {
+      __typename?: 'ERC1155Token';
+      contract: { __typename?: 'ERC1155Contract'; id: string };
+    } | null;
+  }>;
+  marketEvent721S: Array<{
+    __typename?: 'MarketEvent721';
+    id: string;
+    address: string;
+    price?: any | null;
+    quoteToken?: string | null;
+    event: SellStatus;
+    to?: string | null;
+    nftId?: {
+      __typename?: 'ERC721Token';
+      contract: { __typename?: 'ERC721Contract'; id: string };
+    } | null;
+  }>;
+};
 
 export type GetCollectionHoldersQueryVariables = Exact<{
   collectionAddress?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type GetCollectionHoldersQuery = { __typename?: 'Query', erc1155Balances: Array<{ __typename?: 'ERC1155Balance', id: string, value: any, contract?: { __typename?: 'ERC1155Contract', id: string } | null, account?: { __typename?: 'Account', id: string } | null }> };
+export type GetCollectionHoldersQuery = {
+  __typename?: 'Query';
+  erc1155Balances: Array<{
+    __typename?: 'ERC1155Balance';
+    id: string;
+    value: any;
+    contract?: { __typename?: 'ERC1155Contract'; id: string } | null;
+    account?: { __typename?: 'Account'; id: string } | null;
+  }>;
+};
 
 export type GetCountCollectionTokensQueryVariables = Exact<{
   collectionAddress?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type GetCountCollectionTokensQuery = { __typename?: 'Query', erc1155Tokens: Array<{ __typename?: 'ERC1155Token', id: string, tokenId: string, balances: Array<{ __typename?: 'ERC1155Balance', value: any, account?: { __typename?: 'Account', id: string } | null, contract?: { __typename?: 'ERC1155Contract', id: string } | null }> }>, erc721Tokens: Array<{ __typename?: 'ERC721Token', id: string, tokenId: string, owner: { __typename?: 'Account', id: string } }> };
+export type GetCountCollectionTokensQuery = {
+  __typename?: 'Query';
+  erc1155Tokens: Array<{
+    __typename?: 'ERC1155Token';
+    id: string;
+    tokenId: string;
+    balances: Array<{
+      __typename?: 'ERC1155Balance';
+      value: any;
+      account?: { __typename?: 'Account'; id: string } | null;
+      contract?: { __typename?: 'ERC1155Contract'; id: string } | null;
+    }>;
+  }>;
+  erc721Tokens: Array<{
+    __typename?: 'ERC721Token';
+    id: string;
+    tokenId: string;
+    owner: { __typename?: 'Account'; id: string };
+  }>;
+};
 
 export type GetNftOwnersInfo1155QueryVariables = Exact<{
   nftId?: InputMaybe<Scalars['String']['input']>;
   contractAddress?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type GetNftOwnersInfo1155Query = { __typename?: 'Query', erc1155Balances: Array<{ __typename?: 'ERC1155Balance', value: any, account?: { __typename?: 'Account', id: string } | null, token: { __typename?: 'ERC1155Token', tokenId: string }, contract?: { __typename?: 'ERC1155Contract', id: string } | null }> };
+export type GetNftOwnersInfo1155Query = {
+  __typename?: 'Query';
+  erc1155Balances: Array<{
+    __typename?: 'ERC1155Balance';
+    value: any;
+    account?: { __typename?: 'Account'; id: string } | null;
+    token: { __typename?: 'ERC1155Token'; tokenId: string };
+    contract?: { __typename?: 'ERC1155Contract'; id: string } | null;
+  }>;
+};
 
 export type GetNftOwnersInfo721QueryVariables = Exact<{
   nftId?: InputMaybe<Scalars['String']['input']>;
   contractAddress?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type GetNftOwnersInfo721Query = { __typename?: 'Query', erc721Tokens: Array<{ __typename?: 'ERC721Token', id: string, txCreation: string, contract: { __typename?: 'ERC721Contract', id: string }, owner: { __typename?: 'Account', id: string } }> };
+export type GetNftOwnersInfo721Query = {
+  __typename?: 'Query';
+  erc721Tokens: Array<{
+    __typename?: 'ERC721Token';
+    id: string;
+    txCreation: string;
+    contract: { __typename?: 'ERC721Contract'; id: string };
+    owner: { __typename?: 'Account'; id: string };
+  }>;
+};
 
 export type ErcContractQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-
-export type ErcContractQuery = { __typename?: 'Query', erc1155Contract?: { __typename?: 'ERC1155Contract', id: string, count: any, holderCount: any, volume: any } | null, erc721Contract?: { __typename?: 'ERC721Contract', id: string, count: any, holderCount: any, volume: any } | null };
+export type ErcContractQuery = {
+  __typename?: 'Query';
+  erc1155Contract?: {
+    __typename?: 'ERC1155Contract';
+    id: string;
+    count: any;
+    holderCount: any;
+    volume: any;
+  } | null;
+  erc721Contract?: {
+    __typename?: 'ERC721Contract';
+    id: string;
+    count: any;
+    holderCount: any;
+    volume: any;
+  } | null;
+};
 
 export type GetCollections721QueryVariables = Exact<{
   txCreation: Scalars['String']['input'];
 }>;
 
-
-export type GetCollections721Query = { __typename?: 'Query', erc721Contracts: Array<{ __typename?: 'ERC721Contract', id: string, txCreation: string, name?: string | null, symbol?: string | null }> };
+export type GetCollections721Query = {
+  __typename?: 'Query';
+  erc721Contracts: Array<{
+    __typename?: 'ERC721Contract';
+    id: string;
+    txCreation: string;
+    name?: string | null;
+    symbol?: string | null;
+  }>;
+};
 
 export type GetCollections1155QueryVariables = Exact<{
   txCreation: Scalars['String']['input'];
 }>;
 
-
-export type GetCollections1155Query = { __typename?: 'Query', erc1155Contracts: Array<{ __typename?: 'ERC1155Contract', id: string, txCreation: string, name?: string | null, symbol?: string | null }> };
+export type GetCollections1155Query = {
+  __typename?: 'Query';
+  erc1155Contracts: Array<{
+    __typename?: 'ERC1155Contract';
+    id: string;
+    txCreation: string;
+    name?: string | null;
+    symbol?: string | null;
+  }>;
+};
 
 export type GetCollectionTokensQueryVariables = Exact<{
   collectionAddress?: InputMaybe<Scalars['String']['input']>;
@@ -17226,8 +20654,28 @@ export type GetCollectionTokensQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-
-export type GetCollectionTokensQuery = { __typename?: 'Query', erc1155Tokens: Array<{ __typename?: 'ERC1155Token', id: string, tokenId: string, txCreation: string, balances: Array<{ __typename?: 'ERC1155Balance', value: any, account?: { __typename?: 'Account', id: string } | null, contract?: { __typename?: 'ERC1155Contract', id: string } | null }> }>, erc721Tokens: Array<{ __typename?: 'ERC721Token', id: string, tokenId: string, txCreation: string, owner: { __typename?: 'Account', id: string } }> };
+export type GetCollectionTokensQuery = {
+  __typename?: 'Query';
+  erc1155Tokens: Array<{
+    __typename?: 'ERC1155Token';
+    id: string;
+    tokenId: string;
+    txCreation: string;
+    balances: Array<{
+      __typename?: 'ERC1155Balance';
+      value: any;
+      account?: { __typename?: 'Account'; id: string } | null;
+      contract?: { __typename?: 'ERC1155Contract'; id: string } | null;
+    }>;
+  }>;
+  erc721Tokens: Array<{
+    __typename?: 'ERC721Token';
+    id: string;
+    tokenId: string;
+    txCreation: string;
+    owner: { __typename?: 'Account'; id: string };
+  }>;
+};
 
 export type GetMarketplaceStatus721QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17236,8 +20684,36 @@ export type GetMarketplaceStatus721QueryVariables = Exact<{
   timestamp?: InputMaybe<Scalars['BigInt']['input']>;
 }>;
 
-
-export type GetMarketplaceStatus721Query = { __typename?: 'Query', marketEvent721S: Array<{ __typename?: 'MarketEvent721', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, netPrice?: any | null, metadata?: string | null, txHash: string, timestamp: any, quoteToken?: string | null, address: string, nftIdExtend?: string | null, tokenId?: string | null, flagExtend?: boolean | null, addressExtend?: string | null, nftId?: { __typename?: 'ERC721Token', id: string, identifier: any, tokenId: string, txCreation: string, uri?: string | null, createAt?: any | null } | null }> };
+export type GetMarketplaceStatus721Query = {
+  __typename?: 'Query';
+  marketEvent721S: Array<{
+    __typename?: 'MarketEvent721';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    netPrice?: any | null;
+    metadata?: string | null;
+    txHash: string;
+    timestamp: any;
+    quoteToken?: string | null;
+    address: string;
+    nftIdExtend?: string | null;
+    tokenId?: string | null;
+    flagExtend?: boolean | null;
+    addressExtend?: string | null;
+    nftId?: {
+      __typename?: 'ERC721Token';
+      id: string;
+      identifier: any;
+      tokenId: string;
+      txCreation: string;
+      uri?: string | null;
+      createAt?: any | null;
+    } | null;
+  }>;
+};
 
 export type GetMarketplaceStatus1155QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17246,8 +20722,38 @@ export type GetMarketplaceStatus1155QueryVariables = Exact<{
   timestamp?: InputMaybe<Scalars['BigInt']['input']>;
 }>;
 
-
-export type GetMarketplaceStatus1155Query = { __typename?: 'Query', marketEvent1155S: Array<{ __typename?: 'MarketEvent1155', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, txHash?: string | null, timestamp: any, quoteToken?: string | null, quantity: any, operationId?: any | null, operation: Operation, netPrice?: any | null, address?: string | null, tokenId?: string | null, nftIdExtend?: string | null, flagExtend?: boolean | null, addressExtend?: string | null, nftId?: { __typename?: 'ERC1155Token', id: string, uri?: string | null, txCreation: string, tokenId: string, identifier: any, createAt?: any | null } | null }> };
+export type GetMarketplaceStatus1155Query = {
+  __typename?: 'Query';
+  marketEvent1155S: Array<{
+    __typename?: 'MarketEvent1155';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    txHash?: string | null;
+    timestamp: any;
+    quoteToken?: string | null;
+    quantity: any;
+    operationId?: any | null;
+    operation: Operation;
+    netPrice?: any | null;
+    address?: string | null;
+    tokenId?: string | null;
+    nftIdExtend?: string | null;
+    flagExtend?: boolean | null;
+    addressExtend?: string | null;
+    nftId?: {
+      __typename?: 'ERC1155Token';
+      id: string;
+      uri?: string | null;
+      txCreation: string;
+      tokenId: string;
+      identifier: any;
+      createAt?: any | null;
+    } | null;
+  }>;
+};
 
 export type GetNfTsHistory721QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17256,8 +20762,18 @@ export type GetNfTsHistory721QueryVariables = Exact<{
   maxPrice?: InputMaybe<Scalars['BigInt']['input']>;
 }>;
 
-
-export type GetNfTsHistory721Query = { __typename?: 'Query', marketEvent721S: Array<{ __typename?: 'MarketEvent721', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, nftId?: { __typename?: 'ERC721Token', id: string } | null }> };
+export type GetNfTsHistory721Query = {
+  __typename?: 'Query';
+  marketEvent721S: Array<{
+    __typename?: 'MarketEvent721';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    nftId?: { __typename?: 'ERC721Token'; id: string } | null;
+  }>;
+};
 
 export type GetNfTsHistory1155QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17266,8 +20782,18 @@ export type GetNfTsHistory1155QueryVariables = Exact<{
   maxPrice?: InputMaybe<Scalars['BigInt']['input']>;
 }>;
 
-
-export type GetNfTsHistory1155Query = { __typename?: 'Query', marketEvent1155S: Array<{ __typename?: 'MarketEvent1155', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, nftId?: { __typename?: 'ERC1155Token', id: string } | null }> };
+export type GetNfTsHistory1155Query = {
+  __typename?: 'Query';
+  marketEvent1155S: Array<{
+    __typename?: 'MarketEvent1155';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    nftId?: { __typename?: 'ERC1155Token'; id: string } | null;
+  }>;
+};
 
 export type GetNfTsSelling721QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17275,8 +20801,18 @@ export type GetNfTsSelling721QueryVariables = Exact<{
   collection: Scalars['String']['input'];
 }>;
 
-
-export type GetNfTsSelling721Query = { __typename?: 'Query', marketEvent721S: Array<{ __typename?: 'MarketEvent721', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, nftId?: { __typename?: 'ERC721Token', id: string } | null }> };
+export type GetNfTsSelling721Query = {
+  __typename?: 'Query';
+  marketEvent721S: Array<{
+    __typename?: 'MarketEvent721';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    nftId?: { __typename?: 'ERC721Token'; id: string } | null;
+  }>;
+};
 
 export type GetNfTsSelling1155QueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -17284,37 +20820,82 @@ export type GetNfTsSelling1155QueryVariables = Exact<{
   collection: Scalars['String']['input'];
 }>;
 
-
-export type GetNfTsSelling1155Query = { __typename?: 'Query', marketEvent1155S: Array<{ __typename?: 'MarketEvent1155', id: string, event: SellStatus, price?: any | null, to?: string | null, from?: string | null, nftId?: { __typename?: 'ERC1155Token', id: string } | null }> };
+export type GetNfTsSelling1155Query = {
+  __typename?: 'Query';
+  marketEvent1155S: Array<{
+    __typename?: 'MarketEvent1155';
+    id: string;
+    event: SellStatus;
+    price?: any | null;
+    to?: string | null;
+    from?: string | null;
+    nftId?: { __typename?: 'ERC1155Token'; id: string } | null;
+  }>;
+};
 
 export type Get721NfTsQueryVariables = Exact<{
   txCreation: Scalars['String']['input'];
 }>;
 
-
-export type Get721NfTsQuery = { __typename?: 'Query', erc721Tokens: Array<{ __typename?: 'ERC721Token', id: string, txCreation: string, tokenId: string, contract: { __typename?: 'ERC721Contract', id: string } }> };
+export type Get721NfTsQuery = {
+  __typename?: 'Query';
+  erc721Tokens: Array<{
+    __typename?: 'ERC721Token';
+    id: string;
+    txCreation: string;
+    tokenId: string;
+    contract: { __typename?: 'ERC721Contract'; id: string };
+  }>;
+};
 
 export type Get1155NfTsQueryVariables = Exact<{
   txCreation: Scalars['String']['input'];
 }>;
 
-
-export type Get1155NfTsQuery = { __typename?: 'Query', erc1155Tokens: Array<{ __typename?: 'ERC1155Token', id: string, txCreation: string, tokenId: string, contract: { __typename?: 'ERC1155Contract', id: string } }> };
+export type Get1155NfTsQuery = {
+  __typename?: 'Query';
+  erc1155Tokens: Array<{
+    __typename?: 'ERC1155Token';
+    id: string;
+    txCreation: string;
+    tokenId: string;
+    contract: { __typename?: 'ERC1155Contract'; id: string };
+  }>;
+};
 
 export type GetQuoteTokenAcceptQueryVariables = Exact<{
   first?: Scalars['Int']['input'];
   skip?: Scalars['Int']['input'];
 }>;
 
-
-export type GetQuoteTokenAcceptQuery = { __typename?: 'Query', tokens: Array<{ __typename?: 'Token', id: string, symbol: string, name: string, derivedETH: any, derivedUSD: any }> };
+export type GetQuoteTokenAcceptQuery = {
+  __typename?: 'Query';
+  tokens: Array<{
+    __typename?: 'Token';
+    id: string;
+    symbol: string;
+    name: string;
+    derivedETH: any;
+    derivedUSD: any;
+  }>;
+};
 
 export type GetStakingQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
-
-export type GetStakingQuery = { __typename?: 'Query', delegator?: { __typename?: 'Delegator', totalLockStake: any, totalClaimedRewards: any, stakedAmount: any, id: string, createdOn: any, address: any } | null };
+export type GetStakingQuery = {
+  __typename?: 'Query';
+  delegator?: {
+    __typename?: 'Delegator';
+    totalLockStake: any;
+    totalClaimedRewards: any;
+    stakedAmount: any;
+    id: string;
+    createdOn: any;
+    address: any;
+  } | null;
+};
 
 export type CmsSummaryTransactionQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -17322,19 +20903,40 @@ export type CmsSummaryTransactionQueryVariables = Exact<{
   event?: InputMaybe<EventType>;
 }>;
 
-
-export type CmsSummaryTransactionQuery = { __typename?: 'Query', blocks: Array<{ __typename?: 'Block', timestampt: number, id: string, event: EventType }> };
+export type CmsSummaryTransactionQuery = {
+  __typename?: 'Query';
+  blocks: Array<{
+    __typename?: 'Block';
+    timestampt: number;
+    id: string;
+    event: EventType;
+  }>;
+};
 
 export type CmsSummaryVolumeQueryVariables = Exact<{
   address: Scalars['ID']['input'];
 }>;
 
-
-export type CmsSummaryVolumeQuery = { __typename?: 'Query', marketVolume?: { __typename?: 'MarketVolume', type: string, totalVolume: any, id: string } | null };
+export type CmsSummaryVolumeQuery = {
+  __typename?: 'Query';
+  marketVolume?: {
+    __typename?: 'MarketVolume';
+    type: string;
+    totalVolume: any;
+    id: string;
+  } | null;
+};
 
 export type GetContractQueryVariables = Exact<{
   address: Scalars['ID']['input'];
 }>;
 
-
-export type GetContractQuery = { __typename?: 'Query', contract?: { __typename?: 'Contract', id: string, count: any, contract: string } | null };
+export type GetContractQuery = {
+  __typename?: 'Query';
+  contract?: {
+    __typename?: 'Contract';
+    id: string;
+    count: any;
+    contract: string;
+  } | null;
+};

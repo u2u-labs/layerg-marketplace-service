@@ -1,11 +1,12 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
-import { validate as isValidUUID } from 'uuid';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import { validate as isValidUUID } from 'uuid';
+
 import { OptionDto } from '../dto/marketplace.dto';
+
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 @Injectable()
 export class CMSOptionService {
   constructor(private readonly prisma: PrismaService) {}

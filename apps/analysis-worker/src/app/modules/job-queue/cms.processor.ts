@@ -4,9 +4,11 @@ import { Processor } from '@nestjs/bull';
 import { Cron } from '@nestjs/schedule';
 import { OnModuleInit } from '@nestjs/common';
 import { ORDERSTATUS, ORDERTYPE, Prisma } from '@prisma/client';
-import subgraphServiceCommon from '../helper/subgraph-helper.service';
 import { ethers } from 'ethers';
+
+import subgraphServiceCommon from '../helper/subgraph-helper.service';
 import { RedisSubscriberService } from './redis.service';
+
 import { QUEUE_NAME_CMS } from '@/apps/analysis-worker/src/app/constants/Job.constant';
 import { logger } from '@/apps/analysis-worker/src/app/commons';
 import { EventType } from '@/apps/analysis-worker/src/app/generated/graphql';

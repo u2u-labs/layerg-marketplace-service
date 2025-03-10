@@ -6,9 +6,11 @@ import { Job } from 'bull';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { OnModuleInit } from '@nestjs/common';
 import { CONTRACT_TYPE, Prisma, TX_STATUS } from '@prisma/client';
-import subgraphServiceCommon from '../helper/subgraph-helper.service';
 import { ethers } from 'ethers';
+
+import subgraphServiceCommon from '../helper/subgraph-helper.service';
 import { RedisSubscriberService } from './redis.service';
+
 import { QUEUE_NAME_CMS } from '@/apps/worker/src/app/constants/Job.constant';
 import { logger } from '@/apps/worker/src/app/commons';
 import { EventType } from '@/apps/worker/src/app/generated/graphql';

@@ -8,9 +8,10 @@ import {
   catchError,
   mergeMap,
 } from 'rxjs/operators';
-import { logger } from '@/apps/analysis-worker/src/app/commons';
 import { Observable, ObservableInput, throwError, timer } from 'rxjs';
 import * as querystring from 'querystring';
+
+import { logger } from '@/apps/analysis-worker/src/app/commons';
 import { ApiResponse } from '@/apps/analysis-worker/src/app/commons/types/ApiResponse.common';
 
 @Injectable()

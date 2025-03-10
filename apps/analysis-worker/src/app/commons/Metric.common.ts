@@ -1,5 +1,10 @@
 import { CONTRACT_TYPE } from '@prisma/client';
+
 // import * as METRIC_JSON from '../../config/metric.json';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
+import { GetCollectionMarketData } from '../modules/graph-qlcaller/getCollectionMarketData.service';
+
 import * as METRIC_JSON from '@/apps/analysis-worker/config/metric.json';
 import {
   MetricCategory,
@@ -11,8 +16,6 @@ import {
   MetricNFTJson,
   TypeCategory,
 } from '@/apps/analysis-worker/src/app/constants/enums/Metric.enum';
-import { GetCollectionMarketData } from '../modules/graph-qlcaller/getCollectionMarketData.service';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { logger } from '@/apps/analysis-worker/src/app/commons';
 
 interface CollectionGeneral {

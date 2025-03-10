@@ -1,5 +1,7 @@
 import { CONTRACT_TYPE } from '@prisma/client';
 import { gql, GraphQLClient } from 'graphql-request';
+import axios from 'axios';
+
 import {
   getSdk as getSdk1155,
   GetItems1155QueryVariables,
@@ -13,7 +15,6 @@ import {
   ErcContractExternalQuery,
   ErcContractExternalQueryVariables,
 } from '@/apps/analysis-worker/src/app/generated/SubgraphExternal/graphql';
-import axios from 'axios';
 import { logger } from '@/apps/analysis-worker/src/app/commons';
 import {
   CmsSummaryTransactionQueryVariables,

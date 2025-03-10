@@ -66,10 +66,7 @@ class LoggerUtil {
       process.env.NODE_ENV === 'production' &&
       (process.env.LOG_TYPE || 'EC2') === 'EC2'
     ) {
-      // eslint-disable-next-line no-console
-      console.log(
-        `U2U LOGS PATH: ${process.env.LOG_PATH || '/logs'}/${logID}`,
-      );
+      console.log(`U2U LOGS PATH: ${process.env.LOG_PATH || '/logs'}/${logID}`);
     }
   }
 }

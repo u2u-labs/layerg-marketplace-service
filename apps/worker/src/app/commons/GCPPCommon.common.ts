@@ -1,9 +1,10 @@
 import { Storage } from '@google-cloud/storage';
 import { createReadStream } from 'fs';
-import logger from './Logger.common';
-import { FileUpload } from './types/Fileupload.common';
 import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
+
+import logger from './Logger.common';
+import { FileUpload } from './types/Fileupload.common';
 
 // Commons
 // Models
@@ -144,9 +145,7 @@ class GCPCommonCommon {
   public async deleteAsset(fileName) {
     try {
       await this.storage.bucket('u2u-user-assets').file(fileName).delete();
-      logger.info(
-        `Successfully deleted ${fileName} from ${'u2u-user-assets'}`,
-      );
+      logger.info(`Successfully deleted ${fileName} from ${'u2u-user-assets'}`);
     } catch (error) {
       logger.info(
         `Failed to delete ${fileName} from ${'u2u-user-assets'}`,

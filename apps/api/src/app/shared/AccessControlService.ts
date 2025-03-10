@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { Role } from '../constants/enums/role.enum';
 
 interface IsAuthorizedParams {

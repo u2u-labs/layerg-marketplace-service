@@ -1,7 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import Redis from 'ioredis';
-import { QueueService } from './queue.service';
 import { config as dotenvConfig } from 'dotenv';
+
+import { QueueService } from './queue.service';
 dotenvConfig();
 @Injectable()
 export class RedisSubscriberService implements OnModuleInit {

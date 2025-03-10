@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
 import { IsString, IsEmail } from 'class-validator';
+
+import { CreateUserDto } from './create-user.dto';
 
 export class SendVerifyEmailDto {
   @IsString()

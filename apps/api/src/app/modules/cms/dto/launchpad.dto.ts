@@ -1,16 +1,16 @@
+import { Type } from 'class-transformer';
 import {
-  IsString,
-  IsOptional,
-  IsNotEmpty,
+  IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
-  IsArray,
-  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
   ValidateNested,
-  IsBoolean,
 } from 'class-validator';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
-import { Type } from 'class-transformer';
 import { ProjectStat } from '@/apps/api/src/app/constants/enums/ProjectStat.enum';
 
 export class GetAllRoundDto extends OffsetPaginationDto {

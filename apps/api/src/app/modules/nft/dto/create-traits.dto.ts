@@ -1,11 +1,10 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateTraitDto {
-    @IsString()
-    trait_type: string;
-    @IsString()
-    value: string;
-    @IsOptional()
-    display_type: string;
-  }
-  
+  @IsString()
+  trait_type: string;
+  @IsString()
+  value: string;
+  @IsOptional()
+  display_type: string;
+}

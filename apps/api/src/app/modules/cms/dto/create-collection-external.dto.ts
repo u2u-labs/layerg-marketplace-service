@@ -1,15 +1,12 @@
-import { InputType } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsEnum,
   IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
   ValidateNested,
 } from 'class-validator';
-import { TX_STATUS, CONTRACT_TYPE } from '@prisma/client';
 
-import { Type } from 'class-transformer';
 import { CreateCollectionDto } from '@/apps/api/src/app/modules/collection/dto/create-collection.dto';
 
 export class CreateCollectionExternalDto extends CreateCollectionDto {

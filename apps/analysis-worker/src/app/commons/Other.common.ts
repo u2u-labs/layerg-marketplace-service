@@ -1,13 +1,15 @@
 import { createHash } from 'crypto';
-import GCPPCommonCommon from './GCPPCommon.common';
-import { FileUpload } from './types/Fileupload.common';
 import { encode } from 'punycode';
-import { ApiCallerService } from '@/apps/analysis-worker/src/app/modules/api-caller/api-caller.service';
 import { HttpService } from '@nestjs/axios';
-import logger from './Logger.common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { CONTRACT_TYPE } from '@prisma/client';
 import axios from 'axios';
+
+import logger from './Logger.common';
+import { FileUpload } from './types/Fileupload.common';
+import GCPPCommonCommon from './GCPPCommon.common';
+
+import { ApiCallerService } from '@/apps/analysis-worker/src/app/modules/api-caller/api-caller.service';
 
 type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

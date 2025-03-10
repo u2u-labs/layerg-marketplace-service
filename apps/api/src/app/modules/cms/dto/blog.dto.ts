@@ -1,14 +1,16 @@
+import { Type } from 'class-transformer';
 import {
-  IsString,
-  IsOptional,
   IsArray,
-  IsNotEmpty,
-  IsDateString,
   IsBoolean,
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+
 import { IsHtmlWithoutScript } from '../validator/validator-cms';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 
 export class getAllBlog extends OffsetPaginationDto {

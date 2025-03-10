@@ -1,9 +1,11 @@
 import { IsEnum, IsOptional, ValidateNested, IsString } from 'class-validator';
-import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
-import { GetEventMarketplaceQuery } from './get-event-marketplace-query.dto';
-import { LowercasePipe } from '@/apps/api/src/app/commons/pipe/LowerCase.pipe';
 import { CONTRACT_TYPE } from '@prisma/client';
 import { Type, Transform } from 'class-transformer';
+
+import { GetEventMarketplaceQuery } from './get-event-marketplace-query.dto';
+
+import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
+import { LowercasePipe } from '@/apps/api/src/app/commons/pipe/LowerCase.pipe';
 
 export class GetActivityBase extends OffsetPaginationDto {
   @IsOptional()

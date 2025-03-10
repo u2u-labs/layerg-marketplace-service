@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
+
 import { LowercasePipe } from '@/apps/api/src/app/commons/pipe/LowerCase.pipe';
 import { SellStatus } from '@/apps/api/src/app/generated/graphql';
 

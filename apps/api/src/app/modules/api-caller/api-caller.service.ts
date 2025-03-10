@@ -1,18 +1,12 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import {
-  map,
-  retryWhen,
-  delay,
-  take,
-  catchError,
-  mergeMap,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, retryWhen, take } from 'rxjs/operators';
 // import { logger } from '@/apps/api/src/app/commons';
-import { Observable, ObservableInput, throwError, timer } from 'rxjs';
-import { ApiResponse } from '@/apps/api/src/app/commons/types/ApiResponse.common';
 import * as querystring from 'querystring';
+import { Observable, throwError, timer } from 'rxjs';
+
 import { logger } from '@/apps/api/src/app/commons';
+import { ApiResponse } from '@/apps/api/src/app/commons/types/ApiResponse.common';
 
 @Injectable()
 export class ApiCallerService {
@@ -76,40 +70,40 @@ export class ApiCallerService {
     }
   }
 
-  async callGetApi(url: string, headers?: any): Promise<any> {
-    try {
-      logger.info(`API POST REQUEST: ${url}`);
-      const response = await this.httpService
-        .get(url, { headers })
-        .pipe(
-          map((response) => response.data),
-          catchError((error) => {
-            if (error.code === 'ECONNREFUSED') {
-              logger.warn(`API GET REQUEST FAILED: ${url}. Retrying...`);
-              return throwError(() => new Error(error.message));
-            } else {
-              logger.error(`API GET REQUEST FAILED: ${url}, ${error.code}`);
-              return throwError(() => new Error(error.message));
-            }
-          }),
-          retryWhen((errors: Observable<any>): Observable<any> => {
-            return errors.pipe(
-              mergeMap((error) => {
-                if (error.code === 'ECONNREFUSED') {
-                  return timer(1000); // Retry for ECONNREFUSED errors
-                } else {
-                  return throwError(() => error); // Skip retry for other errors
-                }
-              }),
-              take(3),
-            );
-          }),
-        )
-        .toPromise();
-      logger.info(`API RESPONSE: ${JSON.stringify(response)}`);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // async callGetApi(url: string, headers?: any): Promise<any> {
+  //   try {
+  //     logger.info(`API POST REQUEST: ${url}`);
+  //     const response = await this.httpService
+  //       .get(url, { headers })
+  //       .pipe(
+  //         map((response) => response.data),
+  //         catchError((error) => {
+  //           if (error.code === 'ECONNREFUSED') {
+  //             logger.warn(`API GET REQUEST FAILED: ${url}. Retrying...`);
+  //             return throwError(() => new Error(error.message));
+  //           } else {
+  //             logger.error(`API GET REQUEST FAILED: ${url}, ${error.code}`);
+  //             return throwError(() => new Error(error.message));
+  //           }
+  //         }),
+  //         retryWhen((errors: Observable<any>): Observable<any> => {
+  //           return errors.pipe(
+  //             mergeMap((error) => {
+  //               if (error.code === 'ECONNREFUSED') {
+  //                 return timer(1000); // Retry for ECONNREFUSED errors
+  //               } else {
+  //                 return throwError(() => error); // Skip retry for other errors
+  //               }
+  //             }),
+  //             take(3),
+  //           );
+  //         }),
+  //       )
+  //       .toPromise();
+  //     logger.info(`API RESPONSE: ${JSON.stringify(response)}`);
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 }

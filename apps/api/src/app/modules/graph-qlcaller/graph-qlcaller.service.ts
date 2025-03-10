@@ -1,4 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { GraphQLClient, gql } from 'graphql-request';
+
 import {
   getSdk,
   SellStatus,
@@ -18,9 +20,10 @@ import {
   GetActivityWithEventQueryVariables,
 } from '../../generated/graphql';
 
-
-import { GraphQLClient, gql } from 'graphql-request';
-import {  getSdk as getSdkExternal  ,GetCheckOwnerExternalQueryVariables } from '@/apps/api/src/generated/SubgraphExternal/graphql';
+import {
+  getSdk as getSdkExternal,
+  GetCheckOwnerExternalQueryVariables,
+} from '@/apps/api/src/generated/SubgraphExternal/graphql';
 @Injectable()
 export class GraphQlcallerService {
   private readonly endpoint = process.env.SUBGRAPH_URL;

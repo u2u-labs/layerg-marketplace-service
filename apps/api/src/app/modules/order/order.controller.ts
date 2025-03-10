@@ -9,17 +9,19 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
+
 import { OrderService } from './order.service';
 import { CreateBulkDto, CreateSingleDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
-import { User } from '@prisma/client';
 import {
   ActionOrderDto,
   VerifyOrderDto,
   VerifyOrdersDto,
 } from './dto/get-order.dto';
+
+import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 
 @Controller('order')
 export class OrderController {

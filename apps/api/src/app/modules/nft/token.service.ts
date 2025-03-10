@@ -3,8 +3,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { createHash } from 'crypto';
-import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
 import { CONTRACT_TYPE } from '@prisma/client';
+
+import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
 import { GetCollectionMarketData } from '../graph-qlcaller/getCollectionMarketData.service';
 
 @Injectable()

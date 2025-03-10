@@ -1,12 +1,9 @@
-import {} from '@/apps/worker/src/app/generated/graphql';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { CommonService } from '../common/common.service';
-import { QUEUE_NAME_USER } from '@/apps/worker/src/app/constants/Job.constant';
+import { MailerService } from '@nestjs-modules/mailer';
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import { MailerService } from '@nestjs-modules/mailer';
-import * as jwt from 'jsonwebtoken';
+
 import { logger } from '@/apps/worker/src/app/commons';
+import { QUEUE_NAME_USER } from '@/apps/worker/src/app/constants/Job.constant';
 
 @Processor(QUEUE_NAME_USER)
 export class UserProcessor {
@@ -16,7 +13,7 @@ export class UserProcessor {
   async verifyEmail(job: Job<any>) {
     try {
       logger.error(`Send Mail Success: ${JSON.stringify(job?.data)}`);
-      const { email, verifyToken, name } = job?.data;
+      const { email, verifyToken, name } = job?.data as any;
       await this.mailService.sendMail({
         to: email,
         subject: 'Email Verify Account Marketplace',

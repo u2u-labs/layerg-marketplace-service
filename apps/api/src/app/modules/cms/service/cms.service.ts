@@ -1,45 +1,45 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Injectable,
   HttpException,
   HttpStatus,
+  Injectable,
   NotFoundException,
-  Inject,
 } from '@nestjs/common';
+import { Account, Prisma, TX_STATUS } from '@prisma/client';
+import { ethers } from 'ethers';
+import { validate as isValidUUID } from 'uuid';
+
+import { accountListSelect } from '../../../commons/definitions/Constraint.Object';
+import { GetSummaryDto } from '../dto/cms.dto';
+import { CreateAccountDto } from '../dto/create-account.dto';
 import {
-  UpdateAccountDto,
-  UpdatePasswordDto,
-  ResetPasswordDtop,
-  UpdateRolesDto,
-} from '../dto/update-account.dto';
+  CreateCollectionExternalDto,
+  WebhookCollectionDto,
+} from '../dto/create-collection-external.dto';
+import { GetAllAccountDto } from '../dto/get-all-account.dto';
 import {
-  ActiveNFTDto,
   ActiveCollectionDto,
+  ActiveNFTDto,
   ActiveUserDto,
   VerifyCollectionDto,
 } from '../dto/marketplace.dto';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { CreateAccountDto } from '../dto/create-account.dto';
-import { GetAllAccountDto } from '../dto/get-all-account.dto';
-import { validate as isValidUUID } from 'uuid';
-import { GetCollectionMarketData } from '../../graph-qlcaller/getCollectionMarketData.service';
-import { Account, Prisma, TX_STATUS } from '@prisma/client';
-import { accountListSelect } from '../../../commons/definitions/Constraint.Object';
-import { GetSummaryDto } from '../dto/cms.dto';
-import { ethers } from 'ethers';
+import {
+  ResetPasswordDtop,
+  UpdateAccountDto,
+  UpdatePasswordDto,
+  UpdateRolesDto,
+} from '../dto/update-account.dto';
+
 // import SecureUtil from '@/apps/api/src/app/commons/Secure.common';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import {
-  CreateCollectionExternalDto,
-  Game,
-  WebhookCollectionDto,
-} from '../dto/create-collection-external.dto';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import MetricCommon from '@/apps/api/src/app/commons/Metric.common';
-import { MetricCategory, TypeCategory } from '@/apps/api/src/app/constants/enums/Metric.enum';
-import { GraphQlcallerService } from '@/apps/api/src/app/modules/graph-qlcaller/graph-qlcaller.service';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
+import {
+  MetricCategory,
+  TypeCategory,
+} from '@/apps/api/src/app/constants/enums/Metric.enum';
 import { EventType } from '@/apps/api/src/app/generated/graphql';
+import { GraphQlcallerService } from '@/apps/api/src/app/modules/graph-qlcaller/graph-qlcaller.service';
 import { UserService } from '@/apps/api/src/app/modules/user/user.service';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 interface CountTransactionDto {

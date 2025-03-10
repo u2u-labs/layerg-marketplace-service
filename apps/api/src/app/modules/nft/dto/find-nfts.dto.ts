@@ -7,8 +7,9 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 import { ORDERSTATUS, ORDERTYPE } from '@prisma/client';
+
+import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 import { SellStatus } from '@/apps/api/src/app/generated/graphql';
 
 export class MetadataFilterDto {

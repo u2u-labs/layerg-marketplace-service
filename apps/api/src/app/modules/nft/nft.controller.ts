@@ -11,8 +11,8 @@ import {
   ValidationPipe,
   UsePipes,
 } from '@nestjs/common';
-import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { User, Account } from '@prisma/client';
+
 import { CreateNftDto } from './dto/create-nft.dto';
 import { UpdateNftDto } from './dto/update-nft.dto';
 import { NftService } from './nft.service';
@@ -28,6 +28,8 @@ import {
   GetGeneralInforDto,
 } from './dto/get-general-infor.dto';
 import { AuthenticationCustomizeGuard } from '../auth/guards/authCustomize.guard';
+
+import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 @Controller('nft')
 export class NftController {
   constructor(

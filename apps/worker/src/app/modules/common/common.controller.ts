@@ -1,4 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
+
 import { CommonService } from './common.service';
 
 @Controller('common')

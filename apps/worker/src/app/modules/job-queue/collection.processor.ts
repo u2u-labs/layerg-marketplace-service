@@ -1,21 +1,23 @@
 // import { Job } from 'kue';
 import { GraphQLClient } from 'graphql-request';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { TX_STATUS } from '@prisma/client';
+import { Processor, Process, OnQueueFailed } from '@nestjs/bull';
+import { Job } from 'bull';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { OnModuleInit } from '@nestjs/common';
+
+import subgraphServiceCommon from '../helper/subgraph-helper.service';
+import { RedisSubscriberService } from './redis.service';
+import { DynamicScheduleService } from '../helper/dynamic-schedule.service';
+
+import { QUEUE_NAME_COLLECTION } from '@/apps/worker/src/app/constants/Job.constant';
+import { logger } from '@/apps/worker/src/app/commons';
 import {
   GetCollections1155QueryVariables,
   GetCollections721QueryVariables,
   getSdk,
 } from '@/apps/worker/src/app/generated/graphql';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { TX_STATUS } from '@prisma/client';
-import { Processor, Process, OnQueueFailed } from '@nestjs/bull';
-import { Job } from 'bull';
-import { QUEUE_NAME_COLLECTION } from '@/apps/worker/src/app/constants/Job.constant';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import subgraphServiceCommon from '../helper/subgraph-helper.service';
-import { RedisSubscriberService } from './redis.service';
-import { logger } from '@/apps/worker/src/app/commons';
-import { DynamicScheduleService } from '../helper/dynamic-schedule.service';
-import { OnModuleInit } from '@nestjs/common';
 interface SyncCollection {
   txCreation: string;
   type: 'ERC721' | 'ERC1155';

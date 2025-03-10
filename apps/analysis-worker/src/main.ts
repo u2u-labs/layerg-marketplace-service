@@ -5,11 +5,12 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 // import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
+
+import { AppModule } from './app/app.module';
 
 // import { GraphQLErrorFilter } from './commons/errors/ExceptionFilter';
 function matchRegexArray(arr: string[], str: string): boolean {
@@ -42,5 +43,3 @@ async function bootstrap() {
   await app.listen(7777);
 }
 bootstrap();
-
-

@@ -1,4 +1,3 @@
-import { makeTakeType } from '@/apps/api/src/app/constants/enums/order.enum';
 import { InputType } from '@nestjs/graphql';
 import { ORDERSTATUS, ORDERTYPE } from '@prisma/client';
 import { stringList } from 'aws-sdk/clients/datapipeline';
@@ -11,6 +10,8 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+
+import { makeTakeType } from '@/apps/api/src/app/constants/enums/order.enum';
 
 @InputType()
 export class CreateSingleDto {

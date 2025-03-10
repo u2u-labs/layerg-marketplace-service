@@ -6,7 +6,8 @@
     "codegen-api": "graphql-codegen --config apps/api/codegen.ts",
     "codegen-worker": "graphql-codegen --config apps/worker/codegen.ts",
     "codegen-analysis": "graphql-codegen --config apps/analysis-worker/codegen.ts",
-    "ncu": "ncu --format group && ncu -i --format group"
+    "ncu": "ncu --format group && ncu -i --format group",
+    "lint": "cross-env FOLDER=** eslint \"{src,apps,libs,test}/$FOLDER/**/*.ts\" --fix"
   },
   "private": true,
   "dependencies": {

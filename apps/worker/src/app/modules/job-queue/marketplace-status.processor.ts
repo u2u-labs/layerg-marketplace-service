@@ -1,8 +1,6 @@
-import { UserBalance } from './../../generated/Template1155/graphql';
 import { GraphQLClient } from 'graphql-request';
 // import { OrderDirection, getSdk } from '@/apps/worker/src/app/generated/graphql';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { QUEUE_NAME_MARKETPLACE_STATUS } from '@/apps/worker/src/app/constants/Job.constant';
 import { Processor } from '@nestjs/bull';
 import { NotFoundException, OnModuleInit } from '@nestjs/common';
 // import { logger } from '@/apps/worker/src/app/commons';
@@ -19,11 +17,21 @@ import {
 // import { MetricCategory, TypeCategory } from '@/apps/worker/src/app/constants/enums/Metric.enum';
 // import OtherCommon from '@/apps/worker/src/app/commons/Other.common';
 import { parse } from 'path';
+
+import { UserBalance } from './../../generated/Template1155/graphql';
 import { CollectionsUtilsProcessor } from './collection-utils.processor';
 import HelperService from '../helper/helper.service';
 import helperService from '../helper/helper.service';
-import { ORDERTRANSFER, SYNCDATASTATUS } from '@/apps/worker/src/app/constants/enums/Order.enum';
-import { OrderDirection, getSdk } from '@/apps/worker/src/app/generated/graphql';
+
+import { QUEUE_NAME_MARKETPLACE_STATUS } from '@/apps/worker/src/app/constants/Job.constant';
+import {
+  ORDERTRANSFER,
+  SYNCDATASTATUS,
+} from '@/apps/worker/src/app/constants/enums/Order.enum';
+import {
+  OrderDirection,
+  getSdk,
+} from '@/apps/worker/src/app/generated/graphql';
 import { logger } from '@/apps/worker/src/app/commons';
 export class UpdateOrderInput {
   sig: string;

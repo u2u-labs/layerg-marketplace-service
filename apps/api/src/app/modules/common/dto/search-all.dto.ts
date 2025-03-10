@@ -1,4 +1,5 @@
 import { IsEnum, IsString } from 'class-validator';
+
 import { SearchAllType } from '../../../constants/searchType.enum';
 import { OffsetPaginationDto } from '../../../commons/definitions/OffsetPagination.input';
 

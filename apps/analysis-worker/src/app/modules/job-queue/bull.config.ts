@@ -1,5 +1,6 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
+
 import {
   QUEUE_NAME_COLLECTION,
   QUEUE_NAME_CMS,

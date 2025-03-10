@@ -1,4 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
+
 import { ValidatorDto } from './dto/validator.dto';
 import { ValidatorService } from './validator.service';
 

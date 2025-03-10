@@ -9,12 +9,13 @@ import {
   UseGuards,
   Put,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
+
 import { PlatformTemplateService } from './platform-template.service';
 import { CreatePlatformTemplateDto } from './dto/create-platform-template.dto';
 import { UpdatePlatformTemplateDto } from './dto/update-platform-template.dto';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
-import { User } from '@prisma/client';
 
 @Controller('platform-template')
 export class PlatformTemplateController {

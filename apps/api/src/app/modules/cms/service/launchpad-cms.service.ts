@@ -1,24 +1,25 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Injectable,
   HttpException,
   HttpStatus,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
-import { validate as isValidUUID } from 'uuid';
 import { Account, Prisma } from '@prisma/client';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import { validate as isValidUUID } from 'uuid';
+
+import { ProjectEntity } from '../../launchpad/entities/project.entity';
 import {
   CreateOrUpdateProjectDto,
   CreateRoundInforDto,
+  FindAllProjectDto,
   GetAllRoundDto,
   UpdateRoundInforDto,
 } from '../dto/launchpad.dto';
 import { CMSService } from './cms.service';
-import { FindAllProjectDto } from '../dto/launchpad.dto';
-import { ProjectEntity } from '../../launchpad/entities/project.entity';
+
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import { ProjectStat } from '@/apps/api/src/app/constants/enums/ProjectStat.enum';
 
 @Injectable()
@@ -206,7 +207,7 @@ export class LaunchPadService {
             return (
               (new Date(round.start) <= new Date() &&
                 new Date(round.end) >= new Date()) ||
-              new Date(round.claimableStart) === new Date(0)
+              new Date(round.claimableStart).getTime() === new Date(0).getTime()
             );
           }),
         );

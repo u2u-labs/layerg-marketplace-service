@@ -7,10 +7,12 @@ import {
   IsEthereumAddress,
   IsNotEmpty,
 } from 'class-validator';
+import { CONTRACT_TYPE, ORDERSTATUS, ORDERTYPE } from '@prisma/client';
+
 import { QueryTraitDto } from './query-trait.dto';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 import { SellStatus } from '@/apps/api/src/app/generated/graphql';
-import { CONTRACT_TYPE, ORDERSTATUS, ORDERTYPE } from '@prisma/client';
 import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 
 export class GetAllNftDto extends OffsetPaginationDto {

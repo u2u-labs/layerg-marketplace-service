@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { ValidatorService } from './validator.service';
 
 describe('ValidatorService', () => {
