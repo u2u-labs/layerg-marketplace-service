@@ -7,6 +7,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { TX_STATUS, CONTRACT_TYPE } from '@prisma/client';
+
 // import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';

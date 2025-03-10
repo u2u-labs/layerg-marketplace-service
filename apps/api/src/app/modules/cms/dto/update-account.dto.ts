@@ -1,10 +1,11 @@
 import {
-  IsString,
-  IsOptional,
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
+  IsString,
 } from 'class-validator';
+
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 
 export class UpdateAccountDto {

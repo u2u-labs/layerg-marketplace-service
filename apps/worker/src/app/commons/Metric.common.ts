@@ -1,18 +1,19 @@
-import { CONTRACT_TYPE } from '@prisma/client';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { CONTRACT_TYPE } from '@prisma/client';
+
+import { GetCollectionMarketData } from '../modules/graph-qlcaller/getCollectionMarketData.service';
+
 import * as METRIC_JSON from '@/apps/worker/config/metric.json';
+import { logger } from '@/apps/worker/src/app/commons';
 import {
   MetricCategory,
   MetricCollection,
   MetricCollectionJson,
+  MetricNFTJson,
   MetricUser,
   MetricUserJson,
-  MetricNFT,
-  MetricNFTJson,
   TypeCategory,
 } from '@/apps/worker/src/app/constants/enums/Metric.enum';
-import { GetCollectionMarketData } from '../modules/graph-qlcaller/getCollectionMarketData.service';
-import { logger } from '@/apps/worker/src/app/commons';
 
 interface CollectionGeneral {
   totalOwner: number;

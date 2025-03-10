@@ -1,7 +1,8 @@
 import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
+import { CONTRACT_TYPE, ORDERSTATUS, ORDERTYPE } from '@prisma/client';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 import { SellStatus } from '@/apps/api/src/app/generated/graphql';
-import { CONTRACT_TYPE, ORDERSTATUS, ORDERTYPE } from '@prisma/client';
 
 export class GetEventMarketplace extends OffsetPaginationDto {
   @IsOptional()

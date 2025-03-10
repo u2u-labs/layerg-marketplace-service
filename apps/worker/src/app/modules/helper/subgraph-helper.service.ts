@@ -1,6 +1,8 @@
 // import { ApiCallerService } from '@/apps/worker/src/app/modules/api-caller/api-caller.service';
 import { CONTRACT_TYPE } from '@prisma/client';
 import { gql, GraphQLClient } from 'graphql-request';
+import axios from 'axios';
+
 import {
   getSdk as getSdk1155,
   GetItems1155QueryVariables,
@@ -9,18 +11,17 @@ import {
   getSdk as getSdk721,
   GetItems721QueryVariables,
 } from '@/apps/worker/src/app/generated/Template721/graphql';
-import axios from 'axios';
 import { ApiCallerService } from '@/apps/worker/src/app/modules/api-caller/api-caller.service';
-import {   
+import {
   CmsSummaryTransactionQueryVariables,
   EventType,
-  getSdk, 
+  getSdk,
 } from '@/apps/worker/src/app/generated/graphql';
 import { logger } from '@/apps/worker/src/app/commons';
-import {   
+import {
   getSdk as getSdkExternal,
   ErcContractExternalQuery,
-  ErcContractExternalQueryVariables
+  ErcContractExternalQueryVariables,
 } from '@/apps/worker/src/app/generated/SubgraphExternal/graphql';
 
 class subgraphServiceCommon {

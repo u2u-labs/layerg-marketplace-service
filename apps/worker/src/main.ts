@@ -5,12 +5,14 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser';
-import { CollectionsUtilsProcessor } from '@/apps/worker/src/app/modules/job-queue/collection-utils.processor';
 import compression from 'compression';
-export let collectionsUtils: CollectionsUtilsProcessor = null;
 
+import { AppModule } from './app/app.module';
+
+import { CollectionsUtilsProcessor } from '@/apps/worker/src/app/modules/job-queue/collection-utils.processor';
+
+export let collectionsUtils: CollectionsUtilsProcessor = null;
 
 function matchRegexArray(arr: string[], str: string): boolean {
   for (const pattern of arr) {

@@ -1,11 +1,12 @@
+import { CONTRACT_TYPE } from '@prisma/client';
 import {
-  IsString,
-  IsOptional,
-  IsNotEmpty,
   IsBoolean,
   IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
 } from 'class-validator';
-import { CONTRACT_TYPE } from '@prisma/client';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 
 export class ActiveGeneral {

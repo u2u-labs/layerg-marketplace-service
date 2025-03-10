@@ -1,16 +1,22 @@
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
-import { SellStatus, GetRoyaltiesQuery } from '@/apps/api/src/app/generated/graphql';
 import {
   Injectable,
   HttpException,
   HttpStatus,
   NotFoundException,
 } from '@nestjs/common';
-import { Query } from '../../generated/graphql';
-import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
 import { GraphQLClient, gql } from 'graphql-request';
+
+import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
+import { Query } from '../../generated/graphql';
 import { creatorSelect } from '../../commons/definitions/Constraint.Object';
+
+import {
+  SellStatus,
+  GetRoyaltiesQuery,
+} from '@/apps/api/src/app/generated/graphql';
+import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
+
 @Injectable()
 export class CollectionPriceService {
   constructor(

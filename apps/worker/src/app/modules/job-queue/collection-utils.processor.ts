@@ -1,21 +1,20 @@
-import { GraphQLClient } from 'graphql-request';
-import {
-  GetNfTsSelling1155QueryVariables,
-  GetNfTsSelling721QueryVariables,
-  getSdk,
-} from '@/apps/worker/src/app/generated/graphql';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { Processor, Process } from '@nestjs/bull';
-import { Job } from 'bull';
-import { QUEUE_COLLECTION_UTILS } from '@/apps/worker/src/app/constants/Job.constant';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { logger } from '@/apps/worker/src/app/commons';
+import { Process, Processor } from '@nestjs/bull';
 import { OnModuleInit } from '@nestjs/common';
-import { MetricCategory, TypeCategory } from '@/apps/worker/src/app/constants/enums/Metric.enum';
-import { CONTRACT_TYPE, ORDERSTATUS, Prisma, TX_STATUS } from '@prisma/client';
+import { ORDERSTATUS, TX_STATUS } from '@prisma/client';
+import { Job } from 'bull';
+import { GraphQLClient } from 'graphql-request';
+
 import subgraphServiceCommon from '../helper/subgraph-helper.service';
-import OtherCommon from '@/apps/worker/src/app/commons/Other.common';
+
+import { logger } from '@/apps/worker/src/app/commons';
 import MetricCommon from '@/apps/worker/src/app/commons/Metric.common';
+import OtherCommon from '@/apps/worker/src/app/commons/Other.common';
+import {
+  MetricCategory,
+  TypeCategory,
+} from '@/apps/worker/src/app/constants/enums/Metric.enum';
+import { QUEUE_COLLECTION_UTILS } from '@/apps/worker/src/app/constants/Job.constant';
 interface FloorPriceProcess {
   data: string;
 }
@@ -141,7 +140,7 @@ export class CollectionsUtilsProcessor implements OnModuleInit {
               collection?.lastTimeSync,
             );
           if (resultSubgraphQuery?.items?.length > 0) {
-            for (const item of resultSubgraphQuery?.items) {
+            for (const item of resultSubgraphQuery?.items as any) {
               const checkExist = await this.prisma.nFT.findUnique({
                 where: {
                   id_collectionId: {
@@ -175,14 +174,14 @@ export class CollectionsUtilsProcessor implements OnModuleInit {
                 }
               }
             }
-            (lastProcessedTimestamp = parseInt(
+            lastProcessedTimestamp = parseInt(
               resultSubgraphQuery.items[resultSubgraphQuery.items.length - 1]
                 .createdAt,
-            )),
-              await this.updateCollectionSyncStatus(
-                collection.id,
-                lastProcessedTimestamp,
-              );
+            );
+            await this.updateCollectionSyncStatus(
+              collection.id,
+              lastProcessedTimestamp,
+            );
             skip += first;
           } else {
             hasMore = false;

@@ -1,55 +1,54 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Injectable,
-  NotFoundException,
   HttpException,
   HttpStatus,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { Prisma, User } from '@prisma/client';
-import { GetAllUser } from './dto/get-all-user.dto';
+import { GraphQLClient } from 'graphql-request';
+import * as jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import { validate as isValidUUID } from 'uuid';
-import { FindAllProjectDto } from '../launchpad/dto/find-all-project.dto';
+
+import {
+  projectSelect,
+  userFollow,
+  userSelectFull,
+} from '../../commons/definitions/Constraint.Object';
+import { GetTransferNftQueryVariables, getSdk } from '../../generated/graphql';
 import { findProjectsUserSubscribe } from '../launchpad/dto/find-project.dto';
-import { ListProjectEntity } from './entities/project.entity';
-import { UserEntity } from './entities/user.entity';
 import { ActivityService } from '../nft/activity.service';
 import {
   GetActivityBase,
   GetFollowingDto,
   GetListBid,
 } from './dto/activity-user.dto';
+import { GetAllUser } from './dto/get-all-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { SendVerifyEmailDto, VerifyEmailDto } from './dto/verify-email.dto';
-import * as jwt from 'jsonwebtoken';
-import { JwtPayload } from 'jsonwebtoken';
-import { GraphQLClient, gql } from 'graphql-request';
-import {
-  Query,
-  getSdk,
-  GetTransferNftQueryVariables,
-} from '../../generated/graphql';
+import { ListProjectEntity } from './entities/project.entity';
+
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import MetricCommon from '@/apps/api/src/app/commons/Metric.common';
 import {
-  userSelectFull,
-  projectSelect,
-  userFollow,
-} from '../../commons/definitions/Constraint.Object';
-import { MetricCategory, TypeCategory } from '@/apps/api/src/app/constants/enums/Metric.enum';
+  MetricCategory,
+  TypeCategory,
+} from '@/apps/api/src/app/constants/enums/Metric.enum';
+import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 interface UserRedisinterface {
   timestamp: string;
   email: string;
   userId: string;
   verifyToken: string;
 }
-import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
     private activetiService: ActivityService,
-    private redisisService : RedisService,
+    private redisisService: RedisService,
   ) {}
 
   private readonly secretKeyConfirm = process.env.MAIL_KEY_CONFIRM;
@@ -121,7 +120,6 @@ export class UserService {
     const currentUserId = currentUser?.id;
     // const limit = (filter.limit || 12) as number;
     // const cursor = filter.cursor;
-    // @ts-ignore
     // const take: number = limit && limit > 0 ? parseInt(limit) + 1 : 13;
     const whereCondition: Prisma.UserWhereInput = {
       ...(filter.search

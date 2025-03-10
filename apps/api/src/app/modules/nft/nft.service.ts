@@ -1,63 +1,61 @@
-import { Erc1155Balance } from './../../generated/graphql';
-import { CreateNftDto } from './dto/create-nft.dto';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  CONTRACT_TYPE,
+  ORDERSTATUS,
+  ORDERTYPE,
   Prisma,
   TX_STATUS,
   User,
-  CONTRACT_TYPE,
-  SELL_STATUS,
-  ORDERSTATUS,
-  ORDERTYPE,
 } from '@prisma/client';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { NftDto } from './dto/nft.dto';
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { ethers } from 'ethers';
+import { GraphQLClient } from 'graphql-request';
 import { validate as isValidUUID } from 'uuid';
-import { GetAllNftDto, GetSweepOrdersDto } from './dto/get-all-nft.dto';
+
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
-import { MarketplaceService } from './nft-marketplace.service';
-import { SellStatus, OrderDirection } from '@/apps/api/src/app/generated/graphql';
-// import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
 import { OwnerOutputDto } from '../user/dto/owners.dto';
 import { ValidatorService } from '../validator/validator.service';
-import { GraphQLClient } from 'graphql-request';
-import { GetActivityBase, GetHistoryOrderDto } from './dto/activity-nft.dto';
 import { ActivityService } from './activity.service';
-import { NftEntity } from './entities/nft.entity';
-import { CollectionPriceService } from '../collection/collectionPrice.service';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
-import subgraphServiceCommon from './helper/subgraph-helper.service';
+import { GetActivityBase, GetHistoryOrderDto } from './dto/activity-nft.dto';
+import { CreateNftDto } from './dto/create-nft.dto';
+import { GetAllNftDto, GetSweepOrdersDto } from './dto/get-all-nft.dto';
+import { NftDto } from './dto/nft.dto';
+import { MarketplaceService } from './nft-marketplace.service';
+
+// import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
+
 import {
-  creatorSelect,
   CollectionSelect,
-  marketplaceSelect,
-  nftSelect,
-  userSelect,
+  creatorSelect,
   nftOwnerShip,
-  orderSelect,
   orderNFTSelect,
-  collectionSelect,
+  userSelect,
 } from '../../commons/definitions/Constraint.Object';
+import { CollectionPriceService } from '../collection/collectionPrice.service';
 import {
   GetGeneralInforAllDto,
   GetGeneralInforDto,
 } from './dto/get-general-infor.dto';
+import { NftEntity } from './entities/nft.entity';
+import subgraphServiceCommon from './helper/subgraph-helper.service';
+
 // import { GeneralInfor } from '@/apps/api/src/app/constants/enums/GeneralInfor.enum';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import { NFTHepler } from './helper/nft-helper.service';
-import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
-import { ethers } from 'ethers';
 import { UserService } from '../user/user.service';
-import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
-import axios from 'axios';
+import { NFTHepler } from './helper/nft-helper.service';
+
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
+import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { GeneralInfor } from '@/apps/api/src/app/constants/enums/GeneralInfor.enum';
+import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
+import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Injectable()
@@ -325,6 +323,7 @@ export class NftService {
             ],
           });
         }
+        // eslint-disable-next-line no-empty
       } else if (filter.owner) {
       } else {
         whereCondition.AND = whereConditionInternal.AND;
@@ -359,8 +358,7 @@ export class NftService {
             },
           };
         } else {
-          const orderByProperties: Prisma.NFTOrderByWithRelationInput[] =
-            [];
+          const orderByProperties: Prisma.NFTOrderByWithRelationInput[] = [];
 
           if (filter.orderBy == 'time') {
             orderByProperties.push({ createdAt: filter.order });
@@ -495,8 +493,7 @@ export class NftService {
             },
           };
         } else {
-          const orderByProperties: Prisma.NFTOrderByWithRelationInput[] =
-            [];
+          const orderByProperties: Prisma.NFTOrderByWithRelationInput[] = [];
 
           if (filter.orderBy == 'time') {
             orderByProperties.push({ createdAt: filter.order });

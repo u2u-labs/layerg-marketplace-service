@@ -1,5 +1,7 @@
 import { Prisma, Project } from '@prisma/client';
+
 import { RoundEntity } from './round.entity';
+
 import { CollectionEntity } from '@/apps/api/src/app/modules/collection/entities/collection.entity';
 
 export class ProjectEntity implements Project {

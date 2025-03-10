@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
 import { NftService } from './nft.service';
 import { NftController } from './nft.controller';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { TokenService } from './token.service';
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
 import { MarketplaceService } from './nft-marketplace.service';
@@ -13,6 +14,7 @@ import { NFTHepler } from './helper/nft-helper.service';
 import { UserService } from '../user/user.service';
 import { LayerService } from './layerg.service';
 import { LayerController } from './layerg.controller';
+
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Module({
@@ -30,7 +32,7 @@ import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
     UserService,
     ActivityService,
     LayerService,
-    RedisService
+    RedisService,
   ],
   controllers: [NftController, LayerController],
 })

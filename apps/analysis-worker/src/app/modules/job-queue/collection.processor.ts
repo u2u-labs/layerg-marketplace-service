@@ -1,23 +1,25 @@
 // import { Job } from 'kue';
 import { GraphQLClient } from 'graphql-request';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { CONTRACT_TYPE, Prisma, TX_STATUS } from '@prisma/client';
+import { Processor, Process, OnQueueFailed } from '@nestjs/bull';
+import { Job } from 'bull';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { OnModuleInit } from '@nestjs/common';
+import { ethers } from 'ethers';
+import PQueue from 'p-queue';
+import moment from 'moment';
+
+import { RedisSubscriberService } from './redis.service';
+import subgraphServiceCommon from '../helper/subgraph-helper.service';
+
+import { QUEUE_NAME_COLLECTION } from '@/apps/analysis-worker/src/app/constants/Job.constant';
 import {
   GetCollections1155QueryVariables,
   GetCollections721QueryVariables,
   GetNfTsSelling721QueryVariables,
   getSdk,
 } from '@/apps/analysis-worker/src/app/generated/graphql';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { CONTRACT_TYPE, Prisma, TX_STATUS } from '@prisma/client';
-import { Processor, Process, OnQueueFailed } from '@nestjs/bull';
-import { Job } from 'bull';
-import { QUEUE_NAME_COLLECTION } from '@/apps/analysis-worker/src/app/constants/Job.constant';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import subgraphServiceCommon from '../helper/subgraph-helper.service';
-import { RedisSubscriberService } from './redis.service';
-import { OnModuleInit } from '@nestjs/common';
-import { ethers } from 'ethers';
-import PQueue from 'p-queue';
-import moment from 'moment';
 import OtherCommon from '@/apps/analysis-worker/src/app/commons/Other.common';
 import { logger } from '@/apps/analysis-worker/src/app/commons';
 
@@ -140,7 +142,7 @@ export class CollectionsCheckProcessor implements OnModuleInit {
     let totalNftExternal = 0;
     let totalOwnerExternal = 0;
 
-    if (!!flagExtend) {
+    if (flagExtend) {
       const resultExternal =
         await subgraphServiceCommon.getAllCollectionExternal(collectionAddress);
       totalNftExternal = resultExternal.totalNftExternal;
@@ -157,10 +159,10 @@ export class CollectionsCheckProcessor implements OnModuleInit {
       return {
         // volumn: statusCollection.erc721Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc721Contract?.count || 0,
       };
@@ -168,10 +170,10 @@ export class CollectionsCheckProcessor implements OnModuleInit {
       return {
         // volumn: statusCollection.erc1155Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc1155Contract?.count || 0,
       };

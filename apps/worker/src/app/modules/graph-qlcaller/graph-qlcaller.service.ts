@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { GraphQLClient } from 'graphql-request';
+
 import {
   GetCollectionTokensQueryVariables,
   getSdk,
 } from '../../generated/graphql';
-import { GraphQLClient } from 'graphql-request';
 @Injectable()
 export class GraphQlcallerService {
   private readonly endpoint = process.env.SUBGRAPH_URL;

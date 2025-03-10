@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { NftService } from './nft.service';
 
 describe('NftService', () => {

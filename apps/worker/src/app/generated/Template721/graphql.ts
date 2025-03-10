@@ -1,26 +1,45 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql';
 import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  BigDecimal: { input: any; output: any; }
-  BigInt: { input: any; output: any; }
-  Bytes: { input: any; output: any; }
-  Int8: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  BigDecimal: { input: any; output: any };
+  BigInt: { input: any; output: any };
+  Bytes: { input: any; output: any };
+  Int8: { input: any; output: any };
 };
 
 export type BlockChangedFilter = {
@@ -130,7 +149,7 @@ export enum Item_OrderBy {
   OwnerId = 'owner__id',
   TokenId = 'tokenID',
   TokenUri = 'tokenURI',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 export type MetadataUpdateRecord = {
@@ -188,13 +207,13 @@ export enum MetadataUpdateRecord_OrderBy {
   Actor = 'actor',
   ActorId = 'actor__id',
   Id = 'id',
-  TokenId = 'tokenID'
+  TokenId = 'tokenID',
 }
 
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type Query = {
@@ -211,18 +230,15 @@ export type Query = {
   users: Array<User>;
 };
 
-
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
-
 
 export type QueryItemArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryItemsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -234,13 +250,11 @@ export type QueryItemsArgs = {
   where?: InputMaybe<Item_Filter>;
 };
 
-
 export type QueryMetadataUpdateRecordArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryMetadataUpdateRecordsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -252,7 +266,6 @@ export type QueryMetadataUpdateRecordsArgs = {
   where?: InputMaybe<MetadataUpdateRecord_Filter>;
 };
 
-
 export type QueryTransferHistoriesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -263,20 +276,17 @@ export type QueryTransferHistoriesArgs = {
   where?: InputMaybe<TransferHistory_Filter>;
 };
 
-
 export type QueryTransferHistoryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type QueryUserArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type QueryUsersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -302,18 +312,15 @@ export type Subscription = {
   users: Array<User>;
 };
 
-
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
-
 
 export type SubscriptionItemArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionItemsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -325,13 +332,11 @@ export type SubscriptionItemsArgs = {
   where?: InputMaybe<Item_Filter>;
 };
 
-
 export type SubscriptionMetadataUpdateRecordArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionMetadataUpdateRecordsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -343,7 +348,6 @@ export type SubscriptionMetadataUpdateRecordsArgs = {
   where?: InputMaybe<MetadataUpdateRecord_Filter>;
 };
 
-
 export type SubscriptionTransferHistoriesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -354,20 +358,17 @@ export type SubscriptionTransferHistoriesArgs = {
   where?: InputMaybe<TransferHistory_Filter>;
 };
 
-
 export type SubscriptionTransferHistoryArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-
 export type SubscriptionUserArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
-
 
 export type SubscriptionUsersArgs = {
   block?: InputMaybe<Block_Height>;
@@ -478,7 +479,7 @@ export enum TransferHistory_OrderBy {
   ToId = 'to__id',
   TokenId = 'tokenID',
   TransferAt = 'transferAt',
-  TxHash = 'txHash'
+  TxHash = 'txHash',
 }
 
 export type User = {
@@ -486,7 +487,6 @@ export type User = {
   id: Scalars['ID']['output'];
   items: Array<Item>;
 };
-
 
 export type UserItemsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -514,7 +514,7 @@ export type User_Filter = {
 
 export enum User_OrderBy {
   Id = 'id',
-  Items = 'items'
+  Items = 'items',
 }
 
 export type _Block_ = {
@@ -548,43 +548,58 @@ export enum _SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny'
+  Deny = 'deny',
 }
 
-
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >;
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -592,33 +607,54 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
-
-
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
@@ -684,35 +720,58 @@ export type DerivedFromDirectiveArgs = {
   field: Scalars['String']['input'];
 };
 
-export type DerivedFromDirectiveResolver<Result, Parent, ContextType = any, Args = DerivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DerivedFromDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = DerivedFromDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type EntityDirectiveArgs = { };
+export type EntityDirectiveArgs = {};
 
-export type EntityDirectiveResolver<Result, Parent, ContextType = any, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EntityDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = EntityDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type SubgraphIdDirectiveArgs = {
   id: Scalars['String']['input'];
 };
 
-export type SubgraphIdDirectiveResolver<Result, Parent, ContextType = any, Args = SubgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type SubgraphIdDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = SubgraphIdDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export interface BigDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
+export interface BigDecimalScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
   name: 'BigDecimal';
 }
 
-export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
+export interface BigIntScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
 
-export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
+export interface BytesScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
   name: 'Bytes';
 }
 
-export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
+export interface Int8ScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
   name: 'Int8';
 }
 
-export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
+export type ItemResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Item'] = ResolversParentTypes['Item'],
+> = {
   createdAt?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -722,38 +781,165 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MetadataUpdateRecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['MetadataUpdateRecord'] = ResolversParentTypes['MetadataUpdateRecord']> = {
+export type MetadataUpdateRecordResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MetadataUpdateRecord'] = ResolversParentTypes['MetadataUpdateRecord'],
+> = {
   actor?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_MetaArgs>>;
-  item?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemArgs, 'id' | 'subgraphError'>>;
-  items?: Resolver<Array<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  metadataUpdateRecord?: Resolver<Maybe<ResolversTypes['MetadataUpdateRecord']>, ParentType, ContextType, RequireFields<QueryMetadataUpdateRecordArgs, 'id' | 'subgraphError'>>;
-  metadataUpdateRecords?: Resolver<Array<ResolversTypes['MetadataUpdateRecord']>, ParentType, ContextType, RequireFields<QueryMetadataUpdateRecordsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transferHistories?: Resolver<Array<ResolversTypes['TransferHistory']>, ParentType, ContextType, RequireFields<QueryTransferHistoriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transferHistory?: Resolver<Maybe<ResolversTypes['TransferHistory']>, ParentType, ContextType, RequireFields<QueryTransferHistoryArgs, 'id' | 'subgraphError'>>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id' | 'subgraphError'>>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUsersArgs, 'first' | 'skip' | 'subgraphError'>>;
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
+> = {
+  _meta?: Resolver<
+    Maybe<ResolversTypes['_Meta_']>,
+    ParentType,
+    ContextType,
+    Partial<Query_MetaArgs>
+  >;
+  item?: Resolver<
+    Maybe<ResolversTypes['Item']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryItemArgs, 'id' | 'subgraphError'>
+  >;
+  items?: Resolver<
+    Array<ResolversTypes['Item']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryItemsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  metadataUpdateRecord?: Resolver<
+    Maybe<ResolversTypes['MetadataUpdateRecord']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMetadataUpdateRecordArgs, 'id' | 'subgraphError'>
+  >;
+  metadataUpdateRecords?: Resolver<
+    Array<ResolversTypes['MetadataUpdateRecord']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryMetadataUpdateRecordsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transferHistories?: Resolver<
+    Array<ResolversTypes['TransferHistory']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      QueryTransferHistoriesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transferHistory?: Resolver<
+    Maybe<ResolversTypes['TransferHistory']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryTransferHistoryArgs, 'id' | 'subgraphError'>
+  >;
+  user?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUserArgs, 'id' | 'subgraphError'>
+  >;
+  users?: Resolver<
+    Array<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUsersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
 };
 
-export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_MetaArgs>>;
-  item?: SubscriptionResolver<Maybe<ResolversTypes['Item']>, "item", ParentType, ContextType, RequireFields<SubscriptionItemArgs, 'id' | 'subgraphError'>>;
-  items?: SubscriptionResolver<Array<ResolversTypes['Item']>, "items", ParentType, ContextType, RequireFields<SubscriptionItemsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  metadataUpdateRecord?: SubscriptionResolver<Maybe<ResolversTypes['MetadataUpdateRecord']>, "metadataUpdateRecord", ParentType, ContextType, RequireFields<SubscriptionMetadataUpdateRecordArgs, 'id' | 'subgraphError'>>;
-  metadataUpdateRecords?: SubscriptionResolver<Array<ResolversTypes['MetadataUpdateRecord']>, "metadataUpdateRecords", ParentType, ContextType, RequireFields<SubscriptionMetadataUpdateRecordsArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transferHistories?: SubscriptionResolver<Array<ResolversTypes['TransferHistory']>, "transferHistories", ParentType, ContextType, RequireFields<SubscriptionTransferHistoriesArgs, 'first' | 'skip' | 'subgraphError'>>;
-  transferHistory?: SubscriptionResolver<Maybe<ResolversTypes['TransferHistory']>, "transferHistory", ParentType, ContextType, RequireFields<SubscriptionTransferHistoryArgs, 'id' | 'subgraphError'>>;
-  user?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "user", ParentType, ContextType, RequireFields<SubscriptionUserArgs, 'id' | 'subgraphError'>>;
-  users?: SubscriptionResolver<Array<ResolversTypes['User']>, "users", ParentType, ContextType, RequireFields<SubscriptionUsersArgs, 'first' | 'skip' | 'subgraphError'>>;
+export type SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription'],
+> = {
+  _meta?: SubscriptionResolver<
+    Maybe<ResolversTypes['_Meta_']>,
+    '_meta',
+    ParentType,
+    ContextType,
+    Partial<Subscription_MetaArgs>
+  >;
+  item?: SubscriptionResolver<
+    Maybe<ResolversTypes['Item']>,
+    'item',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionItemArgs, 'id' | 'subgraphError'>
+  >;
+  items?: SubscriptionResolver<
+    Array<ResolversTypes['Item']>,
+    'items',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionItemsArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
+  metadataUpdateRecord?: SubscriptionResolver<
+    Maybe<ResolversTypes['MetadataUpdateRecord']>,
+    'metadataUpdateRecord',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionMetadataUpdateRecordArgs, 'id' | 'subgraphError'>
+  >;
+  metadataUpdateRecords?: SubscriptionResolver<
+    Array<ResolversTypes['MetadataUpdateRecord']>,
+    'metadataUpdateRecords',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionMetadataUpdateRecordsArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transferHistories?: SubscriptionResolver<
+    Array<ResolversTypes['TransferHistory']>,
+    'transferHistories',
+    ParentType,
+    ContextType,
+    RequireFields<
+      SubscriptionTransferHistoriesArgs,
+      'first' | 'skip' | 'subgraphError'
+    >
+  >;
+  transferHistory?: SubscriptionResolver<
+    Maybe<ResolversTypes['TransferHistory']>,
+    'transferHistory',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionTransferHistoryArgs, 'id' | 'subgraphError'>
+  >;
+  user?: SubscriptionResolver<
+    Maybe<ResolversTypes['User']>,
+    'user',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionUserArgs, 'id' | 'subgraphError'>
+  >;
+  users?: SubscriptionResolver<
+    Array<ResolversTypes['User']>,
+    'users',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionUsersArgs, 'first' | 'skip' | 'subgraphError'>
+  >;
 };
 
-export type TransferHistoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['TransferHistory'] = ResolversParentTypes['TransferHistory']> = {
+export type TransferHistoryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['TransferHistory'] = ResolversParentTypes['TransferHistory'],
+> = {
   from?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   to?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -763,23 +949,44 @@ export type TransferHistoryResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['User'] = ResolversParentTypes['User'],
+> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  items?: Resolver<Array<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<UserItemsArgs, 'first' | 'skip'>>;
+  items?: Resolver<
+    Array<ResolversTypes['Item']>,
+    ParentType,
+    ContextType,
+    RequireFields<UserItemsArgs, 'first' | 'skip'>
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type _Block_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = {
+export type _Block_Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_'],
+> = {
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type _Meta_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = {
+export type _Meta_Resolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_'],
+> = {
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasIndexingErrors?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -804,48 +1011,88 @@ export type DirectiveResolvers<ContextType = any> = {
   subgraphId?: SubgraphIdDirectiveResolver<any, any, ContextType>;
 };
 
-
 export const GetBalances721Document = gql`
-    query getBalances721($tokenId: BigInt!) {
-  items(where: {tokenID: $tokenId}) {
-    tokenURI
-    tokenID
-    id
-    owner {
+  query getBalances721($tokenId: BigInt!) {
+    items(where: { tokenID: $tokenId }) {
+      tokenURI
+      tokenID
       id
+      owner {
+        id
+      }
     }
   }
-}
-    `;
+`;
 export const GetItems721Document = gql`
-    query getItems721($first: Int = 1000, $skip: Int = 0, $createdAt: BigInt = 0) {
-  items(
-    first: $first
-    skip: $skip
-    orderBy: createdAt
-    where: {createdAt_gte: $createdAt}
+  query getItems721(
+    $first: Int = 1000
+    $skip: Int = 0
+    $createdAt: BigInt = 0
   ) {
-    tokenURI
-    tokenID
-    id
-    createdAt
-  }
-}
-    `;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    getBalances721(variables: GetBalances721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetBalances721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetBalances721Query>(GetBalances721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBalances721', 'query', variables);
-    },
-    getItems721(variables?: GetItems721QueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetItems721Query> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetItems721Query>(GetItems721Document, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getItems721', 'query', variables);
+    items(
+      first: $first
+      skip: $skip
+      orderBy: createdAt
+      where: { createdAt_gte: $createdAt }
+    ) {
+      tokenURI
+      tokenID
+      id
+      createdAt
     }
+  }
+`;
+
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+  operationType?: string,
+  variables?: any,
+) => Promise<T>;
+
+const defaultWrapper: SdkFunctionWrapper = (
+  action,
+  _operationName,
+  _operationType,
+  _variables,
+) => action();
+
+export function getSdk(
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper,
+) {
+  return {
+    getBalances721(
+      variables: GetBalances721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetBalances721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetBalances721Query>(
+            GetBalances721Document,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'getBalances721',
+        'query',
+        variables,
+      );
+    },
+    getItems721(
+      variables?: GetItems721QueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetItems721Query> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetItems721Query>(GetItems721Document, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getItems721',
+        'query',
+        variables,
+      );
+    },
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
@@ -853,8 +1100,16 @@ export type GetBalances721QueryVariables = Exact<{
   tokenId: Scalars['BigInt']['input'];
 }>;
 
-
-export type GetBalances721Query = { __typename?: 'Query', items: Array<{ __typename?: 'Item', tokenURI: string, tokenID: any, id: string, owner: { __typename?: 'User', id: string } }> };
+export type GetBalances721Query = {
+  __typename?: 'Query';
+  items: Array<{
+    __typename?: 'Item';
+    tokenURI: string;
+    tokenID: any;
+    id: string;
+    owner: { __typename?: 'User'; id: string };
+  }>;
+};
 
 export type GetItems721QueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -862,5 +1117,13 @@ export type GetItems721QueryVariables = Exact<{
   createdAt?: InputMaybe<Scalars['BigInt']['input']>;
 }>;
 
-
-export type GetItems721Query = { __typename?: 'Query', items: Array<{ __typename?: 'Item', tokenURI: string, tokenID: any, id: string, createdAt: any }> };
+export type GetItems721Query = {
+  __typename?: 'Query';
+  items: Array<{
+    __typename?: 'Item';
+    tokenURI: string;
+    tokenID: any;
+    id: string;
+    createdAt: any;
+  }>;
+};

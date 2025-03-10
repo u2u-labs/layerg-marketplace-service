@@ -1,19 +1,21 @@
-import GCPPCommonCommon from './GCPPCommon.common';
-import { FileUpload } from './types/Fileupload.common';
 import * as bcrypt from 'bcrypt';
 import {
   registerDecorator,
   ValidationOptions,
   ValidationArguments,
 } from 'class-validator';
+
+import GCPPCommonCommon from './GCPPCommon.common';
+import { FileUpload } from './types/Fileupload.common';
+
 import { Role } from '@/apps/api/src/app/constants/enums/role.enum';
 import { ApiCallerService } from '@/apps/api/src/app/modules/api-caller/api-caller.service';
 type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 type PrismaSelect<T> = {

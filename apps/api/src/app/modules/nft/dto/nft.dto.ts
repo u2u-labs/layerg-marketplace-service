@@ -1,4 +1,5 @@
 import { TX_STATUS } from '@prisma/client';
+
 import { TraitEntity } from '../entities/trait.entity';
 
 export class NftDto {

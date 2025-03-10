@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+
 import { ProjectStat } from '@/apps/api/src/app/constants/enums/ProjectStat.enum';
 
 export class FindAllProjectDto {

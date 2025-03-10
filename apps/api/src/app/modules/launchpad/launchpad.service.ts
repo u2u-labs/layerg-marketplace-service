@@ -5,14 +5,16 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { ProjectEntity } from './entities/project.entity';
 import { GraphQLClient, gql } from 'graphql-request';
-import { CheckStakingDto } from './dto/check-staking.dto';
 import { User } from '@prisma/client';
 import { validate as isValidUUID } from 'uuid';
+
+import { CheckStakingDto } from './dto/check-staking.dto';
+import { ProjectEntity } from './entities/project.entity';
 import { FindAllProjectDto } from './dto/find-all-project.dto';
 import { SubcribeProjectDto } from './dto/subcribe-project.dto';
 import { SubcribeEntity } from './entities/subcribe.entity';
+
 import { ProjectStat } from '@/apps/api/src/app/constants/enums/ProjectStat.enum';
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
@@ -20,7 +22,7 @@ import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 @Injectable()
 export class LaunchpadService {
   private readonly endpoint = process.env.SUBGRAPH_URL_STAKING;
-  private redisService : RedisService;
+  private redisService: RedisService;
 
   private client = this.getGraphqlClient();
 

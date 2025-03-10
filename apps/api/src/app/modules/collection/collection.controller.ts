@@ -10,15 +10,17 @@ import {
   UseGuards,
   Put,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
+
 import { CollectionService } from './collection.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
-import { User } from '@prisma/client';
 import { GetAllCollectionDto } from './dto/get-all-collection.dto';
 import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
 import { GetAnalysisDto } from './dto/get-analysis-collection.dto';
+
+import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 @Controller('collection')
 export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}

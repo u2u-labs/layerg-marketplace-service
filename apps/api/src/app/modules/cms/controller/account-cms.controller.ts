@@ -1,26 +1,28 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
+  Post,
   Put,
   UseGuards,
-  Delete,
 } from '@nestjs/common';
-import { CMSService } from '../service/cms.service';
-import { CreateAccountDto } from '../dto/create-account.dto';
-import {
-  UpdateAccountDto,
-  UpdatePasswordDto,
-  ResetPasswordDtop,
-  UpdateRolesDto,
-} from '../dto/update-account.dto';
+import { Account } from '@prisma/client';
+
 import { Role } from '../../../constants/enums/role.enum';
 import { Roles } from '../../../decorators/roles.decorator';
 import { AuthRoleGuard } from '../../auth/guards/authRole.guard';
 import { RoleGuard } from '../../auth/guards/role.guard';
-import { Account } from '@prisma/client';
+import { CreateAccountDto } from '../dto/create-account.dto';
+import {
+  ResetPasswordDtop,
+  UpdateAccountDto,
+  UpdatePasswordDto,
+  UpdateRolesDto,
+} from '../dto/update-account.dto';
+import { CMSService } from '../service/cms.service';
+
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 
 @Controller('cms/account')

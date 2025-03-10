@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
 import { QueueService } from './queue.service';
 import { RedisSubscriberService } from './redis.service';
 import { CollectionsCheckProcessor } from './collection.processor';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { CommonService } from '../common/common.service';
 import { BullConfigModule } from './bull.config';
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';

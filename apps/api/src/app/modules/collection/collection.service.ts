@@ -4,10 +4,6 @@ import {
   HttpStatus,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCollectionDto } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
-import { CollectionDetailDto } from './dto/get-detail-collection.dto';
-import { CollectionEntity } from './entities/collection.entity';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   AnalysisCollection,
@@ -17,30 +13,38 @@ import {
   User,
 } from '@prisma/client';
 import { validate as isValidUUID } from 'uuid';
+import { GraphQLClient } from 'graphql-request';
+import * as moment from 'moment';
+import { ethers } from 'ethers';
+
+import { CreateCollectionDto } from './dto/create-collection.dto';
+import { UpdateCollectionDto } from './dto/update-collection.dto';
+import { CollectionDetailDto } from './dto/get-detail-collection.dto';
+import { CollectionEntity } from './entities/collection.entity';
 import { TraitService } from '../nft/trait.service';
 import { GetAllCollectionDto } from './dto/get-all-collection.dto';
 import { GetCollectionMarketData } from '../graph-qlcaller/getCollectionMarketData.service';
 import { CollectionPriceService } from './collectionPrice.service';
 import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
+
 // import SecureUtil from '../../commons/Secure.common';
-import { GraphQLClient } from 'graphql-request';
+
 import { getSdk } from '../../generated/graphql';
 import { oneWeekInMilliseconds } from '../../constants/Timestamp.constant';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import CollectionHepler from './helper/collection-helper.service';
 import {
   creatorSelect,
   collectionSelect,
   CollectionSelect,
 } from '../../commons/definitions/Constraint.Object';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import { GetAnalysisDto } from './dto/get-analysis-collection.dto';
-import * as moment from 'moment';
-import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
-import { ethers } from 'ethers';
 import { UserService } from '../user/user.service';
-import { 
-  AnalysisType,   
+
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
+import {
+  AnalysisType,
   AnalysisModeMinMax,
   AnalysisModeSort,
 } from '@/apps/api/src/app/constants/enums/Analysis.enum';
@@ -165,7 +169,7 @@ export class CollectionService {
     let totalNftExternal = 0;
     let totalOwnerExternal = 0;
 
-    if (!!flagExtend) {
+    if (flagExtend) {
       const resultExternal =
         await this.collectionData.getAllCollectionExternal(collectionAddress);
       totalNftExternal = resultExternal.totalNftExternal;
@@ -182,10 +186,10 @@ export class CollectionService {
       return {
         // volumn: statusCollection.erc721Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc721Contract?.count || 0,
       };
@@ -193,10 +197,10 @@ export class CollectionService {
       return {
         // volumn: statusCollection.erc1155Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc1155Contract?.count || 0,
       };
@@ -289,8 +293,7 @@ export class CollectionService {
         },
       };
     }
-    const orderByProperties: Prisma.CollectionOrderByWithRelationInput[] =
-      [];
+    const orderByProperties: Prisma.CollectionOrderByWithRelationInput[] = [];
     if (input.orderBy == 'price') {
       orderByProperties.push({ floorPrice: input.order });
     } else {
@@ -537,10 +540,10 @@ export class CollectionService {
         });
 
         if (baseCollection721) {
-          response.push({ collection: baseCollection721} as any);
+          response.push({ collection: baseCollection721 } as any);
         }
         if (baseCollection1155) {
-          response.push({ collection: baseCollection1155} as any);
+          response.push({ collection: baseCollection1155 } as any);
         }
       }
 
@@ -812,8 +815,8 @@ export class CollectionService {
         type === AnalysisType.ONEWEEK
           ? 8
           : type === AnalysisType.ONEMONTH
-          ? 31
-          : 2;
+            ? 31
+            : 2;
       const { start: startPast, end: EndPast } =
         CollectionHepler.getPastDay(typeDate);
 

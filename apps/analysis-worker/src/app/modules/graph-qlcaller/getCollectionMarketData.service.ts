@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { GraphQLClient } from 'graphql-request';
+
 import {
   getSdk,
   GetCollectionsDataQueryVariables,
@@ -9,7 +11,6 @@ import {
   ErcContractQuery,
   ErcContractQueryVariables,
 } from '../../generated/graphql';
-import { GraphQLClient } from 'graphql-request';
 @Injectable()
 export class GetCollectionMarketData {
   private readonly endpoint = process.env.SUBGRAPH_URL;

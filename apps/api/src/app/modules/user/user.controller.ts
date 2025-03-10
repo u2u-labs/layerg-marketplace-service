@@ -9,16 +9,15 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { loginDto } from '../auth/dto/login.dto';
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
 import { AuthGuard } from '@nestjs/passport';
-import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { User } from '@prisma/client';
-import { AuthenticationGuard } from '../auth/guards/auth.guard';
 
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
+import { loginDto } from '../auth/dto/login.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
+import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { GetAllUser } from './dto/get-all-user.dto';
 import { FilterNFTUserDetail } from './dto/get-nft-user.dto';
 import { UserServiceExtend } from './user-graph.service';
@@ -32,6 +31,8 @@ import {
 } from './dto/activity-user.dto';
 import { ActivityService } from '../nft/activity.service';
 import { SendVerifyEmailDto, VerifyEmailDto } from './dto/verify-email.dto';
+
+import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 @Controller('user')
 export class UserController {
   constructor(

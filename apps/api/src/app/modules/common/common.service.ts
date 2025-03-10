@@ -1,24 +1,26 @@
 import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
-import { UpdateCommonDto } from './dto/update-common.dto';
 import { create } from 'ipfs-http-client';
-import OtherCommon from '../../commons/Other.common';
 import { response, Response } from 'express';
 import * as fileType from 'file-type';
-import { SearchAllDto } from './dto/search-all.dto';
+
 // import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { SearchAllType } from '../../constants/searchType.enum';
 import { Readable } from 'stream';
 import { concat as uint8ArrayConcat } from 'uint8arrays/concat';
 import { Prisma } from '@prisma/client';
-import PaginationCommon from '../../commons/HasNext.common';
-import {
-  creatorSelect,
-  CollectionSelect,
-} from '../../commons/definitions/Constraint.Object';
 import * as path from 'path';
 import { AWSError, S3 } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
+import {
+  creatorSelect,
+  CollectionSelect,
+} from '../../commons/definitions/Constraint.Object';
+import PaginationCommon from '../../commons/HasNext.common';
+import { SearchAllType } from '../../constants/searchType.enum';
+import { SearchAllDto } from './dto/search-all.dto';
+import OtherCommon from '../../commons/Other.common';
+import { UpdateCommonDto } from './dto/update-common.dto';
 
 @Injectable()
 export class CommonService {
@@ -40,7 +42,7 @@ export class CommonService {
   }
 
   async searchAll(input: SearchAllDto) {
-    if (!!input.text) {
+    if (input.text) {
       if (input.mode === SearchAllType.COLLECTION) {
         const whereConditionCollection: Prisma.CollectionWhereInput = {};
         whereConditionCollection.OR = [];

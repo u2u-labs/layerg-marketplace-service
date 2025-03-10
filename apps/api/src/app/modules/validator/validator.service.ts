@@ -4,10 +4,11 @@ import {
   HttpStatus,
   NotFoundException,
 } from '@nestjs/common';
-import { ValidatorDto } from './dto/validator.dto';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { TypeValidator } from '../../constants/enums/Validator.enum';
 import { validate as isValidUUID } from 'uuid';
+
+import { ValidatorDto } from './dto/validator.dto';
+import { TypeValidator } from '../../constants/enums/Validator.enum';
 
 @Injectable()
 export class ValidatorService {

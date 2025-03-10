@@ -1,8 +1,5 @@
-import { CreateNftDto } from './dto/create-nft.dto';
-import { UpdateNftDto } from './dto/update-nft.dto';
 import { Prisma, TX_STATUS, User } from '@prisma/client';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { NftDto } from './dto/nft.dto';
 import {
   Injectable,
   HttpException,
@@ -10,20 +7,25 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { validate as isValidUUID } from 'uuid';
-import { GetAllNftDto } from './dto/get-all-nft.dto';
-import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
-import { MarketplaceService } from './nft-marketplace.service';
-import { SellStatus } from '@/apps/api/src/app/generated/graphql';
-import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
+import { GraphQLClient, gql } from 'graphql-request';
+
 import { OwnerOutputDto } from '../user/dto/owners.dto';
 import { ValidatorService } from '../validator/validator.service';
-import { GraphQLClient, gql } from 'graphql-request';
+import { MarketplaceService } from './nft-marketplace.service';
+import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
+import { GetAllNftDto } from './dto/get-all-nft.dto';
+import { NftDto } from './dto/nft.dto';
+import { UpdateNftDto } from './dto/update-nft.dto';
+import { CreateNftDto } from './dto/create-nft.dto';
 import { Query } from '../../generated/graphql';
 import { GetEventMarketplace } from './dto/event-marketplace.dto';
 import { GetEventBase } from './dto/event-base.dto';
 import { GetActivityBase } from './dto/activity-nft.dto';
 import { creatorSelect } from '../../commons/definitions/Constraint.Object';
 import { GetListBid } from '../user/dto/activity-user.dto';
+
+import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
+import { SellStatus } from '@/apps/api/src/app/generated/graphql';
 
 interface NullableUser {
   id: string | null;

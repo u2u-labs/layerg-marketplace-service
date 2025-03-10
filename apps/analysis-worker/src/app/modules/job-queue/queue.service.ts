@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue, JobOptions } from 'bull';
+
 import {
   QUEUE_NAME_COLLECTION,
   QUEUE_NAME_NFT,

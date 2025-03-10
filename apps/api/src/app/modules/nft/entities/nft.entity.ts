@@ -1,7 +1,9 @@
 import { NFT, TX_STATUS } from '@prisma/client';
+
+import { TraitEntity } from './trait.entity';
+
 import { CollectionEntity } from '@/apps/api/src/app/modules/collection/entities/collection.entity';
 import { UserEntity } from '@/apps/api/src/app/modules/user/entities/user.entity';
-import { TraitEntity } from './trait.entity';
 
 type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
 interface JsonObject {

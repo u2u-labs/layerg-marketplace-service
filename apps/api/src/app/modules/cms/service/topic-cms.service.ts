@@ -1,16 +1,17 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Injectable,
   HttpException,
   HttpStatus,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { Account, Prisma } from '@prisma/client';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import { createOrUpdateTopicDto, getAllTopicDto } from '../dto/topic.dto';
 
 import { accountListSelect } from '../../../commons/definitions/Constraint.Object';
+import { createOrUpdateTopicDto, getAllTopicDto } from '../dto/topic.dto';
 import { CMSService } from './cms.service';
+
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 
 @Injectable()
 export class TopicService {

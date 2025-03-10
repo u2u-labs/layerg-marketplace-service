@@ -1,4 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { GraphQLClient } from 'graphql-request';
+import axios from 'axios';
+
 import {
   getSdk,
   GetCollectionsDataQueryVariables,
@@ -11,8 +14,7 @@ import {
   GetContractQuery,
   GetContractQueryVariables,
 } from '../../generated/graphql';
-import { GraphQLClient } from 'graphql-request';
-import axios from 'axios';
+
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 interface responseRedisExternal {
@@ -25,8 +27,8 @@ interface responseRedisExternal {
 export class GetCollectionMarketData {
   private readonly endpoint = process.env.SUBGRAPH_URL;
   private graphqlClient: GraphQLClient;
-  private readonly DeadAddress = '0x000000000000000000000000000000000000dead'
-  private redisService : RedisService;
+  private readonly DeadAddress = '0x000000000000000000000000000000000000dead';
+  private redisService: RedisService;
 
   constructor() {
     this.graphqlClient = new GraphQLClient(this.endpoint);
@@ -97,7 +99,9 @@ export class GetCollectionMarketData {
 
   async getAllCollectionExternal(contract: string) {
     try {
-      const response = await this.redisService.getKeyObject(`External-${contract}`);
+      const response = await this.redisService.getKeyObject(
+        `External-${contract}`,
+      );
       const result: responseRedisExternal = JSON.parse(response);
       return {
         totalNftExternal: result?.totalNft

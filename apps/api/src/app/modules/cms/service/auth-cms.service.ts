@@ -1,17 +1,19 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   ForbiddenException,
-  Injectable,
-  InternalServerErrorException,
   HttpException,
   HttpStatus,
+  Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { Account } from '@prisma/client';
+
 import OtherCommon from '../../../commons/Other.common';
 import { SignInDto } from '../dto/sign-in.dto';
+
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Injectable()

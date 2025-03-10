@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { ValidatorController } from './validator.controller';
 
 describe('ValidatorController', () => {

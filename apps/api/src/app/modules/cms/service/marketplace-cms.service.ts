@@ -1,25 +1,30 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { JwtService } from '@nestjs/jwt';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
-import { GetCollectionMarketData } from '../../graph-qlcaller/getCollectionMarketData.service';
-import { Prisma, TX_STATUS, CONTRACT_TYPE, User } from '@prisma/client';
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import { CollectionEntity } from '../../collection/entities/collection.entity';
-import { GetAllCollectionDto } from '../../collection/dto/get-all-collection.dto';
+import { JwtService } from '@nestjs/jwt';
+import { CONTRACT_TYPE, Prisma, TX_STATUS } from '@prisma/client';
+
 import {
-  creatorSelect,
   CollectionSelect,
+  creatorSelect,
   marketplaceSelect,
 } from '../../../commons/definitions/Constraint.Object';
-import { GetAllUser } from '../../user/dto/get-all-user.dto';
+import { GetAllCollectionDto } from '../../collection/dto/get-all-collection.dto';
+import { CollectionEntity } from '../../collection/entities/collection.entity';
+import { GetCollectionMarketData } from '../../graph-qlcaller/getCollectionMarketData.service';
 import { GraphQlcallerService } from '../../graph-qlcaller/graph-qlcaller.service';
-import { NftDto } from '../../nft/dto/nft.dto';
 import { GetAllNftDto } from '../../nft/dto/get-all-nft.dto';
-import { OrderDirection, SellStatus } from '@/apps/api/src/app/generated/graphql';
-import { NftService } from '../../nft/nft.service';
+import { NftDto } from '../../nft/dto/nft.dto';
 import { NFTHepler } from '../../nft/helper/nft-helper.service';
+import { NftService } from '../../nft/nft.service';
+import { GetAllUser } from '../../user/dto/get-all-user.dto';
+
+import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
+import {
+  OrderDirection,
+  SellStatus,
+} from '@/apps/api/src/app/generated/graphql';
 interface CollectionGeneral {
   totalOwner: number;
   volumn: string;
@@ -46,7 +51,7 @@ export class MarketplaceCMSService {
       ? await this.prisma.user.findMany({
           where: {
             publicKey: {
-              in: [...input.creatorAddresses]
+              in: [...input.creatorAddresses],
               // mode: 'insensitive',
             },
           },
@@ -115,8 +120,7 @@ export class MarketplaceCMSService {
         },
       };
     }
-    const orderByProperties: Prisma.CollectionOrderByWithRelationInput =
-      {};
+    const orderByProperties: Prisma.CollectionOrderByWithRelationInput = {};
     if (input.orderBy == 'time') {
       orderByProperties.createdAt = input.order;
     } else {
@@ -192,7 +196,7 @@ export class MarketplaceCMSService {
     let totalNftExternal = 0;
     let totalOwnerExternal = 0;
 
-    if (!!flagExtend) {
+    if (flagExtend) {
       const resultExternal =
         await this.collectionData.getAllCollectionExternal(collectionAddress);
       totalNftExternal = resultExternal.totalNftExternal;
@@ -209,10 +213,10 @@ export class MarketplaceCMSService {
       return {
         // volumn: statusCollection.erc721Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc721Contract?.count || 0,
       };
@@ -220,10 +224,10 @@ export class MarketplaceCMSService {
       return {
         // volumn: statusCollection.erc1155Contract?.volume || 0,
         volumn: volumeWei || `0`,
-        totalOwner: !!flagExtend
+        totalOwner: flagExtend
           ? totalOwnerExternal
           : contractOwner?.contract?.count || 0,
-        totalNft: !!flagExtend
+        totalNft: flagExtend
           ? totalNftExternal
           : statusCollection.erc1155Contract?.count || 0,
       };
@@ -233,7 +237,6 @@ export class MarketplaceCMSService {
   async findAllUser(filter: GetAllUser): Promise<PagingResponseHasNext<any>> {
     // const limit = (filter.limit || 12) as number;
     // const cursor = filter.cursor;
-    // @ts-ignore
     // const take: number = limit && limit > 0 ? parseInt(limit) + 1 : 13;
     const whereCondition: any = {
       ...(filter.search
@@ -547,8 +550,7 @@ export class MarketplaceCMSService {
             },
           };
         } else {
-          const orderByProperties: Prisma.NFTOrderByWithRelationInput =
-            {};
+          const orderByProperties: Prisma.NFTOrderByWithRelationInput = {};
 
           if (filter.orderBy == 'time') {
             orderByProperties.createdAt = filter.order;
@@ -657,8 +659,7 @@ export class MarketplaceCMSService {
             },
           };
         } else {
-          const orderByProperties: Prisma.NFTOrderByWithRelationInput =
-            {};
+          const orderByProperties: Prisma.NFTOrderByWithRelationInput = {};
 
           if (filter.orderBy == 'time') {
             orderByProperties.createdAt = filter.order;

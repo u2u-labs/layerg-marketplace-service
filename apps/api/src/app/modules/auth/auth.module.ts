@@ -1,16 +1,18 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UserService } from '../user/user.service';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { JwtModule } from '@nestjs/jwt';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
-import { LocalStrategy } from './strategies/local.strategy';
-import { ActivityService } from '../nft/activity.service';
+
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
+import { ActivityService } from '../nft/activity.service';
+import { UserService } from '../user/user.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
+
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Module({
@@ -38,7 +40,7 @@ import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
     JwtStrategy,
     RefreshTokenStrategy,
     LocalStrategy,
-    RedisService
+    RedisService,
   ],
 })
 export class AuthModule {}

@@ -1,10 +1,12 @@
 import { IsString, IsOptional, IsIn, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
+
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
-import { 
+import {
   AnalysisModeMinMax,
   AnalysisModeSort,
-  AnalysisType, } from '@/apps/api/src/app/constants/enums/Analysis.enum';
+  AnalysisType,
+} from '@/apps/api/src/app/constants/enums/Analysis.enum';
 
 export class GetAnalysisDto extends OffsetPaginationDto {
   // id: string;

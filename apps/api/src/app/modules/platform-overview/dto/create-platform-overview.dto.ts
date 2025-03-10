@@ -1,7 +1,8 @@
-import { OffsetPaginationDto } from '../../../commons/definitions/OffsetPagination.input';
 import { IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Optional } from '@nestjs/common';
+
+import { OffsetPaginationDto } from '../../../commons/definitions/OffsetPagination.input';
 
 export class CreatePlatformOverviewDto {
   platform: string;

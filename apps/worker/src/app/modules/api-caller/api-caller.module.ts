@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ApiCallerService } from './api-caller.service';
 import { HttpModule } from '@nestjs/axios';
+
+import { ApiCallerService } from './api-caller.service';
 
 @Module({
   imports: [HttpModule],

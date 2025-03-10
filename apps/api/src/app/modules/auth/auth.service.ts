@@ -1,19 +1,20 @@
-import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   BadRequestException,
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { ethers } from 'ethers';
+
+import { LOGIN_MESSAGE } from '../../constants/web3Const/messages';
 import { UserEntity } from '../user/entities/user.entity'; // import your User entity
 import { UserService } from '../user/user.service';
-import { ethers } from 'ethers';
 import { loginDto } from './dto/login.dto';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { LOGIN_MESSAGE } from '../../constants/web3Const/messages';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
+
+import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 @Injectable()
 export class AuthService {
   constructor(

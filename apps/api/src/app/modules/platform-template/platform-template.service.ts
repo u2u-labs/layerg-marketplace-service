@@ -5,11 +5,13 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
 import { CreatePlatformTemplateDto } from './dto/create-platform-template.dto';
 import { UpdatePlatformTemplateDto } from './dto/update-platform-template.dto';
-import { User } from '@prisma/client';
 import { logger } from '../../commons';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 
 const MESSAGE_OK = 'ok';

@@ -1,5 +1,6 @@
 import { CONTRACT_TYPE } from '@prisma/client';
 import { gql, GraphQLClient } from 'graphql-request';
+
 import {
   getSdk as getSdk1155,
   GetBalances1155QueryVariables,
