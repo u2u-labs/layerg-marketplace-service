@@ -15,6 +15,7 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import * as AWS from 'aws-sdk';
+import 'multer';
 
 import { CommonService } from './common.service';
 import { UpdateCommonDto } from './dto/update-common.dto';

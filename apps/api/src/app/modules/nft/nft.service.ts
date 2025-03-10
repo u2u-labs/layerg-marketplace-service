@@ -173,6 +173,8 @@ export class NftService {
           collectionId: collection.id,
           animationUrl: input.animationUrl,
           source: input.source,
+          ownerId: input.creatorAddress,
+          gameId: input.gameId,
         },
         include: {
           traits: true,
