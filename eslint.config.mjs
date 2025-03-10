@@ -126,7 +126,7 @@ export default tsEslint.config(
       "@typescript-eslint/no-unused-expressions": "off",
       "no-constant-binary-expression": "off",
       "@typescript-eslint/ban-ts-comment": "off",
-      
+      "@nx/enforce-module-boundaries": "off",
       'max-len': ['warn', 150],
 
       ...prettierConfig.rules,
