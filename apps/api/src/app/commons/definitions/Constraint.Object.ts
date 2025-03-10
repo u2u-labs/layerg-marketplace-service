@@ -35,6 +35,15 @@ export const CollectionSelect: Prisma.CollectionSelect = {
       name: true,
     },
   },
+  chain: {
+    select: {
+      chainId: true,
+      blockchain: true,
+      currency: true,
+      explorerUrl: true,
+      rpcUrl: true,
+    },
+  },
 };
 
 export const marketplaceSelect: Prisma.MarketplaceStatusSelect = {

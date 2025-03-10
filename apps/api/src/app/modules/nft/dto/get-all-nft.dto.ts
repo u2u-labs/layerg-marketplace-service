@@ -72,6 +72,9 @@ export class GetAllNftDto extends OffsetPaginationDto {
   @IsOptional()
   @IsEnum(ORDERTYPE)
   orderType: ORDERTYPE;
+
+  @IsOptional()
+  chainId: number;
 }
 
 export class GetSweepOrdersDto extends OffsetPaginationDto {
