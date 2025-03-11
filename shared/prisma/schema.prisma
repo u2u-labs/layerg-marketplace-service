@@ -150,8 +150,8 @@ model Collection {
   AnalysisCollection AnalysisCollection[]
   chainId            BigInt               @default(0)
   chain              Chain                @relation(fields: [chainId], references: [chainId])
-  gameLayerg         GameLayerg           @relation(fields: [gameLayergId], references: [id])
-  gameLayergId       String
+  gameLayerg         GameLayerg?          @relation(fields: [gameLayergId], references: [id])
+  gameLayergId       String?
 
   @@index([address], type: Hash)
   @@index([gameLayergId])

@@ -72,7 +72,6 @@ CREATE TABLE "NFT" (
     "metricDetail" JSONB DEFAULT '{"VolumeIndividual":0,"UserMetric":0}',
     "source" TEXT,
     "ownerId" TEXT NOT NULL,
-    "gameId" TEXT NOT NULL,
 
     CONSTRAINT "NFT_pkey" PRIMARY KEY ("id","collectionId")
 );
@@ -131,12 +130,12 @@ CREATE TABLE "Collection" (
     "metricPoint" BIGINT DEFAULT 0,
     "metricDetail" JSONB DEFAULT '{"Verified":0,"Volume":{"key":"volume_lv0","value":"0","point":0,"total":0},"TotalUniqueOwner":{"key":"owner_lv0","value":"0","point":0,"total":0},"TotalItems":{"key":"item_lv0","value":0,"point":0,"total":0},"Followers":{"key":"follower_lv0","value":0,"point":0,"total":0}}',
     "metadataJson" JSONB,
-    "gameId" TEXT,
     "source" TEXT,
     "categoryG" JSONB,
     "vol" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "volumeWei" TEXT NOT NULL DEFAULT '0',
     "chainId" BIGINT NOT NULL DEFAULT 0,
+    "gameLayergId" TEXT,
 
     CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
 );
@@ -489,27 +488,69 @@ CREATE TABLE "ContractMarketplace" (
     CONSTRAINT "ContractMarketplace_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "goose_db_version" (
+    "id" SERIAL NOT NULL,
+    "version_id" BIGINT NOT NULL,
+    "is_applied" BOOLEAN NOT NULL,
+    "tstamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "goose_db_version_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "GameLayerg" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "countFav" INTEGER NOT NULL DEFAULT 0,
+    "name" TEXT NOT NULL,
+    "gameIcon" TEXT,
+    "banner" TEXT,
+    "apiKeyID" TEXT,
+    "telegram" TEXT,
+    "facebook" TEXT,
+    "instagram" TEXT,
+    "discord" TEXT,
+    "twitter" TEXT,
+    "nameSlug" TEXT,
+    "avatar" TEXT,
+    "description" TEXT,
+    "information" TEXT,
+    "policy" TEXT,
+    "version" TEXT,
+    "slideShow" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "totalReview" INTEGER NOT NULL DEFAULT 0,
+    "totalRating" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "slug" TEXT,
+    "isRcm" BOOLEAN NOT NULL DEFAULT false,
+    "userId" TEXT,
+
+    CONSTRAINT "GameLayerg_pkey" PRIMARY KEY ("id")
+);
+
 -- Generate Slug From Input
 CREATE OR REPLACE FUNCTION generate_slug(title VARCHAR)
-RETURNS VARCHAR AS $$
+    RETURNS VARCHAR AS $$
 DECLARE
 slug VARCHAR;
 BEGIN
     -- Convert to lowercase
     slug := LOWER(title);
 
-    -- Replace accented characters
+-- Replace accented characters
     slug := TRANSLATE(slug,
-        'áàảạãăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ',
-        'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd');
+                      'áàảạãăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ',
+                      'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd');
 
-    -- Replace consecutive hyphens with a single hyphen
+-- Replace consecutive hyphens with a single hyphen
     slug := REGEXP_REPLACE(slug, '-{2,}', '', 'g');
 
-    -- Remove leading and trailing hyphens
+-- Remove leading and trailing hyphens
     slug := TRIM(BOTH '-' FROM slug);
 
-	-- Replace special characters
+-- Replace special characters
     slug := REGEXP_REPLACE(slug, '[^a-z0-9]', '', 'g');
 
 RETURN slug;
@@ -518,11 +559,11 @@ $$ LANGUAGE plpgsql;
 
 -- Function Change Name Slug when
 CREATE OR REPLACE FUNCTION generate_slug_trigger()
-RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS $$
 BEGIN
     -- Ensure the title is not null before generating the slug
     IF NEW."nameSlug" IS NULL OR NEW."name" IS DISTINCT FROM OLD."name" THEN
-        -- Update the "nameSlug" column with the new slug
+-- Update the "nameSlug" column with the new slug
         NEW."nameSlug" := generate_slug(NEW."name");
 END IF;
 
@@ -534,7 +575,7 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger Create Collection
 CREATE OR REPLACE TRIGGER collection_generate_slug
-BEFORE INSERT OR UPDATE OF "name" ON "Collection"
+    BEFORE INSERT OR UPDATE OF "name" ON "Collection"
   FOR EACH ROW
   EXECUTE FUNCTION generate_slug_trigger();
 
@@ -547,10 +588,9 @@ WHERE "nameSlug" IS NULL OR "nameSlug" = '';
 
 -- Trigger Create NFT
 CREATE OR REPLACE TRIGGER nft_generate_slug
-BEFORE INSERT OR UPDATE OF "name" ON "NFT"
+    BEFORE INSERT OR UPDATE OF "name" ON "NFT"
   FOR EACH ROW
   EXECUTE FUNCTION generate_slug_trigger();
-
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_uaId_key" ON "User"("uaId");
@@ -580,7 +620,7 @@ CREATE INDEX "User_publicKey_idx" ON "User"("publicKey");
 CREATE INDEX "User_signer_idx" ON "User"("signer");
 
 -- CreateIndex
-CREATE INDEX "NFT_u2uId_collectionId_isActive_ownerId_idx" ON "NFT"("u2uId", "collectionId", "isActive", "ownerId");
+CREATE INDEX "NFT_u2uId_collectionId_isActive_idx" ON "NFT"("u2uId", "collectionId", "isActive");
 
 -- CreateIndex
 CREATE INDEX "Trait_nftId_collectionId_idx" ON "Trait"("nftId", "collectionId");
@@ -602,6 +642,12 @@ CREATE UNIQUE INDEX "Collection_projectId_key" ON "Collection"("projectId");
 
 -- CreateIndex
 CREATE INDEX "Collection_address_idx" ON "Collection" USING HASH ("address");
+
+-- CreateIndex
+CREATE INDEX "Collection_gameLayergId_idx" ON "Collection"("gameLayergId");
+
+-- CreateIndex
+CREATE INDEX "Collection_nameSlug_idx" ON "Collection"("nameSlug");
 
 -- CreateIndex
 CREATE INDEX "Project_id_isActivated_isDelete_idx" ON "Project"("id", "isActivated", "isDelete");
@@ -642,6 +688,27 @@ CREATE UNIQUE INDEX "Chain_chainId_key" ON "Chain"("chainId");
 -- CreateIndex
 CREATE INDEX "ContractMarketplace_chainId_address_idx" ON "ContractMarketplace"("chainId", "address");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "GameLayerg_apiKeyID_key" ON "GameLayerg"("apiKeyID");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GameLayerg_slug_key" ON "GameLayerg"("slug");
+
+-- CreateIndex
+CREATE INDEX "GameLayerg_nameSlug_idx" ON "GameLayerg"("nameSlug");
+
+-- CreateIndex
+CREATE INDEX "GameLayerg_userId_apiKeyID_idx" ON "GameLayerg"("userId", "apiKeyID");
+
+-- CreateIndex
+CREATE INDEX "GameLayerg_userId_idx" ON "GameLayerg"("userId");
+
+-- CreateIndex
+CREATE INDEX "GameLayerg_apiKeyID_idx" ON "GameLayerg"("apiKeyID");
+
+-- CreateIndex
+CREATE INDEX "GameLayerg_id_isEnabled_idx" ON "GameLayerg"("id", "isEnabled");
+
 -- AddForeignKey
 ALTER TABLE "NFT" ADD CONSTRAINT "NFT_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -665,6 +732,9 @@ ALTER TABLE "Collection" ADD CONSTRAINT "Collection_projectId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "Collection" ADD CONSTRAINT "Collection_chainId_fkey" FOREIGN KEY ("chainId") REFERENCES "Chain"("chainId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Collection" ADD CONSTRAINT "Collection_gameLayergId_fkey" FOREIGN KEY ("gameLayergId") REFERENCES "GameLayerg"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserCollection" ADD CONSTRAINT "UserCollection_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
