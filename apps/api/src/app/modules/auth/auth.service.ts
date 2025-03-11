@@ -1,19 +1,37 @@
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import {
+  ApiUAService,
+  AuthResponseSocial,
+  AuthResponseUA,
+  ErrorUA,
+  PrismaService,
+} from '@layerg-mkp-workspace/shared/services';
 import {
   BadRequestException,
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ethers } from 'ethers';
 
-import { LOGIN_MESSAGE } from '../../constants/web3Const/messages';
+import {
+  CONNECT_UA_MESSAGE,
+  LOGIN_MESSAGE,
+} from '../../constants/web3Const/messages';
 import { UserEntity } from '../user/entities/user.entity'; // import your User entity
 import { UserService } from '../user/user.service';
-import { loginDto } from './dto/login.dto';
+import {
+  ConnectSocialAuthDto,
+  ConnectUAWalletDto,
+  loginDto,
+} from './dto/login.dto';
 
+import { Provider } from '@/apps/api/src/app/constants/enums/provider.enum';
+import { ConnectType } from '@/apps/api/src/app/constants/enums/TypeConnect.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 @Injectable()
 export class AuthService {
@@ -23,6 +41,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private jwtService: JwtService,
     private readonly redisService: RedisService,
+    private apiUAService: ApiUAService,
   ) {}
 
   async validateUser(validateInfo: loginDto): Promise<UserEntity> {
@@ -81,9 +100,21 @@ export class AuthService {
     isLogout = false,
   ) {
     if (!isLogout) {
-      this.redisService.setKey(user.id, token);
+      this.redisService.setKey(`session:${token}`, user.id);
     } else {
-      this.redisService.deleteKey(token);
+      this.redisService.deleteKey(`session:${token}`);
+    }
+  }
+
+  async updateDataTokenUA(
+    data: AuthResponseUA,
+    token: string,
+    isLogout = false,
+  ) {
+    if (!isLogout) {
+      this.redisService.setKeyObject(`session-UA:${token}`, data);
+    } else {
+      this.redisService.deleteKey(`session-UA:${token}`);
     }
   }
 
@@ -123,7 +154,7 @@ export class AuthService {
 
   async isSignatureValid(message, signature, address) {
     try {
-      const signerAddr = await ethers.verifyMessage(message, signature);
+      const signerAddr = await ethers.utils.verifyMessage(message, signature);
       if (signerAddr !== address) {
         return false;
       }
@@ -153,5 +184,588 @@ export class AuthService {
       accessTokenExpire,
       userId,
     };
+  }
+
+  async connectWallletUA(validateInfo: ConnectUAWalletDto) {
+    try {
+      const connectMessage = CONNECT_UA_MESSAGE();
+      const { signature, publicKey, signer } = validateInfo;
+      if (
+        !(await this.isSignatureValid(connectMessage, signature, publicKey))
+      ) {
+        throw new BadRequestException('Signature invalid');
+      }
+
+      const response = await this.apiUAService.requestConnectWalletUA(
+        signature,
+        signer,
+      );
+
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+      } = response || {};
+      if (!accessTokenUA) throw new InternalServerErrorException();
+      let user = await this.prisma.user.findFirst({
+        where: {
+          signer: signer.toLowerCase(),
+        },
+      });
+
+      if (!user) {
+        user = await this.prisma.user.create({
+          data: {
+            signer: signer.toLowerCase(),
+            publicKey,
+            signature,
+            signedMessage: connectMessage,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_WALLET,
+          },
+        });
+      }
+
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: userId,
+      };
+      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.updateRefreshTokenCaching(user, refreshToken, false);
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: uaId,
+        mode: user.mode,
+      };
+    } catch (error) {
+      throw new HttpException(
+        `Error connectWallletUA: ${error.message}`,
+        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async refreshTokenUA(irefreshToken: string) {
+    // Get Token UA From UserID
+    const refeshTokenUA = (await this.redisService.getKeyObject(
+      `session-UA:${irefreshToken}`,
+    )) as any as AuthResponseUA;
+
+    if (!refeshTokenUA) {
+      throw new NotFoundException('UA Information Not Found');
+    }
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: refeshTokenUA.userId,
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException('Access Denied');
+    }
+    const response = await this.apiUAService.requestRefeshTokenUA(
+      refeshTokenUA.refreshToken,
+    );
+    const {
+      refreshToken: refreshTokenUA,
+      refreshTokenExpire: refreshTokenExpireUA,
+      accessToken: accessTokenUA,
+      accessTokenExpire: accessTokenExpireUA,
+      userId: uaId,
+    } = response || {};
+    if (!accessTokenUA) throw new InternalServerErrorException();
+
+    const {
+      accessToken,
+      refreshToken,
+      accessTokenExpire,
+      refreshTokenExpire,
+      userId,
+    } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+    const dataTokenUA: AuthResponseUA = {
+      uaId: uaId,
+      refreshToken: refreshTokenUA,
+      refreshTokenExpire: refreshTokenExpireUA,
+      accessToken: accessTokenUA,
+      accessTokenExpire: accessTokenExpireUA,
+      userId: userId,
+    };
+
+    // Remove Old Refesh Token
+    await this.updateDataTokenUA(dataTokenUA, irefreshToken, true);
+    // Update New Refesh Token
+    await this.updateDataTokenUA(dataTokenUA, refreshToken);
+
+    return {
+      refreshToken,
+      refreshTokenExpire,
+      accessToken,
+      accessTokenExpire,
+      userId: user?.id,
+      uaId: uaId,
+      mode: user?.mode,
+    };
+  }
+
+  async getLinkGoogleAuth() {
+    try {
+      const url = await this.apiUAService.requestGenLinkGoogle();
+      if (!url) {
+        throw new BadRequestException('Error get link google auth');
+      }
+      return {
+        url,
+        providerType: Provider.GOOGLE,
+        message: 'Get Link Google Auth Successfully',
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Get Link Google Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async getLinkFBAuth() {
+    try {
+      const url = await this.apiUAService.requestGenLinkFB();
+      if (!url) {
+        throw new BadRequestException('Error get Link Facebook Auth');
+      }
+      return {
+        url,
+        providerType: Provider.FACEBOOK,
+        message: 'Get Link Facebook Auth Successfully',
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Get Link Facebook Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async getLinkTwitterAuth() {
+    try {
+      const url = await this.apiUAService.requestGenLinkTwitter();
+      if (!url) {
+        throw new BadRequestException('Error get Link Twitter Auth');
+      }
+      // return url;
+      return {
+        url,
+        providerType: Provider.TWITTER,
+        message: 'Get Link twitter Auth Successfully',
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Get Link Twitter Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async getLinkTelegramAuth() {
+    try {
+      const url = await this.apiUAService.requestGenLinkTelegram();
+      if (!url) {
+        throw new BadRequestException('Error get Link Telegram Auth');
+      }
+      // return url;
+      return {
+        url,
+        providerType: Provider.TELEGRAM,
+        message: 'Get Link Telegram Auth Successfully',
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Get Link Telegram Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async connectGoogleAuth(input: ConnectSocialAuthDto) {
+    try {
+      const { code, state, error } = input;
+      const response = await this.apiUAService.requestConnectGoogleUA(
+        code,
+        state,
+        error,
+      );
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+        user: userUA,
+      } = (response as AuthResponseSocial).data || {};
+
+      if (!accessTokenUA) {
+        const {
+          success,
+          message,
+          error: errorUA,
+          statusCode: statusCodeUA,
+        } = response as ErrorUA;
+
+        throw new HttpException(
+          errorUA || 'Unknown error occurred',
+          Number(statusCodeUA) || HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      let user = await this.prisma.user.findFirst({
+        where: {
+          signer: userUA?.googleId,
+        },
+      });
+
+      if (!user) {
+        user = await this.prisma.user.upsert({
+          where: { signer: userUA?.googleId },
+          update: {
+            publicKey: userUA?.googleId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_GOOGLE,
+          },
+          create: {
+            signer: userUA?.googleId,
+            publicKey: userUA?.googleId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_GOOGLE,
+          },
+        });
+      }
+
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: userId,
+      };
+      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: uaId,
+        mode: user.mode,
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Connect Google Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async connectTelegramUA(input: ConnectSocialAuthDto) {
+    try {
+      const { code, state, error } = input;
+      const response = await this.apiUAService.requestConnectTeleUA(
+        code,
+        state,
+        error,
+      );
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+        user: userUA,
+      } = (response as AuthResponseSocial).data || {};
+
+      if (!accessTokenUA) {
+        const {
+          success,
+          message,
+          error: errorUA,
+          statusCode: statusCodeUA,
+        } = response as ErrorUA;
+
+        throw new HttpException(
+          message || 'Unknown error occurred',
+          Number(statusCodeUA) || HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+      let user = await this.prisma.user.findFirst({
+        where: {
+          signer: userUA?.telegramId,
+        },
+      });
+
+      if (!user) {
+        user = await this.prisma.user.upsert({
+          where: { signer: userUA?.telegramId },
+          update: {
+            publicKey: userUA?.telegramId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_TELEGRAM,
+          },
+          create: {
+            signer: userUA?.telegramId,
+            publicKey: userUA?.telegramId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_TELEGRAM,
+          },
+        });
+      }
+
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: userId,
+      };
+      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: uaId,
+        mode: user.mode,
+      };
+    } catch (error) {
+      throw new HttpException(
+        `Error connectTelegramUA: ${error.message}`,
+        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async connectTwitterAuth(input: ConnectSocialAuthDto) {
+    try {
+      const { code, state, error } = input;
+      const response = await this.apiUAService.requestConnectTwitterUA(
+        code,
+        state,
+        error,
+      );
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+        user: userUA,
+      } = (response as AuthResponseSocial).data || {};
+
+      if (!accessTokenUA) {
+        const {
+          success,
+          message,
+          error: errorUA,
+          statusCode: statusCodeUA,
+        } = response as ErrorUA;
+
+        throw new HttpException(
+          message || 'Unknown error occurred',
+          Number(statusCodeUA) || HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      let user = await this.prisma.user.findFirst({
+        where: {
+          signer: userUA?.twitterId,
+        },
+      });
+
+      if (!user) {
+        user = await this.prisma.user.upsert({
+          where: { signer: userUA?.twitterId },
+          update: {
+            publicKey: userUA?.twitterId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_TWITTER,
+          },
+          create: {
+            signer: userUA?.twitterId,
+            publicKey: userUA?.twitterId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_TWITTER,
+          },
+        });
+      }
+
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: userId,
+      };
+      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: uaId,
+        mode: user.mode,
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Connect Twitter Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
+  }
+
+  async connectFBAuth(input: ConnectSocialAuthDto) {
+    try {
+      const { code, state, error } = input;
+      const response = await this.apiUAService.requestConnectFBUA(
+        code,
+        state,
+        error,
+      );
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+        user: userUA,
+      } = (response as AuthResponseSocial).data || {};
+
+      if (!accessTokenUA) {
+        const {
+          success,
+          message,
+          error: errorUA,
+          statusCode: statusCodeUA,
+        } = response as ErrorUA;
+
+        throw new HttpException(
+          message || 'Unknown error occurred',
+          Number(statusCodeUA) || HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      let user = await this.prisma.user.findFirst({
+        where: {
+          signer: userUA?.facebookId,
+        },
+      });
+
+      if (!user) {
+        user = await this.prisma.user.upsert({
+          where: { signer: userUA?.facebookId },
+          update: {
+            publicKey: userUA?.facebookId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_FACEBOOK,
+          },
+          create: {
+            signer: userUA?.facebookId,
+            publicKey: userUA?.facebookId,
+            uaId: String(uaId),
+            mode: ConnectType.CONNECT_FACEBOOK,
+          },
+        });
+      }
+
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: userId,
+      };
+      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: uaId,
+        mode: user.mode,
+      };
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Connect Facebook Auth: ${
+          error?.response?.data?.message || error.message
+        }`,
+        statusCode,
+      );
+    }
   }
 }

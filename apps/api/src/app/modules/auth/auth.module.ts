@@ -1,4 +1,7 @@
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import {
+  ApiUAService,
+  PrismaService,
+} from '@layerg-mkp-workspace/shared/services';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -41,6 +44,7 @@ import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
     RefreshTokenStrategy,
     LocalStrategy,
     RedisService,
+    ApiUAService,
   ],
 })
 export class AuthModule {}

@@ -1,10 +1,10 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Injectable,
   HttpException,
   HttpStatus,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   AnalysisCollection,
   CONTRACT_TYPE,
@@ -12,42 +12,40 @@ import {
   TX_STATUS,
   User,
 } from '@prisma/client';
-import { validate as isValidUUID } from 'uuid';
-import { GraphQLClient } from 'graphql-request';
-import * as moment from 'moment';
 import { ethers } from 'ethers';
+import { GraphQLClient } from 'graphql-request';
+import { validate as isValidUUID } from 'uuid';
 
-import { CreateCollectionDto } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
-import { CollectionDetailDto } from './dto/get-detail-collection.dto';
-import { CollectionEntity } from './entities/collection.entity';
-import { TraitService } from '../nft/trait.service';
-import { GetAllCollectionDto } from './dto/get-all-collection.dto';
 import { GetCollectionMarketData } from '../graph-qlcaller/getCollectionMarketData.service';
+import { TraitService } from '../nft/trait.service';
 import { CollectionPriceService } from './collectionPrice.service';
+import { CreateCollectionDto } from './dto/create-collection.dto';
+import { GetAllCollectionDto } from './dto/get-all-collection.dto';
 import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
+import { CollectionDetailDto } from './dto/get-detail-collection.dto';
+import { UpdateCollectionDto } from './dto/update-collection.dto';
+import { CollectionEntity } from './entities/collection.entity';
 
 // import SecureUtil from '../../commons/Secure.common';
 
-import { getSdk } from '../../generated/graphql';
-import { oneWeekInMilliseconds } from '../../constants/Timestamp.constant';
-import CollectionHepler from './helper/collection-helper.service';
 import {
-  creatorSelect,
   collectionSelect,
   CollectionSelect,
+  creatorSelect,
 } from '../../commons/definitions/Constraint.Object';
-import { GetAnalysisDto } from './dto/get-analysis-collection.dto';
+import { oneWeekInMilliseconds } from '../../constants/Timestamp.constant';
+import { getSdk } from '../../generated/graphql';
 import { UserService } from '../user/user.service';
+import { GetAnalysisDto } from './dto/get-analysis-collection.dto';
+import CollectionHepler from './helper/collection-helper.service';
 
-import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import {
-  AnalysisType,
   AnalysisModeMinMax,
-  AnalysisModeSort,
+  AnalysisType,
 } from '@/apps/api/src/app/constants/enums/Analysis.enum';
+import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 interface CollectionGeneral {
   totalOwner: number;
@@ -107,7 +105,7 @@ export class CollectionService {
           if (!input.creatorAddress) {
             throw new Error('Please enter creator address.');
           }
-          if (!ethers.isAddress(input.creatorAddress)) {
+          if (!ethers.utils.isAddress(input.creatorAddress)) {
             throw new Error('Invalid wallet address.');
           }
           userCreator = await this.userService.fetchOrCreateUser(

@@ -1,46 +1,32 @@
-import { response } from 'express';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { GraphQLClient } from 'graphql-request';
-import {
-  CONTRACT_TYPE,
-  ORDERSTATUS,
-  ORDERTYPE,
-  Prisma,
-  User,
-} from '@prisma/client';
+import { ORDERSTATUS, ORDERTYPE, Prisma, User } from '@prisma/client';
 import { ethers } from 'ethers';
-import { validate as isValidUUID } from 'uuid';
+import { GraphQLClient } from 'graphql-request';
 import { encodeAbiParameters, keccak256 } from 'viem';
 
+import { NFTHepler } from '../nft/helper/nft-helper.service';
+import { NftService } from '../nft/nft.service';
+import { CreateBulkDto, CreateSingleDto } from './dto/create-order.dto';
 import {
   ActionOrderDto,
   VerifyOrderDto,
   VerifyOrdersDto,
 } from './dto/get-order.dto';
-import { UserService } from '../user/user.service';
 import OrderHeplerCommon from './helper/order.helper.service';
-import { CreateBulkDto, CreateSingleDto } from './dto/create-order.dto';
-import { NftEntity } from '../nft/entities/nft.entity';
-import { NftService } from '../nft/nft.service';
-import { NFTHepler } from '../nft/helper/nft-helper.service';
 
 import { abi as exchangeABI } from '@/apps/api/abis/Exchange.json';
 import {
-  collectionSelect,
-  CollectionSelect,
-  creatorSelect,
   nftSelect,
   userSelect,
 } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import { MerkleTree } from '@/apps/api/src/app/commons/MerkleTree.common';
 import { getSdk } from '@/apps/api/src/app/generated/graphql';
-import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 
 @Injectable()
@@ -59,7 +45,7 @@ export class OrderService {
   private sdk = getSdk(this.client);
 
   private readonly endpointStaking = process.env.SUBGRAPH_URL_STAKING;
-  private provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+  private provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 
   async createSingle(input: CreateSingleDto, user: User) {
     try {
@@ -363,7 +349,7 @@ export class OrderService {
         throw new NotFoundException('Transaction not found');
       }
 
-      const iface = new ethers.Interface(exchangeABI);
+      const iface = new ethers.utils.Interface(exchangeABI);
       const { data: inputData, to, from } = transaction;
       const decodedInput = iface.parseTransaction({ data: inputData });
 

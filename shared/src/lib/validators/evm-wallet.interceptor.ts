@@ -1,9 +1,9 @@
 import {
+  registerDecorator,
+  ValidationArguments,
+  ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-  ValidationArguments,
-  registerDecorator,
-  ValidationOptions,
 } from 'class-validator';
 import { ethers } from 'ethers';
 
@@ -11,7 +11,7 @@ import { ethers } from 'ethers';
 export class IsEvmAddressConstraint implements ValidatorConstraintInterface {
   validate(address: string, args: ValidationArguments) {
     // Use ethers.js to validate the Ethereum address
-    return ethers.isAddress(address);
+    return ethers.utils.isAddress(address);
   }
 
   defaultMessage(args: ValidationArguments) {
