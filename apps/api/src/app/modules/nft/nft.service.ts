@@ -174,7 +174,6 @@ export class NftService {
           animationUrl: input.animationUrl,
           source: input.source,
           ownerId: input.creatorAddress,
-          gameId: input.gameId,
         },
         include: {
           traits: true,
@@ -308,7 +307,9 @@ export class NftService {
 
       if (filter.gameId) {
         whereConditionInternal.AND.push({
-          gameId: filter.gameId,
+          collection: {
+            gameLayergId: filter.gameId,
+          },
         });
       }
 

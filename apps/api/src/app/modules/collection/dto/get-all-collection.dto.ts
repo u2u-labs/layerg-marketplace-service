@@ -28,4 +28,8 @@ export class GetAllCollectionDto extends OffsetPaginationDto {
   @IsOptional()
   @IsEnum(SourceType)
   source?: SourceType;
+
+  @IsOptional()
+  @IsString()
+  gameId?: string;
 }

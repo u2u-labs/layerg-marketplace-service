@@ -32,6 +32,7 @@ import {
   collectionSelect,
   CollectionSelect,
   creatorSelect,
+  gameLayergSelect,
 } from '../../commons/definitions/Constraint.Object';
 import { oneWeekInMilliseconds } from '../../constants/Timestamp.constant';
 import { getSdk } from '../../generated/graphql';
@@ -267,6 +268,13 @@ export class CollectionService {
       };
     }
 
+    if (input.gameId) {
+      whereCondition = {
+        ...whereCondition,
+        gameLayergId: input.gameId,
+      };
+    }
+
     if (input.min && input.max) {
       whereCondition = {
         ...whereCondition,
@@ -312,6 +320,9 @@ export class CollectionService {
               select: creatorSelect,
             },
           },
+        },
+        gameLayerg: {
+          select: gameLayergSelect,
         },
       },
     });

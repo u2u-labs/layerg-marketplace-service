@@ -10,6 +10,35 @@ export const creatorSelect: Prisma.UserSelect = {
   signer: true,
 };
 
+export const gameLayergSelect: Prisma.GameLayergSelect = {
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  isEnabled: true,
+  countFav: true,
+  name: true,
+  gameIcon: true,
+  banner: true,
+  apiKeyID: true,
+  telegram: true,
+  facebook: true,
+  instagram: true,
+  discord: true,
+  twitter: true,
+  nameSlug: true,
+  avatar: true,
+  description: true,
+  information: true,
+  policy: true,
+  version: true,
+  slideShow: true,
+  totalReview: true,
+  totalRating: true,
+  slug: true,
+  isRcm: true,
+  userId: true,
+};
+
 export const CollectionSelect: Prisma.CollectionSelect = {
   id: true,
   txCreationHash: true,
@@ -30,7 +59,6 @@ export const CollectionSelect: Prisma.CollectionSelect = {
   metadataJson: true,
   source: true,
   chainId: true,
-  gameId: true,
   category: {
     select: {
       id: true,
@@ -45,6 +73,10 @@ export const CollectionSelect: Prisma.CollectionSelect = {
       explorerUrl: true,
       rpcUrl: true,
     },
+  },
+  gameLayergId: true,
+  gameLayerg: {
+    select: gameLayergSelect,
   },
 };
 
@@ -84,7 +116,6 @@ export const nftSelect: Prisma.NFTSelect = {
     select: CollectionSelect,
   },
   traits: true,
-  gameId: true,
   ownerId: true,
 };
 

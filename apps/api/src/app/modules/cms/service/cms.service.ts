@@ -829,7 +829,6 @@ export class CMSService {
           ...(input.categoryId && { categoryId: Number(input.categoryId) }),
           address: input?.address,
           metadataJson: metaJson,
-          gameId: input.gameId,
           source: input?.source,
         },
       });
