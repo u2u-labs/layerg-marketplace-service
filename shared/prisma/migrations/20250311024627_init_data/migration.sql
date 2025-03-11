@@ -13,6 +13,9 @@ CREATE TYPE "ORDERSTATUS" AS ENUM ('OPEN', 'PENDING', 'CANCELLED', 'FILLED');
 -- CreateEnum
 CREATE TYPE "ORDERTYPE" AS ENUM ('BID', 'BULK', 'SINGLE');
 
+-- CreateEnum
+CREATE TYPE "MULTICHAIN_CONTRACT_TYPE" AS ENUM ('MARKETPLACE', 'ERC721_PROXY', 'ERC1155_PROXY');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
@@ -66,6 +69,8 @@ CREATE TABLE "NFT" (
     "metricPoint" BIGINT DEFAULT 0,
     "metricDetail" JSONB DEFAULT '{"VolumeIndividual":0,"UserMetric":0}',
     "source" TEXT,
+    "ownerId" TEXT NOT NULL,
+    "gameId" TEXT NOT NULL,
 
     CONSTRAINT "NFT_pkey" PRIMARY KEY ("id","collectionId")
 );
@@ -129,6 +134,7 @@ CREATE TABLE "Collection" (
     "categoryG" JSONB,
     "vol" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "volumeWei" TEXT NOT NULL DEFAULT '0',
+    "chainId" BIGINT NOT NULL DEFAULT 0,
 
     CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
 );
@@ -458,11 +464,34 @@ CREATE TABLE "OrderHistory" (
     CONSTRAINT "OrderHistory_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Chain" (
+    "chainId" BIGINT NOT NULL,
+    "currency" TEXT NOT NULL DEFAULT '',
+    "blockchain" TEXT NOT NULL DEFAULT '',
+    "explorerUrl" TEXT NOT NULL,
+    "rpcUrl" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "ContractMarketplace" (
+    "id" UUID NOT NULL,
+    "contractType" "MULTICHAIN_CONTRACT_TYPE" NOT NULL,
+    "address" TEXT NOT NULL,
+    "chainId" BIGINT NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ContractMarketplace_pkey" PRIMARY KEY ("id")
+);
+
 -- Generate Slug From Input
 CREATE OR REPLACE FUNCTION generate_slug(title VARCHAR)
 RETURNS VARCHAR AS $$
 DECLARE
-    slug VARCHAR;
+slug VARCHAR;
 BEGIN
     -- Convert to lowercase
     slug := LOWER(title);
@@ -477,15 +506,15 @@ BEGIN
 
     -- Remove leading and trailing hyphens
     slug := TRIM(BOTH '-' FROM slug);
-	
+
 	-- Replace special characters
     slug := REGEXP_REPLACE(slug, '[^a-z0-9]', '', 'g');
 
-    RETURN slug;
+RETURN slug;
 END;
 $$ LANGUAGE plpgsql;
 
--- Function Change Name Slug when 
+-- Function Change Name Slug when
 CREATE OR REPLACE FUNCTION generate_slug_trigger()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -493,9 +522,9 @@ BEGIN
     IF NEW."nameSlug" IS NULL OR NEW."name" IS DISTINCT FROM OLD."name" THEN
         -- Update the "nameSlug" column with the new slug
         NEW."nameSlug" := generate_slug(NEW."name");
-    END IF;
+END IF;
 
-    RETURN NEW;
+RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -504,8 +533,8 @@ $$ LANGUAGE plpgsql;
 -- Trigger Create Collection
 CREATE OR REPLACE TRIGGER collection_generate_slug
 BEFORE INSERT OR UPDATE OF "name" ON "Collection"
-FOR EACH ROW
-EXECUTE FUNCTION generate_slug_trigger();
+  FOR EACH ROW
+  EXECUTE FUNCTION generate_slug_trigger();
 
 -- Update All Collection Exists
 UPDATE "Collection"
@@ -514,16 +543,11 @@ WHERE "nameSlug" IS NULL OR "nameSlug" = '';
 
 
 
--- Trigger Create NFT 
+-- Trigger Create NFT
 CREATE OR REPLACE TRIGGER nft_generate_slug
 BEFORE INSERT OR UPDATE OF "name" ON "NFT"
-FOR EACH ROW
-EXECUTE FUNCTION generate_slug_trigger();
-
--- Update All Collection Exists
-UPDATE "NFT"
-SET "nameSlug" = generate_slug("name")
-WHERE "nameSlug" IS NULL OR "nameSlug" = '';
+  FOR EACH ROW
+  EXECUTE FUNCTION generate_slug_trigger();
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -541,7 +565,7 @@ CREATE UNIQUE INDEX "User_signer_key" ON "User"("signer");
 CREATE UNIQUE INDEX "User_shortLink_key" ON "User"("shortLink");
 
 -- CreateIndex
-CREATE INDEX "NFT_u2uId_collectionId_isActive_idx" ON "NFT"("u2uId", "collectionId", "isActive");
+CREATE INDEX "NFT_u2uId_collectionId_isActive_ownerId_idx" ON "NFT"("u2uId", "collectionId", "isActive", "ownerId");
 
 -- CreateIndex
 CREATE INDEX "Trait_nftId_collectionId_idx" ON "Trait"("nftId", "collectionId");
@@ -597,6 +621,12 @@ CREATE INDEX "Order_sig_index_idx" ON "Order"("sig", "index");
 -- CreateIndex
 CREATE INDEX "OrderHistory_sig_index_nonce_idx" ON "OrderHistory"("sig", "index", "nonce");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Chain_chainId_key" ON "Chain"("chainId");
+
+-- CreateIndex
+CREATE INDEX "ContractMarketplace_chainId_address_idx" ON "ContractMarketplace"("chainId", "address");
+
 -- AddForeignKey
 ALTER TABLE "NFT" ADD CONSTRAINT "NFT_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -617,6 +647,9 @@ ALTER TABLE "Collection" ADD CONSTRAINT "Collection_categoryId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "Collection" ADD CONSTRAINT "Collection_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Collection" ADD CONSTRAINT "Collection_chainId_fkey" FOREIGN KEY ("chainId") REFERENCES "Chain"("chainId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserCollection" ADD CONSTRAINT "UserCollection_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -689,3 +722,6 @@ ALTER TABLE "OrderHistory" ADD CONSTRAINT "OrderHistory_fromId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "OrderHistory" ADD CONSTRAINT "OrderHistory_toId_fkey" FOREIGN KEY ("toId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ContractMarketplace" ADD CONSTRAINT "ContractMarketplace_chainId_fkey" FOREIGN KEY ("chainId") REFERENCES "Chain"("chainId") ON DELETE CASCADE ON UPDATE CASCADE;
