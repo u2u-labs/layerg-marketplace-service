@@ -80,10 +80,9 @@ model NFT {
   metricDetail         Json?               @default("{\"VolumeIndividual\":0,\"UserMetric\":0}")
   source               String?
   ownerId              String
-  gameId               String
 
   @@id([id, collectionId])
-  @@index([u2uId, collectionId, isActive, ownerId])
+  @@index([u2uId, collectionId, isActive])
 }
 
 model Trait {
@@ -144,7 +143,6 @@ model Collection {
   metricPoint        BigInt?              @default(0)
   metricDetail       Json?                @default("{\"Verified\":0,\"Volume\":{\"key\":\"volume_lv0\",\"value\":\"0\",\"point\":0,\"total\":0},\"TotalUniqueOwner\":{\"key\":\"owner_lv0\",\"value\":\"0\",\"point\":0,\"total\":0},\"TotalItems\":{\"key\":\"item_lv0\",\"value\":0,\"point\":0,\"total\":0},\"Followers\":{\"key\":\"follower_lv0\",\"value\":0,\"point\":0,\"total\":0}}")
   metadataJson       Json?
-  gameId             String?
   source             String?
   categoryG          Json?
   vol                Float                @default(0)
@@ -152,8 +150,12 @@ model Collection {
   AnalysisCollection AnalysisCollection[]
   chainId            BigInt               @default(0)
   chain              Chain                @relation(fields: [chainId], references: [chainId])
+  gameLayerg         GameLayerg           @relation(fields: [gameLayergId], references: [id])
+  gameLayergId       String
 
   @@index([address], type: Hash)
+  @@index([gameLayergId])
+  @@index([nameSlug])
 }
 
 model UserCollection {
@@ -539,4 +541,51 @@ model ContractMarketplace {
   updatedAt    DateTime                 @updatedAt
 
   @@index([chainId, address])
+}
+
+// table for goose migration by the crawler
+model GooseDbVersion {
+  id         Int      @id @default(autoincrement())
+  version_id BigInt
+  is_applied Boolean
+  tstamp     DateTime @default(now())
+
+  @@map("goose_db_version")
+  @@ignore
+}
+
+model GameLayerg {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isEnabled   Boolean      @default(false)
+  countFav    Int          @default(0)
+  name        String
+  gameIcon    String?
+  banner      String?
+  apiKeyID    String?      @unique()
+  telegram    String?
+  facebook    String?
+  instagram   String?
+  discord     String?
+  twitter     String?
+  nameSlug    String?
+  avatar      String?
+  description String?
+  information String?
+  policy      String?
+  version     String?
+  slideShow   String[]     @default([])
+  totalReview Int          @default(0)
+  totalRating Float        @default(0.0)
+  slug        String?      @unique()
+  isRcm       Boolean      @default(false)
+  userId      String?
+  collection  Collection[]
+
+  @@index([nameSlug])
+  @@index([userId, apiKeyID])
+  @@index([userId])
+  @@index([apiKeyID])
+  @@index([id, isEnabled])
 }
