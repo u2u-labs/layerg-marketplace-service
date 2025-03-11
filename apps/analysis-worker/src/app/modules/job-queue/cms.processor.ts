@@ -1,16 +1,16 @@
-import { GraphQLClient } from 'graphql-request';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { Processor } from '@nestjs/bull';
-import { Cron } from '@nestjs/schedule';
 import { OnModuleInit } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { ORDERSTATUS, ORDERTYPE, Prisma } from '@prisma/client';
 import { ethers } from 'ethers';
+import { GraphQLClient } from 'graphql-request';
 
 import subgraphServiceCommon from '../helper/subgraph-helper.service';
 import { RedisSubscriberService } from './redis.service';
 
-import { QUEUE_NAME_CMS } from '@/apps/analysis-worker/src/app/constants/Job.constant';
 import { logger } from '@/apps/analysis-worker/src/app/commons';
+import { QUEUE_NAME_CMS } from '@/apps/analysis-worker/src/app/constants/Job.constant';
 import { EventType } from '@/apps/analysis-worker/src/app/generated/graphql';
 
 @Processor(QUEUE_NAME_CMS)
@@ -188,10 +188,10 @@ export class CMSProcessor implements OnModuleInit {
         };
       }
       const countVolume721 = parseFloat(
-        ethers.formatEther(volume721?.marketVolume?.totalVolume || 0),
+        ethers.utils.formatEther(volume721?.marketVolume?.totalVolume || 0),
       );
       const countVolume1155 = parseFloat(
-        ethers.formatEther(volume1155?.marketVolume?.totalVolume || 0),
+        ethers.utils.formatEther(volume1155?.marketVolume?.totalVolume || 0),
       );
 
       return {

@@ -19,6 +19,8 @@ CREATE TYPE "MULTICHAIN_CONTRACT_TYPE" AS ENUM ('MARKETPLACE', 'ERC721_PROXY', '
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
+    "uaId" TEXT,
+    "mode" TEXT,
     "email" TEXT,
     "avatar" TEXT,
     "username" TEXT,
@@ -549,6 +551,10 @@ BEFORE INSERT OR UPDATE OF "name" ON "NFT"
   FOR EACH ROW
   EXECUTE FUNCTION generate_slug_trigger();
 
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_uaId_key" ON "User"("uaId");
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -563,6 +569,15 @@ CREATE UNIQUE INDEX "User_signer_key" ON "User"("signer");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_shortLink_key" ON "User"("shortLink");
+
+-- CreateIndex
+CREATE INDEX "User_id_idx" ON "User"("id");
+
+-- CreateIndex
+CREATE INDEX "User_publicKey_idx" ON "User"("publicKey");
+
+-- CreateIndex
+CREATE INDEX "User_signer_idx" ON "User"("signer");
 
 -- CreateIndex
 CREATE INDEX "NFT_u2uId_collectionId_isActive_ownerId_idx" ON "NFT"("u2uId", "collectionId", "isActive", "ownerId");

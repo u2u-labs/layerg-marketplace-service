@@ -1,24 +1,21 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
-  UseInterceptors,
-  UploadedFiles,
+  Post,
   Query,
   Res,
-  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import * as AWS from 'aws-sdk';
+
+// @ts-ignore
 import 'multer';
 
 import { CommonService } from './common.service';
-import { UpdateCommonDto } from './dto/update-common.dto';
 import { CreateFileDto } from './dto/create-file.dto';
 import { SearchAllDto } from './dto/search-all.dto';
 import { multerOptions } from './interceptor/interceptor';

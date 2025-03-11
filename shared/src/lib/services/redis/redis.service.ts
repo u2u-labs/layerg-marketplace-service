@@ -1,7 +1,6 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { InjectRedis } from '@nestjs-modules/ioredis';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Redis } from 'ioredis';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
@@ -44,11 +43,11 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     const expireInSeconds = iexpireInSeconds
       ? iexpireInSeconds
       : 7 * 24 * 60 * 60;
-    return await this.redisClient.set(`session:${key}`, value, 'EX', expireInSeconds); // Set with expiration
+    return await this.redisClient.set(key, value, 'EX', expireInSeconds); // Set with expiration
   }
 
-  async getKey(key: string): Promise<string> {
-    return await this.redisClient.get(`session:${key}`); // Promisified get method
+  async getKey(key: string) {
+    return await this.redisClient.get(key); // Promisified get method
   }
 
   async setKeyObject(
@@ -58,7 +57,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   ): Promise<string> {
     const expireInSeconds = iexpireInSeconds ?? 7 * 24 * 60 * 60;
     return await this.redisClient.set(
-      `session:${key}`,
+      `${key}`,
       JSON.stringify(value),
       'EX',
       expireInSeconds,
@@ -67,11 +66,11 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async getKeyObject(key: string): Promise<string> {
     // return await this.redisClient.get(key); // Promisified get method
-    const result = await this.redisClient.get(`session:${key}`);
-    return JSON.parse(result);
+    const result = await this.redisClient.get(key);
+    return JSON.parse(result ?? '{}');
   }
 
   async deleteKey(key: string): Promise<number> {
-    return await this.redisClient.del(`session:${key}`); // Deletes the key and returns the number of keys deleted
+    return await this.redisClient.del(key); // Deletes the key and returns the number of keys deleted
   }
 }

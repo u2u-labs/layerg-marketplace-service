@@ -705,10 +705,10 @@ export class CMSService {
         };
       }
       const countVolume721 = parseFloat(
-        ethers.formatEther(volume721?.marketVolume?.totalVolume || 0),
+        ethers.utils.formatEther(volume721?.marketVolume?.totalVolume || 0),
       );
       const countVolume1155 = parseFloat(
-        ethers.formatEther(volume1155?.marketVolume?.totalVolume || 0),
+        ethers.utils.formatEther(volume1155?.marketVolume?.totalVolume || 0),
       );
 
       return {

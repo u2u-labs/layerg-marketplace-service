@@ -134,7 +134,7 @@ export class NftService {
         if (!input.creatorAddress) {
           throw new Error('Please enter creator address.');
         }
-        if (!ethers.isAddress(input.creatorAddress)) {
+        if (!ethers.utils.isAddress(input.creatorAddress)) {
           throw new Error('Invalid wallet address.');
         }
         userCreator = await this.userService.fetchOrCreateUser(

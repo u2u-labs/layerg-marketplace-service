@@ -129,7 +129,7 @@ export default tsEslint.config(
       "@nx/enforce-module-boundaries": "off",
       'max-len': ['warn', 150],
 
-      ...prettierConfig.rules,
+      // ...prettierConfig.rules,
     },
   },
 
