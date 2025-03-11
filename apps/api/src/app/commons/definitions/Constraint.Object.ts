@@ -29,6 +29,8 @@ export const CollectionSelect: Prisma.CollectionSelect = {
   isU2U: true,
   metadataJson: true,
   source: true,
+  chainId: true,
+  gameId: true,
   category: {
     select: {
       id: true,
@@ -82,6 +84,8 @@ export const nftSelect: Prisma.NFTSelect = {
     select: CollectionSelect,
   },
   traits: true,
+  gameId: true,
+  ownerId: true,
 };
 
 export const nftSelectOwner: Prisma.NFTSelect = {

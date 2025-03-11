@@ -74,6 +74,7 @@ model NFT {
   metricDetail         Json?               @default("{\"VolumeIndividual\":0,\"UserMetric\":0}")
   source               String?
   ownerId              String
+  gameId               String
 
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive, ownerId])
@@ -375,6 +376,7 @@ model BlogTopic {
   topic   Topic  @relation(fields: [topicId], references: [id])
   blog    Blog   @relation(fields: [blogId], references: [id])
 }
+
 model QuoteTokens {
   address    String @id @unique
   symbol     String
@@ -400,6 +402,7 @@ model AnalysisCollection {
   createdAt    DateTime      @default(now()) @db.Date
   collection   Collection    @relation(fields: [collectionId], references: [id])
 }
+
 model Platform {
   id          String             @id @default(uuid()) @db.Uuid
   nameSlug    String             @unique
@@ -430,6 +433,7 @@ model OverviewTemplate {
   updatedAt   DateTime? @updatedAt
   Platform    Platform  @relation("PlatformToTemplates", fields: [platformId], references: [id])
 }
+
 model Order {
   index            Int            @default(1)
   sig              String

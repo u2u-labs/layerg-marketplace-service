@@ -53,4 +53,8 @@ export class CreateNftDto {
   @IsString()
   @IsOptional()
   source: string;
+
+  @IsString()
+  @IsOptional()
+  gameId: string;
 }

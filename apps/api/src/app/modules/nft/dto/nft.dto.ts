@@ -20,4 +20,6 @@ export class NftDto {
   quoteToken?: string;
   creator?: unknown;
   quantity?: unknown;
+  gameId?: string;
+  ownerId?: string;
 }

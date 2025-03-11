@@ -38,6 +38,8 @@ export class NftEntity implements NFT {
   metricPoint: bigint;
   metricDetail: JsonValue;
   source: string;
+  ownerId: string;
+  gameId: string;
 }
 
 export enum TXSTATUS {
