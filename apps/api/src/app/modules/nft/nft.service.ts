@@ -306,6 +306,12 @@ export class NftService {
         });
       }
 
+      if (filter.gameId) {
+        whereConditionInternal.AND.push({
+          gameId: filter.gameId,
+        });
+      }
+
       if (nftIdFromOwner.length > 0) {
         const collectionToTokenIds: Record<string, string[]> = {};
         for (let i = 0; i < nftIdFromOwner.length; i++) {
