@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { GameLayergService } from './game-layerg.service';
 import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
 
@@ -9,5 +9,13 @@ export class GameLayergController {
   @Get('/analysis')
   getAnalysis(@Query() input: GetAnalysisGameDto) {
     return this.gameLayergService.getGameAnalysis(input);
+  }
+
+  @Get('/chart/:id')
+  getTimeSeriesData(
+    @Param('id') gameId: string,
+    @Query() input: GetAnalysisGameDto,
+  ) {
+    return this.gameLayergService.getGameTimeSeriesData(gameId, input);
   }
 }
