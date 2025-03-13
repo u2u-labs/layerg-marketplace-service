@@ -14,12 +14,13 @@ class CollectionHepler {
     };
   }
 
-  getPastDay(number: number) {
+  getPastDay(number: number, unit: 'days' | 'hours' = 'days') {
     const date = new Date();
-    const momentDate = moment(date).subtract(number, 'days');
+    const momentDate = moment(date).subtract(number, unit);
+    const periodUnit = unit === 'hours' ? 'hour' : 'day';
     return {
-      start: momentDate.utc().startOf('day').toDate(),
-      end: momentDate.utc().endOf('day').toDate(),
+      start: momentDate.clone().utc().startOf(periodUnit).toDate(),
+      end: momentDate.clone().utc().endOf(periodUnit).toDate(),
     };
   }
 }

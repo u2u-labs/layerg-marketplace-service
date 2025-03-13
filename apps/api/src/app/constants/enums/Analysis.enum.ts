@@ -1,4 +1,5 @@
 enum AnalysisType {
+  ONEHOUR = 'ONEHOUR',
   ONEDAY = 'ONEDAY',
   ONEWEEK = 'ONEWEEK',
   ONEMONTH = 'ONEMONTH',

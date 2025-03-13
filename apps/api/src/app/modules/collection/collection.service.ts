@@ -820,14 +820,19 @@ export class CollectionService {
 
   async getAndCompare(item: AnalysisCollection, type: AnalysisType) {
     try {
-      const typeDate =
-        type === AnalysisType.ONEWEEK
-          ? 8
-          : type === AnalysisType.ONEMONTH
-            ? 31
-            : 2;
-      const { start: startPast, end: EndPast } =
-        CollectionHepler.getPastDay(typeDate);
+      const typeTimeMap = {
+        [AnalysisType.ONEHOUR]: { amount: 1, unit: 'hours' },
+        [AnalysisType.ONEWEEK]: { amount: 8, unit: 'days' },
+        [AnalysisType.ONEMONTH]: { amount: 31, unit: 'days' },
+        default: { amount: 2, unit: 'days' },
+      };
+
+      const { amount, unit } = typeTimeMap[type] ?? typeTimeMap.default;
+
+      const { start: startPast, end: EndPast } = CollectionHepler.getPastDay(
+        amount,
+        unit,
+      );
 
       const pastRecord = await this.prisma.analysisCollection.findFirst({
         where: {
