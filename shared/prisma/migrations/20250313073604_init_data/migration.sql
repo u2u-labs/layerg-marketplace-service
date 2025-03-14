@@ -375,7 +375,7 @@ CREATE TABLE "AnalysisCollection" (
     "floorWei" TEXT NOT NULL DEFAULT '0',
     "items" BIGINT NOT NULL DEFAULT 0,
     "owner" BIGINT NOT NULL DEFAULT 0,
-    "createdAt" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "AnalysisCollection_pkey" PRIMARY KEY ("id")
 );
@@ -530,6 +530,7 @@ CREATE TABLE "GameLayerg" (
     CONSTRAINT "GameLayerg_pkey" PRIMARY KEY ("id")
 );
 
+
 -- Generate Slug From Input
 CREATE OR REPLACE FUNCTION generate_slug(title VARCHAR)
     RETURNS VARCHAR AS $$
@@ -591,6 +592,7 @@ CREATE OR REPLACE TRIGGER nft_generate_slug
     BEFORE INSERT OR UPDATE OF "name" ON "NFT"
   FOR EACH ROW
   EXECUTE FUNCTION generate_slug_trigger();
+
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_uaId_key" ON "User"("uaId");
