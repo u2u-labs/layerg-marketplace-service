@@ -267,12 +267,17 @@ export class GameLayergService {
         unit,
       );
 
+      const whereCreatedAt = {
+        gte: startPast,
+        lte: endPast,
+      };
+      if (type === AnalysisType.ALLTIME) {
+        whereCreatedAt.gte = undefined;
+      }
+
       const pastRecord = await this.prisma.analysisCollection.aggregate({
         where: {
-          createdAt: {
-            gte: startPast,
-            lte: endPast,
-          },
+          createdAt: whereCreatedAt,
           collection: {
             gameLayergId: item.gameLayergId,
           },

@@ -3,6 +3,7 @@ enum AnalysisType {
   ONEDAY = 'ONEDAY',
   ONEWEEK = 'ONEWEEK',
   ONEMONTH = 'ONEMONTH',
+  ALLTIME = 'ALLTIME',
 }
 
 enum AnalysisModeSort {
