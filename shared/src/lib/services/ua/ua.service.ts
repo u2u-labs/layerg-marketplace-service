@@ -460,6 +460,76 @@ export class ApiUAService {
     return response;
   }
 
+  async requestSendTx(
+    chainId: string,
+    sponsor: boolean,
+    transactionReq: any,
+    appApiKey: string,
+    bearerToken: string, // Add Bearer token as a parameter
+  ) {
+    const header = await this.requestHeaderUA();
+    header['Authorization'] = `Bearer ${bearerToken}`; // Add Bearer token to headers
+
+    const response = await this.request(
+      'POST',
+      `${process.env.UA_URL}/onchain/send`,
+      {
+        chainId,
+        sponsor,
+        transactionReq,
+        appApiKey,
+      },
+      header,
+    );
+    return response;
+  }
+
+  async requestSignMessage(
+    chainId: string,
+    message: string,
+    appApiKey: string,
+    bearerToken: string, // Add Bearer token as a parameter
+  ) {
+    const header = await this.requestHeaderUA();
+    header['Authorization'] = `Bearer ${bearerToken}`; // Add Bearer token to headers
+    const response = await this.request(
+      'POST',
+      `${process.env.UA_URL}/onchain/sign-message`,
+      {
+        chainId,
+        message,
+        appApiKey,
+      },
+      header,
+    );
+
+    return response;
+  }
+
+  async requestVerifyMessage(
+    chainId: string,
+    message: string,
+    signature: string,
+    appApiKey: string,
+    bearerToken: string,
+  ) {
+    const header = await this.requestHeaderUA();
+    header['Authorization'] = `Bearer ${bearerToken}`;
+    const response = await this.request(
+      'POST',
+      `${process.env.UA_URL}/onchain/verify-message`,
+      {
+        chainId,
+        message,
+        signature,
+        appApiKey,
+      },
+      header,
+    );
+
+    return response;
+  }
+
   requestGenLinkTelegram() {
     const url = `${process.env.BOT_TELEGRAM_LOGIN}`;
     return url;

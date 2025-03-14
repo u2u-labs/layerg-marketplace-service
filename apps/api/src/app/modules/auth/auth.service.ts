@@ -482,7 +482,8 @@ export class AuthService {
         accessTokenExpire: accessTokenExpireUA,
         userId: userId,
       };
-      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.updateRefreshTokenCaching(user, refreshToken);
+      await this.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -571,7 +572,8 @@ export class AuthService {
         accessTokenExpire: accessTokenExpireUA,
         userId: userId,
       };
-      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.updateRefreshTokenCaching(user, refreshToken);
+      await this.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -658,7 +660,8 @@ export class AuthService {
         accessTokenExpire: accessTokenExpireUA,
         userId: userId,
       };
-      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.updateRefreshTokenCaching(user, refreshToken);
+      await this.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -748,7 +751,8 @@ export class AuthService {
         accessTokenExpire: accessTokenExpireUA,
         userId: userId,
       };
-      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.updateRefreshTokenCaching(user, refreshToken);
+      await this.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
