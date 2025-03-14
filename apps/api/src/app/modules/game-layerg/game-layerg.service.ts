@@ -112,6 +112,21 @@ export class GameLayergService {
           interval: 'days',
           intervalValue: 1,
         },
+        [AnalysisType.THREEMONTHS]: {
+          days: 90,
+          interval: 'days',
+          intervalValue: 1,
+        },
+        [AnalysisType.SIXMONTHS]: {
+          days: 180,
+          interval: 'days',
+          intervalValue: 1,
+        },
+        [AnalysisType.ONEYEAR]: {
+          days: 365,
+          interval: 'days',
+          intervalValue: 1,
+        },
         default: {
           days: 1,
           interval: 'hours',
@@ -267,12 +282,17 @@ export class GameLayergService {
         unit,
       );
 
+      const whereCreatedAt = {
+        gte: startPast,
+        lte: endPast,
+      };
+      if (type === AnalysisType.ALLTIME) {
+        whereCreatedAt.gte = undefined;
+      }
+
       const pastRecord = await this.prisma.analysisCollection.aggregate({
         where: {
-          createdAt: {
-            gte: startPast,
-            lte: endPast,
-          },
+          createdAt: whereCreatedAt,
           collection: {
             gameLayergId: item.gameLayergId,
           },
@@ -301,16 +321,24 @@ export class GameLayergService {
       const calculateChange = (current: number, past: number) =>
         past > 0 ? ((current - past) / past) * 100 : 0;
 
-      const volumeChange = calculateChange(
-        item?._sum.vol || 0,
-        pastRecord._sum.vol || item?._sum.vol || 0, // volume change will be 0 if past record not found
-      );
+      const currentVolume = item?._sum.vol || 0;
+      const pastVolume = pastRecord._sum.vol || item?._sum.vol || 0; // volume change will be 0 if past record not found
+      const currentFloorPrice = item?._sum.floorPrice;
+      const pastFloorPrice =
+        pastRecord._sum.floorPrice || item?._sum.floorPrice || BigInt(0);
+      const volumeChange = calculateChange(currentVolume, pastVolume);
       const floorPriceChange = calculateChangeBigInt(
-        item?._sum.floorPrice,
-        pastRecord._sum.floorPrice || item?._sum.floorPrice || BigInt(0),
+        currentFloorPrice,
+        pastFloorPrice,
       );
 
-      return { volumeChange, floorPriceChange, ...item };
+      return {
+        volumeChange,
+        floorPriceChange,
+        volumeDiff: currentVolume - pastVolume,
+        floorPriceDiff: currentFloorPrice - pastFloorPrice,
+        ...item,
+      };
     } catch (error) {
       throw new HttpException(
         `Error in function getAndCompare: ${error.message}`,
