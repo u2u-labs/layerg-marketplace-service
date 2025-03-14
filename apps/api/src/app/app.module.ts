@@ -24,6 +24,7 @@ import { PlatformTemplateModule } from '@/apps/api/src/app/modules/platform-temp
 import { UserModule } from '@/apps/api/src/app/modules/user/user.module';
 import { ValidatorModule } from '@/apps/api/src/app/modules/validator/validator.module';
 import { WebhookModule } from '@/apps/api/src/app/modules/webhook/webhook.module';
+import { GameLayergModule } from './modules/game-layerg/game-layerg.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { WebhookModule } from '@/apps/api/src/app/modules/webhook/webhook.module
     PlatformOverviewModule,
     PlatformTemplateModule,
     OrderModule,
-    RedisSharedModule, // Import Redis module
+    RedisSharedModule,
+    GameLayergModule, // Import Redis module
   ],
   providers: [
     PrismaService,

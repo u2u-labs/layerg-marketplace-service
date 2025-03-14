@@ -407,7 +407,7 @@ model AnalysisCollection {
   floorWei     String        @default("0")
   items        BigInt        @default(0)
   owner        BigInt        @default(0)
-  createdAt    DateTime      @default(now()) @db.Date
+  createdAt    DateTime      @default(now())
   collection   Collection    @relation(fields: [collectionId], references: [id])
 }
 
