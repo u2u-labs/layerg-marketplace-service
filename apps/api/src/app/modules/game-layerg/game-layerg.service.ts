@@ -112,6 +112,21 @@ export class GameLayergService {
           interval: 'days',
           intervalValue: 1,
         },
+        [AnalysisType.THREEMONTHS]: {
+          days: 90,
+          interval: 'days',
+          intervalValue: 1,
+        },
+        [AnalysisType.SIXMONTHS]: {
+          days: 180,
+          interval: 'days',
+          intervalValue: 1,
+        },
+        [AnalysisType.ONEYEAR]: {
+          days: 365,
+          interval: 'days',
+          intervalValue: 1,
+        },
         default: {
           days: 1,
           interval: 'hours',
