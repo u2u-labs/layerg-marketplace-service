@@ -15,6 +15,7 @@ import { CommonModule } from '@/apps/worker/src/app/modules/common/common.module
 import { GraphQlcallerModule } from '@/apps/worker/src/app/modules/graph-qlcaller/graph-qlcaller.module';
 import { JobQueueModule } from '@/apps/worker/src/app/modules/job-queue/job-queue.module';
 import { PrismaService } from '@/shared/src/lib/services/prisma/prisma.service';
+import { SyncQueueModule } from './modules/sync-queue/sync-queue.module';
 @Module({
   imports: [
     // ConfigModule.forRoot({
@@ -55,6 +56,7 @@ import { PrismaService } from '@/shared/src/lib/services/prisma/prisma.service';
       }),
       inject: [ConfigService],
     }),
+    SyncQueueModule,
   ],
   providers: [PrismaService],
 })
