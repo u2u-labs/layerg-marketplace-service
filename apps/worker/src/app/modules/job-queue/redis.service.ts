@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import Redis from 'ioredis';
 import { config as dotenvConfig } from 'dotenv';
+import Redis from 'ioredis';
 
 import { QueueService } from './queue.service';
 dotenvConfig();
@@ -38,23 +38,6 @@ export class RedisSubscriberService implements OnModuleInit {
 
   private handleMessage(channel: string, message: string) {
     console.log(channel, message);
-    if (channel === 'collection-channel') {
-      const jobData = JSON.parse(message);
-      this.queueService.addCollectionJob(jobData.process, jobData.data);
-    }
-    if (channel === 'collectionUtils-channel') {
-      const jobData = JSON.parse(message);
-      this.queueService.addCollectionUtilsJob(jobData.process, jobData.data);
-    }
-    if (channel === 'nft-channel') {
-      const jobData = JSON.parse(message);
-      this.queueService.addNftJob(jobData.process, jobData.data);
-    }
-    if (channel === 'ipfs') {
-      const jobData = JSON.parse(message);
-      // console.log('here: ', jobData)
-      this.queueService.addIPFSJob(jobData.process, jobData.data);
-    }
     if (channel === 'project-channel') {
       const jobData = JSON.parse(message);
       this.queueService.addProjectJob(jobData.process, jobData.data);
