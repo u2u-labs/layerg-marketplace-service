@@ -3,16 +3,11 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-
-import { CollectionsUtilsProcessor } from '@/apps/worker/src/app/modules/job-queue/collection-utils.processor';
-
-export let collectionsUtils: CollectionsUtilsProcessor = null;
 
 function matchRegexArray(arr: string[], str: string): boolean {
   for (const pattern of arr) {
@@ -40,10 +35,6 @@ async function bootstrap() {
     },
     credentials: true,
   });
-  if (process.env.SYNC_METRIC_POINT === 'true') {
-    collectionsUtils = app.get(CollectionsUtilsProcessor);
-    collectionsUtils.handleSyncMetricPoint();
-  }
 
   app.use(compression());
   await app.listen(7777);
