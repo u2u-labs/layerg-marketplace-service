@@ -1,45 +1,26 @@
-import {
-  GraphQLResolveInfo,
-  GraphQLScalarType,
-  GraphQLScalarTypeConfig,
-} from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?: NonNullable<T[P]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  BigDecimal: { input: any; output: any };
-  BigInt: { input: any; output: any };
-  Bytes: { input: any; output: any };
-  Int8: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  BigDecimal: { input: any; output: any; }
+  BigInt: { input: any; output: any; }
+  Bytes: { input: any; output: any; }
+  Int8: { input: any; output: any; }
 };
 
 export type BlockChangedFilter = {
@@ -105,7 +86,7 @@ export type Contract_Filter = {
 export enum Contract_OrderBy {
   Contract = 'contract',
   Count = 'count',
-  Id = 'id',
+  Id = 'id'
 }
 
 export type Erc721Token = {
@@ -225,7 +206,7 @@ export enum Erc721Token_OrderBy {
   Owner = 'owner',
   TokenId = 'tokenID',
   TokenUri = 'tokenURI',
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export type Erc1155Balance = {
@@ -340,7 +321,7 @@ export enum Erc1155Balance_OrderBy {
   TokenCreatedAt = 'token__createdAt',
   TokenId = 'token__id',
   TokenTokenId = 'token__tokenID',
-  TokenTokenUri = 'token__tokenURI',
+  TokenTokenUri = 'token__tokenURI'
 }
 
 export type Erc1155Token = {
@@ -353,6 +334,7 @@ export type Erc1155Token = {
   tokenID: Scalars['BigInt']['output'];
   tokenURI: Scalars['String']['output'];
 };
+
 
 export type Erc1155TokenOwnerArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -449,13 +431,13 @@ export enum Erc1155Token_OrderBy {
   Id = 'id',
   Owner = 'owner',
   TokenId = 'tokenID',
-  TokenUri = 'tokenURI',
+  TokenUri = 'tokenURI'
 }
 
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type OwnerContract = {
@@ -543,7 +525,7 @@ export enum OwnerContract_OrderBy {
   Count = 'count',
   Id = 'id',
   Timestamp = 'timestamp',
-  User = 'user',
+  User = 'user'
 }
 
 export type Query = {
@@ -562,15 +544,18 @@ export type Query = {
   ownerContracts: Array<OwnerContract>;
 };
 
+
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
+
 
 export type QueryContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -582,11 +567,13 @@ export type QueryContractsArgs = {
   where?: InputMaybe<Contract_Filter>;
 };
 
+
 export type QueryErc721TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryErc721TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -598,11 +585,13 @@ export type QueryErc721TokensArgs = {
   where?: InputMaybe<Erc721Token_Filter>;
 };
 
+
 export type QueryErc1155BalanceArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryErc1155BalancesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -614,11 +603,13 @@ export type QueryErc1155BalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
+
 export type QueryErc1155TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryErc1155TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -630,11 +621,13 @@ export type QueryErc1155TokensArgs = {
   where?: InputMaybe<Erc1155Token_Filter>;
 };
 
+
 export type QueryOwnerContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type QueryOwnerContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -662,15 +655,18 @@ export type Subscription = {
   ownerContracts: Array<OwnerContract>;
 };
 
+
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
+
 
 export type SubscriptionContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -682,11 +678,13 @@ export type SubscriptionContractsArgs = {
   where?: InputMaybe<Contract_Filter>;
 };
 
+
 export type SubscriptionErc721TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionErc721TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -698,11 +696,13 @@ export type SubscriptionErc721TokensArgs = {
   where?: InputMaybe<Erc721Token_Filter>;
 };
 
+
 export type SubscriptionErc1155BalanceArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionErc1155BalancesArgs = {
   block?: InputMaybe<Block_Height>;
@@ -714,11 +714,13 @@ export type SubscriptionErc1155BalancesArgs = {
   where?: InputMaybe<Erc1155Balance_Filter>;
 };
 
+
 export type SubscriptionErc1155TokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionErc1155TokensArgs = {
   block?: InputMaybe<Block_Height>;
@@ -730,11 +732,13 @@ export type SubscriptionErc1155TokensArgs = {
   where?: InputMaybe<Erc1155Token_Filter>;
 };
 
+
 export type SubscriptionOwnerContractArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
+
 
 export type SubscriptionOwnerContractsArgs = {
   block?: InputMaybe<Block_Height>;
@@ -777,58 +781,43 @@ export enum _SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny',
+  Deny = 'deny'
 }
 
+
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
+
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ResolverFn<TResult, TParent, TContext, TArgs>
-  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs,
-> {
-  subscribe: SubscriptionSubscribeFn<
-    { [key in TKey]: TResult },
-    TParent,
-    TContext,
-    TArgs
-  >;
-  resolve?: SubscriptionResolveFn<
-    TResult,
-    { [key in TKey]: TResult },
-    TContext,
-    TArgs
-  >;
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -836,54 +825,33 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs,
-> =
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {},
-> =
-  | ((
-      ...args: any[]
-    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
-  obj: T,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {},
-> = (
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
+
+
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
@@ -954,64 +922,38 @@ export type DerivedFromDirectiveArgs = {
   field: Scalars['String']['input'];
 };
 
-export type DerivedFromDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = DerivedFromDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type DerivedFromDirectiveResolver<Result, Parent, ContextType = any, Args = DerivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type EntityDirectiveArgs = {};
+export type EntityDirectiveArgs = { };
 
-export type EntityDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = EntityDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EntityDirectiveResolver<Result, Parent, ContextType = any, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type SubgraphIdDirectiveArgs = {
   id: Scalars['String']['input'];
 };
 
-export type SubgraphIdDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = SubgraphIdDirectiveArgs,
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type SubgraphIdDirectiveResolver<Result, Parent, ContextType = any, Args = SubgraphIdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export interface BigDecimalScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
+export interface BigDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
   name: 'BigDecimal';
 }
 
-export interface BigIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
+export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
 
-export interface BytesScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
+export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
   name: 'Bytes';
 }
 
-export type ContractResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['Contract'] = ResolversParentTypes['Contract'],
-> = {
+export type ContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['Contract'] = ResolversParentTypes['Contract']> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc721TokenResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['ERC721Token'] = ResolversParentTypes['ERC721Token'],
-> = {
+export type Erc721TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC721Token'] = ResolversParentTypes['ERC721Token']> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -1022,11 +964,7 @@ export type Erc721TokenResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155BalanceResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['ERC1155Balance'] = ResolversParentTypes['ERC1155Balance'],
-> = {
+export type Erc1155BalanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Balance'] = ResolversParentTypes['ERC1155Balance']> = {
   balance?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   burnQuantity?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -1037,36 +975,22 @@ export type Erc1155BalanceResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc1155TokenResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['ERC1155Token'] = ResolversParentTypes['ERC1155Token'],
-> = {
+export type Erc1155TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['ERC1155Token'] = ResolversParentTypes['ERC1155Token']> = {
   balance?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  owner?: Resolver<
-    Array<ResolversTypes['ERC1155Balance']>,
-    ParentType,
-    ContextType,
-    RequireFields<Erc1155TokenOwnerArgs, 'first' | 'skip'>
-  >;
+  owner?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<Erc1155TokenOwnerArgs, 'first' | 'skip'>>;
   tokenID?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   tokenURI?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface Int8ScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
+export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
   name: 'Int8';
 }
 
-export type OwnerContractResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['OwnerContract'] = ResolversParentTypes['OwnerContract'],
-> = {
+export type OwnerContractResolvers<ContextType = any, ParentType extends ResolversParentTypes['OwnerContract'] = ResolversParentTypes['OwnerContract']> = {
   contract?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -1075,198 +999,45 @@ export type OwnerContractResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
-> = {
-  _meta?: Resolver<
-    Maybe<ResolversTypes['_Meta_']>,
-    ParentType,
-    ContextType,
-    Partial<Query_MetaArgs>
-  >;
-  contract?: Resolver<
-    Maybe<ResolversTypes['Contract']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryContractArgs, 'id' | 'subgraphError'>
-  >;
-  contracts?: Resolver<
-    Array<ResolversTypes['Contract']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryContractsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  erc721Token?: Resolver<
-    Maybe<ResolversTypes['ERC721Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc721TokenArgs, 'id' | 'subgraphError'>
-  >;
-  erc721Tokens?: Resolver<
-    Array<ResolversTypes['ERC721Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  erc1155Balance?: Resolver<
-    Maybe<ResolversTypes['ERC1155Balance']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc1155BalanceArgs, 'id' | 'subgraphError'>
-  >;
-  erc1155Balances?: Resolver<
-    Array<ResolversTypes['ERC1155Balance']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  erc1155Token?: Resolver<
-    Maybe<ResolversTypes['ERC1155Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc1155TokenArgs, 'id' | 'subgraphError'>
-  >;
-  erc1155Tokens?: Resolver<
-    Array<ResolversTypes['ERC1155Token']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  ownerContract?: Resolver<
-    Maybe<ResolversTypes['OwnerContract']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryOwnerContractArgs, 'id' | 'subgraphError'>
-  >;
-  ownerContracts?: Resolver<
-    Array<ResolversTypes['OwnerContract']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_MetaArgs>>;
+  contract?: Resolver<Maybe<ResolversTypes['Contract']>, ParentType, ContextType, RequireFields<QueryContractArgs, 'id' | 'subgraphError'>>;
+  contracts?: Resolver<Array<ResolversTypes['Contract']>, ParentType, ContextType, RequireFields<QueryContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc721Token?: Resolver<Maybe<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<QueryErc721TokenArgs, 'id' | 'subgraphError'>>;
+  erc721Tokens?: Resolver<Array<ResolversTypes['ERC721Token']>, ParentType, ContextType, RequireFields<QueryErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc1155Balance?: Resolver<Maybe<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<QueryErc1155BalanceArgs, 'id' | 'subgraphError'>>;
+  erc1155Balances?: Resolver<Array<ResolversTypes['ERC1155Balance']>, ParentType, ContextType, RequireFields<QueryErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc1155Token?: Resolver<Maybe<ResolversTypes['ERC1155Token']>, ParentType, ContextType, RequireFields<QueryErc1155TokenArgs, 'id' | 'subgraphError'>>;
+  erc1155Tokens?: Resolver<Array<ResolversTypes['ERC1155Token']>, ParentType, ContextType, RequireFields<QueryErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  ownerContract?: Resolver<Maybe<ResolversTypes['OwnerContract']>, ParentType, ContextType, RequireFields<QueryOwnerContractArgs, 'id' | 'subgraphError'>>;
+  ownerContracts?: Resolver<Array<ResolversTypes['OwnerContract']>, ParentType, ContextType, RequireFields<QueryOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
 };
 
-export type SubscriptionResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription'],
-> = {
-  _meta?: SubscriptionResolver<
-    Maybe<ResolversTypes['_Meta_']>,
-    '_meta',
-    ParentType,
-    ContextType,
-    Partial<Subscription_MetaArgs>
-  >;
-  contract?: SubscriptionResolver<
-    Maybe<ResolversTypes['Contract']>,
-    'contract',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionContractArgs, 'id' | 'subgraphError'>
-  >;
-  contracts?: SubscriptionResolver<
-    Array<ResolversTypes['Contract']>,
-    'contracts',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionContractsArgs, 'first' | 'skip' | 'subgraphError'>
-  >;
-  erc721Token?: SubscriptionResolver<
-    Maybe<ResolversTypes['ERC721Token']>,
-    'erc721Token',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionErc721TokenArgs, 'id' | 'subgraphError'>
-  >;
-  erc721Tokens?: SubscriptionResolver<
-    Array<ResolversTypes['ERC721Token']>,
-    'erc721Tokens',
-    ParentType,
-    ContextType,
-    RequireFields<
-      SubscriptionErc721TokensArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  erc1155Balance?: SubscriptionResolver<
-    Maybe<ResolversTypes['ERC1155Balance']>,
-    'erc1155Balance',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionErc1155BalanceArgs, 'id' | 'subgraphError'>
-  >;
-  erc1155Balances?: SubscriptionResolver<
-    Array<ResolversTypes['ERC1155Balance']>,
-    'erc1155Balances',
-    ParentType,
-    ContextType,
-    RequireFields<
-      SubscriptionErc1155BalancesArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  erc1155Token?: SubscriptionResolver<
-    Maybe<ResolversTypes['ERC1155Token']>,
-    'erc1155Token',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionErc1155TokenArgs, 'id' | 'subgraphError'>
-  >;
-  erc1155Tokens?: SubscriptionResolver<
-    Array<ResolversTypes['ERC1155Token']>,
-    'erc1155Tokens',
-    ParentType,
-    ContextType,
-    RequireFields<
-      SubscriptionErc1155TokensArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
-  ownerContract?: SubscriptionResolver<
-    Maybe<ResolversTypes['OwnerContract']>,
-    'ownerContract',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionOwnerContractArgs, 'id' | 'subgraphError'>
-  >;
-  ownerContracts?: SubscriptionResolver<
-    Array<ResolversTypes['OwnerContract']>,
-    'ownerContracts',
-    ParentType,
-    ContextType,
-    RequireFields<
-      SubscriptionOwnerContractsArgs,
-      'first' | 'skip' | 'subgraphError'
-    >
-  >;
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_MetaArgs>>;
+  contract?: SubscriptionResolver<Maybe<ResolversTypes['Contract']>, "contract", ParentType, ContextType, RequireFields<SubscriptionContractArgs, 'id' | 'subgraphError'>>;
+  contracts?: SubscriptionResolver<Array<ResolversTypes['Contract']>, "contracts", ParentType, ContextType, RequireFields<SubscriptionContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc721Token?: SubscriptionResolver<Maybe<ResolversTypes['ERC721Token']>, "erc721Token", ParentType, ContextType, RequireFields<SubscriptionErc721TokenArgs, 'id' | 'subgraphError'>>;
+  erc721Tokens?: SubscriptionResolver<Array<ResolversTypes['ERC721Token']>, "erc721Tokens", ParentType, ContextType, RequireFields<SubscriptionErc721TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc1155Balance?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Balance']>, "erc1155Balance", ParentType, ContextType, RequireFields<SubscriptionErc1155BalanceArgs, 'id' | 'subgraphError'>>;
+  erc1155Balances?: SubscriptionResolver<Array<ResolversTypes['ERC1155Balance']>, "erc1155Balances", ParentType, ContextType, RequireFields<SubscriptionErc1155BalancesArgs, 'first' | 'skip' | 'subgraphError'>>;
+  erc1155Token?: SubscriptionResolver<Maybe<ResolversTypes['ERC1155Token']>, "erc1155Token", ParentType, ContextType, RequireFields<SubscriptionErc1155TokenArgs, 'id' | 'subgraphError'>>;
+  erc1155Tokens?: SubscriptionResolver<Array<ResolversTypes['ERC1155Token']>, "erc1155Tokens", ParentType, ContextType, RequireFields<SubscriptionErc1155TokensArgs, 'first' | 'skip' | 'subgraphError'>>;
+  ownerContract?: SubscriptionResolver<Maybe<ResolversTypes['OwnerContract']>, "ownerContract", ParentType, ContextType, RequireFields<SubscriptionOwnerContractArgs, 'id' | 'subgraphError'>>;
+  ownerContracts?: SubscriptionResolver<Array<ResolversTypes['OwnerContract']>, "ownerContracts", ParentType, ContextType, RequireFields<SubscriptionOwnerContractsArgs, 'first' | 'skip' | 'subgraphError'>>;
 };
 
-export type _Block_Resolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_'],
-> = {
+export type _Block_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = {
   hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type _Meta_Resolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_'],
-> = {
+export type _Meta_Resolvers<ContextType = any, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = {
   block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
   deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  hasIndexingErrors?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType
-  >;
+  hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1292,124 +1063,78 @@ export type DirectiveResolvers<ContextType = any> = {
   subgraphId?: SubgraphIdDirectiveResolver<any, any, ContextType>;
 };
 
+
 export const GetCheckOwnerExternalDocument = gql`
-  query getCheckOwnerExternal(
-    $owner: String
-    $limit: Int = 1000
-    $page: Int = 0
-    $orderDirection: OrderDirection
+    query getCheckOwnerExternal($owner: String, $limit: Int = 1000, $page: Int = 0, $orderDirection: OrderDirection) {
+  erc721Tokens(first: $limit, skip: $page, where: {owner: $owner}) {
+    updatedAt
+    tokenURI
+    owner
+    tokenID
+    id
+    createdAt
+    contract
+  }
+  erc1155Balances(
+    first: $limit
+    skip: $page
+    where: {owner: $owner, balance_gt: 0}
   ) {
-    erc721Tokens(first: $limit, skip: $page, where: { owner: $owner }) {
-      updatedAt
+    stakedAmount
+    owner
+    lastUpdated
+    id
+    burnQuantity
+    balance
+    token {
       tokenURI
-      owner
       tokenID
       id
       createdAt
       contract
-    }
-    erc1155Balances(
-      first: $limit
-      skip: $page
-      where: { owner: $owner, balance_gt: 0 }
-    ) {
-      stakedAmount
-      owner
-      lastUpdated
-      id
-      burnQuantity
       balance
-      token {
-        tokenURI
-        tokenID
-        id
-        createdAt
-        contract
-        balance
-      }
     }
   }
-`;
+}
+    `;
 export const ErcContractExternalDocument = gql`
-  query ErcContractExternal(
-    $contract: String
-    $limit: Int = 1000
-    $page: Int = 0
-  ) {
-    erc721Tokens(first: $limit, skip: $page, where: { contract: $contract }) {
-      updatedAt
-      tokenID
-      tokenURI
+    query ErcContractExternal($contract: String, $limit: Int = 1000, $page: Int = 0) {
+  erc721Tokens(first: $limit, skip: $page, where: {contract: $contract}) {
+    updatedAt
+    tokenID
+    tokenURI
+    owner
+    id
+    createdAt
+    contract
+  }
+  erc1155Tokens(first: $limit, skip: $page, where: {contract: $contract}) {
+    tokenURI
+    tokenID
+    id
+    createdAt
+    contract
+    balance
+    owner {
       owner
-      id
-      createdAt
-      contract
-    }
-    erc1155Tokens(first: $limit, skip: $page, where: { contract: $contract }) {
-      tokenURI
-      tokenID
-      id
-      createdAt
-      contract
-      balance
-      owner {
-        owner
-      }
     }
   }
-`;
+}
+    `;
 
-export type SdkFunctionWrapper = <T>(
-  action: (requestHeaders?: Record<string, string>) => Promise<T>,
-  operationName: string,
-  operationType?: string,
-  variables?: any,
-) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
-const defaultWrapper: SdkFunctionWrapper = (
-  action,
-  _operationName,
-  _operationType,
-  _variables,
-) => action();
 
-export function getSdk(
-  client: GraphQLClient,
-  withWrapper: SdkFunctionWrapper = defaultWrapper,
-) {
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getCheckOwnerExternal(
-      variables?: GetCheckOwnerExternalQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders,
-    ): Promise<GetCheckOwnerExternalQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<GetCheckOwnerExternalQuery>(
-            GetCheckOwnerExternalDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'getCheckOwnerExternal',
-        'query',
-        variables,
-      );
+    getCheckOwnerExternal(variables?: GetCheckOwnerExternalQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetCheckOwnerExternalQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCheckOwnerExternalQuery>(GetCheckOwnerExternalDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCheckOwnerExternal', 'query', variables);
     },
-    ErcContractExternal(
-      variables?: ErcContractExternalQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders,
-    ): Promise<ErcContractExternalQuery> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<ErcContractExternalQuery>(
-            ErcContractExternalDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'ErcContractExternal',
-        'query',
-        variables,
-      );
-    },
+    ErcContractExternal(variables?: ErcContractExternalQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ErcContractExternalQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ErcContractExternalQuery>(ErcContractExternalDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ErcContractExternal', 'query', variables);
+    }
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
@@ -1420,37 +1145,8 @@ export type GetCheckOwnerExternalQueryVariables = Exact<{
   orderDirection?: InputMaybe<OrderDirection>;
 }>;
 
-export type GetCheckOwnerExternalQuery = {
-  __typename?: 'Query';
-  erc721Tokens: Array<{
-    __typename?: 'ERC721Token';
-    updatedAt: any;
-    tokenURI: string;
-    owner: string;
-    tokenID: any;
-    id: string;
-    createdAt: any;
-    contract: string;
-  }>;
-  erc1155Balances: Array<{
-    __typename?: 'ERC1155Balance';
-    stakedAmount: any;
-    owner: string;
-    lastUpdated: any;
-    id: string;
-    burnQuantity: any;
-    balance: any;
-    token: {
-      __typename?: 'ERC1155Token';
-      tokenURI: string;
-      tokenID: any;
-      id: string;
-      createdAt: any;
-      contract: string;
-      balance: any;
-    };
-  }>;
-};
+
+export type GetCheckOwnerExternalQuery = { __typename?: 'Query', erc721Tokens: Array<{ __typename?: 'ERC721Token', updatedAt: any, tokenURI: string, owner: string, tokenID: any, id: string, createdAt: any, contract: string }>, erc1155Balances: Array<{ __typename?: 'ERC1155Balance', stakedAmount: any, owner: string, lastUpdated: any, id: string, burnQuantity: any, balance: any, token: { __typename?: 'ERC1155Token', tokenURI: string, tokenID: any, id: string, createdAt: any, contract: string, balance: any } }> };
 
 export type ErcContractExternalQueryVariables = Exact<{
   contract?: InputMaybe<Scalars['String']['input']>;
@@ -1458,26 +1154,5 @@ export type ErcContractExternalQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type ErcContractExternalQuery = {
-  __typename?: 'Query';
-  erc721Tokens: Array<{
-    __typename?: 'ERC721Token';
-    updatedAt: any;
-    tokenID: any;
-    tokenURI: string;
-    owner: string;
-    id: string;
-    createdAt: any;
-    contract: string;
-  }>;
-  erc1155Tokens: Array<{
-    __typename?: 'ERC1155Token';
-    tokenURI: string;
-    tokenID: any;
-    id: string;
-    createdAt: any;
-    contract: string;
-    balance: any;
-    owner: Array<{ __typename?: 'ERC1155Balance'; owner: string }>;
-  }>;
-};
+
+export type ErcContractExternalQuery = { __typename?: 'Query', erc721Tokens: Array<{ __typename?: 'ERC721Token', updatedAt: any, tokenID: any, tokenURI: string, owner: string, id: string, createdAt: any, contract: string }>, erc1155Tokens: Array<{ __typename?: 'ERC1155Token', tokenURI: string, tokenID: any, id: string, createdAt: any, contract: string, balance: any, owner: Array<{ __typename?: 'ERC1155Balance', owner: string }> }> };
