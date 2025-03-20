@@ -234,7 +234,7 @@ class OtherCommon {
   ): T[] {
     // Create a map to store the index of each value in the sorted array
     const indexMap: Map<number | bigint, number> = new Map();
-    sortedArray.forEach((value, index) => indexMap.set(value, index));
+    // sortedArray.forEach((value, index) => indexMap.set(value, index));
 
     // Sort the objectsArray based on the index in the sorted array
     objectsArray.sort((a, b) => {

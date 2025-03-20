@@ -4,15 +4,24 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BigIntInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next
-      .handle()
-      .pipe(map((data) => this.transformBigIntToString(data)));
+    const res: Response = context.switchToHttp().getResponse();
+
+    return next.handle().pipe(
+      map((data) => {
+        // If res.json() was called, skip transformation
+        if (res.headersSent) {
+          return data;
+        }
+        return this.transformBigIntToString(data);
+      }),
+    );
   }
 
   private transformBigIntToString(data: any): any {
