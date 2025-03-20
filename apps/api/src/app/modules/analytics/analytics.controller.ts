@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { GetGameVolumeDto } from './dto/get-game-volume.dto';
-import { Response, Request } from 'express';
-
+import { Response } from 'express';
+import { GetTotalGamesVolumeDTO } from './dto/get-total-games-volume.dto copy';
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
@@ -21,14 +21,38 @@ export class AnalyticsController {
     query: GetGameVolumeDto,
     @Param('gameId')
     gameId: string,
-    @Req() req: Request,
     @Res() res: Response,
   ) {
     try {
-      const queryString = req.url.split('?')[1] || '';
-      const result = await this.analyticsService.getGameChart(
-        gameId,
-        queryString,
+      const urlSearchParams = new URLSearchParams();
+      urlSearchParams.set('gameId', gameId);
+      Object.keys(query).forEach((key) => {
+        urlSearchParams.set(key, query[key]);
+      });
+      const result = await this.analyticsService.getGameSalesChart(
+        urlSearchParams.toString(),
+      );
+      res.status(HttpStatus.OK).json(result);
+    } catch (error) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: error.message,
+      });
+    }
+  }
+
+  @Get('/games/sales-chart')
+  async getTotal(
+    @Query()
+    query: GetTotalGamesVolumeDTO,
+    @Res() res: Response,
+  ) {
+    try {
+      const urlSearchParams = new URLSearchParams();
+      Object.keys(query).forEach((key) => {
+        urlSearchParams.set(key, query[key]);
+      });
+      const result = await this.analyticsService.getTotalGamesSalesChart(
+        urlSearchParams.toString(),
       );
       res.status(HttpStatus.OK).json(result);
     } catch (error) {

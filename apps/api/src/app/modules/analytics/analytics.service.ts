@@ -11,9 +11,10 @@ export class AnalyticsService {
 
   private baseURL = process.env.ANALYTICS_SERVER_URL;
 
-  async getGameChart(gameId: string, queryStr: string) {
+  async getGameSalesChart(queryStr: string) {
+    console.log('queryStr', queryStr);
     const response = await axios.get(
-      this.baseURL + '/hourly-game-volume?' + queryStr + '&gameId=' + gameId,
+      this.baseURL + '/hourly-game-volume?' + queryStr,
     );
     const data = response.data as {
       data: Array<{
@@ -43,10 +44,51 @@ export class AnalyticsService {
         return {
           dateTime: item._id.dateIndex ?? item._id.timeKey,
           time: item._id.timeKey,
-          volume: item.totalVolume,
+          totalVolume: item.totalVolume,
           floorPrice: item.floorPrice,
         };
       }),
     };
+  }
+
+  async getTotalGamesSalesChart(queryStr: string) {
+    const response = await axios.get(
+      this.baseURL + '/hourly-game-volume/total?' + queryStr,
+    );
+    const data = response.data as {
+      data: Array<{
+        _id: {
+          gameId: string;
+        };
+        totalVolume: number;
+        floorPrice: number;
+        floorPriceChange: number;
+      }>;
+    };
+
+    const result = await Promise.all(
+      data.data.map(async (item) => {
+        const gameDetails = await this.prismaService.gameLayerg.findFirst({
+          where: { id: item._id.gameId },
+        });
+        return {
+          gameDetails: gameDetails
+            ? {
+                id: gameDetails.id,
+                name: gameDetails.name,
+                banner: gameDetails.banner,
+                avatar: gameDetails.avatar,
+                slug: gameDetails.slug,
+              }
+            : null,
+          chartData: {
+            floorPriceChange: item.floorPriceChange,
+            totalVolume: item.totalVolume,
+            floorPrice: item.floorPrice,
+          },
+        };
+      }),
+    );
+    return result;
   }
 }
