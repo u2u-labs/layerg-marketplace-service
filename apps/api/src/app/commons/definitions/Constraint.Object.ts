@@ -1,4 +1,4 @@
-import { Prisma, User, Collection } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 export const creatorSelect: Prisma.UserSelect = {
   id: true,
   email: true,
@@ -51,7 +51,6 @@ export const CollectionSelect: Prisma.CollectionSelect = {
   shortUrl: true,
   symbol: true,
   description: true,
-  categoryId: true,
   createdAt: true,
   avatar: true,
   isActive: true,
@@ -59,12 +58,6 @@ export const CollectionSelect: Prisma.CollectionSelect = {
   metadataJson: true,
   source: true,
   chainId: true,
-  category: {
-    select: {
-      id: true,
-      name: true,
-    },
-  },
   chain: {
     select: {
       chainId: true,
@@ -227,7 +220,6 @@ export const collectionSelect: Prisma.CollectionSelect = {
   description: true,
   status: true,
   type: true,
-  categoryId: true,
   createdAt: true,
   avatar: true,
   coverImage: true,
@@ -241,12 +233,6 @@ export const collectionSelect: Prisma.CollectionSelect = {
   floorWei: true,
   isActive: true,
   flagExtend: true,
-  category: {
-    select: {
-      id: true,
-      name: true,
-    },
-  },
 };
 
 export const accountListSelect: Prisma.AccountSelect = {

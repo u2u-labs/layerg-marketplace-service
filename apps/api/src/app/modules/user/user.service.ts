@@ -257,16 +257,16 @@ export class UserService {
     try {
       const { email, username, shortLink } = input;
       // Check for existing email
-      if (email) {
-        const checkExistEmail = await this.checkUserExistence(
-          'email',
-          email,
-          user.id,
-        );
-        if (checkExistEmail) {
-          throw new Error('Email already exists');
-        }
-      }
+      // if (email) {
+      //   const checkExistEmail = await this.checkUserExistence(
+      //     'email',
+      //     email,
+      //     user.id,
+      //   );
+      //   if (checkExistEmail) {
+      //     throw new Error('Email already exists');
+      //   }
+      // }
       // Check for existing username
       if (username) {
         const checkExistUsername = await this.checkUserExistence(
@@ -292,7 +292,7 @@ export class UserService {
       }
 
       const updateData = {
-        email: input.email,
+        // email: input.email,
         username: input.username,
         acceptedTerms: input.acceptedTerms,
         bio: input.bio,
@@ -304,7 +304,7 @@ export class UserService {
         coverImage: input.coverImage,
         shortLink: input.shortLink,
         avatar: input.avatar,
-        verifyEmail: input.email && input.email === user.email,
+        // verifyEmail: input.email && input.email === user.email,
         accountStatus:
           !input.twitterLink ||
           !input.bio ||

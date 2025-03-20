@@ -379,12 +379,6 @@ export class CollectionService {
           status: TX_STATUS.SUCCESS,
         },
         include: {
-          category: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
           creators: {
             select: {
               userId: true,
@@ -535,16 +529,10 @@ export class CollectionService {
           where: {
             address: process.env.BASE_ADDR_721,
           },
-          include: {
-            category: true,
-          },
         });
         const baseCollection1155 = await this.prisma.collection.findUnique({
           where: {
             address: process.env.BASE_ADDR_1155,
-          },
-          include: {
-            category: true,
           },
         });
 
@@ -760,8 +748,6 @@ export class CollectionService {
           ...(maxValue !== undefined && { lte: maxValue }),
         },
       };
-
-      console.log(whereCondition);
 
       const { start: startDay, end: endDay } = CollectionHepler.getPastDay(1); // Current => Get back 1 day
       if (startDay && endDay) {

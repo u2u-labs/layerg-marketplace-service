@@ -112,7 +112,6 @@ CREATE TABLE "Collection" (
     "isU2U" BOOLEAN NOT NULL DEFAULT true,
     "status" "TX_STATUS" NOT NULL,
     "type" "CONTRACT_TYPE" NOT NULL,
-    "categoryId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "coverImage" TEXT,
@@ -131,7 +130,6 @@ CREATE TABLE "Collection" (
     "metricDetail" JSONB DEFAULT '{"Verified":0,"Volume":{"key":"volume_lv0","value":"0","point":0,"total":0},"TotalUniqueOwner":{"key":"owner_lv0","value":"0","point":0,"total":0},"TotalItems":{"key":"item_lv0","value":0,"point":0,"total":0},"Followers":{"key":"follower_lv0","value":0,"point":0,"total":0}}',
     "metadataJson" JSONB,
     "source" TEXT,
-    "categoryG" JSONB,
     "vol" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "volumeWei" TEXT NOT NULL DEFAULT '0',
     "chainId" BIGINT NOT NULL DEFAULT 0,
@@ -146,14 +144,6 @@ CREATE TABLE "UserCollection" (
     "collectionId" UUID NOT NULL,
 
     CONSTRAINT "UserCollection_pkey" PRIMARY KEY ("userId","collectionId")
-);
-
--- CreateTable
-CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -530,6 +520,32 @@ CREATE TABLE "GameLayerg" (
     CONSTRAINT "GameLayerg_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "GameCategories" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+    "categoryId" TEXT NOT NULL,
+    "gameId" TEXT NOT NULL,
+
+    CONSTRAINT "GameCategories_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "icon" TEXT,
+    "avatar" TEXT,
+    "banner" TEXT,
+    "nameSlug" TEXT,
+    "description" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
 
 -- Generate Slug From Input
 CREATE OR REPLACE FUNCTION generate_slug(title VARCHAR)
@@ -592,7 +608,6 @@ CREATE OR REPLACE TRIGGER nft_generate_slug
     BEFORE INSERT OR UPDATE OF "name" ON "NFT"
   FOR EACH ROW
   EXECUTE FUNCTION generate_slug_trigger();
-
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_uaId_key" ON "User"("uaId");
@@ -711,6 +726,9 @@ CREATE INDEX "GameLayerg_apiKeyID_idx" ON "GameLayerg"("apiKeyID");
 -- CreateIndex
 CREATE INDEX "GameLayerg_id_isEnabled_idx" ON "GameLayerg"("id", "isEnabled");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
+
 -- AddForeignKey
 ALTER TABLE "NFT" ADD CONSTRAINT "NFT_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -725,9 +743,6 @@ ALTER TABLE "UserNFT" ADD CONSTRAINT "UserNFT_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "UserNFT" ADD CONSTRAINT "UserNFT_nftId_collectionId_fkey" FOREIGN KEY ("nftId", "collectionId") REFERENCES "NFT"("id", "collectionId") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Collection" ADD CONSTRAINT "Collection_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Collection" ADD CONSTRAINT "Collection_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -812,3 +827,9 @@ ALTER TABLE "OrderHistory" ADD CONSTRAINT "OrderHistory_toId_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "ContractMarketplace" ADD CONSTRAINT "ContractMarketplace_chainId_fkey" FOREIGN KEY ("chainId") REFERENCES "Chain"("chainId") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GameCategories" ADD CONSTRAINT "GameCategories_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "GameLayerg"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "GameCategories" ADD CONSTRAINT "GameCategories_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

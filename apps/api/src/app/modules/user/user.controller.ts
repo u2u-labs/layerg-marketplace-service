@@ -1,36 +1,29 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
-  UseGuards,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
 
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
-import { loginDto } from '../auth/dto/login.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserService } from './user.service';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetAllUser } from './dto/get-all-user.dto';
-import { FilterNFTUserDetail } from './dto/get-nft-user.dto';
-import { UserServiceExtend } from './user-graph.service';
 import { AuthenticationCustomizeGuard } from '../auth/guards/authCustomize.guard';
-import { FindAllProjectDto } from '../launchpad/dto/find-all-project.dto';
 import { findProjectsUserSubscribe } from '../launchpad/dto/find-project.dto';
+import { ActivityService } from '../nft/activity.service';
 import {
   GetActivityBase,
   GetFollowingDto,
   GetListBid,
 } from './dto/activity-user.dto';
-import { ActivityService } from '../nft/activity.service';
+import { GetAllUser } from './dto/get-all-user.dto';
+import { FilterNFTUserDetail } from './dto/get-nft-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { SendVerifyEmailDto, VerifyEmailDto } from './dto/verify-email.dto';
+import { UserServiceExtend } from './user-graph.service';
+import { UserService } from './user.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 @Controller('user')

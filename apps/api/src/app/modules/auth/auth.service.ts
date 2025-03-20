@@ -124,25 +124,27 @@ export class AuthService {
         {
           sub: userId,
           payload: signer,
+          type: 'ACCESS_TOKEN',
         },
         {
           secret: this.configService.get<string>('JWT_SECRET'),
-          expiresIn: '1d',
+          expiresIn: '10m', // Access token expires in 10 minutes
         },
       ),
       this.jwtService.signAsync(
         {
           sub: userId,
           payload: signer,
+          type: 'REFRESH_TOKEN',
         },
         {
           secret: this.configService.get<string>('JWT_SECRET'),
-          expiresIn: '1d',
+          expiresIn: '7d', // Refresh token expires in 7 days
         },
       ),
     ]);
-    const refreshTokenExpire = Date.now() + 1 * 24 * 3600 * 1000;
-    const accessTokenExpire = Date.now() + 1 * 24 * 3600 * 1000;
+    const refreshTokenExpire = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const accessTokenExpire = Date.now() + 10 * 60 * 1000; // 10 minutes in milliseconds
     return {
       accessToken,
       refreshToken,
@@ -264,23 +266,32 @@ export class AuthService {
 
   async refreshTokenUA(irefreshToken: string) {
     // Get Token UA From UserID
-    const refeshTokenUA = (await this.redisService.getKeyObject(
-      `session-UA:${irefreshToken}`,
-    )) as any as AuthResponseUA;
+    const dataUserId = await this.redisService.getKey(
+      `session:${irefreshToken}`,
+    );
 
-    if (!refeshTokenUA) {
+    if (!dataUserId) {
       throw new NotFoundException('UA Information Not Found');
     }
     const user = await this.prisma.user.findUnique({
       where: {
-        id: refeshTokenUA.userId,
+        id: dataUserId,
       },
     });
     if (!user) {
       throw new ForbiddenException('Access Denied');
     }
+
+    const dataUa = (await this.redisService.getKeyObject(
+      `session-UA:${dataUserId}`,
+    )) as any as AuthResponseUA;
+
+    if (!dataUa) {
+      throw new NotFoundException('UA Information Not Found');
+    }
+
     const response = await this.apiUAService.requestRefeshTokenUA(
-      refeshTokenUA.refreshToken,
+      dataUa.refreshToken,
     );
     const {
       refreshToken: refreshTokenUA,
@@ -308,9 +319,11 @@ export class AuthService {
     };
 
     // Remove Old Refesh Token
-    await this.updateDataTokenUA(dataTokenUA, irefreshToken, true);
+    await this.updateRefreshTokenCaching(user, irefreshToken, true);
+    await this.updateDataTokenUA(dataTokenUA, userId, true);
     // Update New Refesh Token
-    await this.updateDataTokenUA(dataTokenUA, refreshToken);
+    await this.updateRefreshTokenCaching(user, refreshToken, false);
+    await this.updateDataTokenUA(dataTokenUA, userId, false);
 
     return {
       refreshToken,

@@ -68,4 +68,9 @@ export class AuthController {
 
     return { message: 'Invalid provider type' };
   }
+
+  @Post('refresh-connect-ua')
+  async refreshConnectUA(@Body('refreshToken') token: string) {
+    return this.authService.refreshTokenUA(token);
+  }
 }

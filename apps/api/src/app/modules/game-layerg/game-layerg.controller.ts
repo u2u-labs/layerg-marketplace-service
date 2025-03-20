@@ -1,6 +1,7 @@
+import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
+import { GetListameDto } from '@/apps/api/src/app/modules/game-layerg/dto/query-game.dto';
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { GameLayergService } from './game-layerg.service';
-import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
 
 @Controller('game-layerg')
 export class GameLayergController {
@@ -17,5 +18,10 @@ export class GameLayergController {
     @Query() input: GetAnalysisGameDto,
   ) {
     return this.gameLayergService.getGameTimeSeriesData(gameId, input);
+  }
+
+  @Get()
+  getListGame(@Query() input: GetListameDto) {
+    return this.gameLayergService.getListGame(input);
   }
 }

@@ -121,8 +121,6 @@ model Collection {
   isU2U              Boolean              @default(true)
   status             TX_STATUS
   type               CONTRACT_TYPE
-  categoryId         Int?
-  category           Category?            @relation(fields: [categoryId], references: [id])
   nfts               NFT[]
   creators           UserCollection[]
   createdAt          DateTime             @default(now())
@@ -144,7 +142,6 @@ model Collection {
   metricDetail       Json?                @default("{\"Verified\":0,\"Volume\":{\"key\":\"volume_lv0\",\"value\":\"0\",\"point\":0,\"total\":0},\"TotalUniqueOwner\":{\"key\":\"owner_lv0\",\"value\":\"0\",\"point\":0,\"total\":0},\"TotalItems\":{\"key\":\"item_lv0\",\"value\":0,\"point\":0,\"total\":0},\"Followers\":{\"key\":\"follower_lv0\",\"value\":0,\"point\":0,\"total\":0}}")
   metadataJson       Json?
   source             String?
-  categoryG          Json?
   vol                Float                @default(0)
   volumeWei          String               @default("0")
   AnalysisCollection AnalysisCollection[]
@@ -167,11 +164,6 @@ model UserCollection {
   @@id([userId, collectionId])
 }
 
-model Category {
-  id         Int          @id @default(autoincrement())
-  name       String
-  collection Collection[]
-}
 
 model Project {
   id           String           @id @default(uuid()) @db.Uuid
@@ -582,10 +574,35 @@ model GameLayerg {
   isRcm       Boolean      @default(false)
   userId      String?
   collection  Collection[]
+  categories  GameCategories[]
 
   @@index([nameSlug])
   @@index([userId, apiKeyID])
   @@index([userId])
   @@index([apiKeyID])
   @@index([id, isEnabled])
+}
+
+
+model GameCategories {
+  id          String      @id @default(uuid())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  categoryId  String     
+  gameId      String      
+  game        GameLayerg  @relation(fields: [gameId], references: [id])
+  categories  Category    @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  icon        String?
+  avatar      String?
+  banner      String?
+  nameSlug    String?
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  game        GameCategories[]
 }

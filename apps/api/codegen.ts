@@ -37,7 +37,7 @@ const config: CodegenConfig = {
         'typescript-operations',
       ],
     },
-    'apps/api/src/generated/SubgraphExternal/graphql.ts': {
+    'apps/api/src/app/generated/SubgraphExternal/graphql.ts': {
       schema: process.env.SUBGRAPH_EXTERNAL_URL as string,
       documents: 'apps/api/src/app/graph-query-external/*.graphql',
       plugins: [

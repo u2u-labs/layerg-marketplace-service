@@ -1,19 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TX_STATUS } from '@prisma/client';
 import { GraphQLClient } from 'graphql-request';
 import { validate as isValidUUID } from 'uuid';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { GetAllUser } from './dto/get-all-user.dto';
-import { FilterNFTUserDetail } from './dto/get-nft-user.dto';
-import {
-  getSdk,
-  GetNfTwithAccountIdQueryVariables,
-} from '../../generated/graphql';
-import { SellStatus } from '../../generated/graphql';
+import { getSdk, SellStatus } from '../../generated/graphql';
 import { CollectionService } from '../collection/collection.service';
+import { FilterNFTUserDetail } from './dto/get-nft-user.dto';
 
 import { NFTTab } from '@/apps/api/src/app/constants/enums/NFTTab.enum';
 interface NFT {
@@ -320,16 +313,9 @@ export class UserServiceExtend {
                   status: true,
                   address: true,
                   type: true,
-                  categoryId: true,
                   createdAt: true,
                   flagExtend: true,
                   volumeWei: true,
-                  category: {
-                    select: {
-                      id: true,
-                      name: true,
-                    },
-                  },
                 },
               },
             },

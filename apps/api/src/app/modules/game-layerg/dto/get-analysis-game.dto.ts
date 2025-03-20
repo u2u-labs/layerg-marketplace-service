@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsIn, IsEnum, IsNumber } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
 import {
