@@ -1,6 +1,6 @@
-import OtherCommon from '@/apps/analysis-worker/src/app/commons/Other.common';
 import { gameLayergSelect } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
+import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import { AnalysisType } from '@/apps/api/src/app/constants/enums/Analysis.enum';
 import { SearchProjectMode } from '@/apps/api/src/app/constants/enums/game.enum';
 import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
