@@ -587,11 +587,7 @@ export class NftService {
       where: { id_collectionId: { id: nftId, collectionId: collection.id } },
       include: {
         creator: { select: creatorSelect },
-        collection: {
-          include: {
-            category: { select: { id: true, name: true } },
-          },
-        },
+        collection: { select: CollectionSelect },
         traits: true,
       },
     });
@@ -890,16 +886,7 @@ export class NftService {
           creator: {
             select: creatorSelect,
           },
-          collection: {
-            include: {
-              category: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-            },
-          },
+          collection: true,
           traits: true,
         },
       });

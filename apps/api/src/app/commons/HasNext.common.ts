@@ -1,4 +1,4 @@
-import { Prisma, TX_STATUS, User, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 // import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 
@@ -33,7 +33,9 @@ class PaginationCommon {
       | Prisma.ProjectWhereInput
       | Prisma.TopicWhereInput
       | Prisma.BlogWhereInput
-      | Prisma.AnalysisCollectionWhereInput,
+      | Prisma.AnalysisCollectionWhereInput
+      | Prisma.GameLayergWhereInput
+      | Prisma.CategoryWhereInput,
   ): Promise<boolean> {
     const skip = (page - 1) * limit;
     const take = limit * 2;

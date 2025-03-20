@@ -67,7 +67,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async getKeyObject(key: string): Promise<string> {
     // return await this.redisClient.get(key); // Promisified get method
     const result = await this.redisClient.get(key);
-    return JSON.parse(result ?? '{}');
+    return JSON.parse(result);
   }
 
   async deleteKey(key: string): Promise<number> {

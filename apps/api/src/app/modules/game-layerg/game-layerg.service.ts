@@ -1,14 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from '@/shared/src/lib/services';
-import CollectionHelperService from '@/apps/api/src/app/modules/collection/helper/collection-helper.service';
+import OtherCommon from '@/apps/analysis-worker/src/app/commons/Other.common';
+import { gameLayergSelect } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import { AnalysisType } from '@/apps/api/src/app/constants/enums/Analysis.enum';
-import { Prisma } from '@prisma/client';
+import { SearchProjectMode } from '@/apps/api/src/app/constants/enums/game.enum';
 import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
+import { GetListameDto } from '@/apps/api/src/app/modules/game-layerg/dto/query-game.dto';
+import { PrismaService } from '@/shared/src/lib/services';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { GameLayerg, Prisma } from '@prisma/client';
 import moment from 'moment';
-import { gameLayergSelect } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import { TimeSeriesDataPoint } from './entities/game-layerg.entity';
-
 @Injectable()
 export class GameLayergService {
   constructor(private prisma: PrismaService) {}
@@ -342,6 +343,96 @@ export class GameLayergService {
     } catch (error) {
       throw new HttpException(
         `Error in function getAndCompare: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getListGame(
+    input: GetListameDto,
+  ): Promise<PagingResponseHasNext<GameLayerg>> {
+    try {
+      const { page, limit, search, categories, mode } = input;
+      const whereCondition: Prisma.GameLayergWhereInput = {};
+      whereCondition.AND = [];
+
+      if (search) {
+        whereCondition.AND.push({
+          OR: [
+            {
+              nameSlug: {
+                contains: OtherCommon.stringToSlug(search),
+                mode: 'insensitive',
+              },
+            },
+          ],
+        });
+      }
+
+      if (categories && categories.length > 0) {
+        const validCategories = categories.filter(
+          (category) => typeof category === 'string' && category.trim() !== '',
+        );
+
+        if (validCategories.length > 0) {
+          whereCondition.AND.push({
+            categories: {
+              some: {
+                categories: {
+                  nameSlug: {
+                    in: validCategories.map((category) =>
+                      OtherCommon.stringToSlug(category),
+                    ),
+                  },
+                },
+              },
+            },
+          });
+        }
+      }
+
+      if (mode == SearchProjectMode.RECOMMEND) {
+        whereCondition.isRcm = true;
+      }
+
+      const orderBy: Prisma.GameLayergOrderByWithRelationInput = {
+        createdAt: 'desc',
+      };
+
+      const [data, hasNext] = await Promise.all([
+        this.prisma.gameLayerg.findMany({
+          where: whereCondition,
+          orderBy,
+          skip: (page - 1) * limit,
+          take: limit,
+          include: {
+            categories: {
+              select: {
+                categories: {
+                  select: {
+                    id: true,
+                    name: true,
+                    nameSlug: true,
+                  },
+                },
+              },
+            },
+          },
+        }),
+        PaginationCommon.hasNextPage(page, limit, 'gameLayerg', whereCondition),
+      ]);
+
+      return {
+        data: data,
+        paging: {
+          limit: input.limit,
+          page: input.page,
+          hasNext: hasNext,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        `${error.message}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

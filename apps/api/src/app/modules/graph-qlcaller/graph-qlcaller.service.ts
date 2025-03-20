@@ -1,29 +1,28 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GraphQLClient, gql } from 'graphql-request';
 
 import {
-  getSdk,
-  SellStatus,
-  GetNfTsHistory721Query,
-  GetNfTsHistory1155Query,
-  GetNftOwnersInfo1155QueryVariables,
-  GetNftOwnersInfo721QueryVariables,
-  GetNftOwnersInfo721Query,
-  GetNftOwnersInfo1155Query,
-  GetOneNftSellInfoQuery,
-  GetNfTwithAccountIdQueryVariables,
-  GetCollectionTokensQueryVariables,
-  Query,
-  OrderDirection,
+  GetCheckOwnerExternalQueryVariables,
+  getSdk as getSdkExternal,
+} from '@/apps/api/src/app/generated/SubgraphExternal/graphql';
+import {
   CmsSummaryTransactionQueryVariables,
   EventType,
   GetActivityWithEventQueryVariables,
+  GetCollectionTokensQueryVariables,
+  GetNfTsHistory1155Query,
+  GetNfTsHistory721Query,
+  GetNfTwithAccountIdQueryVariables,
+  GetNftOwnersInfo1155Query,
+  GetNftOwnersInfo1155QueryVariables,
+  GetNftOwnersInfo721Query,
+  GetNftOwnersInfo721QueryVariables,
+  GetOneNftSellInfoQuery,
+  OrderDirection,
+  Query,
+  SellStatus,
+  getSdk,
 } from '../../generated/graphql';
-
-import {
-  getSdk as getSdkExternal,
-  GetCheckOwnerExternalQueryVariables,
-} from '@/apps/api/src/generated/SubgraphExternal/graphql';
 @Injectable()
 export class GraphQlcallerService {
   private readonly endpoint = process.env.SUBGRAPH_URL;
