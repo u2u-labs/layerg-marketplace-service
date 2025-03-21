@@ -1,0 +1,27 @@
+name: Deploy NestJS to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /root/workspace/marketplace/layerg-marketplace-service
+            git pull origin main
+            yarn install
+            npx nx build api --configuration=production
+            pm2 restart marketplace_api
