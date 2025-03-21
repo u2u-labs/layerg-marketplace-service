@@ -29,6 +29,7 @@ export class CollectionEntity {
   isVerified?: boolean;
   isActive?: boolean;
   gameLayergId?: string;
+  flagExtend?: boolean;
 }
 export enum TXSTATUS {
   PENDING = 'PENDING',
