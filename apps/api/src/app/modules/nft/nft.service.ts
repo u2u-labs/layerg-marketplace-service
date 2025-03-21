@@ -57,6 +57,7 @@ import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
 import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
+import { sampleNfts } from './sample';
 
 @Injectable()
 export class NftService {
@@ -850,38 +851,36 @@ export class NftService {
     }
   }
 
-  async findOne(id: string, collectionAddress: string): Promise<NftDto> {
-    let collection = await this.prisma.collection.findUnique({
-      where: {
-        address: collectionAddress.toLowerCase(),
-      },
-    });
-    if (!collection) {
-      collection = await this.prisma.collection.findUnique({
-        where: {
-          address: collectionAddress,
-        },
-      });
-    }
-    if (!collection) {
-      throw new NotFoundException('No collection was found');
-    }
+  async findOne(
+    id: string,
+    collectionAddress: string,
+    chainId: string,
+  ): Promise<NftDto> {
+    // let collection = await this.prisma.collection.findUnique({
+    //   where: {
+    //     address: collectionAddress.toLowerCase(),
+    //   },
+    // });
+    // if (!collection) {
+    //   collection = await this.prisma.collection.findUnique({
+    //     where: {
+    //       address: collectionAddress,
+    //     },
+    //   });
+    // }
+    // if (!collection) {
+    //   throw new NotFoundException('No collection was found');
+    // }
 
     try {
-      const nftCondition: Prisma.NFTWhereInput = {};
-      nftCondition.OR = [];
-
-      const nftOrConditionId: Prisma.NFTWhereInput = {
-        AND: [{ id, collectionId: collection.id }],
-      };
-      const nftOrConditionu2uId: Prisma.NFTWhereInput = {
-        AND: [{ u2uId: id, collectionId: collection.id }],
-      };
-
-      nftCondition.OR.push(nftOrConditionId, nftOrConditionu2uId);
-
-      const nft: NftEntity = await this.prisma.nFT.findFirst({
-        where: nftCondition,
+      const nft = await this.prisma.nFT.findFirst({
+        where: {
+          id,
+          collection: {
+            address: collectionAddress,
+            chainId: BigInt(chainId),
+          },
+        },
         include: {
           creator: {
             select: creatorSelect,
@@ -905,23 +904,6 @@ export class NftService {
 
       // @ts-ignore
       nft.owners = owners;
-      // const sellInfo = await this.eventService.findEvents({
-      //   contractAddress: nft.collection.address,
-      //   nftId: nft.u2uId ? nft.u2uId : nft.id,
-      //   event: SellStatus.AskNew,
-      //   type: nft.collection.type,
-      //   page: 0,
-      //   limit: owners.length > 0 ? owners.length : 1,
-      // });
-
-      // const bidInfo = await this.eventService.findEvents({
-      //   contractAddress: nft.collection.address,
-      //   nftId: nft.u2uId ? nft.u2uId : nft.id,
-      //   event: SellStatus.Bid,
-      //   type: nft.collection.type,
-      //   page: (bidPage - 1) * bidListLimit,
-      //   limit: bidListLimit,
-      // });
       const royalties =
         await this.collectionPriceService.FetchRoyaltiesFromGraph(
           collectionAddress,
@@ -937,13 +919,11 @@ export class NftService {
           totalRoyalties,
           listRoyalties: royalties,
         },
-        // sellInfo: sellInfo,
-        // bidInfo: bidInfo,
       };
-      if (collection?.flagExtend == true && !returnNft?.creator) {
+      if (nft.collection?.flagExtend == true && !returnNft?.creator) {
         const creator = await this.prisma.userCollection.findFirst({
           where: {
-            collectionId: collection.id,
+            collectionId: nft.collection.id,
           },
           include: {
             user: {
@@ -1499,5 +1479,33 @@ export class NftService {
           : HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  async migrate() {
+    await Promise.allSettled(
+      sampleNfts.map(async (item) => {
+        const nft = await this.prisma.nFT.create({
+          data: {
+            id: item.id,
+            name: item.name,
+            image: item.image,
+            status: TX_STATUS.PENDING,
+            tokenUri: item.tokenUri,
+            txCreationHash: item.txCreationHash,
+            collectionId: item.collectionId,
+            animationUrl: item.animationUrl,
+            source: item.source,
+            description: item.description,
+            nameSlug: item.nameSlug,
+            createdAt: item.createdAt,
+            ownerId: '',
+          },
+          include: {
+            traits: true,
+            collection: true,
+          },
+        });
+      }),
+    );
   }
 }

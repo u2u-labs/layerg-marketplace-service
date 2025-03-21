@@ -348,95 +348,95 @@ export class GameLayergService {
     }
   }
 
-  async getListGame(
-    input: GetListameDto,
-  ): Promise<PagingResponseHasNext<GameLayerg>> {
-    try {
-      const { page, limit, search, categories, mode } = input;
-      const whereCondition: Prisma.GameLayergWhereInput = {};
-      whereCondition.AND = [];
+  // async getListGame(
+  //   input: GetListameDto,
+  // ): Promise<PagingResponseHasNext<GameLayerg>> {
+  //   try {
+  //     const { page, limit, search, categories, mode } = input;
+  //     const whereCondition: Prisma.GameLayergWhereInput = {};
+  //     whereCondition.AND = [];
 
-      if (search) {
-        whereCondition.AND.push({
-          OR: [
-            {
-              nameSlug: {
-                contains: OtherCommon.stringToSlug(search),
-                mode: 'insensitive',
-              },
-            },
-          ],
-        });
-      }
+  //     if (search) {
+  //       whereCondition.AND.push({
+  //         OR: [
+  //           {
+  //             nameSlug: {
+  //               contains: OtherCommon.stringToSlug(search),
+  //               mode: 'insensitive',
+  //             },
+  //           },
+  //         ],
+  //       });
+  //     }
 
-      if (categories && categories.length > 0) {
-        const validCategories = categories.filter(
-          (category) => typeof category === 'string' && category.trim() !== '',
-        );
+  //     if (categories && categories.length > 0) {
+  //       const validCategories = categories.filter(
+  //         (category) => typeof category === 'string' && category.trim() !== '',
+  //       );
 
-        if (validCategories.length > 0) {
-          whereCondition.AND.push({
-            categories: {
-              some: {
-                categories: {
-                  nameSlug: {
-                    in: validCategories.map((category) =>
-                      OtherCommon.stringToSlug(category),
-                    ),
-                  },
-                },
-              },
-            },
-          });
-        }
-      }
+  //       if (validCategories.length > 0) {
+  //         whereCondition.AND.push({
+  //           categories: {
+  //             some: {
+  //               categories: {
+  //                 nameSlug: {
+  //                   in: validCategories.map((category) =>
+  //                     OtherCommon.stringToSlug(category),
+  //                   ),
+  //                 },
+  //               },
+  //             },
+  //           },
+  //         });
+  //       }
+  //     }
 
-      if (mode == SearchProjectMode.RECOMMEND) {
-        whereCondition.isRcm = true;
-      }
+  //     if (mode == SearchProjectMode.RECOMMEND) {
+  //       whereCondition.isRcm = true;
+  //     }
 
-      const orderBy: Prisma.GameLayergOrderByWithRelationInput = {
-        createdAt: 'desc',
-      };
+  //     const orderBy: Prisma.GameLayergOrderByWithRelationInput = {
+  //       createdAt: 'desc',
+  //     };
 
-      const [data, hasNext] = await Promise.all([
-        this.prisma.gameLayerg.findMany({
-          where: whereCondition,
-          orderBy,
-          skip: (page - 1) * limit,
-          take: limit,
-          include: {
-            categories: {
-              select: {
-                categories: {
-                  select: {
-                    id: true,
-                    name: true,
-                    nameSlug: true,
-                  },
-                },
-              },
-            },
-          },
-        }),
-        PaginationCommon.hasNextPage(page, limit, 'gameLayerg', whereCondition),
-      ]);
+  //     const [data, hasNext] = await Promise.all([
+  //       this.prisma.gameLayerg.findMany({
+  //         where: whereCondition,
+  //         orderBy,
+  //         skip: (page - 1) * limit,
+  //         take: limit,
+  //         include: {
+  //           categories: {
+  //             select: {
+  //               categories: {
+  //                 select: {
+  //                   id: true,
+  //                   name: true,
+  //                   nameSlug: true,
+  //                 },
+  //               },
+  //             },
+  //           },
+  //         },
+  //       }),
+  //       PaginationCommon.hasNextPage(page, limit, 'gameLayerg', whereCondition),
+  //     ]);
 
-      return {
-        data: data,
-        paging: {
-          limit: input.limit,
-          page: input.page,
-          hasNext: hasNext,
-        },
-      };
-    } catch (error) {
-      throw new HttpException(
-        `${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
+  //     return {
+  //       data: data,
+  //       paging: {
+  //         limit: input.limit,
+  //         page: input.page,
+  //         hasNext: hasNext,
+  //       },
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       `${error.message}`,
+  //       HttpStatus.INTERNAL_SERVER_ERROR,
+  //     );
+  //   }
+  // }
 
   getPastRecordTimestamp(number: number, unit: 'days' | 'hours' = 'days') {
     const date = new Date();

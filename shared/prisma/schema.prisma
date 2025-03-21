@@ -65,7 +65,7 @@ model NFT {
   traits               Trait[]
   createdAt            DateTime            @default(now())
   updatedAt            DateTime            @updatedAt
-  status               TX_STATUS
+  status               TX_STATUS?
   tokenUri             String
   txCreationHash       String
   owners               UserNFT[]
@@ -163,7 +163,6 @@ model UserCollection {
 
   @@id([userId, collectionId])
 }
-
 
 model Project {
   id           String           @id @default(uuid()) @db.Uuid
@@ -547,15 +546,15 @@ model GooseDbVersion {
 }
 
 model GameLayerg {
-  id          String       @id @default(uuid())
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  isEnabled   Boolean      @default(false)
-  countFav    Int          @default(0)
+  id          String           @id @default(uuid())
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  isEnabled   Boolean          @default(false)
+  countFav    Int              @default(0)
   name        String
   gameIcon    String?
   banner      String?
-  apiKeyID    String?      @unique()
+  apiKeyID    String?          @unique()
   telegram    String?
   facebook    String?
   instagram   String?
@@ -567,11 +566,11 @@ model GameLayerg {
   information String?
   policy      String?
   version     String?
-  slideShow   String[]     @default([])
-  totalReview Int          @default(0)
-  totalRating Float        @default(0.0)
-  slug        String?      @unique()
-  isRcm       Boolean      @default(false)
+  slideShow   String[]         @default([])
+  totalReview Int              @default(0)
+  totalRating Float            @default(0.0)
+  slug        String?          @unique()
+  isRcm       Boolean          @default(false)
   userId      String?
   collection  Collection[]
   categories  GameCategories[]
@@ -583,26 +582,25 @@ model GameLayerg {
   @@index([id, isEnabled])
 }
 
-
 model GameCategories {
-  id          String      @id @default(uuid())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  categoryId  String     
-  gameId      String      
-  game        GameLayerg  @relation(fields: [gameId], references: [id])
-  categories  Category    @relation(fields: [categoryId], references: [id])
+  id         String     @id @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime?  @updatedAt
+  categoryId String
+  gameId     String
+  game       GameLayerg @relation(fields: [gameId], references: [id])
+  categories Category   @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
-  id          String      @id @default(uuid())
-  name        String      @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   icon        String?
   avatar      String?
   banner      String?
   nameSlug    String?
   description String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
   game        GameCategories[]
 }

@@ -20,8 +20,8 @@ export class GameLayergController {
     return this.gameLayergService.getGameTimeSeriesData(gameId, input);
   }
 
-  @Get()
-  getListGame(@Query() input: GetListameDto) {
-    return this.gameLayergService.getListGame(input);
-  }
+  // @Get()
+  // getListGame(@Query() input: GetListameDto) {
+  //   return this.gameLayergService.getListGame(input);
+  // }
 }

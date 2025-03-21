@@ -48,6 +48,7 @@ import {
 } from '@/apps/api/src/app/constants/enums/Analysis.enum';
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
+import { sampleCollections } from './sample';
 interface CollectionGeneral {
   totalOwner: number;
   volumn: string;
@@ -859,5 +860,30 @@ export class CollectionService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  async migrate() {
+    console.log(123);
+    await Promise.allSettled(
+      sampleCollections.map(async (item) => {
+        const collection = await this.prisma.collection.create({
+          data: {
+            id: item.id,
+            name: item.name,
+            address: item.address,
+            type: item.type as CONTRACT_TYPE,
+            symbol: item.symbol,
+            txCreationHash: item.txCreationHash,
+            avatar: item.avatar,
+            isActive: true,
+            description: item.description,
+            status: TX_STATUS.SUCCESS,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+            chainId: BigInt('2484'),
+          },
+        });
+      }),
+    );
   }
 }

@@ -13,41 +13,41 @@ export class CategoriesService {
     return 'This action adds a new category';
   }
 
-  async findAll(
-    input: GetAllCategoryDto,
-  ): Promise<PagingResponseHasNext<Category>> {
-    try {
-      const { page, limit, search } = input;
+  // async findAll(
+  //   input: GetAllCategoryDto,
+  // ): Promise<PagingResponseHasNext<Category>> {
+  //   try {
+  //     const { page, limit, search } = input;
 
-      const whereCondition: Prisma.CategoryWhereInput = {};
-      if (search) {
-        whereCondition.nameSlug = {
-          contains: OtherCommon.stringToSlug(search),
-          mode: 'insensitive',
-        };
-      }
+  //     const whereCondition: Prisma.CategoryWhereInput = {};
+  //     if (search) {
+  //       whereCondition.nameSlug = {
+  //         contains: OtherCommon.stringToSlug(search),
+  //         mode: 'insensitive',
+  //       };
+  //     }
 
-      const [data, hasNext] = await Promise.all([
-        this.prisma.category.findMany({
-          where: whereCondition,
-          skip: (page - 1) * limit,
-          take: limit,
-        }),
-        PaginationCommon.hasNextPage(page, limit, 'category', whereCondition),
-      ]);
-      return {
-        data: data,
-        paging: {
-          limit: input.limit,
-          page: input.page,
-          hasNext: hasNext,
-        },
-      };
-    } catch (error) {
-      throw new HttpException(
-        `${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
+  //     const [data, hasNext] = await Promise.all([
+  //       this.prisma.category.findMany({
+  //         where: whereCondition,
+  //         skip: (page - 1) * limit,
+  //         take: limit,
+  //       }),
+  //       PaginationCommon.hasNextPage(page, limit, 'category', whereCondition),
+  //     ]);
+  //     return {
+  //       data: data,
+  //       paging: {
+  //         limit: input.limit,
+  //         page: input.page,
+  //         hasNext: hasNext,
+  //       },
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       `${error.message}`,
+  //       HttpStatus.INTERNAL_SERVER_ERROR,
+  //     );
+  //   }
+  // }
 }

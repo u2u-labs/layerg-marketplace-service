@@ -14,6 +14,6 @@ export class CategoriesController {
 
   @Get()
   findAll(@Query() input: GetAllCategoryDto) {
-    return this.categoriesService.findAll(input);
+    // return this.categoriesService.findAll(input);
   }
 }

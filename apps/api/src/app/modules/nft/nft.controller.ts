@@ -38,6 +38,11 @@ export class NftController {
     private readonly eventService: MarketplaceService,
   ) {}
 
+  @Get('/migrate')
+  async migrate() {
+    return await this.nftService.migrate();
+  }
+
   @Get('crawl-nft-info')
   async crawlNftInfo(
     @Query('collectionAddress') address: string,
@@ -84,9 +89,10 @@ export class NftController {
   @Get('')
   findOne(
     @Query('id') id: string,
+    @Query('chainId') chainId: string,
     @Query('collectionAddress') collectionAddress: string,
   ) {
-    return this.nftService.findOne(id, collectionAddress);
+    return this.nftService.findOne(id, collectionAddress, chainId);
   }
 
   @Get('/user/:id')
