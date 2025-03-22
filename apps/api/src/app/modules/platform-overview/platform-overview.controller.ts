@@ -1,26 +1,28 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 
-import { PlatformOverviewService } from './platform-overview.service';
+import { ApiTags } from '@nestjs/swagger';
+import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
+import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import {
   CreatePlatformOverviewDto,
   PlatformOverviewFilter,
 } from './dto/create-platform-overview.dto';
 import { UpdatePlatformOverviewDto } from './dto/update-platform-overview.dto';
-import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
+import { PlatformOverviewService } from './platform-overview.service';
 
 @Controller('platform-overview')
+@ApiTags('platform-overview')
 export class PlatformOverviewController {
   constructor(
     private readonly platformOverviewService: PlatformOverviewService,

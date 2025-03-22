@@ -1,15 +1,21 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { IsString, IsEmail } from 'class-validator';
-
-import { CreateUserDto } from './create-user.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsString } from 'class-validator';
 
 export class SendVerifyEmailDto {
-  @IsString()
+  @ApiProperty({
+    description: 'User email address',
+    example: 'user@example.com',
+  })
   @IsEmail()
+  @IsString()
   email: string;
 }
 
 export class VerifyEmailDto {
+  @ApiProperty({
+    description: 'Verification token received via email',
+    example: 'abcdef123456',
+  })
   @IsString()
   token: string;
 }

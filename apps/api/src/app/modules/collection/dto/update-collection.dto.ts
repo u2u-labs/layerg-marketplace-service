@@ -1,45 +1,57 @@
 import { InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString, IsOptional, IsEnum } from 'class-validator';
-import { TX_STATUS, CONTRACT_TYPE } from '@prisma/client';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { CONTRACT_TYPE, TX_STATUS } from '@prisma/client';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class UpdateCollectionDto {
+  @ApiPropertyOptional({ description: 'Transaction Hash' })
   @IsOptional()
   @IsString({ message: 'Transaction Hash is invalid' })
-  @IsNotEmpty({ message: 'Please Enter Transaction Hash' })
-  txCreationHash: string;
+  txCreationHash?: string;
 
+  @ApiPropertyOptional({ description: 'Name of the Collection' })
   @IsOptional()
   @IsString({ message: 'Name Collection is invalid' })
-  @IsNotEmpty({ message: 'Please Enter Name Collection' })
-  name: string;
+  name?: string;
 
+  @ApiPropertyOptional({ description: 'Symbol of the Collection' })
   @IsOptional()
   @IsString({ message: 'Symbol Collection is invalid' })
-  @IsNotEmpty({ message: 'Please Enter Symbol Collection' })
-  symbol: string;
+  symbol?: string;
 
-  @IsString({ message: 'Short url is invalid' })
+  @ApiPropertyOptional({ description: 'Short URL' })
   @IsOptional()
-  shortUrl: string;
+  @IsString({ message: 'Short URL is invalid' })
+  shortUrl?: string;
 
+  @ApiPropertyOptional({ description: 'Description of the collection' })
   @IsOptional()
-  description: string;
+  @IsString()
+  description?: string;
 
+  @ApiPropertyOptional({ enum: TX_STATUS, description: 'Transaction Status' })
   @IsOptional()
   @IsEnum(TX_STATUS)
-  status: TX_STATUS;
+  status?: TX_STATUS;
 
+  @ApiPropertyOptional({ enum: CONTRACT_TYPE, description: 'Contract Type' })
   @IsOptional()
   @IsEnum(CONTRACT_TYPE)
-  type: CONTRACT_TYPE;
+  type?: CONTRACT_TYPE;
 
+  @ApiPropertyOptional({ description: 'Category ID' })
   @IsOptional()
-  categoryId: number;
+  @IsString()
+  categoryId?: string;
 
+  @ApiPropertyOptional({ description: 'Creators of the collection' })
   @IsOptional()
-  creators: string;
+  @IsString()
+  creators?: string;
 
+  @ApiPropertyOptional({ description: 'Cover image URL' })
   @IsOptional()
-  coverImage: string;
+  @IsString()
+  coverImage?: string;
 }

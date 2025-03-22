@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 
+import { ApiTags } from '@nestjs/swagger';
 import { Role } from '../../../constants/enums/role.enum';
 import { Roles } from '../../../decorators/roles.decorator';
 import { AuthRoleGuard } from '../../auth/guards/authRole.guard';
@@ -12,6 +13,7 @@ import { AuthCMSService } from '../service/auth-cms.service';
 import { CMSService } from '../service/cms.service';
 import { MarketplaceCMSService } from '../service/marketplace-cms.service';
 @Controller('cms/manage')
+@ApiTags('/cms/manage')
 export class MarketplaceController {
   constructor(
     private readonly cmsService: CMSService,

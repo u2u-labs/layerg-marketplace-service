@@ -1,25 +1,22 @@
 import { InputType } from '@nestjs/graphql';
-import { ORDERSTATUS, ORDERTYPE } from '@prisma/client';
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  IsNumber,
   ArrayNotEmpty,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
   ValidateNested,
 } from 'class-validator';
 
-import { makeTakeType } from '@/apps/api/src/app/constants/enums/order.enum';
-
 @InputType()
 export class VerifyOrderDto {
+  @ApiProperty({ description: 'Signature of the order' })
   @IsString()
   @IsNotEmpty()
   sig: string;
 
+  @ApiProperty({ description: 'Index of the order' })
   @IsNumber()
   @IsNotEmpty()
   index: number;
@@ -27,6 +24,10 @@ export class VerifyOrderDto {
 
 @InputType()
 export class VerifyOrdersDto {
+  @ApiProperty({
+    description: 'List of orders to verify',
+    type: [VerifyOrderDto],
+  })
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => VerifyOrderDto)
@@ -34,6 +35,7 @@ export class VerifyOrdersDto {
 }
 
 export class ActionOrderDto {
+  @ApiProperty({ description: 'Transaction hash of the order action' })
   @IsString()
   @IsNotEmpty()
   tx: string;

@@ -25,8 +25,10 @@ import {
 import { LaunchPadService } from '../service/launchpad-cms.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/cms/launchpad')
+@ApiTags('/cms/launchpad')
 export class LaunchPadController {
   constructor(private readonly launchPadService: LaunchPadService) {}
   /** CRUD Round */

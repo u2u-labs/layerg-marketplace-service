@@ -24,8 +24,10 @@ import { CMSOptionService } from '../service/option-cms.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { KeyGuard } from '@/apps/api/src/app/modules/auth/guards/key.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('cms')
+@ApiTags('cms')
 export class CMSController {
   constructor(
     private readonly cmsService: CMSService,

@@ -24,7 +24,7 @@ import {
   VerifyCollectionDto,
 } from '../dto/marketplace.dto';
 import {
-  ResetPasswordDtop,
+  ResetPasswordDto,
   UpdateAccountDto,
   UpdatePasswordDto,
   UpdateRolesDto,
@@ -239,7 +239,7 @@ export class CMSService {
     }
   }
 
-  async ResetPassword(resetPasswordDtop: ResetPasswordDtop, account: Account) {
+  async ResetPassword(resetPasswordDtop: ResetPasswordDto, account: Account) {
     try {
       if (!isValidUUID(resetPasswordDtop.id)) {
         throw new Error('Invalid User. Please try again !');

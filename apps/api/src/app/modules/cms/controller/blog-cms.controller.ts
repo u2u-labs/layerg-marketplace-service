@@ -23,8 +23,10 @@ import {
 import { BlogService } from '../service/blog-cms.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/cms/blog')
+@ApiTags('cms/blog')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
   @Post()

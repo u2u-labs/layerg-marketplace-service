@@ -1,8 +1,21 @@
-import { IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsString } from 'class-validator';
 
 export type TimeRange = '1D' | '1W' | '1M' | '3M' | '6M';
 
 export class GetGameVolumeDto {
+  @ApiProperty({
+    description: 'End timestamp in string format',
+    example: '1700000000',
+  })
+  @IsString()
   endTimestamp: string;
+
+  @ApiProperty({
+    enum: ['1D', '1W', '1M', '3M', '6M'],
+    default: '1W',
+    description: 'Time range for data',
+  })
+  @IsEnum(['1D', '1W', '1M', '3M', '6M'])
   timeRange: TimeRange = '1W';
 }

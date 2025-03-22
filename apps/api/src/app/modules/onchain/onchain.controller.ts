@@ -6,10 +6,12 @@ import {
   TransactionRequestDto,
 } from '@/apps/api/src/app/modules/onchain/dto/request-onchain.dto';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { OnchainService } from './onchain.service';
 
 @Controller('onchain')
+@ApiTags('onchain')
 export class OnchainController {
   constructor(private readonly onchainService: OnchainService) {}
 

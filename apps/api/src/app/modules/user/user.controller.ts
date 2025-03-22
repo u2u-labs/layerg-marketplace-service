@@ -26,7 +26,9 @@ import { UserServiceExtend } from './user-graph.service';
 import { UserService } from './user.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 @Controller('user')
+@ApiTags('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,

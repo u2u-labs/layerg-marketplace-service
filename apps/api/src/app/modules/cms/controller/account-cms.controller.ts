@@ -16,7 +16,7 @@ import { AuthRoleGuard } from '../../auth/guards/authRole.guard';
 import { RoleGuard } from '../../auth/guards/role.guard';
 import { CreateAccountDto } from '../dto/create-account.dto';
 import {
-  ResetPasswordDtop,
+  ResetPasswordDto,
   UpdateAccountDto,
   UpdatePasswordDto,
   UpdateRolesDto,
@@ -24,8 +24,10 @@ import {
 import { CMSService } from '../service/cms.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('cms/account')
+@ApiTags('cms/account')
 export class AccountController {
   constructor(private readonly cmsService: CMSService) {}
 
@@ -91,7 +93,7 @@ export class AccountController {
   @Roles(Role.ADMINISTRATOR)
   @UseGuards(AuthRoleGuard, RoleGuard)
   async ResetPassword(
-    @Body() resetPasswordDto: ResetPasswordDtop,
+    @Body() resetPasswordDto: ResetPasswordDto,
     @GetCurrentUser() account: Account,
   ) {
     return this.cmsService.ResetPassword(resetPasswordDto, account);

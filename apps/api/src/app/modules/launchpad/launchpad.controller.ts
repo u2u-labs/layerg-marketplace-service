@@ -1,27 +1,14 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Query,
-} from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 
-import { LaunchpadService } from './launchpad.service';
-import { CreateLaunchpadDto } from './dto/create-launchpad.dto';
-import { UpdateLaunchpadDto } from './dto/update-launchpad.dto';
 import { CheckStakingDto } from './dto/check-staking.dto';
-import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { FindAllProjectDto } from './dto/find-all-project.dto';
 import { SubcribeProjectDto } from './dto/subcribe-project.dto';
+import { LaunchpadService } from './launchpad.service';
 
-import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('launchpad')
+@ApiTags('launchpad')
 export class LaunchpadController {
   constructor(private readonly launchpadService: LaunchpadService) {}
 

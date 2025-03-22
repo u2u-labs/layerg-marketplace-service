@@ -1,17 +1,11 @@
-import {
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Query,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Query, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { AnalyticsService } from './analytics.service';
 import { GetGameVolumeDto } from './dto/get-game-volume.dto';
-import { Response } from 'express';
 import { GetTotalGamesVolumeDTO } from './dto/get-total-games-volume.dto copy';
 @Controller('analytics')
+@ApiTags('analytics')
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 

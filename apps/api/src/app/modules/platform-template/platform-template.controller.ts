@@ -1,23 +1,24 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 
-import { PlatformTemplateService } from './platform-template.service';
+import { ApiTags } from '@nestjs/swagger';
+import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
+import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { CreatePlatformTemplateDto } from './dto/create-platform-template.dto';
 import { UpdatePlatformTemplateDto } from './dto/update-platform-template.dto';
-import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
+import { PlatformTemplateService } from './platform-template.service';
 
 @Controller('platform-template')
+@ApiTags('platform-template')
 export class PlatformTemplateController {
   constructor(
     private readonly platformTemplateService: PlatformTemplateService,
