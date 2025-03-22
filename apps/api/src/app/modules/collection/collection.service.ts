@@ -276,6 +276,13 @@ export class CollectionService {
       };
     }
 
+    if (input.chainId) {
+      whereCondition = {
+        ...whereCondition,
+        chainId: input.chainId,
+      };
+    }
+
     if (input.min && input.max) {
       whereCondition = {
         ...whereCondition,
