@@ -32,4 +32,7 @@ export class GetAllCollectionDto extends OffsetPaginationDto {
   @IsOptional()
   @IsString()
   gameId?: string;
+
+  @IsOptional()
+  chainId: number;
 }
