@@ -10,9 +10,32 @@ import {
 } from 'class-validator';
 
 export class loginDto {
+  @ApiProperty({
+    description: 'Timestamp or date string',
+    example: '2025-03-22T12:00:00Z',
+  })
+  @IsString()
   date: string;
+
+  @ApiProperty({
+    description: 'Public key of the user',
+    example: '0x1234567890abcdef',
+  })
+  @IsString()
   publicKey: string;
+
+  @ApiProperty({
+    description: 'Signature to verify authentication',
+    example: '0xabcdef...',
+  })
+  @IsString()
   signature: string;
+
+  @ApiProperty({
+    description: 'Address of the signer',
+    example: '0xabcdef1234567890',
+  })
+  @IsString()
   signer: string;
 }
 

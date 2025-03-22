@@ -1,29 +1,20 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { User } from '@prisma/client';
 
-import { OrderService } from './order.service';
-import { CreateBulkDto, CreateSingleDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
+import { CreateBulkDto, CreateSingleDto } from './dto/create-order.dto';
 import {
   ActionOrderDto,
   VerifyOrderDto,
   VerifyOrdersDto,
 } from './dto/get-order.dto';
+import { OrderService } from './order.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('order')
+@ApiTags('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 

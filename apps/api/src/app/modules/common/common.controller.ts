@@ -15,12 +15,14 @@ import { Response } from 'express';
 // @ts-ignore
 import 'multer';
 
+import { ApiTags } from '@nestjs/swagger';
 import { CommonService } from './common.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { SearchAllDto } from './dto/search-all.dto';
 import { multerOptions } from './interceptor/interceptor';
 
 @Controller('common')
+@ApiTags('common')
 export class CommonController {
   constructor(private readonly commonService: CommonService) {}
 

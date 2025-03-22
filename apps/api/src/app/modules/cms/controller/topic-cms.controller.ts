@@ -19,8 +19,10 @@ import { createOrUpdateTopicDto, getAllTopicDto } from '../dto/topic.dto';
 import { TopicService } from '../service/topic-cms.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/cms/topic')
+@ApiTags('/cms/topic')
 export class TopicController {
   constructor(private readonly topicService: TopicService) {}
 

@@ -1,27 +1,27 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Post,
+  Put,
   Query,
   UseGuards,
-  Put,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 
+import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { CollectionService } from './collection.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
-import { AuthenticationGuard } from '../auth/guards/auth.guard';
 import { GetAllCollectionDto } from './dto/get-all-collection.dto';
-import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
 import { GetAnalysisDto } from './dto/get-analysis-collection.dto';
+import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
+import { UpdateCollectionDto } from './dto/update-collection.dto';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 @Controller('collection')
+@ApiTags('collection')
 export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}
 

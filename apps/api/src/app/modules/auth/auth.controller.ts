@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
 import { Provider } from '@/apps/api/src/app/constants/enums/provider.enum';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import {
   ConnectSocialAuthDto,
@@ -10,6 +11,7 @@ import {
 } from './dto/login.dto';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
