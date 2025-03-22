@@ -10,6 +10,7 @@ import {
 export class UpdateUserDto {
   @ApiProperty({ description: 'User email address' })
   @IsEmail()
+  @IsOptional()
   email: string;
 
   @ApiPropertyOptional({
@@ -25,6 +26,7 @@ export class UpdateUserDto {
 
   @ApiProperty({ description: 'Indicates if the user has accepted terms' })
   @IsBoolean()
+  @IsOptional()
   acceptedTerms: boolean;
 
   @ApiPropertyOptional({
