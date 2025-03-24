@@ -25,7 +25,7 @@ export class CartController {
 
   @Get('')
   @UseGuards(AuthenticationGuard)
-  async getUserCart(@Res() res: Response, @GetCurrentUser() user: User) {
+  async getUserCart(@Res() res: any, @GetCurrentUser() user: User) {
     try {
       const cart = await this.cartService.getUserCart(user.id);
       res.status(HttpStatus.OK).json({
