@@ -48,6 +48,7 @@ model User {
   makes            Order[]          @relation(name: "UserMaker")
   orderFrom        OrderHistory[]   @relation(name: "OrderFrom")
   orderTo          OrderHistory[]   @relation(name: "OrderTo")
+  cart             Cart?            @relation(name: "UserCart")
 
   @@index([id])
   @@index([publicKey])
@@ -80,6 +81,7 @@ model NFT {
   metricDetail         Json?               @default("{\"VolumeIndividual\":0,\"UserMetric\":0}")
   source               String?
   ownerId              String
+  cartItems            CartItem[]
 
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive])
@@ -603,4 +605,25 @@ model Category {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?        @updatedAt
   game        GameCategories[]
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  User      User       @relation(fields: [userId], references: [id], name: "UserCart")
+  userId    String     @unique @db.Uuid
+  cartItems CartItem[] @relation("CartItem")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
+model CartItem {
+  id           String    @id @default(uuid())
+  cartId       String
+  cart         Cart      @relation(fields: [cartId], references: [id], name: "CartItem")
+  nftId        String
+  amount       Int       @default(0)
+  collectionId String    @db.Uuid
+  nft          NFT       @relation(fields: [nftId, collectionId], references: [id, collectionId])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 }

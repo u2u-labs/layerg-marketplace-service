@@ -28,6 +28,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { GameLayergModule } from './modules/game-layerg/game-layerg.module';
 import { OnchainModule } from './modules/onchain/onchain.module';
+import { CartModule } from './modules/cart/cart.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { OnchainModule } from './modules/onchain/onchain.module';
     AnalyticsModule,
     GameLayergModule,
     CategoriesModule, // Import Redis module
+    CartModule,
   ],
   providers: [
     PrismaService,
