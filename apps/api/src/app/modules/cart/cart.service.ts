@@ -16,7 +16,23 @@ export class CartService {
       include: {
         cartItems: {
           include: {
-            nft: true,
+            nft: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+                description: true,
+                nameSlug: true,
+                collection: {
+                  select: {
+                    id: true,
+                    name: true,
+                    address: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
