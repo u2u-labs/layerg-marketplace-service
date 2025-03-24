@@ -25,7 +25,7 @@ import { ActivityService } from './activity.service';
 import { GetActivityBase, GetHistoryOrderDto } from './dto/activity-nft.dto';
 import { CreateNftDto } from './dto/create-nft.dto';
 import { GetAllNftDto, GetSweepOrdersDto } from './dto/get-all-nft.dto';
-import { NftDto } from './dto/nft.dto';
+import { CollectionDetailDto, NftDto } from './dto/nft.dto';
 import { MarketplaceService } from './nft-marketplace.service';
 
 // import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
@@ -851,27 +851,8 @@ export class NftService {
     }
   }
 
-  async findOne(
-    id: string,
-    collectionAddress: string,
-    chainId: string,
-  ): Promise<NftDto> {
-    // let collection = await this.prisma.collection.findUnique({
-    //   where: {
-    //     address: collectionAddress.toLowerCase(),
-    //   },
-    // });
-    // if (!collection) {
-    //   collection = await this.prisma.collection.findUnique({
-    //     where: {
-    //       address: collectionAddress,
-    //     },
-    //   });
-    // }
-    // if (!collection) {
-    //   throw new NotFoundException('No collection was found');
-    // }
-
+  async findOne(input: CollectionDetailDto): Promise<NftDto> {
+    const { id, collectionAddress, chainId } = input;
     try {
       const nft = await this.prisma.nFT.findFirst({
         where: {

@@ -1,35 +1,33 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Post,
   Query,
   UseGuards,
-  ValidationPipe,
   UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { User, Account } from '@prisma/client';
+import { User } from '@prisma/client';
 
-import { CreateNftDto } from './dto/create-nft.dto';
-import { UpdateNftDto } from './dto/update-nft.dto';
-import { NftService } from './nft.service';
 import { AuthenticationGuard } from '../auth/guards/auth.guard';
-import { GetTokenIdDto } from './dto/get-token-id.dto';
-import { TokenService } from './token.service';
-import { GetAllNftDto, GetSweepOrdersDto } from './dto/get-all-nft.dto';
-import { MarketplaceService } from './nft-marketplace.service';
-import { GetEventBase } from './dto/event-base.dto';
+import { AuthenticationCustomizeGuard } from '../auth/guards/authCustomize.guard';
 import { GetActivityBase, GetHistoryOrderDto } from './dto/activity-nft.dto';
+import { CreateNftDto } from './dto/create-nft.dto';
+import { GetEventBase } from './dto/event-base.dto';
+import { GetAllNftDto, GetSweepOrdersDto } from './dto/get-all-nft.dto';
 import {
   GetGeneralInforAllDto,
   GetGeneralInforDto,
 } from './dto/get-general-infor.dto';
-import { AuthenticationCustomizeGuard } from '../auth/guards/authCustomize.guard';
+import { GetTokenIdDto } from './dto/get-token-id.dto';
+import { MarketplaceService } from './nft-marketplace.service';
+import { NftService } from './nft.service';
+import { TokenService } from './token.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
+import { CollectionDetailDto } from '@/apps/api/src/app/modules/nft/dto/nft.dto';
 @Controller('nft')
 export class NftController {
   constructor(
@@ -87,12 +85,8 @@ export class NftController {
   }
 
   @Get('')
-  findOne(
-    @Query('id') id: string,
-    @Query('chainId') chainId: string,
-    @Query('collectionAddress') collectionAddress: string,
-  ) {
-    return this.nftService.findOne(id, collectionAddress, chainId);
+  findOne(@Query() query: CollectionDetailDto) {
+    return this.nftService.findOne(query);
   }
 
   @Get('/user/:id')
