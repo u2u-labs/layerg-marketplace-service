@@ -14,7 +14,11 @@ export class CartService {
         userId,
       },
       include: {
-        cartItems: true,
+        cartItems: {
+          include: {
+            nft: true,
+          },
+        },
       },
     });
   }
