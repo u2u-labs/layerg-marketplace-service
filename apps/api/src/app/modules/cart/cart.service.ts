@@ -103,8 +103,7 @@ export class CartService {
     });
   }
 
-  async removeFromCart(userId: string, removeFromCartDTO: RemoveFromCartDTO) {
-    const { nftId, collectionId } = removeFromCartDTO;
+  async removeFromCart(userId: string, collectionId: string, nftId: string) {
     const existedCart = await this.prisma.cart.findFirst({
       where: {
         userId,

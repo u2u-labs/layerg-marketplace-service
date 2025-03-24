@@ -62,15 +62,16 @@ export class CartController {
     }
   }
 
-  @Delete('/items')
+  @Delete('/items/:collectionId/:nftId')
   @UseGuards(AuthenticationGuard)
   async removeFromCart(
     @Res() res: Response,
-    @Body() body: RemoveFromCartDTO,
+    @Param('collectionId') collectionId: string,
+    @Param('nftId') nftId: string,
     @GetCurrentUser() user: User,
   ) {
     try {
-      await this.cartService.removeFromCart(user.id, body);
+      await this.cartService.removeFromCart(user.id, collectionId, nftId);
       res.status(HttpStatus.OK).json({
         message: 'success',
       });
