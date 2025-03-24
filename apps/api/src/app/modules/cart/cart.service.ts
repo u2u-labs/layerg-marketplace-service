@@ -50,7 +50,7 @@ export class CartService {
       },
     });
     // if existed, update amount
-    if (!existedItem) {
+    if (existedItem) {
       const updatedAmount = existedItem.amount + addToCartDTO.amount;
       // if updated amount <= 0, delete item
       if (updatedAmount <= 0) {
