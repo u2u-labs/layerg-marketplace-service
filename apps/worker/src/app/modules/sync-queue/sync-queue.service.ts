@@ -6,6 +6,7 @@ import {
 } from '@aws-sdk/client-sqs';
 import { config as dotenvConfig } from 'dotenv';
 import { PrismaService } from '@layerg-mkp-workspace/shared/services';
+import { logger } from '../../commons';
 
 dotenvConfig();
 
@@ -76,13 +77,12 @@ export class SyncQueueService implements OnModuleInit {
               ReceiptHandle: message.ReceiptHandle,
             }),
           );
-          console.log('Message deleted');
         }
       } else {
-        console.log('No messages received');
+        logger.info(`Sync queue logger: No messages received`);
       }
     } catch (err) {
-      console.error('Error receiving message:', err);
+      logger.error(`Error receiving message: ${err}`);
     }
   }
 

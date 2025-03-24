@@ -13,8 +13,10 @@ import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
 import { User } from '@prisma/client';
 import { AddToCartDTO } from './dto/add-to-cart.dto';
 import { RemoveFromCartDTO } from './dto/remove-from-cart.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('cart')
+@ApiTags('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
