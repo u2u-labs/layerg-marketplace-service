@@ -1,5 +1,7 @@
 import { TX_STATUS } from '@prisma/client';
 
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { TraitEntity } from '../entities/trait.entity';
 
 export class NftDto {
@@ -22,4 +24,27 @@ export class NftDto {
   quantity?: unknown;
   gameId?: string;
   ownerId?: string;
+}
+
+export class CollectionDetailDto {
+  @ApiProperty({
+    description: 'Unique identifier of the collection',
+    example: '12345',
+  })
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @ApiProperty({ description: 'Blockchain chain ID', example: '1' })
+  @IsString()
+  @IsNotEmpty()
+  chainId: string;
+
+  @ApiProperty({
+    description: 'Collection contract address',
+    example: '0x1234567890abcdef1234567890abcdef12345678',
+  })
+  @IsString()
+  @IsNotEmpty()
+  collectionAddress: string;
 }
