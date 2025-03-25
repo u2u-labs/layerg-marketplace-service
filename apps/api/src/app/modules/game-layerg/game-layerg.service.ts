@@ -9,6 +9,7 @@ import { PrismaService } from '@/shared/src/lib/services';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GameLayerg, Prisma } from '@prisma/client';
 import moment from 'moment';
+import { validate as isValidUUID } from 'uuid';
 import { TimeSeriesDataPoint } from './entities/game-layerg.entity';
 @Injectable()
 export class GameLayergService {
@@ -430,6 +431,39 @@ export class GameLayergService {
           hasNext: hasNext,
         },
       };
+    } catch (error) {
+      throw new HttpException(
+        `${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getGameDetail(id: string): Promise<GameLayerg> {
+    try {
+      if (!isValidUUID(id)) {
+        throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
+      }
+      const game = await this.prisma.gameLayerg.findUnique({
+        where: { id },
+        include: {
+          categories: {
+            select: {
+              categories: {
+                select: {
+                  id: true,
+                  name: true,
+                  nameSlug: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!game) {
+        throw new HttpException('Game not found', HttpStatus.NOT_FOUND);
+      }
+      return game;
     } catch (error) {
       throw new HttpException(
         `${error.message}`,
