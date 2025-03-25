@@ -1,4 +1,5 @@
 import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
+import { GetListameDto } from '@/apps/api/src/app/modules/game-layerg/dto/query-game.dto';
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GameLayergService } from './game-layerg.service';
@@ -21,8 +22,13 @@ export class GameLayergController {
     return this.gameLayergService.getGameTimeSeriesData(gameId, input);
   }
 
-  // @Get()
-  // getListGame(@Query() input: GetListameDto) {
-  //   return this.gameLayergService.getListGame(input);
-  // }
+  @Get()
+  getListGame(@Query() input: GetListameDto) {
+    return this.gameLayergService.getListGame(input);
+  }
+
+  @Get('/:id')
+  getGameDetail(@Param('id') id: string) {
+    return this.gameLayergService.getGameDetail(id);
+  }
 }
