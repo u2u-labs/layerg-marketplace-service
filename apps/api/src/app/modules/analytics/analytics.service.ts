@@ -66,7 +66,7 @@ export class AnalyticsService {
       }>;
     };
 
-    const result = await Promise.all(
+    const gamesWithVolume = await Promise.all(
       data.data.map(async (item) => {
         const gameDetails = await this.prismaService.gameLayerg.findFirst({
           where: { id: item._id.gameId },
@@ -89,6 +89,39 @@ export class AnalyticsService {
         };
       }),
     );
-    return result;
+    const remaining = 10 - gamesWithVolume.length;
+
+    let additionalGames: any[] = [];
+    if (remaining > 0) {
+      additionalGames = await this.prismaService.gameLayerg.findMany({
+        where: {
+          id: {
+            notIn: gamesWithVolume.map((g) => g.gameDetails.id),
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: remaining,
+      });
+    }
+    additionalGames = additionalGames.map((game) => {
+      return {
+        gameDetails: {
+          id: game.id,
+          name: game.name,
+          banner: game.banner,
+          avatar: game.avatar,
+          slug: game.slug,
+        },
+        chartData: {
+          floorPriceChange: 0,
+          totalVolume: 0,
+          floorPrice: 0,
+        },
+      };
+    });
+    gamesWithVolume.concat(additionalGames);
+    return gamesWithVolume;
   }
 }
