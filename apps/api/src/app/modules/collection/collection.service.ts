@@ -489,95 +489,62 @@ export class CollectionService {
     }
   }
 
-  async findWithUserIDOrAddress(
-    id: string,
-    input: GetCollectionByUserDto,
-  ): Promise<PagingResponse<CollectionEntity>> {
-    console.log('🚀 ~ id:', id);
-    try {
-      let isUuid = true;
-      if (!isValidUUID(id)) {
-        isUuid = false;
-      }
-      const userWithCollection = await this.prisma.userCollection.findMany({
-        where: {
-          user: {
-            ...(isUuid
-              ? { id }
-              : {
-                  OR: [{ signer: id?.toLowerCase() }, { shortLink: id }],
-                }),
-          },
-          collection: {
-            status: TX_STATUS.SUCCESS,
-          },
-        },
-        skip: (input.page - 1) * input.limit,
-        take: input.limit,
-        include: {
-          collection: {
-            select: collectionSelect,
-          },
-        },
-      });
-      const response = userWithCollection.map((item) => {
-        return { collection: item.collection };
-      });
-
-      if (input.hasBase) {
-        const baseCollection721 = await this.prisma.collection.findUnique({
-          where: {
-            address: process.env.BASE_ADDR_721,
-          },
+  async getCollectionsByUserId(userId: string) {
+    const data = (await this.prisma.$queryRaw`
+                  SELECT COUNT("collectionId") as "total_nft","collectionId",
+                        "gameLayergId", public."Collection"."name" as "collection_name",
+                        public."GameLayerg"."name" as "game_name"
+                  FROM public."NFT"
+                  LEFT JOIN public."Collection"
+                  ON "collectionId" = public."Collection"."id"
+                  LEFT JOIN public."GameLayerg"
+                  ON "gameLayergId" = public."GameLayerg"."id"
+                  WHERE "ownerId" = ${userId}
+                  GROUP BY "collectionId", "gameLayergId", public."Collection"."name", public."GameLayerg"."name"`) as Array<{
+      total_nft: number;
+      collectionId: string;
+      gameLayergId: string;
+      collection_name: string;
+      game_name: string;
+    }>;
+    const gamesWithCollections: Array<{
+      game_id: string;
+      total_nfts: number;
+      game_name: string;
+      collections: Array<{
+        collectionId: string;
+        collection_name: string;
+        total_nfts: number;
+      }>;
+    }> = [];
+    data.forEach((item) => {
+      const foundIndex = gamesWithCollections.findIndex(
+        (game) => game.game_id === item.gameLayergId,
+      );
+      if (foundIndex === -1) {
+        gamesWithCollections.push({
+          game_id: item.gameLayergId,
+          total_nfts: item.total_nft,
+          game_name: item.game_name,
+          collections: [
+            {
+              collectionId: item.collectionId,
+              collection_name: item.collection_name,
+              total_nfts: item.total_nft,
+            },
+          ],
         });
-        const baseCollection1155 = await this.prisma.collection.findUnique({
-          where: {
-            address: process.env.BASE_ADDR_1155,
-          },
+      } else {
+        gamesWithCollections[foundIndex].total_nfts += item.total_nft;
+        gamesWithCollections[foundIndex].collections.push({
+          collectionId: item.collectionId,
+          collection_name: item.collection_name,
+          total_nfts: item.total_nft,
         });
-
-        if (baseCollection721) {
-          response.push({ collection: baseCollection721 } as any);
-        }
-        if (baseCollection1155) {
-          response.push({ collection: baseCollection1155 } as any);
-        }
       }
-
-      const total = await this.prisma.userCollection.count({
-        where: {
-          user: {
-            ...(isUuid ? { id } : { OR: [{ signer: id }, { shortLink: id }] }),
-          },
-          collection: {
-            status: TX_STATUS.SUCCESS,
-          },
-        },
-      });
-
-      const collections = response.map((i) => i.collection);
-
-      const subgraphCollection = collections.map(async (item) => {
-        const generalInfo = await this.getGeneralCollectionData(
-          item?.address,
-          item?.type,
-          item?.flagExtend,
-          item?.volumeWei,
-        );
-        return { ...item, ...generalInfo };
-      });
-      const dataArray = await Promise.all(subgraphCollection);
-      return {
-        data: dataArray,
-        paging: {
-          total: total,
-          limit: input.limit,
-          page: input.page,
-        },
-      };
-    } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
-    }
+    });
+    console.log(gamesWithCollections);
+    return gamesWithCollections;
   }
   async checkRecord(address: string) {
     try {

@@ -51,7 +51,7 @@ export class AnalyticsService {
     };
   }
 
-  async getTotalGamesSalesChart(queryStr: string) {
+  async getTotalGamesSalesChart(queryStr: string, chainId: number) {
     const response = await axios.get(
       this.baseURL + '/hourly-game-volume/total?' + queryStr,
     );
@@ -66,7 +66,7 @@ export class AnalyticsService {
       }>;
     };
 
-    const gamesWithVolume = await Promise.all(
+    let gamesWithVolume = await Promise.all(
       data.data.map(async (item) => {
         const gameDetails = await this.prismaService.gameLayerg.findFirst({
           where: { id: item._id.gameId },
@@ -98,6 +98,11 @@ export class AnalyticsService {
           id: {
             notIn: gamesWithVolume.map((g) => g.gameDetails.id),
           },
+          collection: {
+            some: {
+              chainId,
+            },
+          },
         },
         orderBy: {
           createdAt: 'desc',
@@ -121,7 +126,7 @@ export class AnalyticsService {
         },
       };
     });
-    gamesWithVolume.concat(additionalGames);
+    gamesWithVolume = [...gamesWithVolume, ...additionalGames];
     return gamesWithVolume;
   }
 }

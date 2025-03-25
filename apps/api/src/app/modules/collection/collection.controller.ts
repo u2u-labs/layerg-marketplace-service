@@ -70,10 +70,7 @@ export class CollectionController {
   }
 
   @Get('/user/:id')
-  findByUserID(
-    @Param('id') id: string,
-    @Query() input: GetCollectionByUserDto,
-  ) {
-    return this.collectionService.findWithUserIDOrAddress(id, input);
+  findByUserID(@Param('id') id: string) {
+    return this.collectionService.getCollectionsByUserId(id);
   }
 }
