@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AnalyticsService } from './analytics.service';
 import { GetGameVolumeDto } from './dto/get-game-volume.dto';
-import { GetTotalGamesVolumeDTO } from './dto/get-total-games-volume.dto copy';
+import { GetTotalGamesVolumeDTO } from './dto/get-total-games-volume.dto';
 @Controller('analytics')
 @ApiTags('analytics')
 export class AnalyticsController {
