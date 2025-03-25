@@ -15,7 +15,7 @@ export class SyncQueueService implements OnModuleInit {
   constructor(private prismaService: PrismaService) {}
 
   private queueUrl =
-    'https://sqs.ap-southeast-2.amazonaws.com/368685833089/layerg-analytics-dev';
+    'https://sqs.ap-southeast-2.amazonaws.com/368685833089/layerg-sync-data-dev';
   private sqsClient = new SQSClient({
     region: 'ap-southeast-2',
     credentials: {

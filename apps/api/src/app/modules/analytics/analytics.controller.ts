@@ -47,6 +47,7 @@ export class AnalyticsController {
       });
       const result = await this.analyticsService.getTotalGamesSalesChart(
         urlSearchParams.toString(),
+        query.chainId,
       );
       res.status(HttpStatus.OK).json(result);
     } catch (error) {
