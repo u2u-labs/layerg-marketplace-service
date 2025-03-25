@@ -221,12 +221,6 @@ export class CollectionService {
           },
         })
       : [];
-    // const minBigInt = input.min
-    //   ? BigInt(input.min) / BigInt(10) ** 18n
-    //   : undefined;
-    // const maxBigInt = input.max
-    //   ? BigInt(input.max) / BigInt(10) ** 18n
-    //   : undefined;
     const minBigInt = input.min ? OtherCommon.weiToEther(input.min) : undefined;
     const maxBigInt = input.max ? OtherCommon.weiToEther(input.max) : undefined;
     const addresses = creators.map((item) => item.id);
@@ -240,15 +234,13 @@ export class CollectionService {
       ...(input.source && {
         source: input.source,
       }),
-      ...(addresses.length > 0 && {
-        creators: {
-          some: {
-            userId: {
-              in: addresses,
-            },
+      creators: {
+        some: {
+          userId: {
+            in: addresses,
           },
         },
-      }),
+      },
       status: TX_STATUS.SUCCESS,
     };
     if (input.min) {
