@@ -25,6 +25,7 @@ export class AnalyticsController {
       });
       const result = await this.analyticsService.getGameSalesChart(
         urlSearchParams.toString(),
+        gameId,
       );
       res.status(HttpStatus.OK).json(result);
     } catch (error) {

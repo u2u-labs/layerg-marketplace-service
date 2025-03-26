@@ -11,7 +11,7 @@ export class AnalyticsService {
 
   private baseURL = process.env.ANALYTICS_SERVER_URL;
 
-  async getGameSalesChart(queryStr: string) {
+  async getGameSalesChart(queryStr: string, gameId: string) {
     console.log('queryStr', queryStr);
     const response = await axios.get(
       this.baseURL + '/hourly-game-volume?' + queryStr,
@@ -28,7 +28,7 @@ export class AnalyticsService {
       }>;
     };
     const gameDetails = await this.prismaService.gameLayerg.findFirst({
-      where: { id: data.data[0]._id.gameId },
+      where: { id: gameId },
     });
     return {
       gameDetails: gameDetails
