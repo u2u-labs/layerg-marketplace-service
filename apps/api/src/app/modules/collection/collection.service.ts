@@ -47,6 +47,7 @@ import {
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 import { sampleCollections } from './sample';
+import { GetCollectionsWithTopNftsDTO } from './dto/get-collections-with-top-nfts';
 interface CollectionGeneral {
   totalOwner: number;
   volumn: string;
@@ -491,17 +492,28 @@ export class CollectionService {
 
   async getCollectionsByUserId(userId: string) {
     const data = (await this.prisma.$queryRaw`
-                  SELECT COUNT("collectionId") as "total_nft","collectionId",
-                        "gameLayergId", public."Collection"."name" as "collection_name",
-                        public."GameLayerg"."name" as "game_name", public."Collection"."address" as "collection_address"
-                  FROM public."NFT"
-                  LEFT JOIN public."Collection"
-                  ON "collectionId" = public."Collection"."id"
-                  LEFT JOIN public."GameLayerg"
-                  ON "gameLayergId" = public."GameLayerg"."id"
-                  WHERE "ownerId" = ${userId}
-                  GROUP BY "collectionId", "gameLayergId",
-                  public."Collection"."name", public."GameLayerg"."name", public."Collection"."address"`) as Array<{
+          SELECT
+              n."collectionId",
+              c."gameLayergId",
+              c."name" AS "collection_name",
+              g."name" AS "game_name",
+              c."address" AS "collection_address",
+              COUNT(*) AS "total_nft"
+          FROM
+              public."NFT" n
+          INNER JOIN
+              public."Collection" c ON n."collectionId" = c."id"
+          LEFT JOIN
+              public."GameLayerg" g ON c."gameLayergId" = g."id"
+          WHERE
+              n."ownerId" = ${userId}
+          GROUP BY
+              n."collectionId",
+              c."gameLayergId",
+              c."name",
+              g."name",
+              c."address";
+      `) as Array<{
       total_nft: number;
       collectionId: string;
       gameLayergId: string;
@@ -855,5 +867,120 @@ export class CollectionService {
         });
       }),
     );
+  }
+
+  async getCollectionsGameId(gameId: string) {
+    const data = (await this.prisma.$queryRaw`
+                  SELECT COUNT("collectionId") as "total_nft","collectionId",
+                        "gameLayergId", public."Collection"."name" as "collection_name",
+                        public."GameLayerg"."name" as "game_name", public."Collection"."address" as "collection_address"
+                  FROM public."NFT"
+                  LEFT JOIN public."Collection"
+                  ON "collectionId" = public."Collection"."id"
+                  LEFT JOIN public."GameLayerg"
+                  ON "gameLayergId" = public."GameLayerg"."id"
+                  WHERE "gameLayergId" = ${gameId}
+                  GROUP BY "collectionId", "gameLayergId",
+                  public."Collection"."name", public."GameLayerg"."name", public."Collection"."address"`) as Array<{
+      total_nft: number;
+      collectionId: string;
+      gameLayergId: string;
+      collection_name: string;
+      collection_address: string;
+      game_name: string;
+    }>;
+    const gamesWithCollections: Array<{
+      game_id: string;
+      total_nfts: number;
+      game_name: string;
+      collections: Array<{
+        collectionId: string;
+        collection_address: string;
+        collection_name: string;
+        total_nfts: number;
+      }>;
+    }> = [];
+    data.forEach((item) => {
+      const foundIndex = gamesWithCollections.findIndex(
+        (game) => game.game_id === item.gameLayergId,
+      );
+      if (foundIndex === -1) {
+        gamesWithCollections.push({
+          game_id: item.gameLayergId,
+          total_nfts: item.total_nft,
+          game_name: item.game_name,
+          collections: [
+            {
+              collectionId: item.collectionId,
+              collection_name: item.collection_name,
+              total_nfts: item.total_nft,
+              collection_address: item.collection_address,
+            },
+          ],
+        });
+      } else {
+        gamesWithCollections[foundIndex].total_nfts += item.total_nft;
+        gamesWithCollections[foundIndex].collections.push({
+          collectionId: item.collectionId,
+          collection_name: item.collection_name,
+          total_nfts: item.total_nft,
+          collection_address: item.collection_address,
+        });
+      }
+    });
+    return gamesWithCollections;
+  }
+
+  async getCollectionsWithTopNfts(
+    getCollectionsWithTopNftsDTO: GetCollectionsWithTopNftsDTO,
+  ) {
+    const { gameId, userId, limit, page, top } = getCollectionsWithTopNftsDTO;
+    const offset = limit * (page - 1);
+
+    const conditions: string[] = [];
+    const secondConditions: string[] = [];
+
+    if (userId) conditions.push(`"public"."NFT"."ownerId" = '${userId}'`);
+    if (gameId) conditions.push(`c."gameLayergId" = '${gameId}'`);
+
+    if (userId) {
+      secondConditions.push(`"public"."NFT"."ownerId" = '${userId}'`);
+      secondConditions.push(
+        `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
+      );
+    } else {
+      secondConditions.push(
+        `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
+      );
+    }
+
+    const firstWhereClause = conditions.length
+      ? `WHERE ${conditions.join(' AND ')}`
+      : '';
+    const secondWhereClause = secondConditions.length
+      ? `WHERE ${secondConditions.join(' AND ')}`
+      : '';
+
+    return await this.prisma.$queryRawUnsafe(`
+        WITH user_collections AS (
+          SELECT DISTINCT "public"."NFT"."collectionId", "public"."NFT"."createdAt"
+          FROM "public"."NFT"
+          JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
+          ${firstWhereClause}
+          ORDER BY "public"."NFT"."createdAt"
+          LIMIT ${limit} OFFSET ${offset}
+        ),
+        ranked_nfts AS (
+          SELECT "public"."NFT".*,
+            ROW_NUMBER() OVER (PARTITION BY "public"."NFT"."collectionId" ORDER BY "public"."NFT"."id" DESC) AS rank
+          FROM "public"."NFT"
+          ${secondWhereClause}
+        )
+        SELECT rn.*, c.name AS "collection_name"
+        FROM ranked_nfts rn
+        JOIN "public"."Collection" c ON rn."collectionId" = c.id
+        WHERE rn.rank <= ${top ?? 5}
+        ORDER BY rn."collectionId", rn.rank;
+      `);
   }
 }
