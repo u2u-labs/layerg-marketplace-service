@@ -21,7 +21,6 @@ import { TraitService } from '../nft/trait.service';
 import { CollectionPriceService } from './collectionPrice.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { GetAllCollectionDto } from './dto/get-all-collection.dto';
-import { GetCollectionByUserDto } from './dto/get-collection-by-user.dto';
 import { CollectionDetailDto } from './dto/get-detail-collection.dto';
 import { UpdateCollectionDto } from './dto/update-collection.dto';
 import { CollectionEntity } from './entities/collection.entity';
@@ -29,7 +28,6 @@ import { CollectionEntity } from './entities/collection.entity';
 // import SecureUtil from '../../commons/Secure.common';
 
 import {
-  collectionSelect,
   CollectionSelect,
   creatorSelect,
   gameLayergSelect,
@@ -234,13 +232,15 @@ export class CollectionService {
       ...(input.source && {
         source: input.source,
       }),
-      creators: {
-        some: {
-          userId: {
-            in: addresses,
+      ...(addresses.length > 0 && {
+        creators: {
+          some: {
+            userId: {
+              in: addresses,
+            },
           },
         },
-      },
+      }),
       status: TX_STATUS.SUCCESS,
     };
     if (input.min) {
