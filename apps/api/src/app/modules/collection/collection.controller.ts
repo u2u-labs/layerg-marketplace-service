@@ -20,6 +20,7 @@ import { UpdateCollectionDto } from './dto/update-collection.dto';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { GetCollectionsWithTopNftsDTO } from './dto/get-collections-with-top-nfts';
 @Controller('collection')
 @ApiTags('collection')
 export class CollectionController {
@@ -52,6 +53,11 @@ export class CollectionController {
   @Get('/migrate')
   async migrate() {
     return this.collectionService.migrate();
+  }
+
+  @Get('/top-nfts')
+  getCollectionsWithTopNfts(@Query() input: GetCollectionsWithTopNftsDTO) {
+    return this.collectionService.getCollectionsWithTopNfts(input);
   }
 
   @Get(':id')

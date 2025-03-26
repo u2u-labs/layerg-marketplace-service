@@ -31,4 +31,9 @@ export class GameLayergController {
   getGameDetail(@Param('id') id: string) {
     return this.gameLayergService.getGameDetail(id);
   }
+
+  @Get('/user/:id')
+  getGamesByUserId(@Param('id') id: string) {
+    return this.gameLayergService.getGamesByUserId(id);
+  }
 }

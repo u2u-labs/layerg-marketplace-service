@@ -481,4 +481,15 @@ export class GameLayergService {
       end: date,
     };
   }
+
+  async getGamesByUserId(userId: string) {
+    return await this.prisma.$queryRaw`
+                  SELECT g.id AS game_id, g.name AS game_name, COUNT(n.id) AS total_nfts
+                  FROM "public"."NFT" n
+                  INNER JOIN "public"."Collection" c ON n."collectionId" = c.id
+                  INNER JOIN "public"."GameLayerg" g ON c."gameLayergId" = g.id
+                  WHERE n."ownerId" = ${userId}
+                  GROUP BY g.id, g.name;
+    `;
+  }
 }
