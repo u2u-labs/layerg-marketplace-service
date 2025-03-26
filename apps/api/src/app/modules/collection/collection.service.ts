@@ -493,18 +493,20 @@ export class CollectionService {
     const data = (await this.prisma.$queryRaw`
                   SELECT COUNT("collectionId") as "total_nft","collectionId",
                         "gameLayergId", public."Collection"."name" as "collection_name",
-                        public."GameLayerg"."name" as "game_name"
+                        public."GameLayerg"."name" as "game_name", public."Collection"."address" as "collection_address"
                   FROM public."NFT"
                   LEFT JOIN public."Collection"
                   ON "collectionId" = public."Collection"."id"
                   LEFT JOIN public."GameLayerg"
                   ON "gameLayergId" = public."GameLayerg"."id"
                   WHERE "ownerId" = ${userId}
-                  GROUP BY "collectionId", "gameLayergId", public."Collection"."name", public."GameLayerg"."name"`) as Array<{
+                  GROUP BY "collectionId", "gameLayergId",
+                  public."Collection"."name", public."GameLayerg"."name", public."Collection"."address"`) as Array<{
       total_nft: number;
       collectionId: string;
       gameLayergId: string;
       collection_name: string;
+      collection_address: string;
       game_name: string;
     }>;
     const gamesWithCollections: Array<{
@@ -513,6 +515,7 @@ export class CollectionService {
       game_name: string;
       collections: Array<{
         collectionId: string;
+        collection_address: string;
         collection_name: string;
         total_nfts: number;
       }>;
@@ -531,6 +534,7 @@ export class CollectionService {
               collectionId: item.collectionId,
               collection_name: item.collection_name,
               total_nfts: item.total_nft,
+              collection_address: item.collection_address,
             },
           ],
         });
@@ -540,10 +544,10 @@ export class CollectionService {
           collectionId: item.collectionId,
           collection_name: item.collection_name,
           total_nfts: item.total_nft,
+          collection_address: item.collection_address,
         });
       }
     });
-    console.log(gamesWithCollections);
     return gamesWithCollections;
   }
   async checkRecord(address: string) {
