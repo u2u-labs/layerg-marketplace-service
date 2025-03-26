@@ -7,7 +7,6 @@ import { QUEUE_NAME_QUOTE_TOKEN_ACCEPT } from '../../constants/Job.constant';
 
 import { logger } from '@/apps/worker/src/app/commons';
 import { getSdk } from '@/apps/worker/src/app/generated/graphql';
-import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Processor(QUEUE_NAME_QUOTE_TOKEN_ACCEPT)
 export class QuoteTokenAcceptProcessor implements OnModuleInit {
@@ -24,10 +23,10 @@ export class QuoteTokenAcceptProcessor implements OnModuleInit {
 
   async onModuleInit() {
     logger.info(`Call First Time Quote Token Access`);
-    await this.handleSyncDataAccessQuoteToken();
+    // await this.handleSyncDataAccessQuoteToken();
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  // @Cron(CronExpression.EVERY_10_SECONDS)
   async callEach10SecondSyncQuoteTokenAccept() {
     try {
       logger.info(`call per 10 seconds`); // Run the task once immediately upon service start
