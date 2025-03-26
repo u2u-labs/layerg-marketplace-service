@@ -8,6 +8,7 @@ import {
 import {
   AnalysisCollection,
   CONTRACT_TYPE,
+  NFT,
   Prisma,
   TX_STATUS,
   User,
@@ -48,6 +49,7 @@ import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
 import { sampleCollections } from './sample';
 import { GetCollectionsWithTopNftsDTO } from './dto/get-collections-with-top-nfts';
+import { GetCollectionsWithTopNftsItem } from './types/query-response.types';
 interface CollectionGeneral {
   totalOwner: number;
   volumn: string;
@@ -961,7 +963,7 @@ export class CollectionService {
       ? `WHERE ${secondConditions.join(' AND ')}`
       : '';
 
-    return await this.prisma.$queryRawUnsafe(`
+    const data = (await this.prisma.$queryRawUnsafe(`
         WITH user_collections AS (
           SELECT DISTINCT "public"."NFT"."collectionId", "public"."NFT"."createdAt"
           FROM "public"."NFT"
@@ -976,11 +978,33 @@ export class CollectionService {
           FROM "public"."NFT"
           ${secondWhereClause}
         )
-        SELECT rn.*, c.name AS "collection_name"
+        SELECT rn.*, c.name AS "collection_name", c.address AS "collection_address"
         FROM ranked_nfts rn
         JOIN "public"."Collection" c ON rn."collectionId" = c.id
         WHERE rn.rank <= ${top ?? 5}
         ORDER BY rn."collectionId", rn.rank;
-      `);
+      `)) as Array<GetCollectionsWithTopNftsItem>;
+    const collectionsWithTopNfts: Array<{
+      collection_id: string;
+      collection_name: string;
+      collection_address: string;
+      nfts: Array<NFT>;
+    }> = [];
+    data.forEach((item) => {
+      const foundIndex = collectionsWithTopNfts.findIndex(
+        (collection) => collection.collection_id === item.collectionId,
+      );
+      if (foundIndex === -1) {
+        collectionsWithTopNfts.push({
+          collection_id: item.collectionId,
+          collection_name: item.collection_name,
+          collection_address: item.collection_address,
+          nfts: [item],
+        });
+      } else {
+        collectionsWithTopNfts[foundIndex].nfts.push(item);
+      }
+    });
+    return collectionsWithTopNfts;
   }
 }
