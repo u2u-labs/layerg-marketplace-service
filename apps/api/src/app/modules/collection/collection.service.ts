@@ -946,6 +946,7 @@ export class CollectionService {
     } = getCollectionsWithTopNftsDTO;
     const offset = limit * (page - 1);
     const args: (string | number)[] = [];
+    const argsHasNext: (string | number)[] = [];
 
     const conditions: string[] = [];
     const secondConditions: string[] = [];
@@ -953,10 +954,12 @@ export class CollectionService {
     if (userId) {
       conditions.push(`"public"."NFT"."ownerId" = $${args.length + 1}`);
       args.push(userId);
+      argsHasNext.push(userId);
     }
     if (gameId) {
       conditions.push(`c."gameLayergId" = $${args.length + 1}`);
       args.push(gameId);
+      argsHasNext.push(gameId);
     }
 
     secondConditions.push(
@@ -974,6 +977,7 @@ export class CollectionService {
       : '';
 
     args.push(`%${name}%`, limit, offset, top);
+    argsHasNext.push(`%${name}%`, 1, limit * page);
     const data = (await this.prisma.$queryRawUnsafe(
       `
       WITH user_collections AS (
@@ -998,7 +1002,17 @@ export class CollectionService {
       `,
       ...args,
     )) as Array<GetCollectionsWithTopNftsItem>;
-
+    const nextPageData = (await this.prisma.$queryRawUnsafe(
+      `
+      SELECT DISTINCT "public"."NFT"."collectionId"
+        FROM "public"."NFT"
+        JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
+        ${firstWhereClause} AND c.name ILIKE $${args.length - 3}
+        ORDER BY "public"."NFT"."collectionId"
+        LIMIT $${args.length - 2} OFFSET $${args.length - 1}
+      `,
+      ...argsHasNext,
+    )) as Array<GetCollectionsWithTopNftsItem>;
     const collectionsMap = new Map<
       string,
       {
@@ -1021,6 +1035,10 @@ export class CollectionService {
       collectionsMap.get(item.collectionId).nfts.push(item);
     }
 
-    return Array.from(collectionsMap.values());
+    return {
+      collections: Array.from(collectionsMap.values()),
+      has_next: nextPageData.length > 0,
+      current_page: page,
+    };
   }
 }
