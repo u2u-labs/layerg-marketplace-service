@@ -1036,9 +1036,12 @@ export class CollectionService {
     }
 
     return {
-      collections: Array.from(collectionsMap.values()),
-      has_next: nextPageData.length > 0,
-      current_page: page,
+      data: Array.from(collectionsMap.values()),
+      paging: {
+        limit,
+        hasNext: nextPageData.length > 0,
+        page,
+      },
     };
   }
 }
