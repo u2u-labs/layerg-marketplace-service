@@ -938,15 +938,26 @@ export class CollectionService {
   ) {
     const { gameId, userId, limit, page, top } = getCollectionsWithTopNftsDTO;
     const offset = limit * (page - 1);
+    const args = [];
 
     const conditions: string[] = [];
     const secondConditions: string[] = [];
 
-    if (userId) conditions.push(`"public"."NFT"."ownerId" = '${userId}'`);
-    if (gameId) conditions.push(`c."gameLayergId" = '${gameId}'`);
+    if (userId) {
+      conditions.push(`"public"."NFT"."ownerId" = $1`);
+      args.push(userId);
+    }
+    if (gameId) {
+      if (userId) {
+        conditions.push(`c."gameLayergId" = $2`);
+      } else {
+        conditions.push(`c."gameLayergId" = $1`);
+      }
+      args.push(gameId);
+    }
 
     if (userId) {
-      secondConditions.push(`"public"."NFT"."ownerId" = '${userId}'`);
+      secondConditions.push(`"public"."NFT"."ownerId" = $1`);
       secondConditions.push(
         `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
       );
@@ -962,15 +973,18 @@ export class CollectionService {
     const secondWhereClause = secondConditions.length
       ? `WHERE ${secondConditions.join(' AND ')}`
       : '';
-
-    const data = (await this.prisma.$queryRawUnsafe(`
+    args.push(limit);
+    args.push(offset);
+    args.push(top ?? 5);
+    const data = (await this.prisma.$queryRawUnsafe(
+      `
         WITH user_collections AS (
           SELECT DISTINCT "public"."NFT"."collectionId"
           FROM "public"."NFT"
           JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
           ${firstWhereClause}
           ORDER BY "public"."NFT"."collectionId"
-          LIMIT ${limit} OFFSET ${offset}
+          LIMIT $${args.length - 2} OFFSET $${args.length - 1}
         ),
         ranked_nfts AS (
           SELECT "public"."NFT".*,
@@ -981,9 +995,16 @@ export class CollectionService {
         SELECT rn.*, c.name AS "collection_name", c.address AS "collection_address"
         FROM ranked_nfts rn
         JOIN "public"."Collection" c ON rn."collectionId" = c.id
-        WHERE rn.rank <= ${top ?? 5}
+        WHERE rn.rank <= $${args.length}
         ORDER BY rn."collectionId", rn.rank;
-      `)) as Array<GetCollectionsWithTopNftsItem>;
+      `,
+      ...args,
+      // userId,
+      // gameId,
+      // limit,
+      // offset,
+      // top ?? 5,
+    )) as Array<GetCollectionsWithTopNftsItem>;
     const collectionsWithTopNfts: Array<{
       collection_id: string;
       collection_name: string;
