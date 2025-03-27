@@ -936,35 +936,34 @@ export class CollectionService {
   async getCollectionsWithTopNfts(
     getCollectionsWithTopNftsDTO: GetCollectionsWithTopNftsDTO,
   ) {
-    const { gameId, userId, limit, page, top } = getCollectionsWithTopNftsDTO;
+    const {
+      gameId,
+      userId,
+      limit,
+      page,
+      top = 5,
+      name = '',
+    } = getCollectionsWithTopNftsDTO;
     const offset = limit * (page - 1);
-    const args = [];
+    const args: (string | number)[] = [];
 
     const conditions: string[] = [];
     const secondConditions: string[] = [];
 
     if (userId) {
-      conditions.push(`"public"."NFT"."ownerId" = $1`);
+      conditions.push(`"public"."NFT"."ownerId" = $${args.length + 1}`);
       args.push(userId);
     }
     if (gameId) {
-      if (userId) {
-        conditions.push(`c."gameLayergId" = $2`);
-      } else {
-        conditions.push(`c."gameLayergId" = $1`);
-      }
+      conditions.push(`c."gameLayergId" = $${args.length + 1}`);
       args.push(gameId);
     }
 
+    secondConditions.push(
+      `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
+    );
     if (userId) {
-      secondConditions.push(`"public"."NFT"."ownerId" = $1`);
-      secondConditions.push(
-        `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
-      );
-    } else {
-      secondConditions.push(
-        `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
-      );
+      secondConditions.unshift(`"public"."NFT"."ownerId" = $1`);
     }
 
     const firstWhereClause = conditions.length
@@ -973,59 +972,55 @@ export class CollectionService {
     const secondWhereClause = secondConditions.length
       ? `WHERE ${secondConditions.join(' AND ')}`
       : '';
-    args.push(limit);
-    args.push(offset);
-    args.push(top ?? 5);
+
+    args.push(`%${name}%`, limit, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
-        WITH user_collections AS (
-          SELECT DISTINCT "public"."NFT"."collectionId"
-          FROM "public"."NFT"
-          JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
-          ${firstWhereClause}
-          ORDER BY "public"."NFT"."collectionId"
-          LIMIT $${args.length - 2} OFFSET $${args.length - 1}
-        ),
-        ranked_nfts AS (
-          SELECT "public"."NFT".*,
-            ROW_NUMBER() OVER (PARTITION BY "public"."NFT"."collectionId" ORDER BY "public"."NFT"."id" DESC) AS rank
-          FROM "public"."NFT"
-          ${secondWhereClause}
-        )
-        SELECT rn.*, c.name AS "collection_name", c.address AS "collection_address"
-        FROM ranked_nfts rn
-        JOIN "public"."Collection" c ON rn."collectionId" = c.id
-        WHERE rn.rank <= $${args.length}
-        ORDER BY rn."collectionId", rn.rank;
+      WITH user_collections AS (
+        SELECT DISTINCT "public"."NFT"."collectionId"
+        FROM "public"."NFT"
+        JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
+        ${firstWhereClause} AND c.name ILIKE $${args.length - 3}
+        ORDER BY "public"."NFT"."collectionId"
+        LIMIT $${args.length - 2} OFFSET $${args.length - 1}
+      ),
+      ranked_nfts AS (
+        SELECT "public"."NFT".*,
+          ROW_NUMBER() OVER (PARTITION BY "public"."NFT"."collectionId" ORDER BY "public"."NFT"."id" DESC) AS rank
+        FROM "public"."NFT"
+        ${secondWhereClause}
+      )
+      SELECT rn.*, c.name AS "collection_name", c.address AS "collection_address"
+      FROM ranked_nfts rn
+      JOIN "public"."Collection" c ON rn."collectionId" = c.id
+      WHERE rn.rank <= $${args.length}
+      ORDER BY rn."collectionId", rn.rank;
       `,
       ...args,
-      // userId,
-      // gameId,
-      // limit,
-      // offset,
-      // top ?? 5,
     )) as Array<GetCollectionsWithTopNftsItem>;
-    const collectionsWithTopNfts: Array<{
-      collection_id: string;
-      collection_name: string;
-      collection_address: string;
-      nfts: Array<NFT>;
-    }> = [];
-    data.forEach((item) => {
-      const foundIndex = collectionsWithTopNfts.findIndex(
-        (collection) => collection.collection_id === item.collectionId,
-      );
-      if (foundIndex === -1) {
-        collectionsWithTopNfts.push({
+
+    const collectionsMap = new Map<
+      string,
+      {
+        collection_id: string;
+        collection_name: string;
+        collection_address: string;
+        nfts: NFT[];
+      }
+    >();
+
+    for (const item of data) {
+      if (!collectionsMap.has(item.collectionId)) {
+        collectionsMap.set(item.collectionId, {
           collection_id: item.collectionId,
           collection_name: item.collection_name,
           collection_address: item.collection_address,
-          nfts: [item],
+          nfts: [],
         });
-      } else {
-        collectionsWithTopNfts[foundIndex].nfts.push(item);
       }
-    });
-    return collectionsWithTopNfts;
+      collectionsMap.get(item.collectionId).nfts.push(item);
+    }
+
+    return Array.from(collectionsMap.values());
   }
 }

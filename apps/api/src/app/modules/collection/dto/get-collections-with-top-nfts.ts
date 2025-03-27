@@ -27,4 +27,12 @@ export class GetCollectionsWithTopNftsDTO extends OffsetPaginationDto {
   @IsNumber()
   @IsOptional()
   top?: number;
+
+  @ApiPropertyOptional({
+    description: 'Name of collections to search',
+    example: 'test224',
+  })
+  @IsString()
+  @IsOptional()
+  name?: string;
 }
