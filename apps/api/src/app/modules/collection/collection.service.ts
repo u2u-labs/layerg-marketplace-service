@@ -965,11 +965,11 @@ export class CollectionService {
 
     const data = (await this.prisma.$queryRawUnsafe(`
         WITH user_collections AS (
-          SELECT DISTINCT "public"."NFT"."collectionId", "public"."NFT"."createdAt"
+          SELECT DISTINCT "public"."NFT"."collectionId"
           FROM "public"."NFT"
           JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
           ${firstWhereClause}
-          ORDER BY "public"."NFT"."createdAt"
+          ORDER BY "public"."NFT"."collectionId"
           LIMIT ${limit} OFFSET ${offset}
         ),
         ranked_nfts AS (
