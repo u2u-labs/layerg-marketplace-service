@@ -1,12 +1,22 @@
 import {
   RequestSignMessageDto,
   RequestVerifyMessageDto,
-  ResponseTokenUA,
   TransactionRequestDto,
 } from '@/apps/api/src/app/modules/onchain/dto/request-onchain.dto';
-import { ApiUAService } from '@/shared/src/lib/services';
+import {
+  ApiUAService,
+  AuthResponseUA,
+  PrismaService,
+} from '@/shared/src/lib/services';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
 
 @Injectable()
@@ -14,18 +24,12 @@ export class OnchainService {
   constructor(
     private apiUAService: ApiUAService,
     private readonly redisService: RedisService,
+    private readonly prisma: PrismaService,
   ) {}
   async sendTx(input: TransactionRequestDto, user: User) {
     try {
       const { chainId, sponsor, transactionReq, appApiKey } = input;
-      const responseRedis = await this.redisService.getKey(
-        `session-UA:${user.id}`,
-      );
-      const tokenUa = JSON.parse(responseRedis) as ResponseTokenUA;
-      if (!tokenUa && !tokenUa.accessToken) {
-        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-      }
-
+      const tokenUa = await this.getTokenUA(user);
       const response = await this.apiUAService.requestSendTx(
         chainId,
         sponsor,
@@ -46,13 +50,7 @@ export class OnchainService {
   async signMessage(input: RequestSignMessageDto, user: User) {
     try {
       const { chainId, message, appApiKey } = input;
-      const responseRedis = await this.redisService.getKey(
-        `session-UA:${user.id}`,
-      );
-      const tokenUa = JSON.parse(responseRedis) as ResponseTokenUA;
-      if (!tokenUa && !tokenUa.accessToken) {
-        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-      }
+      const tokenUa = await this.getTokenUA(user);
       const response = await this.apiUAService.requestSignMessage(
         chainId,
         message,
@@ -72,13 +70,7 @@ export class OnchainService {
   async verifyMessage(input: RequestVerifyMessageDto, user: User) {
     try {
       const { chainId, message, signature, appApiKey } = input;
-      const responseRedis = await this.redisService.getKey(
-        `session-UA:${user.id}`,
-      );
-      const tokenUa = JSON.parse(responseRedis) as ResponseTokenUA;
-      if (!tokenUa && !tokenUa.accessToken) {
-        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-      }
+      const tokenUa = await this.getTokenUA(user);
       const response = await this.apiUAService.requestVerifyMessage(
         chainId,
         message,
@@ -93,6 +85,69 @@ export class OnchainService {
         `Error Verify Message: ${error?.response?.data?.message || error.message}`,
         statusCode,
       );
+    }
+  }
+
+  async getTokenUA(iUser: User) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: iUser?.id,
+        },
+      });
+      if (!user) {
+        throw new ForbiddenException('Access Denied');
+      }
+
+      const dataUa = (await this.redisService.getKeyObject(
+        `session-UA:${iUser?.id}`,
+      )) as any as AuthResponseUA;
+
+      if (!dataUa) {
+        throw new NotFoundException('UA Information Not Found');
+      }
+
+      const tokenUa = await this.apiUAService.requestRefeshTokenUA(
+        dataUa.refreshToken,
+      );
+      const {
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: uaId,
+      } = tokenUa || {};
+      if (!accessTokenUA) throw new InternalServerErrorException();
+
+      const dataTokenUA: AuthResponseUA = {
+        uaId: uaId,
+        refreshToken: refreshTokenUA,
+        refreshTokenExpire: refreshTokenExpireUA,
+        accessToken: accessTokenUA,
+        accessTokenExpire: accessTokenExpireUA,
+        userId: user.id,
+      };
+
+      await this.updateDataTokenUA(dataTokenUA, user.id, true);
+      await this.updateDataTokenUA(dataTokenUA, user.id, false);
+
+      return tokenUa;
+    } catch (error) {
+      throw new HttpException(
+        `Error Get Token UA: ${error.message}`,
+        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  async updateDataTokenUA(
+    data: AuthResponseUA,
+    token: string,
+    isLogout = false,
+  ) {
+    if (!isLogout) {
+      this.redisService.setKeyObject(`session-UA:${token}`, data);
+    } else {
+      this.redisService.deleteKey(`session-UA:${token}`);
     }
   }
 }

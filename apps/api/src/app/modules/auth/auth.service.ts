@@ -106,18 +106,6 @@ export class AuthService {
     }
   }
 
-  async updateDataTokenUA(
-    data: AuthResponseUA,
-    token: string,
-    isLogout = false,
-  ) {
-    if (!isLogout) {
-      this.redisService.setKeyObject(`session-UA:${token}`, data);
-    } else {
-      this.redisService.deleteKey(`session-UA:${token}`);
-    }
-  }
-
   async getTokens(signer: string, userId: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
@@ -245,7 +233,11 @@ export class AuthService {
         accessTokenExpire: accessTokenExpireUA,
         userId: userId,
       };
-      await this.updateDataTokenUA(dataTokenUA, refreshToken, false);
+      await this.redisService.updateDataTokenUA(
+        dataTokenUA,
+        refreshToken,
+        false,
+      );
       await this.updateRefreshTokenCaching(user, refreshToken, false);
       return {
         refreshToken,
@@ -290,17 +282,17 @@ export class AuthService {
       throw new NotFoundException('UA Information Not Found');
     }
 
-    const response = await this.apiUAService.requestRefeshTokenUA(
-      dataUa.refreshToken,
-    );
-    const {
-      refreshToken: refreshTokenUA,
-      refreshTokenExpire: refreshTokenExpireUA,
-      accessToken: accessTokenUA,
-      accessTokenExpire: accessTokenExpireUA,
-      userId: uaId,
-    } = response || {};
-    if (!accessTokenUA) throw new InternalServerErrorException();
+    // const response = await this.apiUAService.requestRefeshTokenUA(
+    //   dataUa.refreshToken,
+    // );
+    // const {
+    //   refreshToken: refreshTokenUA,
+    //   refreshTokenExpire: refreshTokenExpireUA,
+    //   accessToken: accessTokenUA,
+    //   accessTokenExpire: accessTokenExpireUA,
+    //   userId: uaId,
+    // } = response || {};
+    // if (!accessTokenUA) throw new InternalServerErrorException();
 
     const {
       accessToken,
@@ -309,21 +301,21 @@ export class AuthService {
       refreshTokenExpire,
       userId,
     } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
-    const dataTokenUA: AuthResponseUA = {
-      uaId: uaId,
-      refreshToken: refreshTokenUA,
-      refreshTokenExpire: refreshTokenExpireUA,
-      accessToken: accessTokenUA,
-      accessTokenExpire: accessTokenExpireUA,
-      userId: userId,
-    };
+    // const dataTokenUA: AuthResponseUA = {
+    //   uaId: uaId,
+    //   refreshToken: refreshTokenUA,
+    //   refreshTokenExpire: refreshTokenExpireUA,
+    //   accessToken: accessTokenUA,
+    //   accessTokenExpire: accessTokenExpireUA,
+    //   userId: userId,
+    // };
 
     // Remove Old Refesh Token
     await this.updateRefreshTokenCaching(user, irefreshToken, true);
-    await this.updateDataTokenUA(dataTokenUA, userId, true);
+    // await this.updateDataTokenUA(dataTokenUA, userId, true);
     // Update New Refesh Token
     await this.updateRefreshTokenCaching(user, refreshToken, false);
-    await this.updateDataTokenUA(dataTokenUA, userId, false);
+    // await this.updateDataTokenUA(dataTokenUA, userId, false);
 
     return {
       refreshToken,
@@ -331,7 +323,7 @@ export class AuthService {
       accessToken,
       accessTokenExpire,
       userId: user?.id,
-      uaId: uaId,
+      uaId: user?.uaId,
       mode: user?.mode,
     };
   }
@@ -496,7 +488,7 @@ export class AuthService {
         userId: userId,
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
-      await this.updateDataTokenUA(dataTokenUA, userId, false);
+      await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -586,7 +578,7 @@ export class AuthService {
         userId: userId,
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
-      await this.updateDataTokenUA(dataTokenUA, userId, false);
+      await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -674,7 +666,7 @@ export class AuthService {
         userId: userId,
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
-      await this.updateDataTokenUA(dataTokenUA, userId, false);
+      await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -765,7 +757,7 @@ export class AuthService {
         userId: userId,
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
-      await this.updateDataTokenUA(dataTokenUA, userId, false);
+      await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
       return {
         refreshToken,
         refreshTokenExpire,
@@ -782,6 +774,44 @@ export class AuthService {
           error?.response?.data?.message || error.message
         }`,
         statusCode,
+      );
+    }
+  }
+
+  async getTokenUA(irefreshToken: string) {
+    try {
+      const dataUserId = await this.redisService.getKey(
+        `session:${irefreshToken}`,
+      );
+
+      if (!dataUserId) {
+        throw new NotFoundException('UA Information Not Found');
+      }
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: dataUserId,
+        },
+      });
+      if (!user) {
+        throw new ForbiddenException('Access Denied');
+      }
+
+      const dataUa = (await this.redisService.getKeyObject(
+        `session-UA:${dataUserId}`,
+      )) as any as AuthResponseUA;
+
+      if (!dataUa) {
+        throw new NotFoundException('UA Information Not Found');
+      }
+
+      const response = await this.apiUAService.requestRefeshTokenUA(
+        dataUa.refreshToken,
+      );
+      return response;
+    } catch (error) {
+      throw new HttpException(
+        `Error getTokenUA: ${error.message}`,
+        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
       );
     }
   }
