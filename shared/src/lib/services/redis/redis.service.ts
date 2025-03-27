@@ -1,6 +1,7 @@
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Redis } from 'ioredis';
+import { AuthResponseUA } from '../ua/ua.service';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
@@ -72,5 +73,17 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async deleteKey(key: string): Promise<number> {
     return await this.redisClient.del(key); // Deletes the key and returns the number of keys deleted
+  }
+
+  async updateDataTokenUA(
+    data: AuthResponseUA,
+    token: string,
+    isLogout = false,
+  ) {
+    if (!isLogout) {
+      this.setKeyObject(`session-UA:${token}`, data);
+    } else {
+      this.deleteKey(`session-UA:${token}`);
+    }
   }
 }
