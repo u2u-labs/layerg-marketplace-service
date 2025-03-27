@@ -1,35 +1,31 @@
-import { start } from 'repl';
-import { createHash } from 'crypto';
-import { encode } from 'punycode';
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
-  Prisma,
-  User,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  CONTRACT_TYPE,
   MarketplaceStatus,
   Order,
   ORDERSTATUS,
   ORDERTYPE,
+  Prisma,
   TX_STATUS,
-  CONTRACT_TYPE,
+  User,
 } from '@prisma/client';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
-import { validate as isValidUUID } from 'uuid';
 import axios from 'axios';
+import { validate as isValidUUID } from 'uuid';
 
-import { NftDto } from '../dto/nft.dto';
-import { GetAllNftDto, GetSweepOrdersDto } from '../dto/get-all-nft.dto';
-import { NftEntity } from '../entities/nft.entity';
 import OrderHeplerCommon from '../../order/helper/order.helper.service';
+import { GetAllNftDto, GetSweepOrdersDto } from '../dto/get-all-nft.dto';
+import { NftDto } from '../dto/nft.dto';
 import {
   PlatFormNFTDetail1155,
   PlatFormNFTDetail721,
 } from '../dto/platform-nft-detail.dto';
+import { NftEntity } from '../entities/nft.entity';
 
 import {
   collectionSelect,
@@ -39,8 +35,8 @@ import {
   userSelect,
 } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
-import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
+import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { GraphQlcallerService } from '@/apps/api/src/app/modules/graph-qlcaller/graph-qlcaller.service';
 import { OwnerOutputDto } from '@/apps/api/src/app/modules/user/dto/owners.dto';
 

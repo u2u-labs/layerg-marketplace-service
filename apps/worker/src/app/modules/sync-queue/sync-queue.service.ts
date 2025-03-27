@@ -23,11 +23,20 @@ export interface ResUpsertGame {
   data: DataGame;
 }
 
+export interface ResUpsertNFT {
+  type: string;
+  data: DataNFT;
+}
+
+interface ResUpsertNFTs {
+  type: string;
+  data: DataNFTs;
+}
+
 export interface DataCollection {
   collection: Collection;
   smc: Smc;
 }
-
 export interface DataCategory {
   category: Category;
 }
@@ -35,6 +44,14 @@ export interface DataCategory {
 export interface DataGame {
   game: Game;
   categories: Category[];
+}
+
+export interface DataNFT {
+  nftAsset: NftAsset;
+}
+
+export interface DataNFTs {
+  nftAsset: NftAsset[];
 }
 
 export interface Collection {
@@ -113,17 +130,57 @@ export interface CategoryGame {
   id: string;
 }
 
+export interface NftAsset {
+  id: string;
+  tokenId: any;
+  collectionId: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  mediaStorageId: string;
+  metaDataId: string;
+  nameSlug: string;
+  slug: string;
+  quantity: number;
+  apiKeyID: string;
+  media: Media;
+  metadata: Metadata;
+}
+
+export interface Media {
+  id: string;
+  S3Url: string;
+  IPFSUrl: string;
+  apiKeyID: string;
+}
+
+export interface Metadata {
+  id: string;
+  metadata: Metadata2;
+  IPFSUrl: any;
+  apiKeyID: string;
+}
+
+export interface Metadata2 {
+  attributes: Attribute[];
+}
+
+export interface Attribute {
+  value: string;
+  trait_type: string;
+}
+
 @Injectable()
 export class SyncQueueService implements OnModuleInit {
   constructor(private prismaService: PrismaService) {}
 
-  private queueUrl =
-    'https://sqs.ap-southeast-2.amazonaws.com/368685833089/layerg-sync-data-dev';
+  private queueUrl = process.env.AWS_QUEUE_URL;
   private sqsClient = new SQSClient({
-    region: 'ap-southeast-2',
+    region: process.env.AWS_S3_REGION_2,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+      accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID_2 || '',
+      secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY_2 || '',
     },
   });
 
@@ -155,13 +212,15 @@ export class SyncQueueService implements OnModuleInit {
             this.upsertCate(data),
           upsert_collection: (data: ResUpsertCollection['data']) =>
             this.upsertCollection(data),
+          upsert_nft: (data: ResUpsertNFT['data']) => this.upsertNFT(data),
+          upsert_nfts: (data: ResUpsertNFTs['data']) => this.upsertNFTs(data),
         };
 
         const handler = handlers[payload.type as keyof typeof handlers];
         if (handler && payload.data) {
-          handler(payload.data);
+          await handler(payload.data);
+          this.deleteMessage(message.ReceiptHandle);
         }
-        this.deleteMessage(message.ReceiptHandle);
       }
     } catch (err) {
       logger.error(`Error receiving message: ${err}`);
@@ -243,13 +302,65 @@ export class SyncQueueService implements OnModuleInit {
 
   async upsertGame(payload: DataGame) {
     const { game, categories } = payload;
-    const { id, ...gameData } = game;
+    const {
+      id,
+      isEnabled,
+      name,
+      gameIcon,
+      banner,
+      apiKeyID,
+      telegram,
+      facebook,
+      instagram,
+      discord,
+      twitter,
+      nameSlug,
+      avatar,
+      description,
+      information,
+      policy,
+      version,
+      slideShow,
+      totalReview,
+      totalRating,
+      slug,
+      userId,
+      totalCls,
+      platform,
+    } = game;
 
-    if (!id) return;
+    const data = {
+      isEnabled,
+      name,
+      gameIcon,
+      banner,
+      apiKeyID,
+      telegram,
+      facebook,
+      instagram,
+      discord,
+      twitter,
+      nameSlug,
+      avatar,
+      description,
+      information,
+      policy,
+      version,
+      slideShow,
+      totalReview,
+      totalRating,
+      slug,
+      userId,
+      totalCls,
+      platform,
+    };
+
     await this.prismaService.gameLayerg.upsert({
-      where: { id },
-      update: gameData,
-      create: { id, ...gameData },
+      where: {
+        id,
+      },
+      update: data,
+      create: { id, ...data },
     });
 
     await this.upsertGameCategory(id, categories);
@@ -264,10 +375,100 @@ export class SyncQueueService implements OnModuleInit {
       gameId,
       categoryId: cate.id,
     }));
-    console.log(
-      '🚀 ~ SyncQueueService ~ gameCategories ~ gameCategories:',
-      gameCategories,
-    );
+
+    await this.prismaService.gameCategories.createMany({
+      data: gameCategories,
+    });
+  }
+
+  async upsertNFT(payload: DataNFT) {
+    const { nftAsset } = payload;
+    const { media, metadata, id, ...dataNFT } = nftAsset;
+    const { S3Url, IPFSUrl } = media;
+    const { metadata: metadataNFT } = metadata;
+
+    const {
+      tokenId,
+      collectionId,
+      name,
+      description,
+      nameSlug,
+      slug,
+      quantity,
+    } = dataNFT;
+
+    await this.prismaService.trait.deleteMany({
+      where: {
+        nftId: tokenId,
+        collectionId: collectionId,
+      },
+    });
+
+    await this.prismaService.nFT.upsert({
+      where: {
+        id_collectionId: {
+          collectionId,
+          id: tokenId,
+        },
+      },
+      update: {
+        id: tokenId,
+        u2uId: id,
+        description: description,
+        name,
+        nameSlug,
+        image: S3Url ? S3Url : IPFSUrl,
+        status: TX_STATUS.SUCCESS,
+        tokenUri: '',
+        txCreationHash: '',
+        collectionId: collectionId,
+        traits: {
+          createMany: {
+            data: metadataNFT.attributes.map((trait) => ({
+              trait_type: trait.trait_type,
+              value: trait.value.toString(),
+            })),
+            skipDuplicates: true,
+          },
+        },
+      },
+      create: {
+        id: tokenId,
+        u2uId: id,
+        description: description,
+        name,
+        nameSlug,
+        image: S3Url ? S3Url : IPFSUrl,
+        status: TX_STATUS.SUCCESS,
+        tokenUri: '',
+        txCreationHash: '',
+        collectionId: collectionId,
+        updatedAt: new Date(),
+        isActive: true,
+        ownerId: '0x0000000000000000000000000000000000000000',
+        traits: {
+          createMany: {
+            data: metadataNFT.attributes.map((trait) => ({
+              trait_type: trait.trait_type,
+              value: trait.value.toString(),
+            })),
+            skipDuplicates: true,
+          },
+        },
+      },
+    });
+  }
+
+  async upsertNFTs(payload: DataNFTs) {
+    try {
+      await Promise.all([
+        payload.nftAsset.map(async (item) => {
+          await this.upsertNFT({ nftAsset: item });
+        }),
+      ]);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async pollMessages() {
