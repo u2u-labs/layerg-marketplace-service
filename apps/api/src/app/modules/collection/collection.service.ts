@@ -946,7 +946,6 @@ export class CollectionService {
     } = getCollectionsWithTopNftsDTO;
     const offset = limit * (page - 1);
     const args: (string | number)[] = [];
-    const argsHasNext: (string | number)[] = [];
 
     const conditions: string[] = [];
     const secondConditions: string[] = [];
@@ -954,12 +953,10 @@ export class CollectionService {
     if (userId) {
       conditions.push(`"public"."NFT"."ownerId" = $${args.length + 1}`);
       args.push(userId);
-      argsHasNext.push(userId);
     }
     if (gameId) {
       conditions.push(`c."gameLayergId" = $${args.length + 1}`);
       args.push(gameId);
-      argsHasNext.push(gameId);
     }
 
     secondConditions.push(
@@ -976,8 +973,7 @@ export class CollectionService {
       ? `WHERE ${secondConditions.join(' AND ')}`
       : '';
 
-    args.push(`%${name}%`, limit, offset, top);
-    argsHasNext.push(`%${name}%`, 1, limit * page);
+    args.push(`%${name}%`, limit + 1, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
       WITH user_collections AS (
@@ -1002,17 +998,6 @@ export class CollectionService {
       `,
       ...args,
     )) as Array<GetCollectionsWithTopNftsItem>;
-    const nextPageData = (await this.prisma.$queryRawUnsafe(
-      `
-      SELECT DISTINCT "public"."NFT"."collectionId"
-        FROM "public"."NFT"
-        JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
-        ${firstWhereClause} AND c.name ILIKE $${args.length - 3}
-        ORDER BY "public"."NFT"."collectionId"
-        LIMIT $${args.length - 2} OFFSET $${args.length - 1}
-      `,
-      ...argsHasNext,
-    )) as Array<GetCollectionsWithTopNftsItem>;
     const collectionsMap = new Map<
       string,
       {
@@ -1022,9 +1007,13 @@ export class CollectionService {
         nfts: NFT[];
       }
     >();
-
+    let hasNext = false;
     for (const item of data) {
       if (!collectionsMap.has(item.collectionId)) {
+        if (collectionsMap.size === limit) {
+          hasNext = true;
+          break;
+        }
         collectionsMap.set(item.collectionId, {
           collection_id: item.collectionId,
           collection_name: item.collection_name,
@@ -1035,11 +1024,13 @@ export class CollectionService {
       collectionsMap.get(item.collectionId).nfts.push(item);
     }
 
+    console.log(collectionsMap.size);
+
     return {
       data: Array.from(collectionsMap.values()),
       paging: {
         limit,
-        hasNext: nextPageData.length > 0,
+        hasNext,
         page,
       },
     };
