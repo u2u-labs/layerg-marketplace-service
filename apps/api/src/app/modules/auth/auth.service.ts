@@ -263,7 +263,7 @@ export class AuthService {
     );
 
     if (!dataUserId) {
-      throw new NotFoundException('UA Information Not Found');
+      throw new NotFoundException('User Information Not Found');
     }
     const user = await this.prisma.user.findUnique({
       where: {
@@ -274,13 +274,13 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    const dataUa = (await this.redisService.getKeyObject(
-      `session-UA:${dataUserId}`,
-    )) as any as AuthResponseUA;
+    // const dataUa = (await this.redisService.getKeyObject(
+    //   `session-UA:${dataUserId}`,
+    // )) as any as AuthResponseUA;
 
-    if (!dataUa) {
-      throw new NotFoundException('UA Information Not Found');
-    }
+    // if (!dataUa) {
+    //   throw new NotFoundException('UA Information Not Found');
+    // }
 
     // const response = await this.apiUAService.requestRefeshTokenUA(
     //   dataUa.refreshToken,
