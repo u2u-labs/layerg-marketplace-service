@@ -40,7 +40,7 @@ export class AuthService {
     private userService: UserService,
     private readonly prisma: PrismaService,
     private jwtService: JwtService,
-    private readonly redisService: RedisService,
+    private redisService: RedisService,
     private apiUAService: ApiUAService,
   ) {}
 
