@@ -973,14 +973,14 @@ export class CollectionService {
       ? `WHERE ${secondConditions.join(' AND ')}`
       : '';
 
-    args.push(`%${name}%`, limit + 1, offset, top);
+    args.push(`'${name}:*'`, limit + 1, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
       WITH user_collections AS (
         SELECT DISTINCT "public"."NFT"."collectionId"
         FROM "public"."NFT"
         JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
-        ${firstWhereClause} AND c.name ILIKE $${args.length - 3}
+        ${firstWhereClause} ${name && `AND to_tsvector('english', c.name) @@ to_tsquery('english', $${args.length - 3})`}
         ORDER BY "public"."NFT"."collectionId"
         LIMIT $${args.length - 2} OFFSET $${args.length - 1}
       ),
@@ -1023,8 +1023,6 @@ export class CollectionService {
       }
       collectionsMap.get(item.collectionId).nfts.push(item);
     }
-
-    console.log(collectionsMap.size);
 
     return {
       data: Array.from(collectionsMap.values()),
