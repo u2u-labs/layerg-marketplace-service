@@ -6,5 +6,6 @@ import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 @Module({
   controllers: [AnalyticsController],
   providers: [AnalyticsService, PrismaService],
+  exports: [AnalyticsService],
 })
 export class AnalyticsModule {}

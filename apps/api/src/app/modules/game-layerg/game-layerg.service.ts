@@ -6,14 +6,23 @@ import { SearchProjectMode } from '@/apps/api/src/app/constants/enums/game.enum'
 import { GetAnalysisGameDto } from '@/apps/api/src/app/modules/game-layerg/dto/get-analysis-game.dto';
 import { GetListameDto } from '@/apps/api/src/app/modules/game-layerg/dto/query-game.dto';
 import { PrismaService } from '@/shared/src/lib/services';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { GameLayerg, Prisma } from '@prisma/client';
 import moment from 'moment';
 import { validate as isValidUUID } from 'uuid';
 import { TimeSeriesDataPoint } from './entities/game-layerg.entity';
+import { AnalyticsService } from '../analytics/analytics.service';
 @Injectable()
 export class GameLayergService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly analyticsService: AnalyticsService,
+  ) {}
 
   // Get analysis collection group by games
   async getGameAnalysis(input: GetAnalysisGameDto) {
@@ -483,13 +492,91 @@ export class GameLayergService {
   }
 
   async getGamesByUserId(userId: string) {
-    return await this.prisma.$queryRaw`
+    return await this.prisma.$queryRawUnsafe(
+      `
                   SELECT g.id AS game_id, g.name AS game_name, COUNT(n.id) AS total_nfts
                   FROM "public"."NFT" n
                   INNER JOIN "public"."Collection" c ON n."collectionId" = c.id
                   INNER JOIN "public"."GameLayerg" g ON c."gameLayergId" = g.id
-                  WHERE n."ownerId" = ${userId}
+                  WHERE n."ownerId" = $1
                   GROUP BY g.id, g.name;
-    `;
+    `,
+      userId,
+    );
+  }
+
+  async getGameInfoByGameId(gameId: string) {
+    try {
+      const totalNftsAndOwners = (await this.prisma.$queryRawUnsafe(
+        `
+      WITH
+        game_collections AS (
+          SELECT
+            "id" "colllection_id"
+          FROM
+            "public"."Collection"
+          WHERE
+            "gameLayergId" = $1
+        ),
+        distinc_owner AS (
+          SELECT DISTINCT
+            "ownerId"
+          FROM
+            "public"."NFT" AS "NFT"
+            JOIN "game_collections" ON "game_collections"."colllection_id" = "NFT"."collectionId"
+        ),
+        total_owner AS (
+          SELECT
+            COUNT("ownerId") AS "total_owners"
+          FROM
+            "distinc_owner"
+          GROUP BY
+            "ownerId"
+        ),
+        total_nft AS (
+          SELECT
+            COUNT("colllection_id") AS "total_nfts"
+          FROM
+            "public"."NFT" AS "NFT"
+            JOIN "game_collections" ON "game_collections"."colllection_id" = "NFT"."collectionId"
+        )
+      SELECT
+        *
+      FROM
+        "total_nft",
+        "total_owner"
+      `,
+        gameId,
+      )) as Array<{
+        total_nfts: number;
+        total_owners: number;
+      }>;
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      const gameSalesChart = await this.analyticsService.getGameSalesChart(
+        `endTimestamp=${currentTimestamp}&timeRange=ALL_TIME&gameId=${gameId}`,
+        gameId,
+      );
+
+      let totalVolume = 0;
+      let floorPrice = 0;
+      if (gameSalesChart.chartData.length > 0) {
+        totalVolume = gameSalesChart.chartData.reduce(
+          (total, item) => total + item.totalVolume,
+          0,
+        );
+        floorPrice = gameSalesChart.chartData.sort(
+          (a, b) => a.floorPrice - b.floorPrice,
+        )[0].floorPrice;
+      }
+      return {
+        details: gameSalesChart.gameDetails,
+        totalNftsAndOwners: totalNftsAndOwners[0],
+        totalVolume,
+        floorPrice,
+      };
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException();
+    }
   }
 }
