@@ -556,7 +556,6 @@ export class GameLayergService {
         `endTimestamp=${currentTimestamp}&timeRange=ALL_TIME&gameId=${gameId}`,
         gameId,
       );
-
       let totalVolume = 0;
       let floorPrice = 0;
       if (gameSalesChart.chartData.length > 0) {
@@ -569,10 +568,10 @@ export class GameLayergService {
         )[0].floorPrice;
       }
       return {
-        details: gameSalesChart.gameDetails,
-        totalNftsAndOwners: totalNftsAndOwners[0],
-        totalVolume,
-        floorPrice,
+        game_details: gameSalesChart.gameDetails,
+        ...totalNftsAndOwners[0],
+        total_volume: totalVolume,
+        floor_price: floorPrice,
       };
     } catch (err) {
       console.log(err);
