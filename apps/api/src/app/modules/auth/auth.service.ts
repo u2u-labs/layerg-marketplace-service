@@ -865,40 +865,36 @@ export class AuthService {
       }
 
       const { userInfo, aaWallet } = userUAProfile;
-
       const { telegramId, googleId, twitterId } = userInfo;
 
       if (aaWallet?.length > 0) {
-        for (const wallet of aaWallet) {
-          const { aaAddress, apps } = wallet;
-          const { appName, appKey } = apps;
-          const existingWallet = await this.prisma.aAWallet.findFirst({
-            where: { aaAddress: wallet.aaAddress },
-          });
+        await this.prisma.$transaction(
+          aaWallet.map((wallet) => {
+            const { aaAddress, apps } = wallet;
+            const appKey = Array.isArray(apps) ? apps[0]?.appKey : apps?.appKey; // Handles both array & object cases
 
-          if (existingWallet) {
-            // Update existing record
-            await this.prisma.aAWallet.update({
-              where: { id: existingWallet.id }, // Use the primary key
-              data: { updatedAt: new Date() },
-            });
-          } else {
-            // Create new record
-            await this.prisma.aAWallet.create({
-              data: {
-                uaId: uaId,
-                telegramId: telegramId,
-                googleId: googleId,
-                twitterId: twitterId,
-                aaAddress: aaAddress,
-                appKey: appKey,
-                userId: userId,
+            return this.prisma.aAWallet.upsert({
+              where: {
+                aaAddress_appKey: {
+                  aaAddress,
+                  appKey,
+                },
+              },
+              update: { updatedAt: new Date() },
+              create: {
+                uaId,
+                telegramId,
+                googleId,
+                twitterId,
+                aaAddress,
+                appKey,
+                userId,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               },
             });
-          }
-        }
+          }),
+        );
       }
     } catch (error) {
       throw new HttpException(
