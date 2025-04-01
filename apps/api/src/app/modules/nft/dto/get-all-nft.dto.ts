@@ -78,6 +78,9 @@ export class GetAllNftDto extends OffsetPaginationDto {
 
   @IsOptional()
   gameId: string;
+
+  @IsOptional()
+  ownerId: string;
 }
 
 export class GetSweepOrdersDto extends OffsetPaginationDto {

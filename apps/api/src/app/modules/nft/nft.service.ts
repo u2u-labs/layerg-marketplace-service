@@ -269,6 +269,11 @@ export class NftService {
           },
         });
       }
+      if (filter.ownerId) {
+        whereConditionInternal.AND.push({
+          ownerId: filter.ownerId,
+        });
+      }
       if (filter.source) {
         const collectionCondition: Prisma.CollectionWhereInput = {};
         collectionCondition.source = filter.source;

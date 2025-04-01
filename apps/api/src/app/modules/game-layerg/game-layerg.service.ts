@@ -375,6 +375,12 @@ export class GameLayergService {
                 mode: 'insensitive',
               },
             },
+            {
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
           ],
         });
       }
