@@ -4,6 +4,7 @@ import {
   AuthResponseUA,
   ErrorUA,
   PrismaService,
+  User,
 } from '@layerg-mkp-workspace/shared/services';
 import {
   BadRequestException,
@@ -218,6 +219,7 @@ export class AuthService {
         });
       }
 
+      await this.upsertAAWallet(uaId, accessTokenUA, user.id);
       const {
         accessToken,
         refreshToken,
@@ -462,16 +464,19 @@ export class AuthService {
             publicKey: userUA?.googleId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_GOOGLE,
+            type: userUA?.type,
           },
           create: {
             signer: userUA?.googleId,
             publicKey: userUA?.googleId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_GOOGLE,
+            type: userUA?.type,
           },
         });
       }
 
+      await this.upsertAAWallet(uaId, accessTokenUA, user.id);
       const {
         accessToken,
         refreshToken,
@@ -552,15 +557,18 @@ export class AuthService {
             publicKey: userUA?.telegramId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_TELEGRAM,
+            type: userUA?.type,
           },
           create: {
             signer: userUA?.telegramId,
             publicKey: userUA?.telegramId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_TELEGRAM,
+            type: userUA?.type,
           },
         });
       }
+      await this.upsertAAWallet(uaId, accessTokenUA, user.id);
 
       const {
         accessToken,
@@ -640,15 +648,18 @@ export class AuthService {
             publicKey: userUA?.twitterId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_TWITTER,
+            type: userUA?.type,
           },
           create: {
             signer: userUA?.twitterId,
             publicKey: userUA?.twitterId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_TWITTER,
+            type: userUA?.type,
           },
         });
       }
+      await this.upsertAAWallet(uaId, accessTokenUA, user.id);
 
       const {
         accessToken,
@@ -731,16 +742,18 @@ export class AuthService {
             publicKey: userUA?.facebookId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_FACEBOOK,
+            type: userUA?.type,
           },
           create: {
             signer: userUA?.facebookId,
             publicKey: userUA?.facebookId,
             uaId: String(uaId),
             mode: ConnectType.CONNECT_FACEBOOK,
+            type: userUA?.type,
           },
         });
       }
-
+      await this.upsertAAWallet(uaId, accessTokenUA, user.id);
       const {
         accessToken,
         refreshToken,
@@ -811,6 +824,51 @@ export class AuthService {
     } catch (error) {
       throw new HttpException(
         `Error getTokenUA: ${error.message}`,
+        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async upsertAAWallet(uaId: string, bearerToken: string, userId: string) {
+    try {
+      const userUAProfile: User = await this.apiUAService.requestUserProfileUA(
+        uaId,
+        bearerToken,
+      );
+
+      if (!userUAProfile) {
+        throw new NotFoundException('User UA Profile Not Found');
+      }
+
+      const { aaWallets, telegramId, googleId, twitterId } = userUAProfile;
+
+      if (aaWallets?.length > 0) {
+        await this.prisma.$transaction(
+          aaWallets.map((wallet) =>
+            this.prisma.aAWallet.upsert({
+              where: { id: wallet.id }, // Assuming `walletAddress` is unique
+              update: {
+                updatedAt: new Date(),
+              },
+              create: {
+                uaId: uaId,
+                id: wallet.id,
+                telegramId: telegramId,
+                googleId: googleId,
+                twitterId: twitterId,
+                aaAddress: wallet.aaAddress,
+                factoryAddress: wallet.factoryAddress,
+                userId: userId,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            }),
+          ),
+        );
+      }
+    } catch (error) {
+      throw new HttpException(
+        `Error upserting AAWallets: ${error.message}`,
         error?.response?.statusCode || HttpStatus.BAD_REQUEST,
       );
     }

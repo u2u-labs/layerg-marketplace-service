@@ -149,6 +149,16 @@ export interface User {
   twitterFirstName: any;
   twitterLastName: any;
   twitterAvatarUrl: any;
+  aaWallets: AAWallet[];
+}
+
+export interface AAWallet {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  aaAddress: string;
+  factoryAddress: string;
+  userId: string;
 }
 
 export interface W {
@@ -181,7 +191,7 @@ export class ApiUAService {
       return header;
     } catch (error) {
       throw new HttpException(
-        `Error Call GetUser Profile: ${error.message}`,
+        `Error Call request Header UA: ${error.message}`,
         error?.response?.statusCode || HttpStatus.BAD_REQUEST,
       );
     }
@@ -242,26 +252,16 @@ export class ApiUAService {
     }
   }
 
-  async requestUserProfileUA(uaId: string, accessToken: string) {
-    try {
-      const uAProfile: UAProfile = await this.request(
-        'GET',
-        `${process.env.UA_URL}/user/${uaId}`,
-        {},
-        {
-          Authorization: `Bearer ${accessToken}`, // If needed
-          'Content-Type': 'application/json',
-          origin: `${process.env.UA_ORIGIN_URL}`,
-        },
-      );
-      delete uAProfile.encryptedPrivateKey;
-      return uAProfile;
-    } catch (error) {
-      throw new HttpException(
-        `Error Call GetUser Profile: ${error.message}`,
-        error?.response?.statusCode || HttpStatus.BAD_REQUEST,
-      );
-    }
+  async requestUserProfileUA(uaId: string, bearerToken: string) {
+    const header = await this.requestHeaderUA();
+    header['Authorization'] = `Bearer ${bearerToken}`;
+    const uAProfile: User = await this.request(
+      'GET',
+      `${process.env.UA_URL}/user/${uaId}`,
+      {},
+      header,
+    );
+    return uAProfile;
   }
 
   // async requestConnectTelegramUA(telegramId: string, otp: string) {
