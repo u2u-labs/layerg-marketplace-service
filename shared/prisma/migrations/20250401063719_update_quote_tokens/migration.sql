@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "QuoteTokens" ADD COLUMN     "chainId" INTEGER DEFAULT 0,
+ADD COLUMN     "decimals" INTEGER NOT NULL DEFAULT 18;

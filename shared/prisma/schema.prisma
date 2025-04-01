@@ -51,6 +51,7 @@ model User {
   orderTo          OrderHistory[]   @relation(name: "OrderTo")
   cart             Cart?            @relation(name: "UserCart")
   aaWallets        AAWallet[]       @relation(name: "UserAAWallet")
+
   @@index([id])
   @@index([publicKey])
   @@index([signer])
@@ -113,7 +114,7 @@ model UserNFT {
 
 model Collection {
   id                 String               @id @default(uuid()) @db.Uuid
-  txCreationHash     String?               @unique
+  txCreationHash     String?              @unique
   name               String               @unique
   nameSlug           String?
   symbol             String
@@ -259,6 +260,11 @@ enum SELL_STATUS {
   CancelBid
 }
 
+enum QUOTE_TOKEN_TYPE {
+  NATIVE
+  WRAPPED
+}
+
 model RoundRangeTime {
   id        String    @id @default(uuid()) @db.Uuid
   roundId   Int
@@ -381,11 +387,14 @@ model BlogTopic {
 }
 
 model QuoteTokens {
-  address    String @id @unique
+  address    String            @id @unique
   symbol     String
   name       String
   derivedETH Float
   derivedUSD Float
+  chainId    Int?              @default(0)
+  decimals   Int?              @default(18)
+  tokenType  QUOTE_TOKEN_TYPE?
 }
 
 model AnalysisCollection {
@@ -522,8 +531,8 @@ model Chain {
 
 enum MULTICHAIN_CONTRACT_TYPE {
   MARKETPLACE
-  ERC721_PROXY
-  ERC1155_PROXY
+  NFT_PROXY
+  ERC20_PROXY
 }
 
 model ContractMarketplace {
@@ -633,17 +642,17 @@ model CartItem {
 }
 
 model AAWallet {
-  id              String     @id @default(uuid())
-  userId          String     @db.Uuid
-  type            String?     
-  uaId            String?
-  aaAddress       String?
-  factoryAddress  String?
-  telegramId      String?
-  facebookId      String?
-  twitterId       String?
-  googleId        String? 
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime?  @updatedAt
-  User            User       @relation(fields: [userId], references: [id], name: "UserAAWallet")
+  id             String    @id @default(uuid())
+  userId         String    @db.Uuid
+  type           String?
+  uaId           String?
+  aaAddress      String?
+  factoryAddress String?
+  telegramId     String?
+  facebookId     String?
+  twitterId      String?
+  googleId       String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+  User           User      @relation(fields: [userId], references: [id], name: "UserAAWallet")
 }
