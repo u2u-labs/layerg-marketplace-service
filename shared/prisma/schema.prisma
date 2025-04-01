@@ -11,6 +11,7 @@ datasource db {
 model User {
   id               String           @id @default(uuid()) @db.Uuid
   uaId             String?          @unique
+  type             String?
   mode             String?
   email            String?          @unique
   avatar           String?
@@ -49,7 +50,7 @@ model User {
   orderFrom        OrderHistory[]   @relation(name: "OrderFrom")
   orderTo          OrderHistory[]   @relation(name: "OrderTo")
   cart             Cart?            @relation(name: "UserCart")
-
+  aaWallets        AAWallet[]       @relation(name: "UserAAWallet")
   @@index([id])
   @@index([publicKey])
   @@index([signer])
@@ -629,4 +630,20 @@ model CartItem {
   nft          NFT       @relation(fields: [nftId, collectionId], references: [id, collectionId])
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
+}
+
+model AAWallet {
+  id              String     @id @default(uuid())
+  userId          String     @db.Uuid
+  type            String?     
+  uaId            String?
+  aaAddress       String?
+  factoryAddress  String?
+  telegramId      String?
+  facebookId      String?
+  twitterId       String?
+  googleId        String? 
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime?  @updatedAt
+  User            User       @relation(fields: [userId], references: [id], name: "UserAAWallet")
 }
