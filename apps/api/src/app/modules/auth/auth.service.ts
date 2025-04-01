@@ -241,6 +241,11 @@ export class AuthService {
         false,
       );
       await this.updateRefreshTokenCaching(user, refreshToken, false);
+      const aaWallets = await this.prisma.aAWallet.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
       return {
         refreshToken,
         refreshTokenExpire,
@@ -249,6 +254,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
+        aaWallets,
       };
     } catch (error) {
       throw new HttpException(
@@ -494,6 +500,12 @@ export class AuthService {
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
       await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
+
+      const aaWallets = await this.prisma.aAWallet.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
       return {
         refreshToken,
         refreshTokenExpire,
@@ -502,6 +514,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
+        aaWallets,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -678,6 +691,12 @@ export class AuthService {
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
       await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
+
+      const aaWallets = await this.prisma.aAWallet.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
       return {
         refreshToken,
         refreshTokenExpire,
@@ -686,6 +705,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
+        aaWallets,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -771,6 +791,11 @@ export class AuthService {
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
       await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
+      const aaWallets = await this.prisma.aAWallet.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
       return {
         refreshToken,
         refreshTokenExpire,
@@ -779,6 +804,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
+        aaWallets,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
