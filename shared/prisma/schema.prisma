@@ -652,7 +652,9 @@ model AAWallet {
   facebookId     String?
   twitterId      String?
   googleId       String?
+  appKey         String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime? @updatedAt
   User           User      @relation(fields: [userId], references: [id], name: "UserAAWallet")
+  @@unique([aaAddress, appKey])
 }
