@@ -2,41 +2,6 @@ import { LayerGAPI } from '@layerg-ua-sdk/aa-sdk';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
-export interface UAProfile {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  type: string;
-  eoaWallet: string;
-  encryptedPrivateKey: string;
-  username: any;
-  firstname: any;
-  lastname: any;
-  avatar: any;
-  signature: any;
-  primaryAAWallet: any;
-  telegramId: string;
-  telegramUsername: any;
-  telegramFirstName: any;
-  telegramLastName: any;
-  telegramAvatarUrl: string;
-  telegramAuthDate: string;
-  telegramVerified: boolean;
-  aaWallets: AaWallet[];
-}
-
-export interface AaWallet {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-  aaAddress: string;
-  ownerAddress: string;
-  factoryAddress: string;
-  userId: number;
-  chainId: number;
-  isDeployed: boolean;
-}
-
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -171,6 +136,59 @@ export interface W {
   userId: string;
 }
 
+export interface ResUAProfile {
+  success: boolean;
+  data: UAProfile;
+  message: string;
+}
+
+export interface UAProfile {
+  userInfo: UserInfo;
+  aaWallet: AaWallet[];
+}
+
+export interface UserInfo {
+  useId: string;
+  type: string;
+  eoaWallet: string;
+  username: any;
+  firstname: any;
+  lastname: any;
+  avatar: any;
+  signature: any;
+  telegramId: any;
+  telegramUsername: any;
+  telegramFirstName: any;
+  telegramLastName: any;
+  telegramAvatarUrl: any;
+  email: any;
+  facebookId: any;
+  facebookEmail: any;
+  facebookFirstName: any;
+  facebookLastName: any;
+  facebookAvatarUrl: any;
+  googleId: string;
+  googleEmail: string;
+  googleFirstName: string;
+  googleLastName: string;
+  googleAvatarUrl: string;
+  twitterId: any;
+  twitterEmail: any;
+  twitterFirstName: any;
+  twitterLastName: any;
+  twitterAvatarUrl: any;
+}
+
+export interface AaWallet {
+  aaAddress: string;
+  apps: Apps;
+}
+
+export interface Apps {
+  appName: string;
+  appKey: string;
+}
+
 @Injectable()
 export class ApiUAService {
   private async requestHeaderUA() {
@@ -255,13 +273,13 @@ export class ApiUAService {
   async requestUserProfileUA(uaId: string, bearerToken: string) {
     const header = await this.requestHeaderUA();
     header['Authorization'] = `Bearer ${bearerToken}`;
-    const uAProfile: User = await this.request(
+    const uAProfile: ResUAProfile = await this.request(
       'GET',
       `${process.env.UA_URL}/user/${uaId}`,
       {},
       header,
     );
-    return uAProfile;
+    return uAProfile.data;
   }
 
   // async requestConnectTelegramUA(telegramId: string, otp: string) {

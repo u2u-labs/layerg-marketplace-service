@@ -4,7 +4,7 @@ import {
   AuthResponseUA,
   ErrorUA,
   PrismaService,
-  User,
+  UAProfile,
 } from '@layerg-mkp-workspace/shared/services';
 import {
   BadRequestException,
@@ -857,40 +857,48 @@ export class AuthService {
 
   async upsertAAWallet(uaId: string, bearerToken: string, userId: string) {
     try {
-      const userUAProfile: User = await this.apiUAService.requestUserProfileUA(
-        uaId,
-        bearerToken,
-      );
+      const userUAProfile: UAProfile =
+        await this.apiUAService.requestUserProfileUA(uaId, bearerToken);
 
       if (!userUAProfile) {
         throw new NotFoundException('User UA Profile Not Found');
       }
 
-      const { aaWallets, telegramId, googleId, twitterId } = userUAProfile;
+      const { userInfo, aaWallet } = userUAProfile;
 
-      if (aaWallets?.length > 0) {
-        await this.prisma.$transaction(
-          aaWallets.map((wallet) =>
-            this.prisma.aAWallet.upsert({
-              where: { id: wallet.id }, // Assuming `walletAddress` is unique
-              update: {
-                updatedAt: new Date(),
-              },
-              create: {
+      const { telegramId, googleId, twitterId } = userInfo;
+
+      if (aaWallet?.length > 0) {
+        for (const wallet of aaWallet) {
+          const { aaAddress, apps } = wallet;
+          const { appName, appKey } = apps;
+          const existingWallet = await this.prisma.aAWallet.findFirst({
+            where: { aaAddress: wallet.aaAddress },
+          });
+
+          if (existingWallet) {
+            // Update existing record
+            await this.prisma.aAWallet.update({
+              where: { id: existingWallet.id }, // Use the primary key
+              data: { updatedAt: new Date() },
+            });
+          } else {
+            // Create new record
+            await this.prisma.aAWallet.create({
+              data: {
                 uaId: uaId,
-                id: wallet.id,
                 telegramId: telegramId,
                 googleId: googleId,
                 twitterId: twitterId,
-                aaAddress: wallet.aaAddress,
-                factoryAddress: wallet.factoryAddress,
+                aaAddress: aaAddress,
+                appKey: appKey,
                 userId: userId,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               },
-            }),
-          ),
-        );
+            });
+          }
+        }
       }
     } catch (error) {
       throw new HttpException(
