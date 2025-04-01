@@ -569,6 +569,7 @@ model GameLayerg {
   banner      String?
   apiKeyID    String?          @unique()
   telegram    String?
+  appKey      String?
   facebook    String?
   instagram   String?
   discord     String?

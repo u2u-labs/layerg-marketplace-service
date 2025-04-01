@@ -37,6 +37,7 @@ export const gameLayergSelect: Prisma.GameLayergSelect = {
   slug: true,
   isRcm: true,
   userId: true,
+  appKey: true,
 };
 
 export const CollectionSelect: Prisma.CollectionSelect = {
