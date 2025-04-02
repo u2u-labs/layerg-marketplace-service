@@ -6,7 +6,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  CONTRACT_TYPE,
   MarketplaceStatus,
   Order,
   ORDERSTATUS,
@@ -18,7 +17,6 @@ import {
 import axios from 'axios';
 import { validate as isValidUUID } from 'uuid';
 
-import OrderHeplerCommon from '../../order/helper/order.helper.service';
 import { GetAllNftDto, GetSweepOrdersDto } from '../dto/get-all-nft.dto';
 import { NftDto } from '../dto/nft.dto';
 import {
@@ -831,75 +829,17 @@ export class NFTHepler {
         );
       }
 
-      const isOther =
-        collection.flagExtend === true &&
-        // IF source in SourceType
-        Object.values(SourceType).includes(
-          collection?.source as unknown as any,
-        );
-
-      if (isOther) {
-        const { owners = [] } = await this.getCurrentOwnersFlatForm(
-          `${collection.subgraphUrl}/${nft.id}`,
-          nft as unknown as NftEntity,
-        );
-
-        const checkOwner = !!owners.find(
-          (user) => user?.signer?.toLowerCase() === signer?.toLowerCase(),
-        );
-
-        return { checkOwner, collection, nft };
-      }
-
-      const checkOwner = await this.findOwnerNFT(
-        signer,
-        collection.address,
-        nft.id,
-        collection.flagExtend,
-        collection.subgraphUrl,
-        collection.type,
-        nft.u2uId,
-      );
-
-      return { checkOwner, collection, nft };
+      const checkOwner = await this.prisma.ownership.findFirst({
+        where: {
+          collectionId: collection.id,
+          nftId: nft.id,
+          userAddress: signer,
+        },
+      });
+      return { checkOwner: !!checkOwner, collection, nft };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
       throw new HttpException(`Check NFT Owner: ${error.message}`, statusCode);
-    }
-  }
-
-  // ower: address owner
-  // address: address collection
-  // tokenId: NFT ID
-  async findOwnerNFT(
-    owner: string,
-    address: string,
-    tokenId: string,
-    flagExtend: boolean,
-    subgraphUrl: string,
-    type: CONTRACT_TYPE,
-    u2uId: string,
-  ) {
-    try {
-      if (flagExtend == true) {
-        const checkOwner = await this.getOwnerExternal(
-          subgraphUrl,
-          tokenId,
-          owner,
-          type,
-        );
-        return checkOwner;
-      } else {
-        const checkOwner = await this.getOwnerInternal(
-          u2uId ? u2uId : tokenId,
-          address,
-          owner,
-          type,
-        );
-        return checkOwner;
-      }
-    } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -940,57 +880,6 @@ export class NFTHepler {
         `Error findNFTAndCollection order: ${error.message}`,
         statusCode,
       );
-    }
-  }
-
-  async getOwnerInternal(
-    tokenId: string,
-    contract: string,
-    owner: string,
-    type: CONTRACT_TYPE,
-  ) {
-    let nftInfoWithOwner;
-    if (type === CONTRACT_TYPE.ERC1155) {
-      nftInfoWithOwner = await OrderHeplerCommon.ownersInternal1155(
-        contract,
-        tokenId,
-        owner,
-      );
-      return nftInfoWithOwner?.erc1155Balances?.length > 0 ? true : false;
-    } else {
-      nftInfoWithOwner = await OrderHeplerCommon.ownersInternal721(
-        tokenId,
-        contract,
-        owner,
-      );
-      return nftInfoWithOwner?.erc721Tokens?.length > 0 ? true : false;
-    }
-  }
-
-  async getOwnerExternal(
-    subgraphUri: string,
-    tokenId: string,
-    owner: string,
-    type: CONTRACT_TYPE,
-  ) {
-    let nftInfoWithOwner;
-    if (type === CONTRACT_TYPE.ERC1155) {
-      nftInfoWithOwner = await OrderHeplerCommon.ownerExternal(
-        subgraphUri,
-        CONTRACT_TYPE.ERC1155,
-        tokenId,
-        owner,
-      );
-      return nftInfoWithOwner?.userBalances?.length > 0 ? true : false;
-    } else {
-      nftInfoWithOwner = await OrderHeplerCommon.ownerExternal(
-        subgraphUri,
-        CONTRACT_TYPE.ERC721,
-        tokenId,
-        owner,
-      );
-
-      return nftInfoWithOwner?.items?.[0]?.owner?.id ? true : false;
     }
   }
 

@@ -113,6 +113,29 @@ export const nftSelect: Prisma.NFTSelect = {
   ownerId: true,
 };
 
+export const nftSelectShort: Prisma.NFTSelect = {
+  id: true,
+  u2uId: true,
+  description: true,
+  name: true,
+  nameSlug: true,
+  image: true,
+  animationUrl: true,
+  createdAt: true,
+  updatedAt: true,
+  status: true,
+  tokenUri: true,
+  txCreationHash: true,
+  collectionId: true,
+  creatorId: true,
+  isActive: true,
+  creator: {
+    select: creatorSelect,
+  },
+  traits: true,
+  ownerId: true,
+};
+
 export const nftSelectOwner: Prisma.NFTSelect = {
   id: true,
   name: true,
