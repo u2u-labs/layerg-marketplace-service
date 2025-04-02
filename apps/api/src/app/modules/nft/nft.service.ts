@@ -296,10 +296,20 @@ export class NftService {
 
       if (filter.name) {
         whereConditionInternal.AND.push({
-          nameSlug: {
-            contains: OtherCommon.stringToSlugSearch(filter.name),
-            mode: 'insensitive',
-          },
+          OR: [
+            {
+              nameSlug: {
+                contains: OtherCommon.stringToSlugSearch(filter.name),
+                mode: 'insensitive',
+              },
+            },
+            {
+              slug: {
+                contains: OtherCommon.stringToSlugSearch(filter.name),
+                mode: 'insensitive',
+              },
+            },
+          ],
         });
       }
 
@@ -857,15 +867,16 @@ export class NftService {
   }
 
   async findOne(input: CollectionDetailDto): Promise<NftDto> {
-    const { id, collectionAddress, chainId } = input;
+    // const { id, collectionAddress, chainId } = input;
+    const { slug } = input;
     try {
       const nft = await this.prisma.nFT.findFirst({
         where: {
-          id,
-          collection: {
-            address: collectionAddress,
-            chainId: BigInt(chainId),
-          },
+          slug,
+          // collection: {
+          //   address: collectionAddress,
+          //   chainId: BigInt(chainId),
+          // },
         },
         include: {
           creator: {
@@ -879,47 +890,38 @@ export class NftService {
         throw new NotFoundException('No NFT found');
       }
       let owners: OwnerOutputDto[];
-      if (nft.collection.type === 'ERC1155') {
-        // const ownerAndSupplyInfo = await this.getCurrentOwners(nft);
-        // owners = ownerAndSupplyInfo.owners;
-        // nft.totalSupply = ownerAndSupplyInfo.totalSupply;
-      } else {
-        // const ownerAndSupplyInfo = await this.getCurrentOwners(nft);
-        // owners = ownerAndSupplyInfo.owners;
-      }
-
       // @ts-ignore
-      nft.owners = owners;
-      const royalties =
-        await this.collectionPriceService.FetchRoyaltiesFromGraph(
-          collectionAddress,
-        );
-      const totalRoyalties = royalties.reduce(
-        (acc, item) => acc + item.value,
-        0,
-      );
-      const returnNft: NftDto = {
-        ...nft,
-        collection: {
-          ...nft.collection,
-          totalRoyalties,
-          listRoyalties: royalties,
-        },
-      };
-      if (nft.collection?.flagExtend == true && !returnNft?.creator) {
-        const creator = await this.prisma.userCollection.findFirst({
-          where: {
-            collectionId: nft.collection.id,
-          },
-          include: {
-            user: {
-              select: creatorSelect,
-            },
-          },
-        });
-        returnNft.creator = creator?.user || null;
-      }
-      return returnNft;
+      // nft.owners = owners;
+      // const royalties =
+      //   await this.collectionPriceService.FetchRoyaltiesFromGraph(
+      //     collectionAddress,
+      //   );
+      // const totalRoyalties = royalties.reduce(
+      //   (acc, item) => acc + item.value,
+      //   0,
+      // );
+      // const returnNft: NftDto = {
+      //   ...nft,
+      //   collection: {
+      //     ...nft.collection,
+      //     totalRoyalties,
+      //     listRoyalties: royalties,
+      //   },
+      // };
+      // if (nft.collection?.flagExtend == true && !returnNft?.creator) {
+      //   const creator = await this.prisma.userCollection.findFirst({
+      //     where: {
+      //       collectionId: nft.collection.id,
+      //     },
+      //     include: {
+      //       user: {
+      //         select: creatorSelect,
+      //       },
+      //     },
+      //   });
+      //   returnNft.creator = creator?.user || null;
+      // }
+      return nft;
     } catch (error) {
       console.error(error);
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);

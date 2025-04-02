@@ -28,23 +28,31 @@ export class NftDto {
 
 export class CollectionDetailDto {
   @ApiProperty({
-    description: 'Unique identifier of the collection',
-    example: '12345',
+    description: 'The slug of the collection',
+    example: 'my-collection-slug',
   })
   @IsString()
   @IsNotEmpty()
-  id: string;
-
-  @ApiProperty({ description: 'Blockchain chain ID', example: '1' })
-  @IsString()
-  @IsNotEmpty()
-  chainId: string;
-
-  @ApiProperty({
-    description: 'Collection contract address',
-    example: '0x1234567890abcdef1234567890abcdef12345678',
-  })
-  @IsString()
-  @IsNotEmpty()
-  collectionAddress: string;
+  slug: string;
 }
+
+// export class CollectionDetailDto {
+// @ApiProperty({
+//   description: 'Unique identifier of the collection',
+//   example: '12345',
+// })
+// @IsString()
+// @IsNotEmpty()
+// id: string;
+// @ApiProperty({ description: 'Blockchain chain ID', example: '1' })
+// @IsString()
+// @IsNotEmpty()
+// chainId: string;
+// @ApiProperty({
+//   description: 'Collection contract address',
+//   example: '0x1234567890abcdef1234567890abcdef12345678',
+// })
+// @IsString()
+// @IsNotEmpty()
+// collectionAddress: string;
+// }
