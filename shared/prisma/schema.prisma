@@ -84,9 +84,11 @@ model NFT {
   source               String?
   ownerId              String
   cartItems            CartItem[]
+  slug                 String?             @unique()
 
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive])
+  @@index([slug])
 }
 
 model Trait {
@@ -670,6 +672,6 @@ model Activity {
   userAddress  String
   type         String
   qty          Int
-  price        String?   @default("0")
+  price        String?  @default("0")
   createdAt    DateTime @default(now())
 }
