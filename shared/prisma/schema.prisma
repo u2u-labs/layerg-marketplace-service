@@ -657,5 +657,19 @@ model AAWallet {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime? @updatedAt
   User           User      @relation(fields: [userId], references: [id], name: "UserAAWallet")
+
   @@unique([aaAddress, appKey])
+}
+
+model Activity {
+  id           String   @id @default(uuid())
+  from         String
+  to           String
+  collectionId String   @db.Uuid
+  nftId        String   @db.VarChar(255)
+  userAddress  String
+  type         String
+  qty          Int
+  price        String?   @default("0")
+  createdAt    DateTime @default(now())
 }
