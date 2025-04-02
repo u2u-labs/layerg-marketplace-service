@@ -564,7 +564,7 @@ export class GameLayergService {
       );
       let totalVolume = 0;
       let floorPrice = 0;
-      if (gameSalesChart.chartData.length > 0) {
+      if (gameSalesChart?.chartData?.length > 0) {
         totalVolume = gameSalesChart.chartData.reduce(
           (total, item) => total + item.totalVolume,
           0,

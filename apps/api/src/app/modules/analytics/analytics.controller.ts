@@ -17,22 +17,21 @@ export class AnalyticsController {
     gameId: string,
     @Res() res: Response,
   ) {
-    try {
-      const urlSearchParams = new URLSearchParams();
-      urlSearchParams.set('gameId', gameId);
-      Object.keys(query).forEach((key) => {
-        urlSearchParams.set(key, query[key]);
-      });
-      const result = await this.analyticsService.getGameSalesChart(
-        urlSearchParams.toString(),
-        gameId,
-      );
-      res.status(HttpStatus.OK).json(result);
-    } catch (error) {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: error.message,
-      });
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set('gameId', gameId);
+    Object.keys(query).forEach((key) => {
+      urlSearchParams.set(key, query[key]);
+    });
+    const result = await this.analyticsService.getGameSalesChart(
+      urlSearchParams.toString(),
+      gameId,
+    );
+    if (!result) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+      return;
     }
+    res.status(HttpStatus.OK).json(result);
+    return;
   }
 
   @Get('/games/sales-chart')
