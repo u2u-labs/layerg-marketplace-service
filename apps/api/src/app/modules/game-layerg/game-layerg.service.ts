@@ -573,11 +573,29 @@ export class GameLayergService {
           (a, b) => a.floorPrice - b.floorPrice,
         )[0].floorPrice;
       }
+      const gameCollection = await this.prisma.collection.findFirst({
+        where: {
+          gameLayergId: gameId,
+        },
+      });
+      let token = null;
+      if (gameCollection) {
+        const foundToken = await this.prisma.quoteTokens.findFirst({
+          where: {
+            chainId: Number(gameCollection.chainId),
+            tokenType: 'NATIVE',
+          },
+        });
+        if (foundToken) {
+          token = foundToken;
+        }
+      }
       return {
         game_details: gameSalesChart.gameDetails,
         ...totalNftsAndOwners[0],
         total_volume: totalVolume,
         floor_price: floorPrice,
+        token,
       };
     } catch (err) {
       console.log(err);
