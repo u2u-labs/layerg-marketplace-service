@@ -18,16 +18,16 @@ import {
   VerifyOrderDto,
   VerifyOrdersDto,
 } from './dto/get-order.dto';
-import OrderHeplerCommon from './helper/order.helper.service';
 
 import { abi as exchangeABI } from '@/apps/api/abis/Exchange.json';
 import {
-  nftSelect,
+  nftSelectShort,
   userSelect,
 } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import { MerkleTree } from '@/apps/api/src/app/commons/MerkleTree.common';
 import { getSdk } from '@/apps/api/src/app/generated/graphql';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
+import OrderHeplerCommon from './helper/order.helper.service';
 
 @Injectable()
 export class OrderService {
@@ -70,17 +70,25 @@ export class OrderService {
         input.orderType == ORDERTYPE.BID
           ? input.takeAssetValue
           : input.makeAssetValue;
+
+      const aaWallet = await this.prisma.aAWallet.findFirst({
+        where: {
+          userId: user.id,
+          appKey: input.appKey,
+        },
+      });
+
       const { check, collection, nft } = await this.validateNftOwnership(
         collectionAddress,
-        user.signer,
+        aaWallet.aaAddress,
         userTaker ? userTaker.signer : null,
         input.orderType,
         tokenId,
       );
+
       if (!check) {
         throw new Error('Owner NFT invalid');
       }
-
       const checkExists = await this.prisma.order.findUnique({
         where: {
           sig_index: {
@@ -89,11 +97,9 @@ export class OrderService {
           },
         },
       });
-
       if (checkExists) {
         throw new Error('Order already exists');
       }
-
       const dataInput: Prisma.OrderUncheckedCreateInput = {
         sig: input.sig,
         makerId: user.id,
@@ -138,14 +144,14 @@ export class OrderService {
             select: userSelect,
           },
           nftById: {
-            select: nftSelect,
+            select: nftSelectShort,
           },
         },
       });
-      await this.redisService.publish('collectionUtils-channel', {
-        data: collection.address,
-        process: 'update-floor-price',
-      });
+      // await this.redisService.publish('collectionUtils-channel', {
+      //   data: collection.address,
+      //   process: 'update-floor-price',
+      // });
       return newOrder;
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -418,7 +424,7 @@ export class OrderService {
             tokenId,
             makerAddress,
           );
-        return { check: checkOwner, collection, nft };
+        return { check: !!checkOwner, collection, nft };
       } else {
         const { collection, nft } = await this.nftHepler.checkNftOwner(
           collectionId,

@@ -84,6 +84,7 @@ model NFT {
   source               String?
   ownerId              String
   cartItems            CartItem[]
+  ownership            Ownership[]
 
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive])
@@ -154,7 +155,7 @@ model Collection {
   gameLayerg         GameLayerg?          @relation(fields: [gameLayergId], references: [id])
   gameLayergId       String?
   totalAssets        Int                  @default(0)
-
+  ownerships         Ownership[]
   @@index([address], type: Hash)
   @@index([gameLayergId])
   @@index([nameSlug])
@@ -658,4 +659,22 @@ model AAWallet {
   updatedAt      DateTime? @updatedAt
   User           User      @relation(fields: [userId], references: [id], name: "UserAAWallet")
   @@unique([aaAddress, appKey])
+}
+
+
+model Ownership {
+  id             String       @id @default(uuid())
+  userAddress    String    
+  nftId          String?      
+  collectionId   String?      @db.Uuid
+  quantity       Int          @default(0) 
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime?    @updatedAt
+  chainId        Int          @default(0) 
+  nfts           NFT?         @relation(fields: [nftId, collectionId], references: [id, collectionId])
+  collection     Collection?  @relation(fields: [collectionId], references: [id])
+
+  @@index([userAddress, nftId, collectionId])
+  @@index([userAddress])
+  @@index([userAddress, collectionId])
 }

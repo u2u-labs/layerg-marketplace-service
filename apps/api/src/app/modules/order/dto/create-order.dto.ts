@@ -116,6 +116,11 @@ export class CreateSingleDto {
   @IsString({ each: true })
   @IsOptional()
   proof: string[];
+
+  @ApiProperty({ description: 'App Key of the order' })
+  @IsNotEmpty()
+  @IsString()
+  appKey: string;
 }
 
 export class CreateBulkDto {
