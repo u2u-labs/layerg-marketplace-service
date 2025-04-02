@@ -885,6 +885,10 @@ export class NftService {
           collection: {
             select: {
               address: true,
+              name: true,
+              id: true,
+              avatar: true,
+              coverImage: true,
               gameLayerg: {
                 select: {
                   id: true,
