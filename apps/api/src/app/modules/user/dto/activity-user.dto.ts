@@ -16,10 +16,10 @@ export class GetActivityBase extends OffsetPaginationDto {
   @Transform(({ value }) => new LowercasePipe().transform(value))
   user: string;
 
-  @ApiPropertyOptional({ description: 'Type of contract', enum: CONTRACT_TYPE })
+  @ApiPropertyOptional({ description: 'Type of activity' })
   @IsOptional()
-  @IsEnum(CONTRACT_TYPE)
-  type?: CONTRACT_TYPE;
+  @IsString()
+  type?: string;
 }
 
 export class GetFollowingDto extends OffsetPaginationDto {

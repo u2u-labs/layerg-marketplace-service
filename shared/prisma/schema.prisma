@@ -85,9 +85,11 @@ model NFT {
   ownerId              String
   cartItems            CartItem[]
   ownership            Ownership[]
+  slug                 String?             @unique()
 
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive])
+  @@index([slug])
 }
 
 model Trait {
@@ -677,4 +679,16 @@ model Ownership {
   @@index([userAddress, nftId, collectionId])
   @@index([userAddress])
   @@index([userAddress, collectionId])
+}
+model Activity {
+  id           String   @id @default(uuid())
+  from         String
+  to           String
+  collectionId String   @db.Uuid
+  nftId        String   @db.VarChar(255)
+  userAddress  String
+  type         String
+  qty          Int
+  price        String?  @default("0")
+  createdAt    DateTime @default(now())
 }

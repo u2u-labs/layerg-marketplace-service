@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
@@ -413,20 +414,34 @@ export class UserService {
   async findActivityNFT(input: GetActivityBase) {
     try {
       const { user, page, limit, type } = input;
-      const resultUser = await this.getUser(user);
-
-      const or = [{ to: resultUser?.signer }, { from: resultUser?.signer }];
-      const blocks = await this.activetiService.fetchActivityFromGraph({
-        or,
-        page,
-        limit,
-        type,
+      const _limit = limit ?? 10;
+      const _page = page ?? 1;
+      const activities = await this.prisma.activity.findMany({
+        where: {
+          AND: [
+            {
+              OR: [
+                {
+                  to: user,
+                },
+                {
+                  from: user,
+                },
+              ],
+            },
+            ...(type ? [{ type }] : []),
+          ],
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: _limit,
+        skip: (_page - 1) * _limit,
       });
-      const result = await this.activetiService.processActivityUserData(blocks);
-      return result;
+      return activities;
     } catch (error) {
       console.log(error);
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+      throw new InternalServerErrorException();
     }
   }
 
