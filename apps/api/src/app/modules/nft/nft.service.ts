@@ -866,7 +866,7 @@ export class NftService {
     }
   }
 
-  async findOne(input: CollectionDetailDto): Promise<NftDto> {
+  async findOne(input: CollectionDetailDto) {
     // const { id, collectionAddress, chainId } = input;
     const { slug } = input;
     try {
@@ -882,14 +882,29 @@ export class NftService {
           creator: {
             select: creatorSelect,
           },
-          collection: true,
+          collection: {
+            select: {
+              gameLayerg: {
+                select: {
+                  id: true,
+                  name: true,
+                  appKey: true,
+                },
+              },
+            },
+          },
           traits: true,
         },
       });
       if (!nft) {
         throw new NotFoundException('No NFT found');
       }
-      let owners: OwnerOutputDto[];
+      // let owners: OwnerOutputDto[];
+      const owners = await this.prisma.ownership.findMany({
+        where: {
+          nftId: nft.id,
+        },
+      });
       // @ts-ignore
       // nft.owners = owners;
       // const royalties =
@@ -900,14 +915,10 @@ export class NftService {
       //   (acc, item) => acc + item.value,
       //   0,
       // );
-      // const returnNft: NftDto = {
-      //   ...nft,
-      //   collection: {
-      //     ...nft.collection,
-      //     totalRoyalties,
-      //     listRoyalties: royalties,
-      //   },
-      // };
+      const returnNft = {
+        ...nft,
+        owners: owners,
+      };
       // if (nft.collection?.flagExtend == true && !returnNft?.creator) {
       //   const creator = await this.prisma.userCollection.findFirst({
       //     where: {
@@ -921,7 +932,7 @@ export class NftService {
       //   });
       //   returnNft.creator = creator?.user || null;
       // }
-      return nft;
+      return returnNft;
     } catch (error) {
       console.error(error);
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
