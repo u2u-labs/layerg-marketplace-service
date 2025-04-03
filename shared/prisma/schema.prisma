@@ -676,6 +676,7 @@ model Ownership {
   nfts           NFT?         @relation(fields: [nftId, collectionId], references: [id, collectionId])
   collection     Collection?  @relation(fields: [collectionId], references: [id])
 
+  @@unique([userAddress, nftId, collectionId])
   @@index([userAddress, nftId, collectionId])
   @@index([userAddress])
   @@index([userAddress, collectionId])
