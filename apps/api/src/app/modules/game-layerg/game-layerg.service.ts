@@ -15,8 +15,8 @@ import {
 import { GameLayerg, Prisma } from '@prisma/client';
 import moment from 'moment';
 import { validate as isValidUUID } from 'uuid';
-import { TimeSeriesDataPoint } from './entities/game-layerg.entity';
 import { AnalyticsService } from '../analytics/analytics.service';
+import { TimeSeriesDataPoint } from './entities/game-layerg.entity';
 @Injectable()
 export class GameLayergService {
   constructor(
@@ -414,6 +414,18 @@ export class GameLayergService {
       const orderBy: Prisma.GameLayergOrderByWithRelationInput = {
         createdAt: 'desc',
       };
+
+      const orderByProperties: Prisma.GameLayergOrderByWithRelationInput[] = [];
+      if (mode == SearchProjectMode.RECOMMEND) {
+        whereCondition.isRcm = true;
+      } else if (mode == SearchProjectMode.TOPRATING) {
+        whereCondition.totalRating = {
+          gt: 0,
+        };
+        orderByProperties.push({
+          totalRating: 'desc',
+        });
+      }
 
       const [data, hasNext] = await Promise.all([
         this.prisma.gameLayerg.findMany({

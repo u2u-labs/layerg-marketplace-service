@@ -35,7 +35,8 @@ class PaginationCommon {
       | Prisma.BlogWhereInput
       | Prisma.AnalysisCollectionWhereInput
       | Prisma.GameLayergWhereInput
-      | Prisma.CategoryWhereInput,
+      | Prisma.CategoryWhereInput
+      | Prisma.OwnershipWhereInput,
   ): Promise<boolean> {
     const skip = (page - 1) * limit;
     const take = limit * 2;

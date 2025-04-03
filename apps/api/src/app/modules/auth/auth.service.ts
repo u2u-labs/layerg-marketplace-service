@@ -246,6 +246,10 @@ export class AuthService {
           userId: user.id,
         },
       });
+      const aaWalletsMap = aaWallets.map((aaWallet) => ({
+        ...aaWallet,
+        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+      }));
       return {
         refreshToken,
         refreshTokenExpire,
@@ -254,7 +258,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
-        aaWallets,
+        aaWallets: aaWalletsMap,
       };
     } catch (error) {
       throw new HttpException(
@@ -506,6 +510,10 @@ export class AuthService {
           userId: user.id,
         },
       });
+      const aaWalletsMap = aaWallets.map((aaWallet) => ({
+        ...aaWallet,
+        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+      }));
       return {
         refreshToken,
         refreshTokenExpire,
@@ -514,7 +522,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
-        aaWallets,
+        aaWallets: aaWalletsMap,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -600,6 +608,15 @@ export class AuthService {
       };
       await this.updateRefreshTokenCaching(user, refreshToken);
       await this.redisService.updateDataTokenUA(dataTokenUA, userId, false);
+      const aaWallets = await this.prisma.aAWallet.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
+      const aaWalletsMap = aaWallets.map((aaWallet) => ({
+        ...aaWallet,
+        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+      }));
       return {
         refreshToken,
         refreshTokenExpire,
@@ -608,6 +625,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
+        aaWallets: aaWalletsMap,
       };
     } catch (error) {
       throw new HttpException(
@@ -697,6 +715,10 @@ export class AuthService {
           userId: user.id,
         },
       });
+      const aaWalletsMap = aaWallets.map((aaWallet) => ({
+        ...aaWallet,
+        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+      }));
       return {
         refreshToken,
         refreshTokenExpire,
@@ -705,7 +727,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
-        aaWallets,
+        aaWallets: aaWalletsMap,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -796,6 +818,10 @@ export class AuthService {
           userId: user.id,
         },
       });
+      const aaWalletsMap = aaWallets.map((aaWallet) => ({
+        ...aaWallet,
+        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+      }));
       return {
         refreshToken,
         refreshTokenExpire,
@@ -804,7 +830,7 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
-        aaWallets,
+        aaWallets: aaWalletsMap,
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
@@ -876,7 +902,7 @@ export class AuthService {
             return this.prisma.aAWallet.upsert({
               where: {
                 aaAddress_appKey: {
-                  aaAddress,
+                  aaAddress: aaAddress.toLowerCase(),
                   appKey,
                 },
               },
@@ -886,7 +912,7 @@ export class AuthService {
                 telegramId,
                 googleId,
                 twitterId,
-                aaAddress,
+                aaAddress: aaAddress.toLowerCase(),
                 appKey,
                 userId,
                 createdAt: new Date(),

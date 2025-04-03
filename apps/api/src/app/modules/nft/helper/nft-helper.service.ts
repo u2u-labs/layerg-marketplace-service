@@ -34,7 +34,6 @@ import {
 } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
-import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { GraphQlcallerService } from '@/apps/api/src/app/modules/graph-qlcaller/graph-qlcaller.service';
 import { OwnerOutputDto } from '@/apps/api/src/app/modules/user/dto/owners.dto';
 
@@ -433,159 +432,225 @@ export class NFTHepler {
     );
     return uniqueData;
   }
+
   async handleGetOwnerNFT(filter: GetAllNftDto | any) {
-    try {
-      let nftIdFromOwner = [];
-      let nftCollectionFromOwner = [];
-      let hasNextNftOwner = false;
+    let nftIdFromOwner = [];
+    let nftCollectionFromOwner = [];
+    let hasNextNftOwner = false;
 
-      if (filter?.source == SourceType.LAYERG) {
-        const { data: dataResponseFlatForm } =
-          await this.requestNFTLayerG(filter);
-        if (dataResponseFlatForm?.data?.length > 0) {
-          const layerGFilter = await this.filterExistingNFTsLayerG(
-            dataResponseFlatForm?.data,
-            (item) => item?.tokenId, // Directly using tokenId
-            (item) => item?.assetId.split(':')[1],
-            true,
-          );
-          nftIdFromOwner = layerGFilter.map((item) => item.tokenId);
-          nftCollectionFromOwner = layerGFilter.map((item) => item.contract);
-          hasNextNftOwner = filter.page < dataResponseFlatForm?.totalPages;
-        }
-        return {
-          nftIdFromOwner,
-          nftCollectionFromOwner,
-          hasNextNftOwner,
-        };
-      }
-      const resultOwnerExternal =
-        await this.GraphqlService.getNFTExternalFromOwner(
-          filter.owner.toLowerCase(),
-          filter.order as OrderDirection,
-          filter.page,
-          Math.floor(filter.limit / 2),
-        );
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: filter.ownerId,
+      },
+    });
 
-      const hasNextNftOwnerExternalTemp =
-        await this.GraphqlService.getNFTExternalFromOwner(
-          filter.owner.toLowerCase(),
-          filter.order as OrderDirection,
-          filter.page + 1,
-          Math.floor(filter.limit / 2),
-        );
-
-      hasNextNftOwner =
-        (hasNextNftOwnerExternalTemp &&
-          hasNextNftOwnerExternalTemp.erc721Tokens.length > 0) ||
-        (hasNextNftOwnerExternalTemp &&
-          hasNextNftOwnerExternalTemp.erc1155Balances.length > 0);
-
-      if (resultOwnerExternal) {
-        const erc1155BalancesSort = this.sortERC1155balances(
-          resultOwnerExternal.erc1155Balances,
-          filter.order,
-        );
-
-        const nftIdFromOwnerExternal = resultOwnerExternal.erc721Tokens
-          .map((item) => item.tokenID)
-          .concat(erc1155BalancesSort.map((item) => item.token.tokenID));
-        const nftCollectionFromOwnerExternal = resultOwnerExternal.erc721Tokens
-          .map((item) => item.contract)
-          .concat(erc1155BalancesSort.map((item) => item.token.contract));
-
-        nftIdFromOwner = [...nftIdFromOwnerExternal];
-        nftCollectionFromOwner = [...nftCollectionFromOwnerExternal];
-      }
-      // Check if the number of external items is less than the limit
-      if (nftIdFromOwner?.length < Math.floor(filter.limit / 2)) {
-        // Internal
-        // const limitRemaining = filter.limit - (nftIdFromOwner?.length || 0);
-
-        const { account } = await this.GraphqlService.getNFTFromOwner(
-          filter.owner.toLowerCase(),
-          filter.order as OrderDirection,
-          filter.page,
-          // filter.limit,
-          Math.floor(filter.limit / 2),
-        );
-        const { account: hasNextNftOwnerTemp } =
-          await this.GraphqlService.getNFTFromOwner(
-            filter.owner.toLowerCase(),
-            filter.order as OrderDirection,
-            filter.page + 1,
-            // filter.limit,
-            Math.floor(filter.limit / 2),
-          );
-
-        if (hasNextNftOwnerTemp) {
-          const hasNext721Exist = await this.filterExistingNFTs(
-            hasNextNftOwnerTemp?.ERC721tokens,
-            (item) => item?.tokenId,
-            (item) => item?.contract?.id,
-            false,
-          );
-
-          const hasNext1155Exist = await this.filterExistingNFTs(
-            hasNextNftOwnerTemp?.ERC1155balances,
-            (item) => item?.tokenId,
-            (item) => item?.contract?.id,
-            false,
-          );
-
-          hasNextNftOwner =
-            hasNextNftOwner ||
-            hasNext1155Exist?.length > 0 ||
-            hasNext721Exist?.length > 0;
-        }
-
-        if (account) {
-          // Lọc các record fake của external 721 được ghi vào subgraph chính
-          const internal721Filter = await this.filterExistingNFTs(
-            account?.ERC721tokens,
-            (item) => item?.tokenId,
-            (item) => item?.contract?.id,
-            false,
-          );
-
-          // Lọc các record fake của external 1155 được ghi vào subgraph chính
-          const internal1155Filter = await this.filterExistingNFTs(
-            account?.ERC1155balances,
-            (item) => item?.token?.tokenId,
-            (item) => item?.token?.contract?.id,
-            false,
-          );
-
-          const erc1155BalancesSort = this.sortERC1155balances(
-            internal1155Filter,
-            filter.order,
-          );
-
-          // Concat list TokenId
-          const nftIdFromOwnerInternal = internal721Filter
-            .map((item) => item.tokenId)
-            .concat(erc1155BalancesSort.map((item) => item.token.tokenId));
-
-          // Concat List Collection
-          const nftCollectionFromOwnerInternal = internal721Filter
-            .map((item) => item.contract.id)
-            .concat(erc1155BalancesSort.map((item) => item.token.contract.id));
-          nftIdFromOwner = [...nftIdFromOwner, ...nftIdFromOwnerInternal];
-          nftCollectionFromOwner = [
-            ...nftCollectionFromOwner,
-            ...nftCollectionFromOwnerInternal,
-          ];
-        }
-      }
+    if (!user) {
       return {
         nftIdFromOwner,
         nftCollectionFromOwner,
         hasNextNftOwner,
       };
-    } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
+
+    const aaWallets = await this.prisma.aAWallet.findMany({
+      where: {
+        userId: filter.ownerId,
+      },
+    });
+
+    const aaWalletsAddress = aaWallets.map((item) =>
+      item.aaAddress.toLowerCase(),
+    );
+
+    if (aaWalletsAddress && aaWalletsAddress.length > 0) {
+      const whereCondition: Prisma.OwnershipWhereInput = {
+        userAddress: { in: aaWalletsAddress },
+        quantity: { gt: 0 },
+      };
+
+      const ownerships = await this.prisma.ownership.findMany({
+        where: whereCondition,
+        skip: (filter.page - 1) * filter.limit,
+        take: filter.limit,
+        include: {
+          collection: true,
+        },
+      });
+
+      const hasNext = await PaginationCommon.hasNextPage(
+        filter.page,
+        Math.floor(filter.limit / 2),
+        'ownership',
+        whereCondition,
+      );
+
+      nftIdFromOwner = ownerships.map((item) => item.nftId);
+      nftCollectionFromOwner = ownerships.map((item) =>
+        item?.collection?.address?.toLowerCase(),
+      );
+      hasNextNftOwner = hasNext;
+    }
+
+    return {
+      nftIdFromOwner,
+      nftCollectionFromOwner,
+      hasNextNftOwner,
+    };
   }
+
+  // async handleGetOwnerNFT(filter: GetAllNftDto | any) {
+  //   try {
+  //     let nftIdFromOwner = [];
+  //     let nftCollectionFromOwner = [];
+  //     let hasNextNftOwner = false;
+
+  //     if (filter?.source == SourceType.LAYERG) {
+  //       const { data: dataResponseFlatForm } =
+  //         await this.requestNFTLayerG(filter);
+  //       if (dataResponseFlatForm?.data?.length > 0) {
+  //         const layerGFilter = await this.filterExistingNFTsLayerG(
+  //           dataResponseFlatForm?.data,
+  //           (item) => item?.tokenId, // Directly using tokenId
+  //           (item) => item?.assetId.split(':')[1],
+  //           true,
+  //         );
+  //         nftIdFromOwner = layerGFilter.map((item) => item.tokenId);
+  //         nftCollectionFromOwner = layerGFilter.map((item) => item.contract);
+  //         hasNextNftOwner = filter.page < dataResponseFlatForm?.totalPages;
+  //       }
+  //       return {
+  //         nftIdFromOwner,
+  //         nftCollectionFromOwner,
+  //         hasNextNftOwner,
+  //       };
+  //     }
+  //     const resultOwnerExternal =
+  //       await this.GraphqlService.getNFTExternalFromOwner(
+  //         filter.owner.toLowerCase(),
+  //         filter.order as OrderDirection,
+  //         filter.page,
+  //         Math.floor(filter.limit / 2),
+  //       );
+
+  //     const hasNextNftOwnerExternalTemp =
+  //       await this.GraphqlService.getNFTExternalFromOwner(
+  //         filter.owner.toLowerCase(),
+  //         filter.order as OrderDirection,
+  //         filter.page + 1,
+  //         Math.floor(filter.limit / 2),
+  //       );
+
+  //     hasNextNftOwner =
+  //       (hasNextNftOwnerExternalTemp &&
+  //         hasNextNftOwnerExternalTemp.erc721Tokens.length > 0) ||
+  //       (hasNextNftOwnerExternalTemp &&
+  //         hasNextNftOwnerExternalTemp.erc1155Balances.length > 0);
+
+  //     if (resultOwnerExternal) {
+  //       const erc1155BalancesSort = this.sortERC1155balances(
+  //         resultOwnerExternal.erc1155Balances,
+  //         filter.order,
+  //       );
+
+  //       const nftIdFromOwnerExternal = resultOwnerExternal.erc721Tokens
+  //         .map((item) => item.tokenID)
+  //         .concat(erc1155BalancesSort.map((item) => item.token.tokenID));
+  //       const nftCollectionFromOwnerExternal = resultOwnerExternal.erc721Tokens
+  //         .map((item) => item.contract)
+  //         .concat(erc1155BalancesSort.map((item) => item.token.contract));
+
+  //       nftIdFromOwner = [...nftIdFromOwnerExternal];
+  //       nftCollectionFromOwner = [...nftCollectionFromOwnerExternal];
+  //     }
+  //     // Check if the number of external items is less than the limit
+  //     if (nftIdFromOwner?.length < Math.floor(filter.limit / 2)) {
+  //       // Internal
+  //       // const limitRemaining = filter.limit - (nftIdFromOwner?.length || 0);
+
+  //       const { account } = await this.GraphqlService.getNFTFromOwner(
+  //         filter.owner.toLowerCase(),
+  //         filter.order as OrderDirection,
+  //         filter.page,
+  //         // filter.limit,
+  //         Math.floor(filter.limit / 2),
+  //       );
+  //       const { account: hasNextNftOwnerTemp } =
+  //         await this.GraphqlService.getNFTFromOwner(
+  //           filter.owner.toLowerCase(),
+  //           filter.order as OrderDirection,
+  //           filter.page + 1,
+  //           // filter.limit,
+  //           Math.floor(filter.limit / 2),
+  //         );
+
+  //       if (hasNextNftOwnerTemp) {
+  //         const hasNext721Exist = await this.filterExistingNFTs(
+  //           hasNextNftOwnerTemp?.ERC721tokens,
+  //           (item) => item?.tokenId,
+  //           (item) => item?.contract?.id,
+  //           false,
+  //         );
+
+  //         const hasNext1155Exist = await this.filterExistingNFTs(
+  //           hasNextNftOwnerTemp?.ERC1155balances,
+  //           (item) => item?.tokenId,
+  //           (item) => item?.contract?.id,
+  //           false,
+  //         );
+
+  //         hasNextNftOwner =
+  //           hasNextNftOwner ||
+  //           hasNext1155Exist?.length > 0 ||
+  //           hasNext721Exist?.length > 0;
+  //       }
+
+  //       if (account) {
+  //         // Lọc các record fake của external 721 được ghi vào subgraph chính
+  //         const internal721Filter = await this.filterExistingNFTs(
+  //           account?.ERC721tokens,
+  //           (item) => item?.tokenId,
+  //           (item) => item?.contract?.id,
+  //           false,
+  //         );
+
+  //         // Lọc các record fake của external 1155 được ghi vào subgraph chính
+  //         const internal1155Filter = await this.filterExistingNFTs(
+  //           account?.ERC1155balances,
+  //           (item) => item?.token?.tokenId,
+  //           (item) => item?.token?.contract?.id,
+  //           false,
+  //         );
+
+  //         const erc1155BalancesSort = this.sortERC1155balances(
+  //           internal1155Filter,
+  //           filter.order,
+  //         );
+
+  //         // Concat list TokenId
+  //         const nftIdFromOwnerInternal = internal721Filter
+  //           .map((item) => item.tokenId)
+  //           .concat(erc1155BalancesSort.map((item) => item.token.tokenId));
+
+  //         // Concat List Collection
+  //         const nftCollectionFromOwnerInternal = internal721Filter
+  //           .map((item) => item.contract.id)
+  //           .concat(erc1155BalancesSort.map((item) => item.token.contract.id));
+  //         nftIdFromOwner = [...nftIdFromOwner, ...nftIdFromOwnerInternal];
+  //         nftCollectionFromOwner = [
+  //           ...nftCollectionFromOwner,
+  //           ...nftCollectionFromOwnerInternal,
+  //         ];
+  //       }
+  //     }
+  //     return {
+  //       nftIdFromOwner,
+  //       nftCollectionFromOwner,
+  //       hasNextNftOwner,
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+  //   }
+  // }
   async filterExistingNFTs(
     items: any[],
     getTokenId: (item: any) => string,
