@@ -889,6 +889,7 @@ export class NftService {
               id: true,
               avatar: true,
               coverImage: true,
+              type: true,
               gameLayerg: {
                 select: {
                   id: true,
