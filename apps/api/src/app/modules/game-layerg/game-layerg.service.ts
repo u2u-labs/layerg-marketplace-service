@@ -411,20 +411,18 @@ export class GameLayergService {
         whereCondition.isRcm = true;
       }
 
-      const orderBy: Prisma.GameLayergOrderByWithRelationInput = {
-        createdAt: 'desc',
-      };
+      const orderBy: Prisma.GameLayergOrderByWithRelationInput = {};
 
-      const orderByProperties: Prisma.GameLayergOrderByWithRelationInput[] = [];
+      // const orderByProperties: Prisma.GameLayergOrderByWithRelationInput[] = [];
       if (mode == SearchProjectMode.RECOMMEND) {
         whereCondition.isRcm = true;
       } else if (mode == SearchProjectMode.TOPRATING) {
         whereCondition.totalRating = {
           gt: 0,
         };
-        orderByProperties.push({
-          totalRating: 'desc',
-        });
+        orderBy.totalRating = 'desc';
+      } else {
+        orderBy.createdAt = 'desc';
       }
 
       const [data, hasNext] = await Promise.all([
