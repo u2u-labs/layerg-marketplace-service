@@ -500,12 +500,19 @@ export class GameLayergService {
   async getGamesByUserId(userId: string) {
     return await this.prisma.$queryRawUnsafe(
       `
-                  SELECT g.id AS game_id, g.name AS game_name, COUNT(n.id) AS total_nfts
-                  FROM "public"."NFT" n
-                  INNER JOIN "public"."Collection" c ON n."collectionId" = c.id
-                  INNER JOIN "public"."GameLayerg" g ON c."gameLayergId" = g.id
-                  WHERE n."ownerId" = $1
-                  GROUP BY g.id, g.name;
+      WITH "user_addresses" AS (
+        SELECT "aaAddress" FROM "public"."AAWallet"
+        WHERE "userId" = $1
+      ),
+      "user_total_nfts" AS (
+        SELECT "collectionId","gameLayergId" FROM "public"."Ownership"
+        JOIN user_addresses ON user_addresses."aaAddress" = "public"."Ownership"."userAddress"
+        JOIN "public"."Collection" c ON c."id" = "collectionId"
+      )
+      SELECT COUNT("game"."id") as "total_nfts", "game"."name" as "game_name", "game"."id" as "game_id"
+      FROM user_total_nfts
+      JOIN "public"."GameLayerg" as game ON "user_total_nfts"."gameLayergId" = "game"."id"
+      GROUP BY "game"."id"
     `,
       userId,
     );

@@ -947,52 +947,41 @@ export class CollectionService {
     const offset = limit * (page - 1);
     const args: (string | number)[] = [];
 
-    const conditions: string[] = [];
-    const secondConditions: string[] = [];
-
     if (userId) {
-      conditions.push(`"public"."NFT"."ownerId" = $${args.length + 1}`);
       args.push(userId);
     }
+    let whereClause = '';
     if (gameId) {
-      conditions.push(`c."gameLayergId" = $${args.length + 1}`);
+      whereClause = gameId ? `AND c."gameLayergId" = $${args.length + 1}` : '';
       args.push(gameId);
     }
-
-    secondConditions.push(
-      `"public"."NFT"."collectionId" IN (SELECT "collectionId" FROM user_collections)`,
-    );
-    if (userId) {
-      secondConditions.unshift(`"public"."NFT"."ownerId" = $1`);
-    }
-
-    const firstWhereClause = conditions.length
-      ? `WHERE ${conditions.join(' AND ')}`
-      : '';
-    const secondWhereClause = secondConditions.length
-      ? `WHERE ${secondConditions.join(' AND ')}`
-      : '';
-
     args.push(`'${name}:*'`, limit + 1, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
-      WITH user_collections AS (
-        SELECT DISTINCT "public"."NFT"."collectionId"
-        FROM "public"."NFT"
-        JOIN "public"."Collection" c ON "public"."NFT"."collectionId" = c.id
-        ${firstWhereClause} ${name && `AND to_tsvector('english', c.name) @@ to_tsquery('english', $${args.length - 3})`}
-        ORDER BY "public"."NFT"."collectionId"
+      WITH user_addresses AS (
+        SELECT "aaAddress" FROM "public"."AAWallet"
+        ${userId ? `WHERE "public"."AAWallet"."userId" = $1::uuid` : ''}
+      ),
+      user_collections AS (
+        SELECT DISTINCT "ons"."collectionId", "ons"."updatedAt", "userAddress"
+        FROM "public"."Ownership" as "ons"
+        JOIN "user_addresses" ON "ons"."userAddress" = "user_addresses"."aaAddress"
+        JOIN "public"."Collection" as c ON c."id" = "ons"."collectionId"
+        WHERE "ons"."quantity" > 0 ${whereClause} ${name && `AND to_tsvector('english', c.name) @@ to_tsquery('english', $${args.length - 3})`}
+        ORDER BY "ons"."updatedAt" DESC
         LIMIT $${args.length - 2} OFFSET $${args.length - 1}
       ),
       ranked_nfts AS (
-        SELECT "public"."NFT".*,
-          ROW_NUMBER() OVER (PARTITION BY "public"."NFT"."collectionId" ORDER BY "public"."NFT"."id" DESC) AS rank
-        FROM "public"."NFT"
-        ${secondWhereClause}
+        SELECT "public"."Ownership".*,
+        ROW_NUMBER() OVER (PARTITION BY "public"."Ownership"."collectionId" ORDER BY "public"."Ownership"."updatedAt" DESC) AS rank
+        FROM "public"."Ownership"
+        WHERE "public"."Ownership"."collectionId" IN (SELECT "collectionId" FROM "user_collections")
+        AND "public"."Ownership"."userAddress" IN (SELECT "userAddress" FROM "user_collections")
       )
-      SELECT rn.*, c.name AS "collection_name", c.address AS "collection_address"
+      SELECT nft.*, c.name AS "collection_name", c.address AS "collection_address"
       FROM ranked_nfts rn
       JOIN "public"."Collection" c ON rn."collectionId" = c.id
+      JOIN "public"."NFT" nft ON rn."nftId" = nft."id" AND rn."collectionId" = nft."collectionId"
       WHERE rn.rank <= $${args.length}
       ORDER BY rn."collectionId", rn.rank;
       `,
