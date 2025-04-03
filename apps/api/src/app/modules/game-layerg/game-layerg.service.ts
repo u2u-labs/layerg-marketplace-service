@@ -502,7 +502,7 @@ export class GameLayergService {
       `
       WITH "user_addresses" AS (
         SELECT "aaAddress" FROM "public"."AAWallet"
-        WHERE "userId" = $1
+        WHERE "userId" = $1::uuid
       ),
       "user_total_nfts" AS (
         SELECT "collectionId","gameLayergId" FROM "public"."Ownership"
