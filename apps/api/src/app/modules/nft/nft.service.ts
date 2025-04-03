@@ -210,7 +210,8 @@ export class NftService {
     }
   }
 
-  async findAll(filter: GetAllNftDto): Promise<PagingResponseHasNext<NftDto>> {
+  // async findAll(filter: GetAllNftDto): Promise<PagingResponseHasNext<NftDto>> {
+  async findAll(filter: GetAllNftDto) {
     // TODO: Reimplement pagination strategy
     // Get the result totally from subgraph and match data to local storage
     // For each set of condition, use different subgraph query as source
@@ -234,7 +235,7 @@ export class NftService {
       let nftIdFromOwner = [];
       let nftCollectionFromOwner = [];
       let hasNextNftOwner = false;
-      if (filter.owner) {
+      if (filter.ownerId) {
         const {
           nftIdFromOwner: ids = [],
           nftCollectionFromOwner: collections = [],
@@ -267,11 +268,6 @@ export class NftService {
           creator: {
             publicKey: filter.creatorAddress,
           },
-        });
-      }
-      if (filter.ownerId) {
-        whereConditionInternal.AND.push({
-          ownerId: filter.ownerId,
         });
       }
       if (filter.source) {
@@ -357,7 +353,7 @@ export class NftService {
           });
         }
         // eslint-disable-next-line no-empty
-      } else if (filter.owner) {
+      } else if (filter.ownerId) {
       } else {
         whereCondition.AND = whereConditionInternal.AND;
         delete whereCondition.OR;
@@ -401,7 +397,7 @@ export class NftService {
           }
 
           const nfts = await this.prisma.nFT.findMany({
-            ...(!filter.owner && {
+            ...(!filter.ownerId && {
               skip: (filter.page - 1) * filter.limit,
               take: filter.limit,
             }),
@@ -476,14 +472,14 @@ export class NftService {
           }
         }
         // Check if filter.from or filter.quoteToken is defined before adding it to the query
-        if (filter.from !== undefined || filter.owner !== undefined) {
+        if (filter.from !== undefined || filter.ownerId !== undefined) {
           const ownerAddress = await this.prisma.user.findFirst({
             where: {
               signer:
                 (filter.orderStatus === ORDERSTATUS.OPEN &&
                   filter.orderType == ORDERTYPE.SINGLE) ||
-                (filter.orderType == ORDERTYPE.BULK && filter.owner)
-                  ? filter.owner.toLowerCase()
+                (filter.orderType == ORDERTYPE.BULK && filter.ownerId)
+                  ? filter.ownerId.toLowerCase()
                   : filter.from,
             },
           });
@@ -536,7 +532,7 @@ export class NftService {
           }
 
           const nfts = await this.prisma.nFT.findMany({
-            ...(!filter.owner && {
+            ...(!filter.ownerId && {
               skip: (filter.page - 1) * filter.limit,
               take: filter.limit,
             }),
