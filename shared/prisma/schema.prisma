@@ -692,4 +692,5 @@ model Activity {
   qty          Int
   price        String?  @default("0")
   createdAt    DateTime @default(now())
+  logId        String?  @unique
 }
