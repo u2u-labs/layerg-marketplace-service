@@ -220,6 +220,11 @@ export class NftService {
     try {
       let traitsConditions = [];
 
+      const isCheckFilter = ['name', 'gameId', 'chainId'];
+      const hasMatchingKey = Object.keys(filter).some((key) =>
+        isCheckFilter.includes(key),
+      );
+
       // TODO: if price and status are included, then use subgraph as main source and use other to eliminate
       if (filter.traits) {
         traitsConditions = filter.traits.map((trait) => ({
@@ -344,9 +349,7 @@ export class NftService {
             AND: [
               { OR: tokenIdConditions },
               {
-                collection: {
-                  address: collection,
-                },
+                collectionId: collection,
               },
               ...whereConditionInternal.AND,
             ],
@@ -362,7 +365,7 @@ export class NftService {
         (!filter.priceMin &&
           !filter.priceMax &&
           (!filter.orderType || !filter.orderStatus)) ||
-        filter.name
+        hasMatchingKey == true
       ) {
         if (filter.quoteToken !== undefined) {
           whereCondition.OrderByTokenId = { some: {} };
@@ -420,13 +423,16 @@ export class NftService {
           });
           const Nftformat =
             await this.nftHepler.handleFormatNFTResponseOrder(nfts);
-          const hasNext =
-            (await PaginationCommon.hasNextPage(
-              filter.page,
-              Math.floor(filter.limit / 2),
-              'nFT',
-              whereCondition,
-            )) || hasNextNftOwner;
+          const nextPageExists = await PaginationCommon.hasNextPage(
+            filter.page,
+            Math.floor(filter.limit / 2),
+            'nFT',
+            whereCondition,
+          );
+
+          const hasNext = hasMatchingKey
+            ? nextPageExists
+            : nextPageExists || hasNextNftOwner;
           return {
             data: Nftformat,
             paging: {
