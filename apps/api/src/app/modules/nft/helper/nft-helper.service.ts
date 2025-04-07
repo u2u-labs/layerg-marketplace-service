@@ -485,9 +485,7 @@ export class NFTHepler {
       );
 
       nftIdFromOwner = ownerships.map((item) => item.nftId);
-      nftCollectionFromOwner = ownerships.map((item) =>
-        item?.collection?.address?.toLowerCase(),
-      );
+      nftCollectionFromOwner = ownerships.map((item) => item?.collectionId);
       hasNextNftOwner = hasNext;
     }
 
