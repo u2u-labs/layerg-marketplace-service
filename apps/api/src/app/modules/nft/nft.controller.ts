@@ -28,7 +28,9 @@ import { TokenService } from './token.service';
 
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { CollectionDetailDto } from '@/apps/api/src/app/modules/nft/dto/nft.dto';
+import { ApiTags } from '@nestjs/swagger';
 @Controller('nft')
+@ApiTags('nft')
 export class NftController {
   constructor(
     private readonly nftService: NftService,

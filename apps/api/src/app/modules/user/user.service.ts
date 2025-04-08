@@ -21,7 +21,7 @@ import { GetTransferNftQueryVariables, getSdk } from '../../generated/graphql';
 import { findProjectsUserSubscribe } from '../launchpad/dto/find-project.dto';
 import { ActivityService } from '../nft/activity.service';
 import {
-  GetActivityBase,
+  GetActivityUserDto,
   GetFollowingDto,
   GetListBid,
 } from './dto/activity-user.dto';
@@ -170,10 +170,14 @@ export class UserService {
       ],
       where: whereCondition,
       skip: (filter.page - 1) * filter.limit,
-      take: filter.limit,
+      take: filter.limit + 1,
       select: userSelectFull(currentUserId),
     });
 
+    const hasNext = usersWithFollowStatus?.length == filter.limit + 1;
+    if (hasNext) {
+      usersWithFollowStatus.pop();
+    }
     // const total = await this.prisma.user.count({
     //   where: whereCondition,
     // });
@@ -189,12 +193,6 @@ export class UserService {
     //   nextCursor = nextUser.id;
     // }
     // return { users, nextCursor };
-    const hasNext = await PaginationCommon.hasNextPage(
-      filter.page,
-      filter.limit,
-      'user',
-      whereCondition,
-    );
     return {
       data: usersWithFollowStatusAndPaging,
       paging: {
@@ -411,34 +409,75 @@ export class UserService {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
-  async findActivityNFT(input: GetActivityBase) {
+  async findActivityNFT(
+    input: GetActivityUserDto,
+  ): Promise<PagingResponseHasNext<any>> {
     try {
       const { user, page, limit, type } = input;
       const _limit = limit ?? 10;
       const _page = page ?? 1;
-      const activities = await this.prisma.activity.findMany({
+
+      const eUser = await this.prisma.aAWallet.findMany({
         where: {
-          AND: [
-            {
-              OR: [
-                {
-                  to: user,
-                },
-                {
-                  from: user,
-                },
-              ],
-            },
-            ...(type ? [{ type }] : []),
-          ],
+          userId: user,
         },
+      });
+      if (eUser.length == 0) {
+        return {
+          data: [],
+          paging: {
+            hasNext: false,
+            page: input.page,
+            limit: input.limit,
+          },
+        };
+      }
+      const userWallets = eUser.map((e) => e.aaAddress);
+      const whereCondition: Prisma.ActivityWhereInput = {
+        AND: [
+          {
+            OR: [
+              {
+                to: {
+                  in: userWallets,
+                },
+              },
+              {
+                from: {
+                  in: userWallets,
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      if (type) {
+        whereCondition.type = type;
+      }
+
+      const activities = await this.prisma.activity.findMany({
+        where: whereCondition,
         orderBy: {
           createdAt: 'desc',
         },
-        take: _limit,
+        take: _limit + 1,
         skip: (_page - 1) * _limit,
       });
-      return activities;
+
+      const isHasNext = activities?.length == _limit + 1;
+
+      if (isHasNext) {
+        activities.pop();
+      }
+      return {
+        data: activities,
+        paging: {
+          hasNext: isHasNext,
+          page: input.page,
+          limit: input.limit,
+        },
+      };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException();

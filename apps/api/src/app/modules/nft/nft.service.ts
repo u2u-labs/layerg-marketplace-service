@@ -49,7 +49,6 @@ import subgraphServiceCommon from './helper/subgraph-helper.service';
 import { UserService } from '../user/user.service';
 import { NFTHepler } from './helper/nft-helper.service';
 
-import PaginationCommon from '@/apps/api/src/app/commons/HasNext.common';
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { GeneralInfor } from '@/apps/api/src/app/constants/enums/GeneralInfor.enum';
@@ -402,7 +401,7 @@ export class NftService {
           const nfts = await this.prisma.nFT.findMany({
             ...(!filter.ownerId && {
               skip: (filter.page - 1) * filter.limit,
-              take: filter.limit,
+              take: filter.limit + 1,
             }),
             where: whereCondition,
             orderBy: orderByProperties,
@@ -421,14 +420,14 @@ export class NftService {
               },
             },
           });
+          // Remove last element in array
+          const nextPageExists = nfts?.length == filter.limit + 1;
+
+          if (nextPageExists) {
+            nfts.pop();
+          }
           const Nftformat =
             await this.nftHepler.handleFormatNFTResponseOrder(nfts);
-          const nextPageExists = await PaginationCommon.hasNextPage(
-            filter.page,
-            Math.floor(filter.limit / 2),
-            'nFT',
-            whereCondition,
-          );
 
           const hasNext = hasMatchingKey
             ? nextPageExists
@@ -559,15 +558,13 @@ export class NftService {
               },
             },
           });
+          // remove last element in array
+          const hasNext = nfts?.length == filter.limit + 1;
+          if (hasNext) {
+            nfts.pop();
+          }
           const Nftformat =
             await this.nftHepler.handleFormatNFTResponseOrder(nfts);
-          const hasNext =
-            (await PaginationCommon.hasNextPage(
-              filter.page,
-              Math.floor(filter.limit / 2),
-              'nFT',
-              whereCondition1,
-            )) || hasNextNftOwner;
           return {
             data: Nftformat,
             paging: {
@@ -977,17 +974,50 @@ export class NftService {
     try {
       const { tokenId, quoteToken, collectionAddress, page, limit, type } =
         input;
+      const _limit = limit ?? 10;
+      const _page = page ?? 1;
 
-      const and = [{ tokenId }, { quoteToken }, { address: collectionAddress }];
-      const blocks = await this.activityService.fetchActivityFromGraph({
-        and,
-        page,
-        limit,
-        type,
+      const whereCondition: Prisma.ActivityWhereInput = {};
+
+      if (tokenId) {
+        whereCondition.nftId = tokenId;
+      }
+
+      if (collectionAddress) {
+        const collection = await this.prisma.collection.findUnique({
+          where: {
+            address: collectionAddress,
+          },
+        });
+        if (!collection) {
+          throw new NotFoundException('Collection not found');
+        }
+        whereCondition.collectionId = collection.id;
+      }
+
+      if (type) {
+        whereCondition.type = type;
+      }
+
+      const activityNFT = await this.prisma.activity.findMany({
+        take: _limit + 1,
+        skip: (_page - 1) * _limit,
+        where: whereCondition,
       });
 
-      const result = await this.activityService.processActivityNFTData(blocks);
-      return result;
+      const isHasNext = activityNFT?.length == _limit + 1;
+      if (isHasNext) {
+        activityNFT.pop();
+      }
+
+      return {
+        data: activityNFT,
+        paging: {
+          hasNext: isHasNext,
+          page: input.page,
+          limit: input.limit,
+        },
+      };
     } catch (error) {
       console.log(error);
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);

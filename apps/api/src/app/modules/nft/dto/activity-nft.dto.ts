@@ -1,28 +1,42 @@
-import { IsEnum, IsOptional, ValidateNested, IsString } from 'class-validator';
-import { CONTRACT_TYPE } from '@prisma/client';
-import { Type, Transform } from 'class-transformer';
-
-import { GetEventMarketplaceQuery } from './get-event-marketplace-query.dto';
+import { Activity } from '@/apps/api/src/app/constants/enums/Source.enum';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 import { OffsetPaginationDto } from '@/apps/api/src/app/commons/definitions/OffsetPagination.input';
-import { LowercasePipe } from '@/apps/api/src/app/commons/pipe/LowerCase.pipe';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class GetActivityBase extends OffsetPaginationDto {
+  @ApiPropertyOptional({
+    description: 'Token ID associated with the activity',
+    example: '12345',
+  })
   @IsOptional()
   @IsString()
   tokenId?: string;
 
+  @ApiPropertyOptional({
+    description: 'Address of the collection',
+    example: '0x123abc456def...',
+  })
   @IsOptional()
   @IsString()
   collectionAddress?: string;
 
+  @ApiPropertyOptional({
+    description: 'Quote token address or symbol used in the activity',
+    example: '0xabc123...',
+  })
   @IsString()
   @IsOptional()
   quoteToken?: string;
 
+  @ApiPropertyOptional({
+    description: 'Type of activity',
+    enum: Activity,
+    example: `Transfer, FillOrder, CancelOrder,`,
+  })
   @IsOptional()
-  @IsEnum(CONTRACT_TYPE)
-  type?: CONTRACT_TYPE;
+  @IsEnum(Activity)
+  type?: Activity;
 }
 
 export class GetHistoryOrderDto {
