@@ -47,8 +47,8 @@ import {
 } from '@/apps/api/src/app/constants/enums/Analysis.enum';
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
-import { sampleCollections } from './sample';
 import { GetCollectionsWithTopNftsDTO } from './dto/get-collections-with-top-nfts';
+import { sampleCollections } from './sample';
 import { GetCollectionsWithTopNftsItem } from './types/query-response.types';
 interface CollectionGeneral {
   totalOwner: number;
@@ -313,7 +313,7 @@ export class CollectionService {
     const collections = await this.prisma.collection.findMany({
       where: whereCondition,
       skip: (input.page - 1) * input.limit,
-      take: input.limit,
+      take: input.limit + 1,
       orderBy: orderByProperties,
       include: {
         creators: {
@@ -329,6 +329,10 @@ export class CollectionService {
         },
       },
     });
+    const hasNext = collections.length == input.limit + 1;
+    if (hasNext) {
+      collections.pop();
+    }
     // const subgraphCollection = collections.map(async (item) => {
     //   const generalInfo = await this.getGeneralCollectionData(
     //     item.address,
@@ -348,12 +352,6 @@ export class CollectionService {
         );
         return { ...item, ...generalInfo };
       }),
-    );
-    const hasNext = await PaginationCommon.hasNextPage(
-      input.page,
-      input.limit,
-      'collection',
-      whereCondition,
     );
     return {
       data: await dataArray,

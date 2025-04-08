@@ -3,4 +3,10 @@ enum SourceType {
   LAYERG = 'LAYERG',
 }
 
-export { SourceType };
+enum Activity {
+  Transfer = 'Transfer',
+  FilledOrder = 'FilledOrder',
+  CancelOrder = 'CancelOrder',
+}
+
+export { Activity, SourceType };

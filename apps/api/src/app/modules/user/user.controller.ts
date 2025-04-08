@@ -14,7 +14,7 @@ import { AuthenticationCustomizeGuard } from '../auth/guards/authCustomize.guard
 import { findProjectsUserSubscribe } from '../launchpad/dto/find-project.dto';
 import { ActivityService } from '../nft/activity.service';
 import {
-  GetActivityBase,
+  GetActivityUserDto,
   GetFollowingDto,
   GetListBid,
 } from './dto/activity-user.dto';
@@ -84,7 +84,7 @@ export class UserController {
   }
 
   @Post('/activity')
-  findActivityNFT(@Body() input: GetActivityBase) {
+  findActivityNFT(@Body() input: GetActivityUserDto) {
     return this.userService.findActivityNFT(input);
   }
 

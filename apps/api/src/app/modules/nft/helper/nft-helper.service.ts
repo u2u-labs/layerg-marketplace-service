@@ -780,7 +780,7 @@ export class NFTHepler {
     const order = await this.prisma.order.findMany({
       where: whereOrder,
       skip: (filter.page - 1) * filter.limit,
-      take: filter.limit,
+      take: filter.limit + 1,
       orderBy: [
         {
           price: filter.order,
@@ -841,13 +841,8 @@ export class NFTHepler {
         };
       }),
     );
-    const hasNext = await PaginationCommon.hasNextPage(
-      filter.page,
-      filter.limit,
-      'order',
-      whereOrder,
-    );
-    return { result: listFormat, hasNext: hasNext };
+    const hasNext = order?.length == filter.limit + 1;
+    return { result: listFormat.pop(), hasNext: hasNext };
   }
 
   convertToQueryParams(baseUrl, params) {
