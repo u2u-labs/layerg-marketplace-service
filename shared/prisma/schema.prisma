@@ -693,4 +693,6 @@ model Activity {
   price        String?  @default("0")
   createdAt    DateTime @default(now())
   logId        String?  @unique
+  txHash       String?
+  blockNumber  String?
 }
