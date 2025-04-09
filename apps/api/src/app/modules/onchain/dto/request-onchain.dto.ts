@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -30,6 +31,18 @@ export class TransactionRequestDto {
   @IsString()
   @IsOptional()
   appApiKey: string;
+}
+
+export class OrderTXRequestDto extends TransactionRequestDto {
+  @ApiProperty({ description: 'Index of the order' })
+  @IsNotEmpty()
+  @IsNumber()
+  index: number;
+
+  @ApiProperty({ description: 'Signature of the order' })
+  @IsString()
+  @IsNotEmpty()
+  sig: string;
 }
 
 export class RequestSignMessageDto {
