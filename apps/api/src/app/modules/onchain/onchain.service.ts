@@ -1,4 +1,5 @@
 import {
+  OrderTXRequestDto,
   RequestSignMessageDto,
   RequestVerifyMessageDto,
   TransactionRequestDto,
@@ -17,7 +18,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { ORDERSTATUS, User } from '@prisma/client';
 
 @Injectable()
 export class OnchainService {
@@ -29,6 +30,53 @@ export class OnchainService {
   async sendTx(input: TransactionRequestDto, user: User) {
     try {
       const { chainId, sponsor, transactionReq, appApiKey } = input;
+      const tokenUa = await this.getTokenUA(user);
+      const response = await this.apiUAService.requestSendTx(
+        chainId,
+        sponsor,
+        transactionReq,
+        appApiKey,
+        tokenUa.accessToken,
+      );
+      return response;
+    } catch (error) {
+      const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
+      throw new HttpException(
+        `Error Send Tx: ${error?.response?.data?.message || error.message}`,
+        statusCode,
+      );
+    }
+  }
+
+  async sendOrderTx(input: OrderTXRequestDto, user: User) {
+    try {
+      const { chainId, sponsor, transactionReq, appApiKey, sig, index } = input;
+
+      const order = await this.prisma.order.findUnique({
+        where: {
+          sig_index: {
+            sig: sig,
+            index: index,
+          },
+        },
+      });
+
+      if (!order) {
+        throw new NotFoundException('Order Not Found');
+      }
+
+      await this.prisma.order.update({
+        where: {
+          sig_index: {
+            sig: sig,
+            index: index,
+          },
+        },
+        data: {
+          orderStatus: ORDERSTATUS.PENDING,
+        },
+      });
+
       const tokenUa = await this.getTokenUA(user);
       const response = await this.apiUAService.requestSendTx(
         chainId,

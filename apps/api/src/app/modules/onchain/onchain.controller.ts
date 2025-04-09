@@ -1,6 +1,7 @@
 import { GetCurrentUser } from '@/apps/api/src/app/decorators/get-current-user.decorator';
 import { AuthenticationGuard } from '@/apps/api/src/app/modules/auth/guards/auth.guard';
 import {
+  OrderTXRequestDto,
   RequestSignMessageDto,
   RequestVerifyMessageDto,
   TransactionRequestDto,
@@ -19,6 +20,12 @@ export class OnchainController {
   @UseGuards(AuthenticationGuard)
   create(@Body() input: TransactionRequestDto, @GetCurrentUser() user: User) {
     return this.onchainService.sendTx(input, user);
+  }
+
+  @Post('send-order')
+  @UseGuards(AuthenticationGuard)
+  sendOrder(@Body() input: OrderTXRequestDto, @GetCurrentUser() user: User) {
+    return this.onchainService.sendOrderTx(input, user);
   }
 
   @Post('sign-message')
