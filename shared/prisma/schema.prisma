@@ -457,11 +457,13 @@ model Order {
   makeAssetAddress String //  U2U Native address , Collection Address
   makeAssetValue   String
   makeAssetId      String //  U2U native => 0 , Order NFT => NFT ID
+  makerAddress     String?
   takerId          String?        @db.Uuid
   takeAssetType    Int
   takeAssetAddress String //  U2U Native address , Collection Address
   takeAssetValue   String
   takeAssetId      String //  U2U native => 0 , Order NFT => NFT ID
+  takerAddress     String?
   salt             String
   start            Int            @default(0)
   end              Int            @default(0)
@@ -479,6 +481,7 @@ model Order {
   createAt         DateTime       @default(now())
   updatedAt        DateTime?      @updatedAt
   quoteToken       String
+  appKey           String?
   filledQty        Int            @default(0) // Quanity filled order
   Maker            User           @relation(fields: [makerId], references: [id], name: "UserMaker")
   Taker            User?          @relation(fields: [takerId], references: [id], name: "UserTaker")

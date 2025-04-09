@@ -107,6 +107,7 @@ export class OrderService {
         makeAssetAddress: input.makeAssetAddress,
         makeAssetValue: input.makeAssetValue,
         makeAssetId: input.makeAssetId,
+        makerAddress: aaWallet.aaAddress,
         takerId: userTaker ? userTaker.id : null,
         takeAssetType: input.takeAssetType,
         takeAssetAddress: input.takeAssetAddress,
