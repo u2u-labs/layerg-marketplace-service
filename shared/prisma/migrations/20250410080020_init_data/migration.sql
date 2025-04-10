@@ -8,18 +8,22 @@ CREATE TYPE "CONTRACT_TYPE" AS ENUM ('ERC1155', 'ERC721');
 CREATE TYPE "SELL_STATUS" AS ENUM ('AskNew', 'AskCancel', 'Trade', 'AcceptBid', 'Bid', 'CancelBid');
 
 -- CreateEnum
+CREATE TYPE "QUOTE_TOKEN_TYPE" AS ENUM ('NATIVE', 'WRAPPED');
+
+-- CreateEnum
 CREATE TYPE "ORDERSTATUS" AS ENUM ('OPEN', 'PENDING', 'CANCELLED', 'FILLED');
 
 -- CreateEnum
 CREATE TYPE "ORDERTYPE" AS ENUM ('BID', 'BULK', 'SINGLE');
 
 -- CreateEnum
-CREATE TYPE "MULTICHAIN_CONTRACT_TYPE" AS ENUM ('MARKETPLACE', 'ERC721_PROXY', 'ERC1155_PROXY');
+CREATE TYPE "MULTICHAIN_CONTRACT_TYPE" AS ENUM ('MARKETPLACE', 'NFT_PROXY', 'ERC20_PROXY');
 
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
     "uaId" TEXT,
+    "type" TEXT,
     "mode" TEXT,
     "email" TEXT,
     "avatar" TEXT,
@@ -62,7 +66,7 @@ CREATE TABLE "NFT" (
     "animationUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "status" "TX_STATUS" NOT NULL,
+    "status" "TX_STATUS",
     "tokenUri" TEXT NOT NULL,
     "txCreationHash" TEXT NOT NULL,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
@@ -72,6 +76,7 @@ CREATE TABLE "NFT" (
     "metricDetail" JSONB DEFAULT '{"VolumeIndividual":0,"UserMetric":0}',
     "source" TEXT,
     "ownerId" TEXT NOT NULL,
+    "slug" TEXT,
 
     CONSTRAINT "NFT_pkey" PRIMARY KEY ("id","collectionId")
 );
@@ -101,7 +106,7 @@ CREATE TABLE "UserNFT" (
 -- CreateTable
 CREATE TABLE "Collection" (
     "id" UUID NOT NULL,
-    "txCreationHash" TEXT NOT NULL,
+    "txCreationHash" TEXT,
     "name" TEXT NOT NULL,
     "nameSlug" TEXT,
     "symbol" TEXT NOT NULL,
@@ -134,6 +139,7 @@ CREATE TABLE "Collection" (
     "volumeWei" TEXT NOT NULL DEFAULT '0',
     "chainId" BIGINT NOT NULL DEFAULT 0,
     "gameLayergId" TEXT,
+    "totalAssets" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
 );
@@ -346,6 +352,9 @@ CREATE TABLE "QuoteTokens" (
     "name" TEXT NOT NULL,
     "derivedETH" DOUBLE PRECISION NOT NULL,
     "derivedUSD" DOUBLE PRECISION NOT NULL,
+    "chainId" INTEGER DEFAULT 0,
+    "decimals" INTEGER DEFAULT 18,
+    "tokenType" "QUOTE_TOKEN_TYPE",
 
     CONSTRAINT "QuoteTokens_pkey" PRIMARY KEY ("address")
 );
@@ -412,11 +421,13 @@ CREATE TABLE "Order" (
     "makeAssetAddress" TEXT NOT NULL,
     "makeAssetValue" TEXT NOT NULL,
     "makeAssetId" TEXT NOT NULL,
+    "makerAddress" TEXT,
     "takerId" UUID,
     "takeAssetType" INTEGER NOT NULL,
     "takeAssetAddress" TEXT NOT NULL,
     "takeAssetValue" TEXT NOT NULL,
     "takeAssetId" TEXT NOT NULL,
+    "takerAddress" TEXT,
     "salt" TEXT NOT NULL,
     "start" INTEGER NOT NULL DEFAULT 0,
     "end" INTEGER NOT NULL DEFAULT 0,
@@ -434,6 +445,7 @@ CREATE TABLE "Order" (
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "quoteToken" TEXT NOT NULL,
+    "appKey" TEXT,
     "filledQty" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("sig","index")
@@ -500,6 +512,7 @@ CREATE TABLE "GameLayerg" (
     "banner" TEXT,
     "apiKeyID" TEXT,
     "telegram" TEXT,
+    "appKey" TEXT,
     "facebook" TEXT,
     "instagram" TEXT,
     "discord" TEXT,
@@ -516,6 +529,8 @@ CREATE TABLE "GameLayerg" (
     "slug" TEXT,
     "isRcm" BOOLEAN NOT NULL DEFAULT false,
     "userId" TEXT,
+    "totalCls" INTEGER NOT NULL DEFAULT 0,
+    "platform" TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     CONSTRAINT "GameLayerg_pkey" PRIMARY KEY ("id")
 );
@@ -546,6 +561,80 @@ CREATE TABLE "Category" (
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Cart" (
+    "id" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Cart_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CartItem" (
+    "id" TEXT NOT NULL,
+    "cartId" TEXT NOT NULL,
+    "nftId" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL DEFAULT 0,
+    "collectionId" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "AAWallet" (
+    "id" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+    "type" TEXT,
+    "uaId" TEXT,
+    "aaAddress" TEXT,
+    "factoryAddress" TEXT,
+    "telegramId" TEXT,
+    "facebookId" TEXT,
+    "twitterId" TEXT,
+    "googleId" TEXT,
+    "appKey" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    CONSTRAINT "AAWallet_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Ownership" (
+    "id" TEXT NOT NULL,
+    "userAddress" TEXT NOT NULL,
+    "nftId" TEXT,
+    "collectionId" UUID,
+    "quantity" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+    "chainId" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Ownership_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Activity" (
+    "id" TEXT NOT NULL,
+    "from" TEXT NOT NULL,
+    "to" TEXT NOT NULL,
+    "collectionId" UUID NOT NULL,
+    "nftId" VARCHAR(255) NOT NULL,
+    "userAddress" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "qty" INTEGER NOT NULL,
+    "price" TEXT DEFAULT '0',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "logId" TEXT,
+    "txHash" TEXT,
+    "blockNumber" TEXT,
+
+    CONSTRAINT "Activity_pkey" PRIMARY KEY ("id")
+);
 
 -- Generate Slug From Input
 CREATE OR REPLACE FUNCTION generate_slug(title VARCHAR)
@@ -602,13 +691,6 @@ SET "nameSlug" = generate_slug("name")
 WHERE "nameSlug" IS NULL OR "nameSlug" = '';
 
 
-
--- Trigger Create NFT
-CREATE OR REPLACE TRIGGER nft_generate_slug
-    BEFORE INSERT OR UPDATE OF "name" ON "NFT"
-  FOR EACH ROW
-  EXECUTE FUNCTION generate_slug_trigger();
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_uaId_key" ON "User"("uaId");
 
@@ -637,7 +719,13 @@ CREATE INDEX "User_publicKey_idx" ON "User"("publicKey");
 CREATE INDEX "User_signer_idx" ON "User"("signer");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "NFT_slug_key" ON "NFT"("slug");
+
+-- CreateIndex
 CREATE INDEX "NFT_u2uId_collectionId_isActive_idx" ON "NFT"("u2uId", "collectionId", "isActive");
+
+-- CreateIndex
+CREATE INDEX "NFT_slug_idx" ON "NFT"("slug");
 
 -- CreateIndex
 CREATE INDEX "Trait_nftId_collectionId_idx" ON "Trait"("nftId", "collectionId");
@@ -728,6 +816,27 @@ CREATE INDEX "GameLayerg_id_isEnabled_idx" ON "GameLayerg"("id", "isEnabled");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "AAWallet_aaAddress_appKey_key" ON "AAWallet"("aaAddress", "appKey");
+
+-- CreateIndex
+CREATE INDEX "Ownership_userAddress_nftId_collectionId_idx" ON "Ownership"("userAddress", "nftId", "collectionId");
+
+-- CreateIndex
+CREATE INDEX "Ownership_userAddress_idx" ON "Ownership"("userAddress");
+
+-- CreateIndex
+CREATE INDEX "Ownership_userAddress_collectionId_idx" ON "Ownership"("userAddress", "collectionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Ownership_userAddress_nftId_collectionId_key" ON "Ownership"("userAddress", "nftId", "collectionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Activity_logId_key" ON "Activity"("logId");
 
 -- AddForeignKey
 ALTER TABLE "NFT" ADD CONSTRAINT "NFT_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -833,3 +942,21 @@ ALTER TABLE "GameCategories" ADD CONSTRAINT "GameCategories_gameId_fkey" FOREIGN
 
 -- AddForeignKey
 ALTER TABLE "GameCategories" ADD CONSTRAINT "GameCategories_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_nftId_collectionId_fkey" FOREIGN KEY ("nftId", "collectionId") REFERENCES "NFT"("id", "collectionId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AAWallet" ADD CONSTRAINT "AAWallet_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Ownership" ADD CONSTRAINT "Ownership_nftId_collectionId_fkey" FOREIGN KEY ("nftId", "collectionId") REFERENCES "NFT"("id", "collectionId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Ownership" ADD CONSTRAINT "Ownership_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collection"("id") ON DELETE SET NULL ON UPDATE CASCADE;
