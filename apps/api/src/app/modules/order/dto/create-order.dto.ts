@@ -75,12 +75,10 @@ export class CreateSingleDto {
 
   @ApiProperty({ description: 'Start timestamp of the order' })
   @IsNotEmpty()
-  @IsNumber()
   start: number;
 
   @ApiProperty({ description: 'End timestamp of the order' })
   @IsNotEmpty()
-  @IsNumber()
   end: number;
 
   @ApiProperty({ enum: ORDERTYPE, description: 'Type of order' })
