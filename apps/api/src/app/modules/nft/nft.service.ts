@@ -642,7 +642,9 @@ export class NftService {
     ]);
 
     // Get unique bidder and seller addresses
-    const bidderAddress = bidInfo.map((bid) => bid?.Taker?.signer);
+    const bidderAddress = bidInfo
+      .map((bid) => bid?.Taker?.signer)
+      .filter(Boolean);
     const sellerAddress = [
       ...new Set(sellInfo.concat(bidInfo).map((sell) => sell.Maker?.signer)),
     ].filter(Boolean);
