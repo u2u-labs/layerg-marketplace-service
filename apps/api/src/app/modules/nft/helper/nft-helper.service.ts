@@ -887,12 +887,18 @@ export class NFTHepler {
         );
       }
 
+      const whereCondition: Prisma.OwnershipWhereInput = {};
+      if (collection) {
+        whereCondition.collectionId = collection.id;
+      }
+      if (nft) {
+        whereCondition.nftId = nft.id;
+      }
+      if (signer) {
+        whereCondition.userAddress = signer;
+      }
       const checkOwner = await this.prisma.ownership.findFirst({
-        where: {
-          collectionId: collection.id,
-          nftId: nft.id,
-          userAddress: signer,
-        },
+        where: whereCondition,
       });
       return { checkOwner: !!checkOwner, collection, nft };
     } catch (error) {

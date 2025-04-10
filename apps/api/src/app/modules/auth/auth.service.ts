@@ -898,7 +898,7 @@ export class AuthService {
           aaWallet.map((wallet) => {
             const { aaAddress, apps } = wallet;
             const appKey = Array.isArray(apps) ? apps[0]?.appKey : apps?.appKey; // Handles both array & object cases
-
+            if (!appKey) return null;
             return this.prisma.aAWallet.upsert({
               where: {
                 aaAddress_appKey: {
