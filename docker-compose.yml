@@ -155,7 +155,10 @@ services:
 
   # Migration crawler
   migrate:
-    image: u2ulabs/layerg-marketplace-crawler:latest
+    build:
+      context: ../layerg-marketplace-crawler/
+      dockerfile: Dockerfile.migrate
+    image: u2ulabs/layerg-marketplace-migrate:latest
     container_name: layerg-marketplace-migrate
     depends_on:
       pqdb:
