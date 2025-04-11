@@ -12,7 +12,7 @@ export class RedisSubscriberService implements OnModuleInit {
   constructor(private queueService: QueueService) {
     this.redisClient = new Redis({
       // Redis configuration
-      host: process.env.REDISDB_HOST,
+      host: process.env.REDIS_HOST,
       port: process.env.REDISDB_PORT as unknown as number,
       keyPrefix: process.env.REDIS_PREFIX,
       password: process.env.REDIS_PASSWORD,
@@ -20,7 +20,7 @@ export class RedisSubscriberService implements OnModuleInit {
 
     this.redisGetSet = new Redis({
       // Redis configuration
-      host: process.env.REDISDB_HOST,
+      host: process.env.REDIS_HOST,
       port: process.env.REDISDB_PORT as unknown as number,
       password: process.env.REDIS_PASSWORD,
     });

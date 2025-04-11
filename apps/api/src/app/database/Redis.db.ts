@@ -62,7 +62,7 @@
 //         );
 //       } else {
 //         this.redisConfigSetter(
-//           process.env.REDISDB_HOST as string,
+//           process.env.REDIS_HOST as string,
 //           process.env.REDISDB_PORT,
 //           process.env.REDIS_PASSWORD,
 //         );

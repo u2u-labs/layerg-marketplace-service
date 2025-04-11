@@ -14,7 +14,6 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
-      - REDISDB_HOST=redis
       - REDIS_PORT=6379
       - REDIS_HOST=redis
     depends_on:
