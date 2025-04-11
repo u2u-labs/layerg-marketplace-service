@@ -1,0 +1,173 @@
+version: '3.8'
+
+services:
+  # NestJS Marketplace API Service
+  nest-api:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: marketplace_api
+    restart: always
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
+      - REDISDB_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+    depends_on:
+      - pqdb
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/api"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Crawler Service (Root Command)
+  go-crawler:
+    build:
+      context: ../layerg-marketplace-crawler/
+    container_name: layerg-crawler
+    restart: always
+    env_file:
+      - ../layerg-marketplace-crawler/.env
+    environment:
+      - COCKROACH_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace_crawler?sslmode=disable
+      - COCKROACH_DB_NAME=marketplace_crawler
+      - POSTGRES_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace?sslmode=disable
+      - POSTGRES_DB_NAME=marketplace
+      - REDIS_DB_URL=redis:6379
+    command: ["--config", ".layerg-crawler.yaml"]
+    depends_on:
+      pqdb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "300m"
+
+  # Go API Service (API Command)
+  go-api:
+    build:
+      context: ../layerg-marketplace-crawler/
+    container_name: layerg-api
+    restart: always
+    ports:
+      - "8085:8085"
+    env_file:
+      - ../layerg-marketplace-crawler/.env
+    environment:
+      - COCKROACH_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace_crawler?sslmode=disable
+      - COCKROACH_DB_NAME=marketplace_crawler
+      - POSTGRES_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace?sslmode=disable
+      - POSTGRES_DB_NAME=marketplace
+      - REDIS_DB_URL=redis:6379
+    command: ["api", "--config", ".layerg-crawler.yaml"]
+    depends_on:
+      pqdb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "300m"
+
+  # Go Worker Service (Worker Command)
+  go-worker:
+    build:
+      context: ../layerg-marketplace-crawler/
+    container_name: layerg-worker
+    restart: always
+    env_file:
+      - ../layerg-marketplace-crawler/.env
+    environment:
+      - COCKROACH_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace_crawler?sslmode=disable
+      - COCKROACH_DB_NAME=marketplace_crawler
+      - POSTGRES_DB_URL=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace?sslmode=disable
+      - POSTGRES_DB_NAME=marketplace
+      - REDIS_DB_URL=redis:6379
+    command: ["worker", "--config", ".layerg-crawler.yaml"]
+    depends_on:
+      pqdb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "300m"
+
+  # PostgreSQL Database
+  pqdb:
+    image: postgres:15
+    container_name: marketplace_postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=marketplace
+    ports:
+      - "5832:5432"
+    volumes:
+      - pqdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Server
+  redis:
+    image: bitnami/redis:latest
+    container_name: marketplace_redis
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6399:6379"
+    volumes:
+      - redis_data:/bitnami/redis/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Migration crawler
+  migrate:
+    build:
+      context: ../layerg-marketplace-crawler/
+      dockerfile: Dockerfile.migrate
+    container_name: layerg-migrate
+    depends_on:
+      pqdb:
+        condition: service_healthy
+      nest-api:
+        condition: service_healthy
+    command:  ["migrate-up"]
+    environment:
+      - GOOSE_DRIVER=postgres
+      - GOOSE_DEFAULT_DBSTRING=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/postgres
+      - GOOSE_MKP_DEFAULT_DBSTRING=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/postgres
+      - GOOSE_DBSTRING=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace_crawler
+      - GOOSE_MKP_DBSTRING=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
+      - GOOSE_MIGRATION_DIR='./db/migrations'
+      - GOOSE_MKP_MIGRATION_DIR='./db/migrations/marketplace'
+
+volumes:
+  redis_data:
+  pqdb_data:
