@@ -3,13 +3,12 @@ version: '3.8'
 services:
   # NestJS Marketplace API Service
   nest-api:
-    build: 
-      context: ./
-      dockerfile: Dockerfile
-    container_name: marketplace_api
+    build: .
+    image: u2ulabs/layerg-marketplace-service:latest
+    container_name: layerg-marketplace-service
     restart: always
     ports:
-      - "8888:8888"
+      - "9000:8888"
     env_file:
       - ./.env
     environment:
@@ -21,6 +20,11 @@ services:
     depends_on:
       - pqdb
       - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 300m
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/api"]
       interval: 10s
@@ -31,7 +35,8 @@ services:
   go-crawler:
     build:
       context: ../layerg-marketplace-crawler/
-    container_name: layerg-crawler
+    image: u2ulabs/layerg-marketplace-crawler:latest
+    container_name: layerg-marketplace-crawler
     restart: always
     env_file:
       - ../layerg-marketplace-crawler/.env
@@ -53,12 +58,12 @@ services:
       driver: "json-file"
       options:
         max-size: "300m"
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   # Go API Service (API Command)
   go-api:
-    build:
-      context: ../layerg-marketplace-crawler/
-    container_name: layerg-api
+    image: u2ulabs/layerg-marketplace-crawler:latest
+    container_name: layerg-marketplace-api
     restart: always
     ports:
       - "8085:8085"
@@ -82,12 +87,12 @@ services:
       driver: "json-file"
       options:
         max-size: "300m"
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   # Go Worker Service (Worker Command)
   go-worker:
-    build:
-      context: ../layerg-marketplace-crawler/
-    container_name: layerg-worker
+    image: u2ulabs/layerg-marketplace-crawler:latest
+    container_name: layerg-marketplace-worker
     restart: always
     env_file:
       - ../layerg-marketplace-crawler/.env
@@ -109,11 +114,12 @@ services:
       driver: "json-file"
       options:
         max-size: "300m"
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   # PostgreSQL Database
   pqdb:
     image: postgres:15
-    container_name: marketplace_postgres
+    container_name: layerg-marketplace-postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -122,7 +128,7 @@ services:
     ports:
       - "5832:5432"
     volumes:
-      - pqdb_data:/var/lib/postgresql/data
+      - ../pqdb_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -132,7 +138,7 @@ services:
   # Redis Server
   redis:
     image: bitnami/redis:latest
-    container_name: marketplace_redis
+    container_name: layerg-marketplace-redis
     restart: always
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
@@ -140,7 +146,7 @@ services:
     ports:
       - "6399:6379"
     volumes:
-      - redis_data:/bitnami/redis/data
+      - ../redis_data:/bitnami/redis/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -149,10 +155,8 @@ services:
 
   # Migration crawler
   migrate:
-    build:
-      context: ../layerg-marketplace-crawler/
-      dockerfile: Dockerfile.migrate
-    container_name: layerg-migrate
+    image: u2ulabs/layerg-marketplace-crawler:latest
+    container_name: layerg-marketplace-migrate
     depends_on:
       pqdb:
         condition: service_healthy
@@ -167,7 +171,3 @@ services:
       - GOOSE_MKP_DBSTRING=postgres://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
       - GOOSE_MIGRATION_DIR='./db/migrations'
       - GOOSE_MKP_MIGRATION_DIR='./db/migrations/marketplace'
-
-volumes:
-  redis_data:
-  pqdb_data:
