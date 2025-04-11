@@ -13,20 +13,20 @@ export class AnalyticsService {
 
   async getGameSalesChart(queryStr: string, gameId: string) {
     try {
-      const response = await axios.get(
-        this.baseURL + '/hourly-game-volume?' + queryStr,
-      );
-      const data = response.data as {
-        data: Array<{
-          _id: {
-            gameId: string;
-            dateIndex?: string;
-            timeKey?: string;
-          };
-          totalVolume: number;
-          floorPrice: number;
-        }>;
-      };
+      // const response = await axios.get(
+      //   this.baseURL + '/hourly-game-volume?' + queryStr,
+      // );
+      // const data = response.data as {
+      //   data: Array<{
+      //     _id: {
+      //       gameId: string;
+      //       dateIndex?: string;
+      //       timeKey?: string;
+      //     };
+      //     totalVolume: number;
+      //     floorPrice: number;
+      //   }>;
+      // };
       const gameDetails = await this.prismaService.gameLayerg.findFirst({
         where: { id: gameId },
       });
@@ -40,14 +40,15 @@ export class AnalyticsService {
               slug: gameDetails.slug,
             }
           : null,
-        chartData: data.data.map((item) => {
-          return {
-            dateTime: item._id.dateIndex ?? item._id.timeKey,
-            time: item._id.timeKey,
-            totalVolume: item.totalVolume,
-            floorPrice: item.floorPrice,
-          };
-        }),
+        // chartData: data.data.map((item) => {
+        //   return {
+        //     dateTime: item._id.dateIndex ?? item._id.timeKey,
+        //     time: item._id.timeKey,
+        //     totalVolume: item.totalVolume,
+        //     floorPrice: item.floorPrice,
+        //   };
+        // }),
+        chartData: [],
       };
     } catch (err) {
       console.log(err);
@@ -56,52 +57,52 @@ export class AnalyticsService {
   }
 
   async getTotalGamesSalesChart(queryStr: string, chainId: number) {
-    const response = await axios.get(
-      this.baseURL + '/hourly-game-volume/total?' + queryStr,
-    );
-    const data = response.data as {
-      data: Array<{
-        _id: {
-          gameId: string;
-        };
-        totalVolume: number;
-        floorPrice: number;
-        floorPriceChange: number;
-      }>;
-    };
+    // const response = await axios.get(
+    //   this.baseURL + '/hourly-game-volume/total?' + queryStr,
+    // );
+    // const data = response.data as {
+    //   data: Array<{
+    //     _id: {
+    //       gameId: string;
+    //     };
+    //     totalVolume: number;
+    //     floorPrice: number;
+    //     floorPriceChange: number;
+    //   }>;
+    // };
 
-    let gamesWithVolume = await Promise.all(
-      data.data.map(async (item) => {
-        const gameDetails = await this.prismaService.gameLayerg.findFirst({
-          where: { id: item._id.gameId },
-        });
-        return {
-          gameDetails: gameDetails
-            ? {
-                id: gameDetails.id,
-                name: gameDetails.name,
-                banner: gameDetails.banner,
-                avatar: gameDetails.avatar,
-                slug: gameDetails.slug,
-              }
-            : null,
-          chartData: {
-            floorPriceChange: item.floorPriceChange,
-            totalVolume: item.totalVolume,
-            floorPrice: item.floorPrice,
-          },
-        };
-      }),
-    );
-    const remaining = 10 - gamesWithVolume.length;
+    // let gamesWithVolume = await Promise.all(
+    //   data.data.map(async (item) => {
+    //     const gameDetails = await this.prismaService.gameLayerg.findFirst({
+    //       where: { id: item._id.gameId },
+    //     });
+    //     return {
+    //       gameDetails: gameDetails
+    //         ? {
+    //             id: gameDetails.id,
+    //             name: gameDetails.name,
+    //             banner: gameDetails.banner,
+    //             avatar: gameDetails.avatar,
+    //             slug: gameDetails.slug,
+    //           }
+    //         : null,
+    //       chartData: {
+    //         floorPriceChange: item.floorPriceChange,
+    //         totalVolume: item.totalVolume,
+    //         floorPrice: item.floorPrice,
+    //       },
+    //     };
+    //   }),
+    // );
+    const remaining = 10;
 
     let additionalGames: any[] = [];
     if (remaining > 0) {
       additionalGames = await this.prismaService.gameLayerg.findMany({
         where: {
-          id: {
-            notIn: gamesWithVolume.map((g) => g.gameDetails.id),
-          },
+          // id: {
+          //   notIn: gamesWithVolume.map((g) => g.gameDetails.id),
+          // },
           collection: {
             some: {
               chainId,
@@ -130,7 +131,7 @@ export class AnalyticsService {
         },
       };
     });
-    gamesWithVolume = [...gamesWithVolume, ...additionalGames];
-    return gamesWithVolume;
+    // gamesWithVolume = [...gamesWithVolume, ...additionalGames];
+    return additionalGames;
   }
 }
