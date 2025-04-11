@@ -3,7 +3,8 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { RouteInfo } from '@nestjs/common/interfaces';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -38,6 +39,8 @@ async function bootstrap() {
     }),
   );
 
+  const excludedRoutes: RouteInfo[] = [{ path: '', method: RequestMethod.GET }];
+  app.setGlobalPrefix('api', { exclude: excludedRoutes });
   app.use(passport.initialize());
   app.use(passport.session());
   const options = new DocumentBuilder()
