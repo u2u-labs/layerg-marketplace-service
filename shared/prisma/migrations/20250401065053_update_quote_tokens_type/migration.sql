@@ -1,6 +1,0 @@
--- CreateEnum
-CREATE TYPE "QUOTE_TOKEN_TYPE" AS ENUM ('NATIVE', 'WRAPPED');
-
--- AlterTable
-ALTER TABLE "QuoteTokens" ADD COLUMN     "tokenType" "QUOTE_TOKEN_TYPE",
-ALTER COLUMN "decimals" DROP NOT NULL;
