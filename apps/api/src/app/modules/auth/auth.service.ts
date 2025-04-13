@@ -248,7 +248,7 @@ export class AuthService {
       });
       const aaWalletsMap = aaWallets.map((aaWallet) => ({
         ...aaWallet,
-        isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
+        isMKP: aaWallet.appKey == process.env.UA_MARKETPLACE_KEY,
       }));
       return {
         refreshToken,
