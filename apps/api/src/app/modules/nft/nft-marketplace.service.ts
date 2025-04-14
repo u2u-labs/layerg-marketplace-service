@@ -1,26 +1,19 @@
+import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import {
   HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
-import { timestamp } from 'rxjs';
-import { ORDERTYPE } from '@prisma/client';
-import { start } from 'repl';
 
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
+import { GetEventBase } from './dto/event-base.dto';
 import {
   GetEventMarketplace,
   GetEventOrder,
 } from './dto/event-marketplace.dto';
-import { GetEventBase } from './dto/event-base.dto';
-import { NftService } from './nft.service';
 
-import {
-  nftSelect,
-  userSelect,
-} from '@/apps/api/src/app/commons/definitions/Constraint.Object';
+import { userSelect } from '@/apps/api/src/app/commons/definitions/Constraint.Object';
 
 export interface UserInterface {
   id: string;
@@ -194,7 +187,9 @@ export class MarketplaceService {
         where: {
           collectionId: collection.id,
           tokenId: input.nftId,
-          orderStatus: input.status,
+          orderStatus: {
+            in: input.status,
+          },
           orderType: {
             in: input.event,
           },

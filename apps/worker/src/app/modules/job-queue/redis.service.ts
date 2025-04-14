@@ -27,12 +27,9 @@ export class RedisSubscriberService implements OnModuleInit {
   }
 
   onModuleInit() {
-    this.redisClient.subscribe('collection-channel');
-    this.redisClient.subscribe('nft-channel');
-    this.redisClient.subscribe('ipfs');
     this.redisClient.subscribe('project-channel');
     this.redisClient.subscribe('user-channel');
-    this.redisClient.subscribe('collectionUtils-channel');
+    this.redisClient.subscribe('order-channel');
     this.redisClient.on('message', this.handleMessage.bind(this));
   }
 
@@ -45,6 +42,10 @@ export class RedisSubscriberService implements OnModuleInit {
     if (channel === 'user-channel') {
       const jobData = JSON.parse(message);
       this.queueService.addUserJob(jobData.process, jobData.data);
+    }
+    if (channel === 'order-channel') {
+      const jobData = JSON.parse(message);
+      this.queueService.addOrderJob(jobData.process, jobData.data);
     }
   }
 

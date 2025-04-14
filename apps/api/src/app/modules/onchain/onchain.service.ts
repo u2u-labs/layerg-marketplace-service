@@ -77,6 +77,14 @@ export class OnchainService {
         },
       });
 
+      await this.redisService.publish('order-channel', {
+        data: {
+          sig: sig,
+          index: index,
+        },
+        process: 'order-tracking',
+      });
+
       const tokenUa = await this.getTokenUA(user);
       const response = await this.apiUAService.requestSendTx(
         chainId,
@@ -93,6 +101,16 @@ export class OnchainService {
         statusCode,
       );
     }
+  }
+
+  async test(sig: string, index: string) {
+    await this.redisService.publish('order-channel', {
+      data: {
+        sig: sig,
+        index: index,
+      },
+      process: 'order-tracking',
+    });
   }
 
   async signMessage(input: RequestSignMessageDto, user: User) {
