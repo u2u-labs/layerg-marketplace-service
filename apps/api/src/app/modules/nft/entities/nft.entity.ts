@@ -31,7 +31,6 @@ export class NftEntity implements NFT {
   description: string;
   u2uId: string;
   image: string;
-  totalSupply?: number;
   nameSlug: string;
   isActive: boolean;
   // Add metricPoint and metricDetail properties
@@ -40,6 +39,7 @@ export class NftEntity implements NFT {
   source: string;
   ownerId: string;
   slug: string;
+  totalSupply: number;
 }
 
 export enum TXSTATUS {
