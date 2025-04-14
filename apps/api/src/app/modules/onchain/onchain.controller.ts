@@ -45,9 +45,4 @@ export class OnchainController {
   ) {
     return this.onchainService.verifyMessage(input, user);
   }
-
-  @Post('test')
-  test(@Body('sig') sig: string, @Body('index') index: string) {
-    return this.onchainService.test(sig, index);
-  }
 }

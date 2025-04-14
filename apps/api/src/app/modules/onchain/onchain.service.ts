@@ -103,16 +103,6 @@ export class OnchainService {
     }
   }
 
-  async test(sig: string, index: string) {
-    await this.redisService.publish('order-channel', {
-      data: {
-        sig: sig,
-        index: index,
-      },
-      process: 'order-tracking',
-    });
-  }
-
   async signMessage(input: RequestSignMessageDto, user: User) {
     try {
       const { chainId, message, appApiKey } = input;
