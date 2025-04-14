@@ -86,7 +86,7 @@ model NFT {
   cartItems            CartItem[]
   ownership            Ownership[]
   slug                 String?             @unique()
-
+  totalSupply          Int?                @default(0)
   @@id([id, collectionId])
   @@index([u2uId, collectionId, isActive])
   @@index([slug])

@@ -52,7 +52,6 @@ import { NFTHepler } from './helper/nft-helper.service';
 import OtherCommon from '@/apps/api/src/app/commons/Other.common';
 import { CreationMode } from '@/apps/api/src/app/constants/enums/Creation.enum';
 import { GeneralInfor } from '@/apps/api/src/app/constants/enums/GeneralInfor.enum';
-import { SourceType } from '@/apps/api/src/app/constants/enums/Source.enum';
 import { ZERO_ADDR } from '@/apps/api/src/app/constants/web3Const/messages';
 import { OrderDirection } from '@/apps/api/src/app/generated/graphql';
 import { RedisService } from '@/shared/src/lib/services/redis/redis.service';
@@ -609,17 +608,12 @@ export class NftService {
     if (!nft) {
       throw new NotFoundException();
     }
-    // Get current owners and total supply based on collection type
-    const ownerInfo = collection.flagExtend
-      ? Object.values(SourceType).includes(collection?.source as unknown as any)
-        ? await this.nftHepler.getCurrentOwnersFlatForm(
-            `${collection.subgraphUrl}/${nft.id}`,
-            nft,
-          )
-        : await this.getCurrentOwnersExtend(collection.subgraphUrl, nft)
-      : await this.getCurrentOwnersInternal(nft);
-
-    const { owners, totalSupply } = ownerInfo;
+    const owners = await this.prisma.ownership.findMany({
+      where: {
+        collectionId: collection.id,
+        nftId: nft.id,
+      },
+    });
 
     // Fetch sell and bid info
     const [sellInfo, bidInfo] = await Promise.all([
@@ -670,7 +664,6 @@ export class NftService {
     });
 
     // Merge seller info
-    let listSells = [];
     const mergedSeller = sellInfo.map((sell) => {
       const match = sellerInfo.find(
         (user) => user.signer === sell?.Maker?.signer,
@@ -679,31 +672,12 @@ export class NftService {
     });
 
     // Handle LAYERG-specific logic
-    if (collection.source === SourceType.LAYERG) {
-      listSells = await Promise.all(
-        mergedSeller.map(async (sell) => {
-          const { checkOwner } = await this.nftHepler.checkNftOwner(
-            collection.address,
-            nft.id,
-            sell.Maker.signer,
-          );
-          if (!checkOwner) {
-            await this.nftHepler.handleRemoveOrder(sell.sig, sell.index);
-            return null;
-          }
-          return sell;
-        }),
-      );
-      listSells = listSells.filter(Boolean);
-    } else {
-      listSells = mergedSeller;
-    }
 
     return {
       bidInfo: mergedBidder,
-      sellInfo: listSells,
+      sellInfo: mergedSeller,
       owners,
-      totalSupply,
+      totalSupply: nft?.totalSupply || 0,
     };
   }
 
