@@ -471,13 +471,13 @@ export class SyncQueueService implements OnModuleInit {
     }
   }
 
-  async pollMessages() {
-    while (true) {
-      await this.receiveMessage();
-    }
-  }
+  // async pollMessages() {
+  //   while (true) {
+  //     await this.receiveMessage();
+  //   }
+  // }
 
   onModuleInit() {
-    this.pollMessages();
+    // this.pollMessages();
   }
 }

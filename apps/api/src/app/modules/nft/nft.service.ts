@@ -620,7 +620,7 @@ export class NftService {
       this.eventService.findOrder({
         contractAddress: nft.collection.address,
         nftId: nft.id,
-        status: ORDERSTATUS.OPEN,
+        status: [ORDERSTATUS.OPEN, ORDERSTATUS.PENDING],
         event: [ORDERTYPE.BULK, ORDERTYPE.SINGLE],
         page,
         limit,
@@ -628,7 +628,7 @@ export class NftService {
       this.eventService.findOrder({
         contractAddress: nft.collection.address,
         nftId: nft.id,
-        status: ORDERSTATUS.OPEN,
+        status: [ORDERSTATUS.OPEN, ORDERSTATUS.PENDING],
         event: [ORDERTYPE.BID],
         page,
         limit,

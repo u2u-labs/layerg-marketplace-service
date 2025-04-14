@@ -4,6 +4,7 @@ import { JobOptions, Queue } from 'bull';
 
 import {
   QUEUE_NAME_CMS,
+  QUEUE_NAME_ORDER,
   QUEUE_NAME_PROJECT,
   QUEUE_NAME_QUOTE_TOKEN_ACCEPT,
   QUEUE_NAME_USER,
@@ -26,6 +27,7 @@ export class QueueService {
     @InjectQueue(QUEUE_NAME_CMS) private cmsQueue: Queue,
     @InjectQueue(QUEUE_NAME_PROJECT) private projectQueue: Queue,
     @InjectQueue(QUEUE_NAME_USER) private userQueue: Queue,
+    @InjectQueue(QUEUE_NAME_ORDER) private orderQueue: Queue,
     @InjectQueue(QUEUE_NAME_QUOTE_TOKEN_ACCEPT) private quoteTokenQueue: Queue,
   ) {}
   async addJobToQueue(queue: Queue, jobType: string, jobData: any) {
@@ -42,5 +44,8 @@ export class QueueService {
   }
   async addCMSJob(jobType: string, jobData: any) {
     await this.addJobToQueue(this.cmsQueue, jobType, jobData);
+  }
+  async addOrderJob(jobType: string, jobData: any) {
+    await this.addJobToQueue(this.orderQueue, jobType, jobData);
   }
 }

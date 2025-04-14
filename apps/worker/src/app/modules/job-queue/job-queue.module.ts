@@ -2,6 +2,7 @@ import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 import { Module } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 
+import { OrderProcessor } from '@/apps/worker/src/app/modules/job-queue/order.processor';
 import { ApiCallerModule } from '../api-caller/api-caller.module';
 import { CommonService } from '../common/common.service';
 import { GraphQlcallerService } from '../graph-qlcaller/graph-qlcaller.service';
@@ -25,6 +26,7 @@ import { UserProcessor } from './user.processor';
     CMSProcessor,
     DynamicScheduleService,
     SchedulerRegistry,
+    OrderProcessor,
   ],
   imports: [BullConfigModule, ApiCallerModule],
 })
