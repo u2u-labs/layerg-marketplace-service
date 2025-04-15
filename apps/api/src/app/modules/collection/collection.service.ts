@@ -956,32 +956,37 @@ export class CollectionService {
     args.push(`'${name}:*'`, limit + 1, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
-      WITH user_addresses AS (
-        SELECT "aaAddress" FROM "public"."AAWallet"
-        ${userId ? `WHERE "public"."AAWallet"."userId" = $1::uuid` : ''}
-      ),
-      user_collections AS (
-        SELECT DISTINCT "ons"."collectionId", "ons"."updatedAt", "userAddress"
-        FROM "public"."Ownership" as "ons"
-        JOIN "user_addresses" ON "ons"."userAddress" = "user_addresses"."aaAddress"
-        JOIN "public"."Collection" as c ON c."id" = "ons"."collectionId"
-        WHERE "ons"."quantity" > 0 ${whereClause} ${name && `AND to_tsvector('english', c.name) @@ to_tsquery('english', $${args.length - 3})`}
-        ORDER BY "ons"."updatedAt" DESC
-        LIMIT $${args.length - 2} OFFSET $${args.length - 1}
-      ),
-      ranked_nfts AS (
-        SELECT "public"."Ownership".*,
-        ROW_NUMBER() OVER (PARTITION BY "public"."Ownership"."collectionId" ORDER BY "public"."Ownership"."updatedAt" DESC) AS rank
-        FROM "public"."Ownership"
-        WHERE "public"."Ownership"."collectionId" IN (SELECT "collectionId" FROM "user_collections")
-        AND "public"."Ownership"."userAddress" IN (SELECT "userAddress" FROM "user_collections")
-      )
-      SELECT nft.*, c.name AS "collection_name", c.address AS "collection_address"
-      FROM ranked_nfts rn
-      JOIN "public"."Collection" c ON rn."collectionId" = c.id
-      JOIN "public"."NFT" nft ON rn."nftId" = nft."id" AND rn."collectionId" = nft."collectionId"
-      WHERE rn.rank <= $${args.length}
-      ORDER BY rn."collectionId", rn.rank;
+     WITH user_addresses AS (
+  SELECT "aaAddress"
+  FROM "public"."AAWallet"
+  ${userId ? `WHERE "userId" = $1::uuid` : ''}
+),
+nfts_with_collections AS (
+  SELECT
+    o."nftId",
+    o."collectionId",
+    o."userAddress",
+    o."updatedAt",
+    ROW_NUMBER() OVER (PARTITION BY o."collectionId" ORDER BY o."updatedAt" DESC) AS rank
+  FROM "public"."Ownership" o
+  ${userId ? `JOIN user_addresses ua ON o."userAddress" = ua."aaAddress"` : ''}
+),
+filtered_collections AS (
+  SELECT c.*
+  FROM "public"."Collection" c
+  ${name ? `WHERE to_tsvector('english', c.name) @@ to_tsquery('english', $${args.length - 3})` : ''}
+  ORDER BY c."updatedAt" DESC
+  LIMIT $${args.length - 2} OFFSET $${args.length - 1}
+)
+SELECT
+  nft.*,
+  c.name AS "collection_name",
+  c.address AS "collection_address"
+FROM filtered_collections c
+LEFT JOIN nfts_with_collections n ON n."collectionId" = c."id" AND (n.rank <= $${args.length} OR n.rank IS NULL)
+LEFT JOIN "public"."NFT" nft ON nft."id" = n."nftId" AND nft."collectionId" = c."id"
+ORDER BY c."id", n.rank;
+
       `,
       ...args,
     )) as Array<GetCollectionsWithTopNftsItem>;
