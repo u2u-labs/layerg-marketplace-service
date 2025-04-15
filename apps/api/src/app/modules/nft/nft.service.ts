@@ -1188,7 +1188,6 @@ export class NftService {
           orderBySig: {
             collectionId: collection.id,
             tokenId: nft?.id,
-            quoteToken: query?.quoteToken || process.env.NATIVE_U2U,
           },
         },
         orderBy: {
