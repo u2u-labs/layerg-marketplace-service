@@ -956,13 +956,13 @@ export class CollectionService {
     args.push(`'${name}:*'`, limit + 1, offset, top);
     const data = (await this.prisma.$queryRawUnsafe(
       `
-          WITH user_addresses AS (
+      WITH user_addresses AS (
         SELECT "aaAddress"
         FROM "public"."AAWallet"
         ${userId ? `WHERE "userId" = $1::uuid` : ''}
       ),
       user_collections AS (
-        SELECT DISTINCT ons."collectionId", ons."updatedAt", ons."userAddress"
+        SELECT DISTINCT ons."collectionId", ons."userAddress", ons."updatedAt"
         FROM "public"."Ownership" AS ons
         ${userId ? `JOIN user_addresses ua ON ons."userAddress" = ua."aaAddress"` : ''}
         JOIN "public"."Collection" AS c ON c."id" = ons."collectionId"
@@ -973,20 +973,29 @@ export class CollectionService {
         LIMIT $${args.length - 2} OFFSET $${args.length - 1}
       ),
       ranked_nfts AS (
-        SELECT o.*,
-          ROW_NUMBER() OVER (PARTITION BY o."collectionId" ORDER BY o."updatedAt" DESC) AS rank
+        SELECT DISTINCT ON (o."nftId", o."collectionId")
+          o.*,
+          ROW_NUMBER() OVER (
+            PARTITION BY o."collectionId"
+            ORDER BY o."updatedAt" DESC
+          ) AS rank
         FROM "public"."Ownership" o
-        JOIN user_collections uc ON o."collectionId" = uc."collectionId" AND o."userAddress" = uc."userAddress"
+        JOIN user_addresses ua ON o."userAddress" = ua."aaAddress"
+        WHERE o."collectionId" IN (SELECT "collectionId" FROM user_collections)
+          AND o."quantity" > 0
       )
       SELECT
         nft.*,
         c.name AS "collection_name",
         c.address AS "collection_address"
       FROM user_collections uc
-      LEFT JOIN ranked_nfts rn ON rn."collectionId" = uc."collectionId" AND rn."userAddress" = uc."userAddress" AND rn.rank <= $${args.length}
-      LEFT JOIN "public"."NFT" nft ON nft."id" = rn."nftId" AND nft."collectionId" = rn."collectionId"
+      LEFT JOIN ranked_nfts rn
+        ON rn."collectionId" = uc."collectionId" AND rn.rank <= $${args.length}
+      LEFT JOIN "public"."NFT" nft
+        ON nft."id" = rn."nftId" AND nft."collectionId" = rn."collectionId"
       JOIN "public"."Collection" c ON uc."collectionId" = c."id"
       ORDER BY uc."collectionId", rn.rank;
+
       `,
       ...args,
     )) as Array<GetCollectionsWithTopNftsItem>;
