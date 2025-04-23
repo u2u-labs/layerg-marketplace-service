@@ -884,6 +884,7 @@ export class NftService {
       const owners = await this.prisma.ownership.findMany({
         where: {
           nftId: nft.id,
+          collectionId: nft.collection.id,
         },
       });
       // @ts-ignore
