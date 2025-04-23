@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { create } from 'ipfs-http-client';
-import { PrismaService } from '@layerg-mkp-workspace/shared/services';
 @Injectable()
 export class CommonService {
   private ipfs;
@@ -12,30 +11,30 @@ export class CommonService {
     });
   }
 
-  async uploadIpfs(files: Express.Multer.File[], metadata: any) {
-    try {
-      const fileResults = await Promise.all(
-        files.map((file) => this.ipfs.add(file.buffer)),
-      );
-      const fileHashes = fileResults.map((result) => result.path);
-      if (metadata) {
-        const metadataObject = JSON.parse(metadata);
-        const updatedMetadata = { ...metadataObject, fileHashes };
+  // async uploadIpfs(files: Express.Multer.File[], metadata: any) {
+  //   try {
+  //     const fileResults = await Promise.all(
+  //       files.map((file) => this.ipfs.add(file.buffer)),
+  //     );
+  //     const fileHashes = fileResults.map((result) => result.path);
+  //     if (metadata) {
+  //       const metadataObject = JSON.parse(metadata);
+  //       const updatedMetadata = { ...metadataObject, fileHashes };
 
-        const metadataResult = await this.ipfs.add(
-          JSON.stringify(updatedMetadata),
-        );
-        return {
-          fileHashes: fileHashes,
-          metadataHash: metadataResult.path,
-        };
-      } else {
-        return { fileHashes: fileHashes };
-      }
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
+  //       const metadataResult = await this.ipfs.add(
+  //         JSON.stringify(updatedMetadata),
+  //       );
+  //       return {
+  //         fileHashes: fileHashes,
+  //         metadataHash: metadataResult.path,
+  //       };
+  //     } else {
+  //       return { fileHashes: fileHashes };
+  //     }
+  //   } catch (err) {
+  //     console.log('err: ', err);
+  //   }
+  // }
 
   async getFromIpfs(hash: string): Promise<{ data: any; type: string }> {
     try {

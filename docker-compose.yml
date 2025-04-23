@@ -13,6 +13,7 @@ services:
       - ./.env
     environment:
       - NODE_ENV=production
+      - SERVICE=api
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
       - REDIS_PORT=6379
       - REDIS_HOST=redis
@@ -29,7 +30,33 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+    # NestJS Marketplace Worker Service
+  nest-worker:
+    build: .
+    image: u2ulabs/layerg-marketplace-service:latest
+    container_name: layerg-marketplace-worker
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=production
+      - SERVICE=worker
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@pqdb:5432/marketplace
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+    depends_on:
+      - pqdb
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 300m
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7777/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   # Go Crawler Service (Root Command)
   go-crawler:
     build:
