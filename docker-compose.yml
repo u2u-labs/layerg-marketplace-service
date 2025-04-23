@@ -34,7 +34,7 @@ services:
   nest-worker:
     build: .
     image: u2ulabs/layerg-marketplace-service:latest
-    container_name: layerg-marketplace-worker
+    container_name: layerg-internal-worker
     restart: always
     env_file:
       - ./.env
