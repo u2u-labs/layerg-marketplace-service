@@ -20,6 +20,7 @@ COPY . .
 
 # Run codegen and Prisma tasks
 RUN yarn codegen-api
+RUN yarn codegen-worker
 WORKDIR /usr/src/app/shared
 RUN npx prisma generate
 RUN npx ts-node prisma/seed.ts
@@ -27,6 +28,7 @@ RUN npx ts-node prisma/seed.ts
 # Build the application
 WORKDIR /usr/src/app
 RUN npx nx build api
+RUN NX_DAEMON=false npx nx build worker
 
 # PRODUCTION STAGE
 FROM node:20.9.0-alpine3.18
