@@ -288,15 +288,25 @@ export class SyncQueueService implements OnModuleInit {
 
   async upsertCate(payload: DataCategory) {
     const { category } = payload;
-    const { id, ...gameCate } = category;
+    const { id, name, ...gameCate } = category;
     if (!id) return;
+
+    const eCategory = await this.prismaService.category.findFirst({
+      where: {
+        name: name,
+      },
+    });
+
+    if (eCategory) {
+      throw new Error('Category Name Already Exists');
+    }
 
     await this.prismaService.category.upsert({
       where: {
         id,
       },
       update: gameCate,
-      create: { id, ...gameCate },
+      create: { id, name, ...gameCate },
     });
   }
 

@@ -510,10 +510,35 @@ export class AuthService {
           userId: user.id,
         },
       });
+      const appKeys = aaWallets.map((aaWallet) => aaWallet.appKey);
+
+      const games = await this.prisma.gameLayerg.findMany({
+        where: {
+          appKey: {
+            in: appKeys,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          nameSlug: true,
+          avatar: true,
+          appKey: true,
+          apiKeyID: true,
+        },
+      });
+
       const aaWalletsMap = aaWallets.map((aaWallet) => ({
         ...aaWallet,
         isMKP: aaWallet.appKey === process.env.UA_MARKETPLACE_KEY,
       }));
+
+      const mapped = aaWalletsMap.map((app) => ({
+        ...app,
+        game: games.find((game) => game.appKey === app.appKey) || null,
+      }));
+
       return {
         refreshToken,
         refreshTokenExpire,
@@ -522,7 +547,9 @@ export class AuthService {
         userId: user?.id,
         uaId: uaId,
         mode: user.mode,
-        aaWallets: aaWalletsMap,
+        aaWallets: mapped.filter(
+          (wallet) => wallet.isMKP || wallet.game !== null,
+        ),
       };
     } catch (error) {
       const statusCode = error?.response?.statusCode || HttpStatus.BAD_REQUEST;
