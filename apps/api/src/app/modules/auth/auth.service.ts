@@ -313,59 +313,135 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    // const dataUa = (await this.redisService.getKeyObject(
-    //   `session-UA:${dataUserId}`,
-    // )) as any as AuthResponseUA;
+    const blockRefresh = await this.redisService.getKey(
+      `session:${irefreshToken}-block`,
+    );
+    if (!blockRefresh) {
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpire,
+        refreshTokenExpire,
+        userId,
+      } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+      this.redisService.setKey(`session:${irefreshToken}`, user.id, 10);
+      await this.updateRefreshTokenCaching(user, refreshToken, false);
+      this.redisService.setKey(
+        `session:${irefreshToken}-block`,
+        JSON.stringify({
+          refreshToken,
+          refreshTokenExpire,
+          accessToken,
+          accessTokenExpire,
+          userId: user?.id,
+          uaId: user?.uaId,
+          mode: user?.mode,
+        }),
+        10,
+      );
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: user?.uaId,
+        mode: user?.mode,
+      };
+    } else {
+      const {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+      } = JSON.parse(blockRefresh);
 
-    // if (!dataUa) {
-    //   throw new NotFoundException('UA Information Not Found');
-    // }
-
-    // const response = await this.apiUAService.requestRefeshTokenUA(
-    //   dataUa.refreshToken,
-    // );
-    // const {
-    //   refreshToken: refreshTokenUA,
-    //   refreshTokenExpire: refreshTokenExpireUA,
-    //   accessToken: accessTokenUA,
-    //   accessTokenExpire: accessTokenExpireUA,
-    //   userId: uaId,
-    // } = response || {};
-    // if (!accessTokenUA) throw new InternalServerErrorException();
-
-    const {
-      accessToken,
-      refreshToken,
-      accessTokenExpire,
-      refreshTokenExpire,
-      userId,
-    } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
-    // const dataTokenUA: AuthResponseUA = {
-    //   uaId: uaId,
-    //   refreshToken: refreshTokenUA,
-    //   refreshTokenExpire: refreshTokenExpireUA,
-    //   accessToken: accessTokenUA,
-    //   accessTokenExpire: accessTokenExpireUA,
-    //   userId: userId,
-    // };
-
-    // Remove Old Refesh Token
-    // await this.updateRefreshTokenCaching(user, irefreshToken, true);
-    // await this.updateDataTokenUA(dataTokenUA, userId, true);
-    // Update New Refesh Token
-    await this.updateRefreshTokenCaching(user, refreshToken, false);
-    // await this.updateDataTokenUA(dataTokenUA, userId, false);
-
-    return {
-      refreshToken,
-      refreshTokenExpire,
-      accessToken,
-      accessTokenExpire,
-      userId: user?.id,
-      uaId: user?.uaId,
-      mode: user?.mode,
-    };
+      if (!accessToken) {
+        throw new NotFoundException('Not Found Refesh Token');
+      }
+      return {
+        refreshToken,
+        refreshTokenExpire,
+        accessToken,
+        accessTokenExpire,
+        userId: user?.id,
+        uaId: user?.uaId,
+        mode: user?.mode,
+      };
+    }
   }
+
+  // async refreshTokenUA(irefreshToken: string) {
+  //   // Get Token UA From UserID
+  //   const dataUserId = await this.redisService.getKey(
+  //     `session:${irefreshToken}`,
+  //   );
+
+  //   if (!dataUserId) {
+  //     throw new NotFoundException('User Information Not Found');
+  //   }
+  //   const user = await this.prisma.user.findUnique({
+  //     where: {
+  //       id: dataUserId,
+  //     },
+  //   });
+  //   if (!user) {
+  //     throw new ForbiddenException('Access Denied');
+  //   }
+
+  //   // const dataUa = (await this.redisService.getKeyObject(
+  //   //   `session-UA:${dataUserId}`,
+  //   // )) as any as AuthResponseUA;
+
+  //   // if (!dataUa) {
+  //   //   throw new NotFoundException('UA Information Not Found');
+  //   // }
+
+  //   // const response = await this.apiUAService.requestRefeshTokenUA(
+  //   //   dataUa.refreshToken,
+  //   // );
+  //   // const {
+  //   //   refreshToken: refreshTokenUA,
+  //   //   refreshTokenExpire: refreshTokenExpireUA,
+  //   //   accessToken: accessTokenUA,
+  //   //   accessTokenExpire: accessTokenExpireUA,
+  //   //   userId: uaId,
+  //   // } = response || {};
+  //   // if (!accessTokenUA) throw new InternalServerErrorException();
+
+  //   const {
+  //     accessToken,
+  //     refreshToken,
+  //     accessTokenExpire,
+  //     refreshTokenExpire,
+  //     userId,
+  //   } = await this.getTokens(user.signer?.toLowerCase(), user.id.toString());
+  //   // const dataTokenUA: AuthResponseUA = {
+  //   //   uaId: uaId,
+  //   //   refreshToken: refreshTokenUA,
+  //   //   refreshTokenExpire: refreshTokenExpireUA,
+  //   //   accessToken: accessTokenUA,
+  //   //   accessTokenExpire: accessTokenExpireUA,
+  //   //   userId: userId,
+  //   // };
+
+  //   // Remove Old Refesh Token
+  //   // await this.updateRefreshTokenCaching(user, irefreshToken, true);
+  //   // await this.updateDataTokenUA(dataTokenUA, userId, true);
+  //   // Update New Refesh Token
+  //   await this.updateRefreshTokenCaching(user, refreshToken, false);
+  //   // await this.updateDataTokenUA(dataTokenUA, userId, false);
+
+  //   return {
+  //     refreshToken,
+  //     refreshTokenExpire,
+  //     accessToken,
+  //     accessTokenExpire,
+  //     userId: user?.id,
+  //     uaId: user?.uaId,
+  //     mode: user?.mode,
+  //   };
+  // }
 
   async getLinkGoogleAuth() {
     try {
