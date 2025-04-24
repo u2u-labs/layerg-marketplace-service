@@ -350,7 +350,7 @@ export class AuthService {
     // };
 
     // Remove Old Refesh Token
-    await this.updateRefreshTokenCaching(user, irefreshToken, true);
+    // await this.updateRefreshTokenCaching(user, irefreshToken, true);
     // await this.updateDataTokenUA(dataTokenUA, userId, true);
     // Update New Refesh Token
     await this.updateRefreshTokenCaching(user, refreshToken, false);
@@ -488,30 +488,28 @@ export class AuthService {
         );
       }
 
-      let user = await this.prisma.user.findFirst({
-        where: {
+      const user = await this.prisma.user.upsert({
+        where: { signer: userUA?.googleId },
+        update: {
+          publicKey: userUA?.googleId,
+          uaId: String(uaId),
+          email: userUA?.googleEmail,
+          username: `${userUA?.googleFirstName} ${userUA?.googleLastName}`,
+          avatar: `${userUA?.googleAvatarUrl}`,
+          mode: ConnectType.CONNECT_GOOGLE,
+          type: userUA?.type,
+        },
+        create: {
           signer: userUA?.googleId,
+          publicKey: userUA?.googleId,
+          email: userUA?.googleEmail,
+          username: `${userUA?.googleFirstName} ${userUA?.googleLastName}`,
+          avatar: `${userUA?.googleAvatarUrl}`,
+          uaId: String(uaId),
+          mode: ConnectType.CONNECT_GOOGLE,
+          type: userUA?.type,
         },
       });
-
-      if (!user) {
-        user = await this.prisma.user.upsert({
-          where: { signer: userUA?.googleId },
-          update: {
-            publicKey: userUA?.googleId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_GOOGLE,
-            type: userUA?.type,
-          },
-          create: {
-            signer: userUA?.googleId,
-            publicKey: userUA?.googleId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_GOOGLE,
-            type: userUA?.type,
-          },
-        });
-      }
 
       await this.upsertAAWallet(uaId, accessTokenUA, user.id);
       const {
@@ -619,30 +617,25 @@ export class AuthService {
           Number(statusCodeUA) || HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
-      let user = await this.prisma.user.findFirst({
-        where: {
+      const user = await this.prisma.user.upsert({
+        where: { signer: userUA?.telegramId },
+        update: {
+          publicKey: userUA?.telegramId,
+          uaId: String(uaId),
+          mode: ConnectType.CONNECT_TELEGRAM,
+          username: userUA?.telegramUsername,
+          type: userUA?.type,
+        },
+        create: {
           signer: userUA?.telegramId,
+          publicKey: userUA?.telegramId,
+          uaId: String(uaId),
+          username: userUA?.telegramUsername,
+          mode: ConnectType.CONNECT_TELEGRAM,
+          type: userUA?.type,
         },
       });
 
-      if (!user) {
-        user = await this.prisma.user.upsert({
-          where: { signer: userUA?.telegramId },
-          update: {
-            publicKey: userUA?.telegramId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_TELEGRAM,
-            type: userUA?.type,
-          },
-          create: {
-            signer: userUA?.telegramId,
-            publicKey: userUA?.telegramId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_TELEGRAM,
-            type: userUA?.type,
-          },
-        });
-      }
       await this.upsertAAWallet(uaId, accessTokenUA, user.id);
 
       const {
@@ -748,30 +741,26 @@ export class AuthService {
         );
       }
 
-      let user = await this.prisma.user.findFirst({
-        where: {
+      const user = await this.prisma.user.upsert({
+        where: { signer: userUA?.twitterId },
+        update: {
+          publicKey: userUA?.twitterId,
+          uaId: String(uaId),
+          mode: ConnectType.CONNECT_TWITTER,
+          username: `${userUA?.twitterFirstName} ${userUA?.twitterLastName}`,
+          avatar: userUA?.twitterAvatarUrl,
+          type: userUA?.type,
+        },
+        create: {
           signer: userUA?.twitterId,
+          publicKey: userUA?.twitterId,
+          uaId: String(uaId),
+          mode: ConnectType.CONNECT_TWITTER,
+          username: `${userUA?.twitterFirstName} ${userUA?.twitterLastName}`,
+          avatar: userUA?.twitterAvatarUrl,
+          type: userUA?.type,
         },
       });
-
-      if (!user) {
-        user = await this.prisma.user.upsert({
-          where: { signer: userUA?.twitterId },
-          update: {
-            publicKey: userUA?.twitterId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_TWITTER,
-            type: userUA?.type,
-          },
-          create: {
-            signer: userUA?.twitterId,
-            publicKey: userUA?.twitterId,
-            uaId: String(uaId),
-            mode: ConnectType.CONNECT_TWITTER,
-            type: userUA?.type,
-          },
-        });
-      }
       await this.upsertAAWallet(uaId, accessTokenUA, user.id);
 
       const {
