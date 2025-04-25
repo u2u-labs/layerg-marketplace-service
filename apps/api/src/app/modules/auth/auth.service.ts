@@ -493,9 +493,6 @@ export class AuthService {
         update: {
           publicKey: userUA?.googleId,
           uaId: String(uaId),
-          email: userUA?.googleEmail,
-          username: `${userUA?.googleFirstName} ${userUA?.googleLastName}`,
-          avatar: `${userUA?.googleAvatarUrl}`,
           mode: ConnectType.CONNECT_GOOGLE,
           type: userUA?.type,
         },
@@ -747,8 +744,6 @@ export class AuthService {
           publicKey: userUA?.twitterId,
           uaId: String(uaId),
           mode: ConnectType.CONNECT_TWITTER,
-          username: `${userUA?.twitterFirstName} ${userUA?.twitterLastName}`,
-          avatar: userUA?.twitterAvatarUrl,
           type: userUA?.type,
         },
         create: {
