@@ -950,7 +950,9 @@ export class CollectionService {
     }
     let whereClause = '';
     if (gameId) {
-      whereClause = gameId ? ` c."gameLayergId" = $${args.length + 1}` : '';
+      whereClause = gameId
+        ? ` c."gameLayergId" = $${args.length + 1} AND c."isActive" = true`
+        : ' c."isActive" = true';
       args.push(gameId);
     }
     args.push(`'${name}:*'`, limit + 1, offset, top);
