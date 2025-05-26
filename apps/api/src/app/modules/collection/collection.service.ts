@@ -99,6 +99,7 @@ export class CollectionService {
           ],
         },
       });
+      console.log('🚀 ~ CollectionService ~ create ~ checkExist:', checkExist);
       if (checkExist) {
         throw new Error(
           'Transaction hash or name or Short URL are already exists',
