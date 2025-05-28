@@ -266,7 +266,7 @@ export class SyncQueueService implements OnModuleInit {
       description,
       avatar: avatarUrl,
       symbol: tokenSymbol,
-      address: contractAddress,
+      address: contractAddress.toLowerCase(),
       chainId: networkID,
       type:
         contractType === 'ERC721'
