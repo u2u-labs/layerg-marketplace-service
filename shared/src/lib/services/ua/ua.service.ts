@@ -1,4 +1,3 @@
-import { LayerGAPI } from '@layerg-ua-sdk/aa-sdk';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
@@ -193,17 +192,18 @@ export interface Apps {
 export class ApiUAService {
   private async requestHeaderUA() {
     try {
-      const layerGAPI = new LayerGAPI({
-        apiKey: process.env.UA_PUBLIC_API_KEY,
-        secretKey: process.env.UA_PRIVATE_API_KEY,
-        origin: process.env.UA_ORIGIN_URL,
-      });
+      // const layerGAPI = new LayerGAPI({
+      //   apiKey: process.env.UA_PUBLIC_API_KEY,
+      //   secretKey: process.env.UA_PRIVATE_API_KEY,
+      //   origin: process.env.UA_ORIGIN_URL,
+      // });
       const currentTimestamp = new Date().getTime();
-      const sig = await layerGAPI.createSignature(currentTimestamp);
+      // const sig = await layerGAPI.createSignature(currentTimestamp);
       const header = {
-        'x-signature': sig.signature,
-        'x-timestamp': `${sig.timestamp}`,
+        // 'x-signature': sig.signature,
+        // 'x-timestamp': `${sig.timestamp}`,
         'x-api-key': process.env.UA_PUBLIC_API_KEY,
+        'x-secret-key': process.env.UA_PRIVATE_API_KEY,
         origin: process.env.UA_ORIGIN_URL,
       };
       return header;
